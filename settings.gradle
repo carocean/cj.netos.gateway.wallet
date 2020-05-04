@@ -1,0 +1,2 @@
+include "cj.netos.gateway.wallet.openports"
+include "cj.netos.gateway.wallet.program"
