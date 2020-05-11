@@ -9,13 +9,23 @@ import cj.studio.openport.annotations.CjOpenport;
 import cj.studio.openport.annotations.CjOpenportParameter;
 import cj.studio.openport.annotations.CjOpenports;
 
+import java.util.Map;
+
 @CjOpenports(usage = "钱包开放服务")
 public interface IWalletPorts extends IOpenportService {
-    @CjOpenport(usage = "充值，从他的其它支付渠道中将款充入余额")
-    void recharge(ISecuritySession securitySession,
-                  @CjOpenportParameter(usage = "充值金额,单位为分", name = "amount") long amount,
-                  @CjOpenportParameter(usage = "充值来源的支付渠道。渠道路径格式，如支付宝为: alipay://0283838838383 ，后为支付宝账号", name = "paymentChannelPath") String paymentChannelPath,
-                  @CjOpenportParameter(usage = "备注", name = "memo") String memo
+    @CjOpenport(usage = "充值下单，从他的其它支付渠道中将款充入余额。返回相应签名渠道的文本")
+    Map<String, Object> rechargeOrder(ISecuritySession securitySession,
+                       @CjOpenportParameter(usage = "币种", name = "currency", defaultValue = "CNY") String currency,
+                       @CjOpenportParameter(usage = "欲充值的金额,单位为分", name = "amount") long amount,
+                       @CjOpenportParameter(usage = "充值来源渠道号", name = "payChannelID") String payChannelID,
+                       @CjOpenportParameter(usage = "备注", name = "note") String note
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "充值完成")
+    void rechargeDone(ISecuritySession securitySession,
+                      @CjOpenportParameter(usage = "订单号", name = "sn") String sn,
+                      @CjOpenportParameter(usage = "实际完成充值的金额,单位为分", name = "amount") long amount,
+                      @CjOpenportParameter(usage = "订单完成时第三方渠道的返回信息", name = "message") String message
     ) throws CircuitException;
 
     @CjOpenport(usage = "提现，从余额中将款项提取到其它支付渠道")

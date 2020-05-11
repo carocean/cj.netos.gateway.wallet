@@ -31,6 +31,7 @@ public class CheckAccessTokenStrategy implements ICheckAccessTokenStrategy {
         appSecret = site.getProperty("appSecret");
         portsAuth = site.getProperty("ports.auth");
         client = new OkHttpClient();
+        site.addService("@.http",client);
     }
 
     @Override
@@ -42,6 +43,7 @@ public class CheckAccessTokenStrategy implements ICheckAccessTokenStrategy {
         String appid = _securitySession.principal().substring(pos + 1);
         _securitySession.property("appid", appid);
         _securitySession.property("device",tokeninfo.get("device"));
+        _securitySession.property("accessToken", accessToken);
         return _securitySession;
     }
 

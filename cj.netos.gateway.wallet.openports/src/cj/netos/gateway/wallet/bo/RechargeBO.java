@@ -2,11 +2,38 @@ package cj.netos.gateway.wallet.bo;
 
 public class RechargeBO {
     String recharger;
+    String rechargerName;
     String appid;
+    String currency;
     long amount;
-    String paymentChannelPath;
+    String paymentChannelID;
     long ctime;
-    String memo;
+    String device;
+    String note;
+
+    public String getRechargerName() {
+        return rechargerName;
+    }
+
+    public void setRechargerName(String rechargerName) {
+        this.rechargerName = rechargerName;
+    }
+
+    public String getDevice() {
+        return device;
+    }
+
+    public void setDevice(String device) {
+        this.device = device;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
 
     public String getRecharger() {
         return recharger;
@@ -32,12 +59,12 @@ public class RechargeBO {
         this.amount = amount;
     }
 
-    public String getPaymentChannelPath() {
-        return paymentChannelPath;
+    public String getPaymentChannelID() {
+        return paymentChannelID;
     }
 
-    public void setPaymentChannelPath(String paymentChannelPath) {
-        this.paymentChannelPath = paymentChannelPath;
+    public void setPaymentChannelID(String paymentChannelID) {
+        this.paymentChannelID = paymentChannelID;
     }
 
     public long getCtime() {
@@ -48,11 +75,11 @@ public class RechargeBO {
         this.ctime = ctime;
     }
 
-    public String getMemo() {
-        return memo;
+    public String getNote() {
+        return note;
     }
 
-    public void setMemo(String memo) {
-        this.memo = memo;
+    public void setNote(String note) {
+        this.note = note;
     }
 }
