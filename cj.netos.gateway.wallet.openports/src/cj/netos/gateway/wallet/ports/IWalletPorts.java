@@ -25,6 +25,7 @@ public interface IWalletPorts extends IOpenportService {
     void rechargeDone(ISecuritySession securitySession,
                       @CjOpenportParameter(usage = "订单号", name = "sn") String sn,
                       @CjOpenportParameter(usage = "实际完成充值的金额,单位为分", name = "amount") long amount,
+                      @CjOpenportParameter(usage = "订单完成时第三方渠道的返回码", name = "code") String code,
                       @CjOpenportParameter(usage = "订单完成时第三方渠道的返回信息", name = "message") String message
     ) throws CircuitException;
 

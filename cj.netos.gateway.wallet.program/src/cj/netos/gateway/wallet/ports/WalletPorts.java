@@ -111,7 +111,7 @@ public class WalletPorts implements IWalletPorts {
     }
 
     @Override
-    public void rechargeDone(ISecuritySession securitySession, String sn, long amount, String message) throws CircuitException {
+    public void rechargeDone(ISecuritySession securitySession, String sn, long amount,String code, String message) throws CircuitException {
         if (StringUtil.isEmpty(sn)) {
             throw new CircuitException("404", "订单号为空");
         }
@@ -128,6 +128,7 @@ public class WalletPorts implements IWalletPorts {
                         put("appid", (String) securitySession.property("appid"));
                         put("sn", sn);
                         put("amount", amount);
+                        put("code",code);
                         put("message", message);
                     }
                 }).build();
