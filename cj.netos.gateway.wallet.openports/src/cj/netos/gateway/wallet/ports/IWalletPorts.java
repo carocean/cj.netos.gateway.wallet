@@ -1,6 +1,7 @@
 package cj.netos.gateway.wallet.ports;
 
 import cj.studio.ecm.net.CircuitException;
+import cj.studio.openport.AccessTokenIn;
 import cj.studio.openport.IOpenportService;
 import cj.studio.openport.ISecuritySession;
 import cj.studio.openport.annotations.CjOpenport;
@@ -17,4 +18,7 @@ public interface IWalletPorts extends IOpenportService {
     Map<String, Object> initWallet(ISecuritySession securitySession
     ) throws CircuitException;
 
+    @CjOpenport(usage = "是否开通了钱包账户")
+    boolean isinitWallet(ISecuritySession securitySession
+    ) throws CircuitException;
 }
