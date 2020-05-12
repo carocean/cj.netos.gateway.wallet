@@ -2,11 +2,14 @@ package cj.netos.gateway.wallet.bo;
 
 public class WithdrawBO {
     String witchrawer;
+    String witchrawerName;
     String appid;
+    String currency;
     long amount;
-    String paymentChannelPath;
+    String paymentChannelID;
     long ctime;
-    String memo;
+    String device;
+    String note;
 
     public String getWitchrawer() {
         return witchrawer;
@@ -14,6 +17,14 @@ public class WithdrawBO {
 
     public void setWitchrawer(String witchrawer) {
         this.witchrawer = witchrawer;
+    }
+
+    public String getWitchrawerName() {
+        return witchrawerName;
+    }
+
+    public void setWitchrawerName(String witchrawerName) {
+        this.witchrawerName = witchrawerName;
     }
 
     public String getAppid() {
@@ -24,6 +35,14 @@ public class WithdrawBO {
         this.appid = appid;
     }
 
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
     public long getAmount() {
         return amount;
     }
@@ -32,12 +51,12 @@ public class WithdrawBO {
         this.amount = amount;
     }
 
-    public String getPaymentChannelPath() {
-        return paymentChannelPath;
+    public String getPaymentChannelID() {
+        return paymentChannelID;
     }
 
-    public void setPaymentChannelPath(String paymentChannelPath) {
-        this.paymentChannelPath = paymentChannelPath;
+    public void setPaymentChannelID(String paymentChannelID) {
+        this.paymentChannelID = paymentChannelID;
     }
 
     public long getCtime() {
@@ -46,5 +65,21 @@ public class WithdrawBO {
 
     public void setCtime(long ctime) {
         this.ctime = ctime;
+    }
+
+    public String getDevice() {
+        return device;
+    }
+
+    public void setDevice(String device) {
+        this.device = device;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 }
