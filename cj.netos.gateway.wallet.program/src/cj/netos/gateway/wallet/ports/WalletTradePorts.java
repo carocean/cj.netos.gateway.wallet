@@ -16,6 +16,7 @@ import com.rabbitmq.client.AMQP;
 import okhttp3.*;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -111,7 +112,7 @@ public class WalletTradePorts implements IWalletTradePorts {
     }
 
     @Override
-    public void rechargeDone(ISecuritySession securitySession, String sn, long amount,String code, String message) throws CircuitException {
+    public void rechargeDone(ISecuritySession securitySession, String sn, long amount, String code, String message) throws CircuitException {
         if (StringUtil.isEmpty(sn)) {
             throw new CircuitException("404", "订单号为空");
         }
@@ -128,7 +129,7 @@ public class WalletTradePorts implements IWalletTradePorts {
                         put("appid", (String) securitySession.property("appid"));
                         put("sn", sn);
                         put("amount", amount);
-                        put("code",code);
+                        put("code", code);
                         put("message", message);
                     }
                 }).build();
@@ -152,7 +153,7 @@ public class WalletTradePorts implements IWalletTradePorts {
 
         WithdrawBO withdrawBO = new WithdrawBO();
         withdrawBO.setWitchrawer((String) person.get("person"));
-        withdrawBO.setWitchrawerName((String)person.get("nickName"));
+        withdrawBO.setWitchrawerName((String) person.get("nickName"));
         withdrawBO.setAmount(amount);
         withdrawBO.setAppid((String) securitySession.property("appid"));
         withdrawBO.setCtime(System.currentTimeMillis());
@@ -231,12 +232,104 @@ public class WalletTradePorts implements IWalletTradePorts {
                         put("appid", (String) securitySession.property("appid"));
                         put("sn", sn);
                         put("amount", amount);
-                        put("code",code);
+                        put("code", code);
                         put("message", message);
                     }
                 }).build();
 //        byte[] body = new Gson().toJson(rechargeBO).getBytes();
         rabbitMQ.publish(properties, new byte[0]);
+    }
+
+    @Override
+    public Map<String, Object> purchaseWenyOrder(ISecuritySession securitySession, String wenyBankID, long amount, String note) throws CircuitException {
+        if (amount < 0) {
+            throw new CircuitException("500", "金额为负数");
+        }
+        if (StringUtil.isEmpty(wenyBankID)) {
+            throw new CircuitException("404", String.format("纹银银行id"));
+        }
+        Map<String, Object> person = (Map<String, Object>) personService.getPersonInfo((String) securitySession.property("accessToken"));
+        if (person == null) {
+            throw new CircuitException("404", String.format("用户不存在:" + securitySession.principal()));
+        }
+
+
+        PurchaseBO purchaseBO = new PurchaseBO();
+        purchaseBO.setPurchaser((String) person.get("person"));
+        purchaseBO.setPurchaserName((String) person.get("nickName"));
+        purchaseBO.setAmount(amount);
+        purchaseBO.setAppid((String) securitySession.property("appid"));
+        purchaseBO.setCtime(System.currentTimeMillis());
+        purchaseBO.setNote(note);
+        purchaseBO.setCurrency("WENY");
+        purchaseBO.setWenyBankID(wenyBankID);
+        purchaseBO.setDevice((String) securitySession.property("device"));
+
+
+        return callPurchaseWenyOrder(purchaseBO);
+    }
+
+    private Map<String, Object> callPurchaseWenyOrder(PurchaseBO bo) throws CircuitException {
+        Map<String, Object> mapargs = new HashMap<>();
+        mapargs.put("purchaseBill", bo);
+        String text = new Gson().toJson(mapargs);
+        RequestBody rb = RequestBody.create(text.getBytes());
+
+        OkHttpClient client = (OkHttpClient) site.getService("@.http");
+
+        String appid = site.getProperty("appid");
+        String appKey = site.getProperty("appKey");
+        String appSecret = site.getProperty("appSecret");
+        String portsUrl = site.getProperty("ports.oc.trade");
+        String nonce = Encript.md5(String.format("%s%s", UUID.randomUUID().toString(), System.currentTimeMillis()));
+        String sign = Encript.md5(String.format("%s%s%s", appKey, nonce, appSecret));
+        final Request request = new Request.Builder()
+                .url(portsUrl)
+                .addHeader("Rest-Command", "purchaseWenyOrder")
+                .addHeader("app-id", appid)
+                .addHeader("app-key", appKey)
+                .addHeader("app-nonce", nonce)
+                .addHeader("app-sign", sign)
+                .post(rb)
+                .build();
+        final Call call = client.newCall(request);
+        Response response = null;
+        try {
+            response = call.execute();
+        } catch (IOException e) {
+            throw new CircuitException("1002", e);
+        }
+        if (response.code() >= 400) {
+            throw new CircuitException("1002", String.format("远程访问失败:%s", response.message()));
+        }
+        String json = null;
+        try {
+            json = response.body().string();
+        } catch (IOException e) {
+            throw new CircuitException("1002", e);
+        }
+        Map<String, Object> map = new Gson().fromJson(json, HashMap.class);
+        if (Double.parseDouble(map.get("status") + "") >= 400) {
+            throw new CircuitException(map.get("status") + "", map.get("message") + "");
+        }
+        json = (String) map.get("dataText");
+        map = new Gson().fromJson(json, HashMap.class);
+        return map;
+    }
+
+    @Override
+    public void purchaseWenyDone(ISecuritySession securitySession, String sn, long amount, BigDecimal quantities, String code, String message) throws CircuitException {
+
+    }
+
+    @Override
+    public Map<String, Object> exchangeWenyOrder(ISecuritySession securitySession, String wenyBankID, BigDecimal quantities, String note) throws CircuitException {
+        return null;
+    }
+
+    @Override
+    public void exchangeWenyDone(ISecuritySession securitySession, String code, String message) throws CircuitException {
+
     }
 
     //    @Override

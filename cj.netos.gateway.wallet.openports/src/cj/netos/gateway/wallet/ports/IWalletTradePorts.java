@@ -7,6 +7,7 @@ import cj.studio.openport.annotations.CjOpenport;
 import cj.studio.openport.annotations.CjOpenportParameter;
 import cj.studio.openport.annotations.CjOpenports;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 @CjOpenports(usage = "钱包交易开放服务")
@@ -29,9 +30,9 @@ public interface IWalletTradePorts extends IOpenportService {
 
     @CjOpenport(usage = "提现下单")
     Map<String, Object> withdrawOrder(ISecuritySession securitySession,
-                       @CjOpenportParameter(usage = "提现金额,单位为分", name = "amount") long amount,
-                       @CjOpenportParameter(usage = "提现到指定的渠道号", name = "payChannelID") String payChannelID,
-                       @CjOpenportParameter(usage = "备注", name = "note") String note
+                                      @CjOpenportParameter(usage = "提现金额,单位为分", name = "amount") long amount,
+                                      @CjOpenportParameter(usage = "提现到指定的渠道号", name = "payChannelID") String payChannelID,
+                                      @CjOpenportParameter(usage = "备注", name = "note") String note
     ) throws CircuitException;
 
     @CjOpenport(usage = "提现完成，从余额中将款项提取到其它支付渠道")
@@ -40,6 +41,35 @@ public interface IWalletTradePorts extends IOpenportService {
                       @CjOpenportParameter(usage = "实际完成提现的金额,单位为分", name = "amount") long amount,
                       @CjOpenportParameter(usage = "订单完成时第三方渠道的返回码", name = "code") String code,
                       @CjOpenportParameter(usage = "订单完成时第三方渠道的返回信息", name = "message") String message
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "申购纹银")
+    Map<String, Object> purchaseWenyOrder(ISecuritySession securitySession,
+                                          @CjOpenportParameter(usage = "要申购的纹银银行id", name = "wenyBankID") String wenyBankID,
+                                          @CjOpenportParameter(usage = "委托申购金额,单位为分", name = "amount") long amount,
+                                          @CjOpenportParameter(usage = "备注", name = "note") String note
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "完成申购")
+    void purchaseWenyDone(ISecuritySession securitySession,
+                          @CjOpenportParameter(usage = "订单号", name = "sn") String sn,
+                          @CjOpenportParameter(usage = "实际完成申购的金额,单位为分", name = "amount") long amount,
+                          @CjOpenportParameter(usage = "申购所得纹银量，14位精度", name = "quantities") BigDecimal quantities,
+                          @CjOpenportParameter(usage = "纹银银行返回代码", name = "code") String code,
+                          @CjOpenportParameter(usage = "纹银银行返回信息", name = "message") String message
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "承兑纹银")
+    Map<String, Object> exchangeWenyOrder(ISecuritySession securitySession,
+                                          @CjOpenportParameter(usage = "要承兑的纹银银行id", name = "wenyBankID") String wenyBankID,
+                                          @CjOpenportParameter(usage = "委托承兑纹银量", name = "quantities") BigDecimal quantities,
+                                          @CjOpenportParameter(usage = "备注", name = "note") String note
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "完成承兑")
+    void exchangeWenyDone(ISecuritySession securitySession,
+                          @CjOpenportParameter(usage = "纹银银行返回代码", name = "code") String code,
+                          @CjOpenportParameter(usage = "纹银银行返回信息", name = "message") String message
     ) throws CircuitException;
 //
 //    @CjOpenport(usage = "付款，付给系统内其它用户。注：当余额不足时会失败", command = "post")
