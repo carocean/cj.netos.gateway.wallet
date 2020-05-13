@@ -21,4 +21,12 @@ public interface IWalletPorts extends IOpenportService {
     @CjOpenport(usage = "是否开通了钱包账户")
     boolean isinitWallet(ISecuritySession securitySession
     ) throws CircuitException;
+
+    @CjOpenport(usage = "获取各账户信息")
+    Map<String, Object> getAllAccount(ISecuritySession securitySession
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "获取余额账户")
+    Map<String, Object> getBalanceAccount(ISecuritySession securitySession
+    ) throws CircuitException;
 }

@@ -151,7 +151,8 @@ public class WalletTradePorts implements IWalletTradePorts {
 
 
         WithdrawBO withdrawBO = new WithdrawBO();
-        withdrawBO.setWitchrawer((String) person.get("nickName"));
+        withdrawBO.setWitchrawer((String) person.get("person"));
+        withdrawBO.setWitchrawerName((String)person.get("nickName"));
         withdrawBO.setAmount(amount);
         withdrawBO.setAppid((String) securitySession.property("appid"));
         withdrawBO.setCtime(System.currentTimeMillis());
@@ -214,7 +215,28 @@ public class WalletTradePorts implements IWalletTradePorts {
 
     @Override
     public void withdrawDone(ISecuritySession securitySession, String sn, long amount, String code, String message) throws CircuitException {
-
+        if (StringUtil.isEmpty(sn)) {
+            throw new CircuitException("404", "订单号为空");
+        }
+        if (amount < 0) {
+            throw new CircuitException("500", "金额为负数");
+        }
+        AMQP.BasicProperties properties = new AMQP.BasicProperties().builder()
+                .type("/wallet.ports")
+                .headers(new HashMap() {
+                    {
+                        put("command", "withdrawDone");
+                        put("device", securitySession.property("device"));
+                        put("person", securitySession.principal());
+                        put("appid", (String) securitySession.property("appid"));
+                        put("sn", sn);
+                        put("amount", amount);
+                        put("code",code);
+                        put("message", message);
+                    }
+                }).build();
+//        byte[] body = new Gson().toJson(rechargeBO).getBytes();
+        rabbitMQ.publish(properties, new byte[0]);
     }
 
     //    @Override
