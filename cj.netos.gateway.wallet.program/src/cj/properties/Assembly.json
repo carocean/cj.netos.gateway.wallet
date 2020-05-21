@@ -1,6 +1,16 @@
 {
 	entryPoint : {
 		plugins: [
+			{
+				name:"mybatis",
+				class:"cj.studio.orm.mybatis.MyBatisPlugin",
+				parameters:{
+					classes:"[
+					]",
+					packages:"[
+					]"
+				}
+			}
 		],
 		activators: [
 			{
@@ -35,7 +45,7 @@
 	serviceContainer : {
 		name : "netContainer",
 		switchFilter:"off",
-		monitor: "",
+		monitor: "cj.netos.rabbitmq.DefaultRabbitMQMonitor",
 		jss:[{
 			module:"services1",
 			package:"cj.netos.gateway.wallet.jss",
@@ -44,7 +54,7 @@
 			extName:".jss.js"
 		}],
 		scans : [{
-			package : "cj.netos.rabbitmq.producer",
+			package : "cj.studio.orm.mybatis",
 			extName : ".class|.json|.xml",
 			exoterical:"true"
 		},{
@@ -59,6 +69,10 @@
 				package : "cj.netos.gateway.wallet.ports",
 				extName : ".class|.json|.xml",
 				exoterical:"true"
+		},{
+			package : "cj.netos.gateway.wallet.cmd",
+			extName : ".class|.json|.xml",
+			exoterical:"true"
 		}
 		]
 

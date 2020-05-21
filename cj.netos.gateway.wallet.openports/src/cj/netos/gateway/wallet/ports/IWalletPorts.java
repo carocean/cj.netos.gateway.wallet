@@ -15,11 +15,11 @@ import java.util.Map;
 public interface IWalletPorts extends IOpenportService {
 
     @CjOpenport(usage = "开通钱包账户")
-    Map<String, Object> initWallet(ISecuritySession securitySession
+    Map<String, Object> createWallet(ISecuritySession securitySession
     ) throws CircuitException;
 
     @CjOpenport(usage = "是否开通了钱包账户")
-    boolean isinitWallet(ISecuritySession securitySession
+    boolean hasWallet(ISecuritySession securitySession
     ) throws CircuitException;
 
     @CjOpenport(usage = "获取各账户信息")

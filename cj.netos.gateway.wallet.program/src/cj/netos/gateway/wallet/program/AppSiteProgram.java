@@ -1,6 +1,5 @@
 package cj.netos.gateway.wallet.program;
 
-import cj.netos.rabbitmq.IRabbitMQProducer;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.net.CircuitException;
 import cj.studio.gateway.socket.Destination;
@@ -12,7 +11,6 @@ public class AppSiteProgram extends GatewayAppSiteProgram {
 
     @Override
     protected void onstart(Destination dest, String assembliesHome, ProgramAdapterType type) throws CircuitException {
-        IRabbitMQProducer rabbitMQ = (IRabbitMQProducer) site.getService("rabbitMQProducer");
-        rabbitMQ.open(assembliesHome);
+
     }
 }

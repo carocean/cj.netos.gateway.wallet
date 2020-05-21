@@ -26,7 +26,7 @@ public class WalletPorts implements IWalletPorts {
     IPersonService personService;
 
     @Override
-    public boolean isinitWallet(ISecuritySession securitySession) throws CircuitException {
+    public boolean hasWallet(ISecuritySession securitySession) throws CircuitException {
 
         return callIsinitWallet(securitySession.principal());
     }
@@ -78,7 +78,7 @@ public class WalletPorts implements IWalletPorts {
     }
 
     @Override
-    public Map<String, Object> initWallet(ISecuritySession securitySession) throws CircuitException {
+    public Map<String, Object> createWallet(ISecuritySession securitySession) throws CircuitException {
         Map<String, Object> person = (Map<String, Object>) personService.getPersonInfo((String) securitySession.property("accessToken"));
         if (person == null) {
             throw new CircuitException("404", String.format("用户不存在:" + securitySession.principal()));
