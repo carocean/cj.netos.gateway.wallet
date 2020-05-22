@@ -686,6 +686,76 @@ public class PayChannelExample {
             addCriterion("channel_name not between", value1, value2, "channelName");
             return (Criteria) this;
         }
+
+        public Criteria andCtimeIsNull() {
+            addCriterion("ctime is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCtimeIsNotNull() {
+            addCriterion("ctime is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCtimeEqualTo(String value) {
+            addCriterion("ctime =", value, "ctime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCtimeNotEqualTo(String value) {
+            addCriterion("ctime <>", value, "ctime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCtimeGreaterThan(String value) {
+            addCriterion("ctime >", value, "ctime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCtimeGreaterThanOrEqualTo(String value) {
+            addCriterion("ctime >=", value, "ctime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCtimeLessThan(String value) {
+            addCriterion("ctime <", value, "ctime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCtimeLessThanOrEqualTo(String value) {
+            addCriterion("ctime <=", value, "ctime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCtimeLike(String value) {
+            addCriterion("ctime like", value, "ctime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCtimeNotLike(String value) {
+            addCriterion("ctime not like", value, "ctime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCtimeIn(List<String> values) {
+            addCriterion("ctime in", values, "ctime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCtimeNotIn(List<String> values) {
+            addCriterion("ctime not in", values, "ctime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCtimeBetween(String value1, String value2) {
+            addCriterion("ctime between", value1, value2, "ctime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCtimeNotBetween(String value1, String value2) {
+            addCriterion("ctime not between", value1, value2, "ctime");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

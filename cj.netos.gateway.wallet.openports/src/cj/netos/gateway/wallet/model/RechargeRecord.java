@@ -38,7 +38,7 @@ public class RechargeRecord {
      * Column: real_amount
      * Remark: 实际冲值发生额
      */
-    private String realAmount;
+    private Long realAmount;
 
     /**
      * Column: from_channel
@@ -48,7 +48,7 @@ public class RechargeRecord {
 
     /**
      * Column: state
-     * Remark: 0-待充值 1- 充值成功 2- 充值失败 
+     * Remark: -2最终失败 -1渠道失败 0-待充值 1-渠道已决清 2- 充值成功 
      */
     private Integer state;
 
@@ -71,22 +71,33 @@ public class RechargeRecord {
     private String note;
 
     /**
-     * Column: done_code
+     * Column: settle_code
      * Remark: 订单完成时第三方渠道的返回码
      */
-    private String doneCode;
+    private String settleCode;
 
     /**
-     * Column: done_msg
+     * Column: settle_msg
      * Remark: 订单完成时第三方渠道的返回信息
      */
-    private String doneMsg;
+    private String settleMsg;
 
     /**
      * Column: channel_name
      * Remark: 渠道名
      */
     private String channelName;
+
+    /**
+     * Column: oc_code
+     * Remark: Oc处理晌应
+     */
+    private String ocCode;
+
+    /**
+     * Column: oc_msg
+     */
+    private String ocMsg;
 
     public String getSn() {
         return sn;
@@ -128,12 +139,12 @@ public class RechargeRecord {
         this.demandAmount = demandAmount;
     }
 
-    public String getRealAmount() {
+    public Long getRealAmount() {
         return realAmount;
     }
 
-    public void setRealAmount(String realAmount) {
-        this.realAmount = realAmount == null ? null : realAmount.trim();
+    public void setRealAmount(Long realAmount) {
+        this.realAmount = realAmount;
     }
 
     public String getFromChannel() {
@@ -176,20 +187,20 @@ public class RechargeRecord {
         this.note = note == null ? null : note.trim();
     }
 
-    public String getDoneCode() {
-        return doneCode;
+    public String getSettleCode() {
+        return settleCode;
     }
 
-    public void setDoneCode(String doneCode) {
-        this.doneCode = doneCode == null ? null : doneCode.trim();
+    public void setSettleCode(String settleCode) {
+        this.settleCode = settleCode == null ? null : settleCode.trim();
     }
 
-    public String getDoneMsg() {
-        return doneMsg;
+    public String getSettleMsg() {
+        return settleMsg;
     }
 
-    public void setDoneMsg(String doneMsg) {
-        this.doneMsg = doneMsg == null ? null : doneMsg.trim();
+    public void setSettleMsg(String settleMsg) {
+        this.settleMsg = settleMsg == null ? null : settleMsg.trim();
     }
 
     public String getChannelName() {
@@ -198,5 +209,21 @@ public class RechargeRecord {
 
     public void setChannelName(String channelName) {
         this.channelName = channelName == null ? null : channelName.trim();
+    }
+
+    public String getOcCode() {
+        return ocCode;
+    }
+
+    public void setOcCode(String ocCode) {
+        this.ocCode = ocCode == null ? null : ocCode.trim();
+    }
+
+    public String getOcMsg() {
+        return ocMsg;
+    }
+
+    public void setOcMsg(String ocMsg) {
+        this.ocMsg = ocMsg == null ? null : ocMsg.trim();
     }
 }

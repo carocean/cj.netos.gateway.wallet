@@ -62,6 +62,7 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
         return new Gson().fromJson(new Gson().toJson(record), WithdrawResult.class);
     }
 
+
     @Override
     public PurchaseWenyResult purchaseWeny(ISecuritySession securitySession, String wenyBankID, long amount, String note) throws CircuitException {
         if (amount < 0) {

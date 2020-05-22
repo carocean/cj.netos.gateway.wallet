@@ -1127,6 +1127,146 @@ public class WenyExchangeRecordExample {
             addCriterion("bankid not between", value1, value2, "bankid");
             return (Criteria) this;
         }
+
+        public Criteria andCodeIsNull() {
+            addCriterion("code is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeIsNotNull() {
+            addCriterion("code is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeEqualTo(String value) {
+            addCriterion("code =", value, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeNotEqualTo(String value) {
+            addCriterion("code <>", value, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeGreaterThan(String value) {
+            addCriterion("code >", value, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("code >=", value, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeLessThan(String value) {
+            addCriterion("code <", value, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeLessThanOrEqualTo(String value) {
+            addCriterion("code <=", value, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeLike(String value) {
+            addCriterion("code like", value, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeNotLike(String value) {
+            addCriterion("code not like", value, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeIn(List<String> values) {
+            addCriterion("code in", values, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeNotIn(List<String> values) {
+            addCriterion("code not in", values, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeBetween(String value1, String value2) {
+            addCriterion("code between", value1, value2, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeNotBetween(String value1, String value2) {
+            addCriterion("code not between", value1, value2, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andMessageIsNull() {
+            addCriterion("message is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMessageIsNotNull() {
+            addCriterion("message is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMessageEqualTo(String value) {
+            addCriterion("message =", value, "message");
+            return (Criteria) this;
+        }
+
+        public Criteria andMessageNotEqualTo(String value) {
+            addCriterion("message <>", value, "message");
+            return (Criteria) this;
+        }
+
+        public Criteria andMessageGreaterThan(String value) {
+            addCriterion("message >", value, "message");
+            return (Criteria) this;
+        }
+
+        public Criteria andMessageGreaterThanOrEqualTo(String value) {
+            addCriterion("message >=", value, "message");
+            return (Criteria) this;
+        }
+
+        public Criteria andMessageLessThan(String value) {
+            addCriterion("message <", value, "message");
+            return (Criteria) this;
+        }
+
+        public Criteria andMessageLessThanOrEqualTo(String value) {
+            addCriterion("message <=", value, "message");
+            return (Criteria) this;
+        }
+
+        public Criteria andMessageLike(String value) {
+            addCriterion("message like", value, "message");
+            return (Criteria) this;
+        }
+
+        public Criteria andMessageNotLike(String value) {
+            addCriterion("message not like", value, "message");
+            return (Criteria) this;
+        }
+
+        public Criteria andMessageIn(List<String> values) {
+            addCriterion("message in", values, "message");
+            return (Criteria) this;
+        }
+
+        public Criteria andMessageNotIn(List<String> values) {
+            addCriterion("message not in", values, "message");
+            return (Criteria) this;
+        }
+
+        public Criteria andMessageBetween(String value1, String value2) {
+            addCriterion("message between", value1, value2, "message");
+            return (Criteria) this;
+        }
+
+        public Criteria andMessageNotBetween(String value1, String value2) {
+            addCriterion("message not between", value1, value2, "message");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

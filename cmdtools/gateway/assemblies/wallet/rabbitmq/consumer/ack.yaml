@@ -15,7 +15,7 @@ connectionTimeout: 0
 workPoolTimeout: 0
 queue:
   #队列名。该队列会自动在rabbitmq上创建，如果存在则可直接使用
-  name: wallet.ec1.ack
+  name: wallet.gateway1.ack
   #设置是否持久化。为 true 则设置队列为持久化。持久化的队列会存盘，在 服务器重启的时候可以保证不丢失相关信息。
   #默认为false
   durable: true
@@ -28,7 +28,7 @@ queue:
   #设置队列的其他一些参数，如 x-rnessage-ttl 、x-expires 、x-rnax-length 、x-rnax-length-bytes、 x-dead-letter-exchange、 x-deadletter-routing-key 、 x-rnax-priority 等。
   arguments:
 #仅接收来自exchanges配置的routingKey的消息。如果exchange是的type=fanout则忽略routingKey直接接收
-routingKey: wallet.ec1.ack
+routingKey: wallet.gateway1.ack
 #当自动应答等于true的时候，表示当消费者一收到消息就表示消费者收到了消息，消费者收到了消息就会立即从队列中删除。
 #消息的自动ACK确认机制默认是true
 #在非自动确认模式下如果忘记了ACK，那么后果很严重。当Consumer退出时候，Message会一直重新分发

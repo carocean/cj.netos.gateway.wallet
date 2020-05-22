@@ -61,4 +61,8 @@ public interface RechargeRecordMapper {
      * @mbg.generated generated automatically, do not modify!
      */
     int updateByPrimaryKey(RechargeRecord record);
+
+    void settle(@Param(value = "sn") String sn, @Param(value = "realAmount") long realAmount, @Param(value = "settleCode") String settleCode, @Param(value = "settleMsg") String settleMsg, @Param(value = "lutime") String lutime);
+
+    void done(@Param(value = "sn") String sn, @Param(value = "state") int state, @Param(value = "ocCode") String ocCode, @Param(value = "ocMsg") String ocMsg, @Param(value = "lutime") String lutime);
 }

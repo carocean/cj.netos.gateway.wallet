@@ -61,4 +61,6 @@ public interface PayChannelMapper {
      * @mbg.generated generated automatically, do not modify!
      */
     int updateByPrimaryKey(PayChannel record);
+
+    List<PayChannel> page(@Param(value = "limit") int limit, @Param(value = "offset") long offset);
 }

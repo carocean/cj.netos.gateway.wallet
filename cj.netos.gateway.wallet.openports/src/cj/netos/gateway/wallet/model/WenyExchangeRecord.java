@@ -95,6 +95,18 @@ public class WenyExchangeRecord {
      */
     private String bankid;
 
+    /**
+     * Column: code
+     * Remark: 返回码
+     */
+    private String code;
+
+    /**
+     * Column: message
+     * Remark: 返回消息
+     */
+    private String message;
+
     public String getSn() {
         return sn;
     }
@@ -213,5 +225,21 @@ public class WenyExchangeRecord {
 
     public void setBankid(String bankid) {
         this.bankid = bankid == null ? null : bankid.trim();
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message == null ? null : message.trim();
     }
 }

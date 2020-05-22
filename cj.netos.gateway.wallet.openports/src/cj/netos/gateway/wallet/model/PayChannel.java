@@ -52,6 +52,11 @@ public class PayChannel {
      */
     private String channelName;
 
+    /**
+     * Column: ctime
+     */
+    private String ctime;
+
     public String getCode() {
         return code;
     }
@@ -114,5 +119,13 @@ public class PayChannel {
 
     public void setChannelName(String channelName) {
         this.channelName = channelName == null ? null : channelName.trim();
+    }
+
+    public String getCtime() {
+        return ctime;
+    }
+
+    public void setCtime(String ctime) {
+        this.ctime = ctime == null ? null : ctime.trim();
     }
 }

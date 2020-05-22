@@ -18,6 +18,8 @@
     <result column="lutime" jdbcType="VARCHAR" property="lutime" />
     <result column="note" jdbcType="VARCHAR" property="note" />
     <result column="bankid" jdbcType="VARCHAR" property="bankid" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="message" jdbcType="VARCHAR" property="message" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -82,7 +84,7 @@
   <sql id="Base_Column_List">
     <!-- @mbg.generated: generated automatically, do not modify! -->
     sn, person, person_name, currency, purch_amount, quatities, price, charge, ratio, 
-    ttm, `state`, ctime, lutime, note, bankid
+    ttm, `state`, ctime, lutime, note, bankid, code, message
   </sql>
   <select id="selectByExample" parameterType="cj.netos.gateway.wallet.model.WenyPurchRecordExample" resultMap="BaseResultMap">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -124,14 +126,14 @@
       currency, purch_amount, quatities, 
       price, charge, ratio, 
       ttm, `state`, ctime, 
-      lutime, note, bankid
-      )
+      lutime, note, bankid, 
+      code, message)
     values (#{sn,jdbcType=VARCHAR}, #{person,jdbcType=VARCHAR}, #{personName,jdbcType=VARCHAR}, 
       #{currency,jdbcType=VARCHAR}, #{purchAmount,jdbcType=BIGINT}, #{quatities,jdbcType=DECIMAL}, 
       #{price,jdbcType=BIGINT}, #{charge,jdbcType=BIGINT}, #{ratio,jdbcType=DECIMAL}, 
       #{ttm,jdbcType=DECIMAL}, #{state,jdbcType=INTEGER}, #{ctime,jdbcType=VARCHAR}, 
-      #{lutime,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{bankid,jdbcType=VARCHAR}
-      )
+      #{lutime,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{bankid,jdbcType=VARCHAR}, 
+      #{code,jdbcType=VARCHAR}, #{message,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cj.netos.gateway.wallet.model.WenyPurchRecord">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -182,6 +184,12 @@
       <if test="bankid != null">
         bankid,
       </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="message != null">
+        message,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="sn != null">
@@ -228,6 +236,12 @@
       </if>
       <if test="bankid != null">
         #{bankid,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="message != null">
+        #{message,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -287,6 +301,12 @@
       <if test="record.bankid != null">
         bankid = #{record.bankid,jdbcType=VARCHAR},
       </if>
+      <if test="record.code != null">
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.message != null">
+        message = #{record.message,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -309,7 +329,9 @@
       ctime = #{record.ctime,jdbcType=VARCHAR},
       lutime = #{record.lutime,jdbcType=VARCHAR},
       note = #{record.note,jdbcType=VARCHAR},
-      bankid = #{record.bankid,jdbcType=VARCHAR}
+      bankid = #{record.bankid,jdbcType=VARCHAR},
+      code = #{record.code,jdbcType=VARCHAR},
+      message = #{record.message,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -360,6 +382,12 @@
       <if test="bankid != null">
         bankid = #{bankid,jdbcType=VARCHAR},
       </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="message != null">
+        message = #{message,jdbcType=VARCHAR},
+      </if>
     </set>
     where sn = #{sn,jdbcType=VARCHAR}
   </update>
@@ -379,7 +407,18 @@
       ctime = #{ctime,jdbcType=VARCHAR},
       lutime = #{lutime,jdbcType=VARCHAR},
       note = #{note,jdbcType=VARCHAR},
-      bankid = #{bankid,jdbcType=VARCHAR}
+      bankid = #{bankid,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      message = #{message,jdbcType=VARCHAR}
+    where sn = #{sn,jdbcType=VARCHAR}
+  </update>
+  <update id="updateState" parameterType="cj.netos.gateway.wallet.model.WenyPurchRecord">
+    update weny_purch_record
+    set
+    `state` = -1,
+    lutime = #{lutime,jdbcType=VARCHAR},
+    code = #{code,jdbcType=VARCHAR},
+      message = #{message,jdbcType=VARCHAR}
     where sn = #{sn,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -44,4 +44,4 @@ routing:
   # 当 exchange.type=topic 时支持通配符
   # 路由到相应的消费者队列，在netos.rabbitmq下，每个消费者自动创建一个队列，并绑定一个routingKey以接收
   routingKeys:
-    - wallet.ec1.trade
+    - wallet.oc1.trade

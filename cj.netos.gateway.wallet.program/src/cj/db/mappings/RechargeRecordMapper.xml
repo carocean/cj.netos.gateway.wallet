@@ -8,15 +8,17 @@
     <result column="person_name" jdbcType="VARCHAR" property="personName" />
     <result column="currency" jdbcType="VARCHAR" property="currency" />
     <result column="demand_amount" jdbcType="BIGINT" property="demandAmount" />
-    <result column="real_amount" jdbcType="VARCHAR" property="realAmount" />
+    <result column="real_amount" jdbcType="BIGINT" property="realAmount" />
     <result column="from_channel" jdbcType="VARCHAR" property="fromChannel" />
     <result column="state" jdbcType="INTEGER" property="state" />
     <result column="ctime" jdbcType="VARCHAR" property="ctime" />
     <result column="lutime" jdbcType="VARCHAR" property="lutime" />
     <result column="note" jdbcType="VARCHAR" property="note" />
-    <result column="done_code" jdbcType="VARCHAR" property="doneCode" />
-    <result column="done_msg" jdbcType="VARCHAR" property="doneMsg" />
+    <result column="settle_code" jdbcType="VARCHAR" property="settleCode" />
+    <result column="settle_msg" jdbcType="VARCHAR" property="settleMsg" />
     <result column="channel_name" jdbcType="VARCHAR" property="channelName" />
+    <result column="oc_code" jdbcType="VARCHAR" property="ocCode" />
+    <result column="oc_msg" jdbcType="VARCHAR" property="ocMsg" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -81,7 +83,7 @@
   <sql id="Base_Column_List">
     <!-- @mbg.generated: generated automatically, do not modify! -->
     sn, person, person_name, currency, demand_amount, real_amount, from_channel, `state`, 
-    ctime, lutime, note, done_code, done_msg, channel_name
+    ctime, lutime, note, settle_code, settle_msg, channel_name, oc_code, oc_msg
   </sql>
   <select id="selectByExample" parameterType="cj.netos.gateway.wallet.model.RechargeRecordExample" resultMap="BaseResultMap">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -122,13 +124,15 @@
     insert into recharge_record (sn, person, person_name, 
       currency, demand_amount, real_amount, 
       from_channel, `state`, ctime, 
-      lutime, note, done_code, 
-      done_msg, channel_name)
+      lutime, note, settle_code, 
+      settle_msg, channel_name, oc_code, 
+      oc_msg)
     values (#{sn,jdbcType=VARCHAR}, #{person,jdbcType=VARCHAR}, #{personName,jdbcType=VARCHAR}, 
-      #{currency,jdbcType=VARCHAR}, #{demandAmount,jdbcType=BIGINT}, #{realAmount,jdbcType=VARCHAR}, 
+      #{currency,jdbcType=VARCHAR}, #{demandAmount,jdbcType=BIGINT}, #{realAmount,jdbcType=BIGINT}, 
       #{fromChannel,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, #{ctime,jdbcType=VARCHAR}, 
-      #{lutime,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{doneCode,jdbcType=VARCHAR}, 
-      #{doneMsg,jdbcType=VARCHAR}, #{channelName,jdbcType=VARCHAR})
+      #{lutime,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{settleCode,jdbcType=VARCHAR}, 
+      #{settleMsg,jdbcType=VARCHAR}, #{channelName,jdbcType=VARCHAR}, #{ocCode,jdbcType=VARCHAR}, 
+      #{ocMsg,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cj.netos.gateway.wallet.model.RechargeRecord">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -167,14 +171,20 @@
       <if test="note != null">
         note,
       </if>
-      <if test="doneCode != null">
-        done_code,
+      <if test="settleCode != null">
+        settle_code,
       </if>
-      <if test="doneMsg != null">
-        done_msg,
+      <if test="settleMsg != null">
+        settle_msg,
       </if>
       <if test="channelName != null">
         channel_name,
+      </if>
+      <if test="ocCode != null">
+        oc_code,
+      </if>
+      <if test="ocMsg != null">
+        oc_msg,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -194,7 +204,7 @@
         #{demandAmount,jdbcType=BIGINT},
       </if>
       <if test="realAmount != null">
-        #{realAmount,jdbcType=VARCHAR},
+        #{realAmount,jdbcType=BIGINT},
       </if>
       <if test="fromChannel != null">
         #{fromChannel,jdbcType=VARCHAR},
@@ -211,14 +221,20 @@
       <if test="note != null">
         #{note,jdbcType=VARCHAR},
       </if>
-      <if test="doneCode != null">
-        #{doneCode,jdbcType=VARCHAR},
+      <if test="settleCode != null">
+        #{settleCode,jdbcType=VARCHAR},
       </if>
-      <if test="doneMsg != null">
-        #{doneMsg,jdbcType=VARCHAR},
+      <if test="settleMsg != null">
+        #{settleMsg,jdbcType=VARCHAR},
       </if>
       <if test="channelName != null">
         #{channelName,jdbcType=VARCHAR},
+      </if>
+      <if test="ocCode != null">
+        #{ocCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ocMsg != null">
+        #{ocMsg,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -249,7 +265,7 @@
         demand_amount = #{record.demandAmount,jdbcType=BIGINT},
       </if>
       <if test="record.realAmount != null">
-        real_amount = #{record.realAmount,jdbcType=VARCHAR},
+        real_amount = #{record.realAmount,jdbcType=BIGINT},
       </if>
       <if test="record.fromChannel != null">
         from_channel = #{record.fromChannel,jdbcType=VARCHAR},
@@ -266,14 +282,20 @@
       <if test="record.note != null">
         note = #{record.note,jdbcType=VARCHAR},
       </if>
-      <if test="record.doneCode != null">
-        done_code = #{record.doneCode,jdbcType=VARCHAR},
+      <if test="record.settleCode != null">
+        settle_code = #{record.settleCode,jdbcType=VARCHAR},
       </if>
-      <if test="record.doneMsg != null">
-        done_msg = #{record.doneMsg,jdbcType=VARCHAR},
+      <if test="record.settleMsg != null">
+        settle_msg = #{record.settleMsg,jdbcType=VARCHAR},
       </if>
       <if test="record.channelName != null">
         channel_name = #{record.channelName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ocCode != null">
+        oc_code = #{record.ocCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ocMsg != null">
+        oc_msg = #{record.ocMsg,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -288,15 +310,17 @@
       person_name = #{record.personName,jdbcType=VARCHAR},
       currency = #{record.currency,jdbcType=VARCHAR},
       demand_amount = #{record.demandAmount,jdbcType=BIGINT},
-      real_amount = #{record.realAmount,jdbcType=VARCHAR},
+      real_amount = #{record.realAmount,jdbcType=BIGINT},
       from_channel = #{record.fromChannel,jdbcType=VARCHAR},
       `state` = #{record.state,jdbcType=INTEGER},
       ctime = #{record.ctime,jdbcType=VARCHAR},
       lutime = #{record.lutime,jdbcType=VARCHAR},
       note = #{record.note,jdbcType=VARCHAR},
-      done_code = #{record.doneCode,jdbcType=VARCHAR},
-      done_msg = #{record.doneMsg,jdbcType=VARCHAR},
-      channel_name = #{record.channelName,jdbcType=VARCHAR}
+      settle_code = #{record.settleCode,jdbcType=VARCHAR},
+      settle_msg = #{record.settleMsg,jdbcType=VARCHAR},
+      channel_name = #{record.channelName,jdbcType=VARCHAR},
+      oc_code = #{record.ocCode,jdbcType=VARCHAR},
+      oc_msg = #{record.ocMsg,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -318,7 +342,7 @@
         demand_amount = #{demandAmount,jdbcType=BIGINT},
       </if>
       <if test="realAmount != null">
-        real_amount = #{realAmount,jdbcType=VARCHAR},
+        real_amount = #{realAmount,jdbcType=BIGINT},
       </if>
       <if test="fromChannel != null">
         from_channel = #{fromChannel,jdbcType=VARCHAR},
@@ -335,14 +359,20 @@
       <if test="note != null">
         note = #{note,jdbcType=VARCHAR},
       </if>
-      <if test="doneCode != null">
-        done_code = #{doneCode,jdbcType=VARCHAR},
+      <if test="settleCode != null">
+        settle_code = #{settleCode,jdbcType=VARCHAR},
       </if>
-      <if test="doneMsg != null">
-        done_msg = #{doneMsg,jdbcType=VARCHAR},
+      <if test="settleMsg != null">
+        settle_msg = #{settleMsg,jdbcType=VARCHAR},
       </if>
       <if test="channelName != null">
         channel_name = #{channelName,jdbcType=VARCHAR},
+      </if>
+      <if test="ocCode != null">
+        oc_code = #{ocCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ocMsg != null">
+        oc_msg = #{ocMsg,jdbcType=VARCHAR},
       </if>
     </set>
     where sn = #{sn,jdbcType=VARCHAR}
@@ -354,15 +384,36 @@
       person_name = #{personName,jdbcType=VARCHAR},
       currency = #{currency,jdbcType=VARCHAR},
       demand_amount = #{demandAmount,jdbcType=BIGINT},
-      real_amount = #{realAmount,jdbcType=VARCHAR},
+      real_amount = #{realAmount,jdbcType=BIGINT},
       from_channel = #{fromChannel,jdbcType=VARCHAR},
       `state` = #{state,jdbcType=INTEGER},
       ctime = #{ctime,jdbcType=VARCHAR},
       lutime = #{lutime,jdbcType=VARCHAR},
       note = #{note,jdbcType=VARCHAR},
-      done_code = #{doneCode,jdbcType=VARCHAR},
-      done_msg = #{doneMsg,jdbcType=VARCHAR},
-      channel_name = #{channelName,jdbcType=VARCHAR}
+      settle_code = #{settleCode,jdbcType=VARCHAR},
+      settle_msg = #{settleMsg,jdbcType=VARCHAR},
+      channel_name = #{channelName,jdbcType=VARCHAR},
+      oc_code = #{ocCode,jdbcType=VARCHAR},
+      oc_msg = #{ocMsg,jdbcType=VARCHAR}
+    where sn = #{sn,jdbcType=VARCHAR}
+  </update>
+  <update id="settle" parameterType="cj.netos.gateway.wallet.model.RechargeRecord">
+    update recharge_record
+    set
+    real_amount = #{realAmount,jdbcType=BIGINT},
+    `state` = 1,
+    lutime = #{lutime,jdbcType=VARCHAR},
+    settle_code = #{settleCode,jdbcType=VARCHAR},
+    settle_msg = #{settleMsg,jdbcType=VARCHAR}
+    where sn = #{sn,jdbcType=VARCHAR}
+  </update>
+  <update id="done" parameterType="cj.netos.gateway.wallet.model.RechargeRecord">
+    update recharge_record
+    set
+      `state` = #{state,jdbcType=INTEGER},
+      lutime = #{lutime,jdbcType=VARCHAR},
+      oc_code = #{ocCode,jdbcType=VARCHAR},
+      oc_msg = #{ocMsg,jdbcType=VARCHAR}
     where sn = #{sn,jdbcType=VARCHAR}
   </update>
 </mapper>

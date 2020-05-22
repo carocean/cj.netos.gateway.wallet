@@ -32,7 +32,7 @@ public class PayChannelService implements IPayChannelService {
     @CjTransaction
     @Override
     public List<PayChannel> pagePayChannel(int limit, long offset) throws CircuitException {
-        return null;
+        return payChannelMapper.page(limit,offset);
     }
 
     @CjTransaction

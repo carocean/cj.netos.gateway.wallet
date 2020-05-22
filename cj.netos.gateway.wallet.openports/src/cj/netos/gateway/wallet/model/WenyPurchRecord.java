@@ -68,7 +68,7 @@ public class WenyPurchRecord {
 
     /**
      * Column: state
-     * Remark: 0-申购中 1- 申购完成
+     * Remark: -2 纹银银行处理失败 -1-预申购失败 0新建 1预处理完成 2申购完成
      */
     private Integer state;
 
@@ -94,6 +94,18 @@ public class WenyPurchRecord {
      * Remark: 纹银银行id
      */
     private String bankid;
+
+    /**
+     * Column: code
+     * Remark: 返回码
+     */
+    private String code;
+
+    /**
+     * Column: message
+     * Remark: 返回消息
+     */
+    private String message;
 
     public String getSn() {
         return sn;
@@ -213,5 +225,21 @@ public class WenyPurchRecord {
 
     public void setBankid(String bankid) {
         this.bankid = bankid == null ? null : bankid.trim();
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message == null ? null : message.trim();
     }
 }
