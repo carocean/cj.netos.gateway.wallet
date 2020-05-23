@@ -63,4 +63,7 @@ public interface WenyPurchRecordMapper {
     int updateByPrimaryKey(WenyPurchRecord record);
 
     void updateState(@Param(value = "sn") String sn, @Param(value = "state") int state, @Param(value = "code") String code, @Param(value = "message") String message, @Param(value = "lutime") String lutime);
+
+    void done(@Param(value = "sn") String sn, @Param(value = "state") int state, @Param(value = "code") String code, @Param(value = "message") String message, @Param(value = "lutime") String lutime);
+
 }

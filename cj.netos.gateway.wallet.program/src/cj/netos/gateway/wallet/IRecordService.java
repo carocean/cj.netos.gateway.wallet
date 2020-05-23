@@ -16,4 +16,6 @@ public interface IRecordService {
 
     void ackWithdrawRecordOnorder(OnorderResult result);
 
+    void ackPurchaseRecordOnorder(OnorderResult result);
+
 }

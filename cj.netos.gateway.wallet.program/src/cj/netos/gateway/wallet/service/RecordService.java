@@ -2,6 +2,7 @@ package cj.netos.gateway.wallet.service;
 
 import cj.netos.gateway.wallet.IRecordService;
 import cj.netos.gateway.wallet.mapper.RechargeRecordMapper;
+import cj.netos.gateway.wallet.mapper.WenyPurchRecordMapper;
 import cj.netos.gateway.wallet.mapper.WithdrawRecordMapper;
 import cj.netos.gateway.wallet.model.WenyPurchRecord;
 import cj.netos.gateway.wallet.result.OnorderResult;
@@ -21,7 +22,8 @@ public class RecordService implements IRecordService {
     RechargeRecordMapper rechargeRecordMapper;
     @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.WithdrawRecordMapper")
     WithdrawRecordMapper withdrawRecordMapper;
-
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.WenyPurchRecordMapper")
+    WenyPurchRecordMapper wenyPurchRecordMapper;
     @CjTransaction
     @Override
     public WenyPurchRecord getPurchaseRecord(String sn) {
@@ -57,5 +59,11 @@ public class RecordService implements IRecordService {
         withdrawRecordMapper.done(result.getSn(), state, result.getStatus(), result.getMessage(), WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         CJSystem.logging().info(getClass(), String.format("提现单决清完成:%s。结果: %s %s", result.getSn(), result.getStatus(), result.getMessage()));
     }
-
+    @CjTransaction
+    @Override
+    public void ackPurchaseRecordOnorder(OnorderResult result) {
+        int state = "200".equals(result.getStatus()) ? 1 : -1;
+        wenyPurchRecordMapper.done(result.getSn(), state, result.getStatus(), result.getMessage(), WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        CJSystem.logging().info(getClass(), String.format("申购单预扣款确认:%s。结果: %s %s", result.getSn(), result.getStatus(), result.getMessage()));
+    }
 }

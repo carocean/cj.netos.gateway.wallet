@@ -421,4 +421,14 @@
       message = #{message,jdbcType=VARCHAR}
     where sn = #{sn,jdbcType=VARCHAR}
   </update>
+
+  <update id="done" parameterType="cj.netos.gateway.wallet.model.WenyPurchRecord">
+    update weny_purch_record
+    set
+      `state` = #{state,jdbcType=INTEGER},
+      lutime = #{lutime,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      message = #{message,jdbcType=VARCHAR}
+    where sn = #{sn,jdbcType=VARCHAR}
+  </update>
 </mapper>
