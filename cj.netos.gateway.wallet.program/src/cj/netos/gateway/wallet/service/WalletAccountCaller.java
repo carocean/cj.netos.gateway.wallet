@@ -25,7 +25,7 @@ public class WalletAccountCaller implements IWalletAccountCaller {
                     put("person", onOrderBO.getPerson());
                 }})
                 .build();
-        rabbitMQProducer.publish(properties, new Gson().toJson(onOrderBO).getBytes());
+        rabbitMQProducer.publish("oc",properties, new Gson().toJson(onOrderBO).getBytes());
     }
 
     @Override
@@ -37,6 +37,6 @@ public class WalletAccountCaller implements IWalletAccountCaller {
                     put("person", onorderBO.getPerson());
                 }})
                 .build();
-        rabbitMQProducer.publish(properties, new Gson().toJson(onorderBO).getBytes());
+        rabbitMQProducer.publish("oc",properties, new Gson().toJson(onorderBO).getBytes());
     }
 }

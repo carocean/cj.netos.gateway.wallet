@@ -47,7 +47,7 @@ public class SettleTradeService implements ISettleTradeService {
         rechargeBO.setRealAmount(amount);
         rechargeBO.setSettleCode(code);
         rechargeBO.setSettleMsg(message);
-        rabbitMQProducer.publish(properties, new Gson().toJson(rechargeBO).getBytes());
+        rabbitMQProducer.publish("oc",properties, new Gson().toJson(rechargeBO).getBytes());
     }
 
     @CjTransaction
@@ -67,6 +67,6 @@ public class SettleTradeService implements ISettleTradeService {
         withdrawBO.setRealAmount(amount);
         withdrawBO.setSettleCode(code);
         withdrawBO.setSettleMsg(message);
-        rabbitMQProducer.publish(properties, new Gson().toJson(withdrawBO).getBytes());
+        rabbitMQProducer.publish("oc",properties, new Gson().toJson(withdrawBO).getBytes());
     }
 }

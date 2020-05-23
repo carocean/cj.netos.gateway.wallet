@@ -24,10 +24,11 @@ public class RecordService implements IRecordService {
     WithdrawRecordMapper withdrawRecordMapper;
     @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.WenyPurchRecordMapper")
     WenyPurchRecordMapper wenyPurchRecordMapper;
+
     @CjTransaction
     @Override
     public WenyPurchRecord getPurchaseRecord(String sn) {
-        return null;
+        return wenyPurchRecordMapper.selectByPrimaryKey(sn);
     }
 
     @CjTransaction
@@ -59,6 +60,7 @@ public class RecordService implements IRecordService {
         withdrawRecordMapper.done(result.getSn(), state, result.getStatus(), result.getMessage(), WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         CJSystem.logging().info(getClass(), String.format("提现单决清完成:%s。结果: %s %s", result.getSn(), result.getStatus(), result.getMessage()));
     }
+
     @CjTransaction
     @Override
     public void ackPurchaseRecordOnorder(OnorderResult result) {

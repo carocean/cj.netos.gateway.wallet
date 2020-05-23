@@ -29,7 +29,7 @@ public class CheckAccessTokenStrategy implements ICheckAccessTokenStrategy {
         appid = site.getProperty("appid");
         appKey = site.getProperty("appKey");
         appSecret = site.getProperty("appSecret");
-        portsAuth = site.getProperty("ports.auth");
+        portsAuth = site.getProperty("rhub.ports.auth");
         client = new OkHttpClient();
         site.addService("@.http",client);
     }

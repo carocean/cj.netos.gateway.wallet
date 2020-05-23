@@ -23,7 +23,7 @@ public class DefaultPersonService implements IPersonService {
     @Override
     public Map<String, Object> getPersonInfo(String accessToken) throws CheckAccessTokenException {
         OkHttpClient client = (OkHttpClient) site.getService("@.http");
-        String url = site.getProperty("ports.person");
+        String url = site.getProperty("rhub.ports.person");
         final Request request = new Request.Builder()
                 .url(url)
                 .addHeader("Rest-Command", "getPersonInfo")

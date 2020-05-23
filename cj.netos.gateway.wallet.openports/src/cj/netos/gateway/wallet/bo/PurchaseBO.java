@@ -1,15 +1,22 @@
 package cj.netos.gateway.wallet.bo;
 
 public class PurchaseBO {
+    String sn;
     String Purchaser;
     String PurchaserName;
-    String appid;
     String currency;
     long amount;
     String wenyBankID;
-    long ctime;
-    String device;
+    String ctime;
     String note;
+
+    public String getSn() {
+        return sn;
+    }
+
+    public void setSn(String sn) {
+        this.sn = sn;
+    }
 
     public String getPurchaser() {
         return Purchaser;
@@ -27,13 +34,6 @@ public class PurchaseBO {
         PurchaserName = purchaserName;
     }
 
-    public String getAppid() {
-        return appid;
-    }
-
-    public void setAppid(String appid) {
-        this.appid = appid;
-    }
 
     public String getCurrency() {
         return currency;
@@ -59,20 +59,12 @@ public class PurchaseBO {
         this.wenyBankID = wenyBankID;
     }
 
-    public long getCtime() {
+    public String getCtime() {
         return ctime;
     }
 
-    public void setCtime(long ctime) {
+    public void setCtime(String ctime) {
         this.ctime = ctime;
-    }
-
-    public String getDevice() {
-        return device;
-    }
-
-    public void setDevice(String device) {
-        this.device = device;
     }
 
     public String getNote() {

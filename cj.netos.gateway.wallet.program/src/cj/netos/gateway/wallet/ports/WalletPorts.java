@@ -37,7 +37,7 @@ public class WalletPorts implements IWalletPorts {
         String appid = site.getProperty("appid");
         String appKey = site.getProperty("appKey");
         String appSecret = site.getProperty("appSecret");
-        String portsUrl = site.getProperty("ports.oc.wallet");
+        String portsUrl = site.getProperty("rhub.ports.oc.wallet");
         String nonce = Encript.md5(String.format("%s%s", UUID.randomUUID().toString(), System.currentTimeMillis()));
         String sign = Encript.md5(String.format("%s%s%s", appKey, nonce, appSecret));
 
@@ -93,7 +93,7 @@ public class WalletPorts implements IWalletPorts {
         String appid = site.getProperty("appid");
         String appKey = site.getProperty("appKey");
         String appSecret = site.getProperty("appSecret");
-        String portsUrl = site.getProperty("ports.oc.wallet");
+        String portsUrl = site.getProperty("rhub.ports.oc.wallet");
         String nonce = Encript.md5(String.format("%s%s", UUID.randomUUID().toString(), System.currentTimeMillis()));
         String sign = Encript.md5(String.format("%s%s%s", appKey, nonce, appSecret));
 
@@ -145,7 +145,7 @@ public class WalletPorts implements IWalletPorts {
         String appid = site.getProperty("appid");
         String appKey = site.getProperty("appKey");
         String appSecret = site.getProperty("appSecret");
-        String portsUrl = site.getProperty("ports.oc.wallet");
+        String portsUrl = site.getProperty("rhub.ports.oc.wallet");
         String nonce = Encript.md5(String.format("%s%s", UUID.randomUUID().toString(), System.currentTimeMillis()));
         String sign = Encript.md5(String.format("%s%s%s", appKey, nonce, appSecret));
 
@@ -196,7 +196,7 @@ public class WalletPorts implements IWalletPorts {
         String appid = site.getProperty("appid");
         String appKey = site.getProperty("appKey");
         String appSecret = site.getProperty("appSecret");
-        String portsUrl = site.getProperty("ports.oc.wallet");
+        String portsUrl = site.getProperty("rhub.ports.oc.wallet");
         String nonce = Encript.md5(String.format("%s%s", UUID.randomUUID().toString(), System.currentTimeMillis()));
         String sign = Encript.md5(String.format("%s%s%s", appKey, nonce, appSecret));
 
