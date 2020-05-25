@@ -37,5 +37,9 @@
         <mapper resource="cj/db/mappings/WenyPurchRecordMapper.xml"/>
         <mapper resource="cj/db/mappings/WithdrawRecordMapper.xml"/>
         <mapper resource="cj/db/mappings/WorkDayMapper.xml"/>
+        <mapper resource="cj/db/mappings/RechargeActivityMapper.xml"/>
+        <mapper resource="cj/db/mappings/WenyExchangeActivityMapper.xml"/>
+        <mapper resource="cj/db/mappings/WenyPurchActivityMapper.xml"/>
+        <mapper resource="cj/db/mappings/WithdrawActivityMapper.xml"/>
     </mappers>
 </configuration>

@@ -21,4 +21,6 @@ public interface IReceiptTradeService {
 
     WithdrawRecord getWithdrawRecord(String sn);
 
+    WithdrawActivity getLastWithdrawActivity(String sn);
+
 }

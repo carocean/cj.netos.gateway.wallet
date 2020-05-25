@@ -1,6 +1,6 @@
 package cj.netos.gateway.wallet.cmd;
 
-import cj.netos.gateway.wallet.IRecordService;
+import cj.netos.gateway.wallet.IWithdrawActivityController;
 import cj.netos.gateway.wallet.result.WithdrawResult;
 import cj.netos.rabbitmq.CjConsumer;
 import cj.netos.rabbitmq.RabbitMQException;
@@ -15,15 +15,15 @@ import com.rabbitmq.client.Envelope;
 import java.io.IOException;
 
 @CjConsumer(name = "ack")
-@CjService(name = "/trade/settle/ack.mq#withdraw")
+@CjService(name = "/trade/settle/ack.mhub#withdraw")
 public class AckSettleWithdrawCommand implements IConsumerCommand {
-    @CjServiceRef
-    IRecordService recordService;
 
+    @CjServiceRef
+    IWithdrawActivityController withdrawActivityController;
     @Override
     public void command(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws RabbitMQException, RetryCommandException, IOException {
-        WithdrawResult result = new Gson().fromJson(new String(body), WithdrawResult.class);
-        recordService.ackWithdrawRecordSettled(result);
+        WithdrawResult result=new Gson().fromJson(new String(body), WithdrawResult.class);
+        withdrawActivityController.ackSettle(result);
     }
 
 }

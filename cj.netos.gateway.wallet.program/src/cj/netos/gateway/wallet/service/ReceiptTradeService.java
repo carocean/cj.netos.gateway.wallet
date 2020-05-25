@@ -1,13 +1,7 @@
 package cj.netos.gateway.wallet.service;
 
 import cj.netos.gateway.wallet.IReceiptTradeService;
-import cj.netos.gateway.wallet.IWalletAccountCaller;
-import cj.netos.gateway.wallet.IWenyBankTradeCaller;
-import cj.netos.gateway.wallet.bo.OnorderBO;
-import cj.netos.gateway.wallet.mapper.RechargeRecordMapper;
-import cj.netos.gateway.wallet.mapper.WenyExchangeRecordMapper;
-import cj.netos.gateway.wallet.mapper.WenyPurchRecordMapper;
-import cj.netos.gateway.wallet.mapper.WithdrawRecordMapper;
+import cj.netos.gateway.wallet.mapper.*;
 import cj.netos.gateway.wallet.model.*;
 import cj.netos.gateway.wallet.util.IdWorker;
 import cj.netos.gateway.wallet.util.WalletUtils;
@@ -29,13 +23,14 @@ public class ReceiptTradeService implements IReceiptTradeService {
     WenyPurchRecordMapper wenyPurchRecordMapper;
     @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.WenyExchangeRecordMapper")
     WenyExchangeRecordMapper wenyExchangeRecordMapper;
-
-    @CjServiceRef
-    IWalletAccountCaller walletAccountCaller;
-
-    @CjServiceRef
-    IWenyBankTradeCaller wenyBankTradeCaller;
-
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.RechargeActivityMapper")
+    RechargeActivityMapper rechargeActivityMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.WithdrawActivityMapper")
+    WithdrawActivityMapper withdrawActivityMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.WenyPurchActivityMapper")
+    WenyPurchActivityMapper wenyPurchActivityMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.WenyExchangeActivityMapper")
+    WenyExchangeActivityMapper wenyExchangeActivityMapper;
 
     @CjTransaction
     @Override
@@ -47,12 +42,24 @@ public class ReceiptTradeService implements IReceiptTradeService {
         record.setChannelName(payChannel.getChannelName());
         record.setPerson(principal);
         record.setState(0);
-        record.setCtime(WalletUtils.dateTimeToSecond(System.currentTimeMillis()));
-        record.setLutime(WalletUtils.dateTimeToSecond(System.currentTimeMillis()));
+        record.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        record.setLutime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         record.setPersonName(personName);
         record.setNote(note);
         record.setSn(new IdWorker().nextId());
+        record.setStatus(200);
+        record.setMessage("ok");
         rechargeRecordMapper.insert(record);
+
+        RechargeActivity rechargeActivity = new RechargeActivity();
+        rechargeActivity.setActivityName("已收单");
+        rechargeActivity.setActivityNo(0);
+        rechargeActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        rechargeActivity.setId(new IdWorker().nextId());
+        rechargeActivity.setMessage(record.getMessage());
+        rechargeActivity.setRecordSn(record.getSn());
+        rechargeActivity.setStatus(record.getStatus());
+        rechargeActivityMapper.insert(rechargeActivity);
         return record;
     }
 
@@ -65,24 +72,23 @@ public class ReceiptTradeService implements IReceiptTradeService {
         record.setToChannel(payChannelID);
         record.setPerson(principal);
         record.setState(0);
-        record.setCtime(WalletUtils.dateTimeToSecond(System.currentTimeMillis()));
-        record.setLutime(WalletUtils.dateTimeToSecond(System.currentTimeMillis()));
+        record.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        record.setLutime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         record.setPersonName(personName);
         record.setNote(note);
         record.setSn(new IdWorker().nextId());
+        record.setStatus(200);
+        record.setMessage("ok");
         withdrawRecordMapper.insert(record);
-
-        //异步调oc
-        OnorderBO onOrderBO = new OnorderBO();
-        onOrderBO.setPersonName(record.getPersonName());
-        onOrderBO.setAmount(amount);
-        onOrderBO.setNote(note);
-        onOrderBO.setRefType("withdrawRecord");
-        onOrderBO.setPerson(principal);
-        onOrderBO.setRefsn(record.getSn());
-        onOrderBO.setOrder(2);
-        onOrderBO.setCause("预扣款");
-        walletAccountCaller.tryPutOnorder(onOrderBO);
+        WithdrawActivity withdrawActivity = new WithdrawActivity();
+        withdrawActivity.setActivityName("已收单");
+        withdrawActivity.setActivityNo(0);
+        withdrawActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        withdrawActivity.setId(new IdWorker().nextId());
+        withdrawActivity.setMessage(record.getMessage());
+        withdrawActivity.setStatus(record.getStatus());
+        withdrawActivity.setRecordSn(record.getSn());
+        withdrawActivityMapper.insert(withdrawActivity);
         return record;
     }
 
@@ -96,23 +102,23 @@ public class ReceiptTradeService implements IReceiptTradeService {
         record.setBankid(wenyBankID);
         record.setPerson(principal);
         record.setState(0);
-        record.setCtime(WalletUtils.dateTimeToSecond(System.currentTimeMillis()));
-        record.setLutime(WalletUtils.dateTimeToSecond(System.currentTimeMillis()));
+        record.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        record.setLutime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         record.setPersonName(personName);
         record.setNote(note);
         record.setSn(new IdWorker().nextId());
+        record.setStatus(200);
+        record.setMessage("ok");
         wenyPurchRecordMapper.insert(record);
-        //异步调oc
-        OnorderBO onOrderBO = new OnorderBO();
-        onOrderBO.setPersonName(record.getPersonName());
-        onOrderBO.setRefType("purchaseRecord");
-        onOrderBO.setAmount(amount);
-        onOrderBO.setNote(note);
-        onOrderBO.setPerson(principal);
-        onOrderBO.setRefsn(record.getSn());
-        onOrderBO.setOrder(8);
-        onOrderBO.setCause("预扣款");
-        walletAccountCaller.tryPutOnorder(onOrderBO);
+        WenyPurchActivity wenyPurchActivity = new WenyPurchActivity();
+        wenyPurchActivity.setActivityName("已收单");
+        wenyPurchActivity.setActivityNo(0);
+        wenyPurchActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        wenyPurchActivity.setId(new IdWorker().nextId());
+        wenyPurchActivity.setMessage(record.getMessage());
+        wenyPurchActivity.setStatus(200);
+        wenyPurchActivity.setRecordSn(record.getSn());
+        wenyPurchActivityMapper.insert(wenyPurchActivity);
         return record;
     }
 
@@ -125,15 +131,26 @@ public class ReceiptTradeService implements IReceiptTradeService {
         record.setBankid(purchRecord.getBankid());
         record.setPerson(principal);
         record.setState(0);
-        record.setCtime(WalletUtils.dateTimeToSecond(System.currentTimeMillis()));
-        record.setLutime(WalletUtils.dateTimeToSecond(System.currentTimeMillis()));
+        record.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        record.setLutime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         record.setPersonName(personName);
         record.setNote(note);
         record.setRefsn(purchRecord.getSn());
         record.setSn(new IdWorker().nextId());
-        record.setQuatities(purchRecord.getQuatities());
+        record.setQuatities(purchRecord.getStock());
+        record.setStatus(200);
+        record.setMessage("ok");
         wenyExchangeRecordMapper.insert(record);
-        wenyBankTradeCaller.exchange(record);
+
+        WenyExchangeActivity wenyExchangeActivity = new WenyExchangeActivity();
+        wenyExchangeActivity.setActivityName("已收单");
+        wenyExchangeActivity.setActivityNo(0);
+        wenyExchangeActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        wenyExchangeActivity.setId(new IdWorker().nextId());
+        wenyExchangeActivity.setMessage(record.getMessage());
+        wenyExchangeActivity.setStatus(200);
+        wenyExchangeActivity.setRecordSn(record.getSn());
+        wenyExchangeActivityMapper.insert(wenyExchangeActivity);
         return record;
     }
 
@@ -153,5 +170,10 @@ public class ReceiptTradeService implements IReceiptTradeService {
     @Override
     public WithdrawRecord getWithdrawRecord(String sn) {
         return withdrawRecordMapper.selectByPrimaryKey(sn);
+    }
+    @CjTransaction
+    @Override
+    public WithdrawActivity getLastWithdrawActivity(String sn) {
+        return withdrawActivityMapper.getLastWithdrawActivity(sn);
     }
 }

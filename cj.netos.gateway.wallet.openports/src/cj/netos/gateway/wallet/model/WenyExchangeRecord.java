@@ -68,7 +68,7 @@ public class WenyExchangeRecord {
 
     /**
      * Column: state
-     * Remark: 0-生效 1- 冻结 2- 注销
+     * Remark: 为当前的步骤号 是否出错看status，status记录当前步骤的状态
      */
     private Integer state;
 
@@ -96,10 +96,10 @@ public class WenyExchangeRecord {
     private String bankid;
 
     /**
-     * Column: code
+     * Column: status
      * Remark: 返回码
      */
-    private String code;
+    private Integer status;
 
     /**
      * Column: message
@@ -227,12 +227,12 @@ public class WenyExchangeRecord {
         this.bankid = bankid == null ? null : bankid.trim();
     }
 
-    public String getCode() {
-        return code;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setCode(String code) {
-        this.code = code == null ? null : code.trim();
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public String getMessage() {

@@ -37,28 +37,28 @@ public class WenyPurchRecord {
     private Long purchAmount;
 
     /**
-     * Column: quatities
+     * Column: stock
      * Remark: 所得纹银
      */
-    private BigDecimal quatities;
+    private BigDecimal stock;
 
     /**
      * Column: price
      * Remark: 申购价
      */
-    private Long price;
+    private BigDecimal price;
 
     /**
-     * Column: charge
+     * Column: service_fee
      * Remark: 服务收费金额
      */
-    private Long charge;
+    private Long serviceFee;
 
     /**
-     * Column: ratio
+     * Column: fee_ratio
      * Remark: 费率
      */
-    private BigDecimal ratio;
+    private BigDecimal feeRatio;
 
     /**
      * Column: ttm
@@ -68,7 +68,7 @@ public class WenyPurchRecord {
 
     /**
      * Column: state
-     * Remark: -2 纹银银行处理失败 -1-预申购失败 0新建 1预处理完成 2申购完成
+     * Remark: 为当前的步骤号 是否出错看status，status记录当前步骤的状态
      */
     private Integer state;
 
@@ -96,16 +96,58 @@ public class WenyPurchRecord {
     private String bankid;
 
     /**
-     * Column: code
+     * Column: status
      * Remark: 返回码
      */
-    private String code;
+    private Integer status;
 
     /**
      * Column: message
      * Remark: 返回消息
      */
     private String message;
+
+    /**
+     * Column: principal_ratio
+     * Remark: 本金率
+     */
+    private BigDecimal principalRatio;
+
+    /**
+     * Column: principal_amount
+     * Remark: 本金
+     */
+    private Long principalAmount;
+
+    /**
+     * Column: bank_purch_sn
+     * Remark: 纹银银行承兑订单号
+     */
+    private String bankPurchSn;
+
+    /**
+     * Column: free_ratio
+     * Remark: 自由金率
+     */
+    private BigDecimal freeRatio;
+
+    /**
+     * Column: reserve_ratio
+     * Remark: 准备金率
+     */
+    private BigDecimal reserveRatio;
+
+    /**
+     * Column: free_amount
+     * Remark: 自由金
+     */
+    private Long freeAmount;
+
+    /**
+     * Column: reserve_amount
+     * Remark: 准备金
+     */
+    private Long reserveAmount;
 
     public String getSn() {
         return sn;
@@ -147,36 +189,36 @@ public class WenyPurchRecord {
         this.purchAmount = purchAmount;
     }
 
-    public BigDecimal getQuatities() {
-        return quatities;
+    public BigDecimal getStock() {
+        return stock;
     }
 
-    public void setQuatities(BigDecimal quatities) {
-        this.quatities = quatities;
+    public void setStock(BigDecimal stock) {
+        this.stock = stock;
     }
 
-    public Long getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
-    public Long getCharge() {
-        return charge;
+    public Long getServiceFee() {
+        return serviceFee;
     }
 
-    public void setCharge(Long charge) {
-        this.charge = charge;
+    public void setServiceFee(Long serviceFee) {
+        this.serviceFee = serviceFee;
     }
 
-    public BigDecimal getRatio() {
-        return ratio;
+    public BigDecimal getFeeRatio() {
+        return feeRatio;
     }
 
-    public void setRatio(BigDecimal ratio) {
-        this.ratio = ratio;
+    public void setFeeRatio(BigDecimal feeRatio) {
+        this.feeRatio = feeRatio;
     }
 
     public BigDecimal getTtm() {
@@ -227,12 +269,12 @@ public class WenyPurchRecord {
         this.bankid = bankid == null ? null : bankid.trim();
     }
 
-    public String getCode() {
-        return code;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setCode(String code) {
-        this.code = code == null ? null : code.trim();
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public String getMessage() {
@@ -241,5 +283,61 @@ public class WenyPurchRecord {
 
     public void setMessage(String message) {
         this.message = message == null ? null : message.trim();
+    }
+
+    public BigDecimal getPrincipalRatio() {
+        return principalRatio;
+    }
+
+    public void setPrincipalRatio(BigDecimal principalRatio) {
+        this.principalRatio = principalRatio;
+    }
+
+    public Long getPrincipalAmount() {
+        return principalAmount;
+    }
+
+    public void setPrincipalAmount(Long principalAmount) {
+        this.principalAmount = principalAmount;
+    }
+
+    public String getBankPurchSn() {
+        return bankPurchSn;
+    }
+
+    public void setBankPurchSn(String bankPurchSn) {
+        this.bankPurchSn = bankPurchSn == null ? null : bankPurchSn.trim();
+    }
+
+    public BigDecimal getFreeRatio() {
+        return freeRatio;
+    }
+
+    public void setFreeRatio(BigDecimal freeRatio) {
+        this.freeRatio = freeRatio;
+    }
+
+    public BigDecimal getReserveRatio() {
+        return reserveRatio;
+    }
+
+    public void setReserveRatio(BigDecimal reserveRatio) {
+        this.reserveRatio = reserveRatio;
+    }
+
+    public Long getFreeAmount() {
+        return freeAmount;
+    }
+
+    public void setFreeAmount(Long freeAmount) {
+        this.freeAmount = freeAmount;
+    }
+
+    public Long getReserveAmount() {
+        return reserveAmount;
+    }
+
+    public void setReserveAmount(Long reserveAmount) {
+        this.reserveAmount = reserveAmount;
     }
 }

@@ -22,7 +22,7 @@ public class WenyBankTradeCaller implements IWenyBankTradeCaller {
     public void exchange(WenyExchangeRecord record) throws CircuitException {
         //向纹银银行提交承兑交易(交由oc处理）
         AMQP.BasicProperties properties = new AMQP.BasicProperties().builder()
-                .type("/trade/weny.mq")
+                .type("/trade/receipt.mhub")
                 .headers(new HashMap<String, Object>() {{
                     put("command", "exchange");
                     put("person", record.getPerson());
@@ -44,7 +44,7 @@ public class WenyBankTradeCaller implements IWenyBankTradeCaller {
         purchaseBO.setCurrency(record.getCurrency());
         purchaseBO.setNote(record.getNote());
         AMQP.BasicProperties properties = new AMQP.BasicProperties().builder()
-                .type("/trade/weny.mq")
+                .type("/trade/receipt.mhub")
                 .headers(new HashMap<String, Object>() {{
                     put("command", "purchase");
                     put("person", record.getPerson());

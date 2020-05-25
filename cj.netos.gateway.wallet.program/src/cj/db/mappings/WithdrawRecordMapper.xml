@@ -14,11 +14,9 @@
     <result column="ctime" jdbcType="VARCHAR" property="ctime" />
     <result column="lutime" jdbcType="VARCHAR" property="lutime" />
     <result column="note" jdbcType="VARCHAR" property="note" />
-    <result column="settle_code" jdbcType="VARCHAR" property="settleCode" />
-    <result column="settle_msg" jdbcType="VARCHAR" property="settleMsg" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="message" jdbcType="VARCHAR" property="message" />
     <result column="channel_name" jdbcType="VARCHAR" property="channelName" />
-    <result column="oc_code" jdbcType="VARCHAR" property="ocCode" />
-    <result column="oc_msg" jdbcType="VARCHAR" property="ocMsg" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -83,7 +81,7 @@
   <sql id="Base_Column_List">
     <!-- @mbg.generated: generated automatically, do not modify! -->
     sn, person, person_name, currency, demand_amount, real_amount, to_channel, `state`, 
-    ctime, lutime, note, settle_code, settle_msg, channel_name, oc_code, oc_msg
+    ctime, lutime, note, `status`, message, channel_name
   </sql>
   <select id="selectByExample" parameterType="cj.netos.gateway.wallet.model.WithdrawRecordExample" resultMap="BaseResultMap">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -124,15 +122,13 @@
     insert into withdraw_record (sn, person, person_name, 
       currency, demand_amount, real_amount, 
       to_channel, `state`, ctime, 
-      lutime, note, settle_code, 
-      settle_msg, channel_name, oc_code, 
-      oc_msg)
+      lutime, note, `status`, 
+      message, channel_name)
     values (#{sn,jdbcType=VARCHAR}, #{person,jdbcType=VARCHAR}, #{personName,jdbcType=VARCHAR}, 
       #{currency,jdbcType=VARCHAR}, #{demandAmount,jdbcType=BIGINT}, #{realAmount,jdbcType=BIGINT}, 
       #{toChannel,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, #{ctime,jdbcType=VARCHAR}, 
-      #{lutime,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{settleCode,jdbcType=VARCHAR}, 
-      #{settleMsg,jdbcType=VARCHAR}, #{channelName,jdbcType=VARCHAR}, #{ocCode,jdbcType=VARCHAR}, 
-      #{ocMsg,jdbcType=VARCHAR})
+      #{lutime,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{message,jdbcType=VARCHAR}, #{channelName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cj.netos.gateway.wallet.model.WithdrawRecord">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -171,20 +167,14 @@
       <if test="note != null">
         note,
       </if>
-      <if test="settleCode != null">
-        settle_code,
+      <if test="status != null">
+        `status`,
       </if>
-      <if test="settleMsg != null">
-        settle_msg,
+      <if test="message != null">
+        message,
       </if>
       <if test="channelName != null">
         channel_name,
-      </if>
-      <if test="ocCode != null">
-        oc_code,
-      </if>
-      <if test="ocMsg != null">
-        oc_msg,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -221,20 +211,14 @@
       <if test="note != null">
         #{note,jdbcType=VARCHAR},
       </if>
-      <if test="settleCode != null">
-        #{settleCode,jdbcType=VARCHAR},
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
       </if>
-      <if test="settleMsg != null">
-        #{settleMsg,jdbcType=VARCHAR},
+      <if test="message != null">
+        #{message,jdbcType=VARCHAR},
       </if>
       <if test="channelName != null">
         #{channelName,jdbcType=VARCHAR},
-      </if>
-      <if test="ocCode != null">
-        #{ocCode,jdbcType=VARCHAR},
-      </if>
-      <if test="ocMsg != null">
-        #{ocMsg,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -282,20 +266,14 @@
       <if test="record.note != null">
         note = #{record.note,jdbcType=VARCHAR},
       </if>
-      <if test="record.settleCode != null">
-        settle_code = #{record.settleCode,jdbcType=VARCHAR},
+      <if test="record.status != null">
+        `status` = #{record.status,jdbcType=INTEGER},
       </if>
-      <if test="record.settleMsg != null">
-        settle_msg = #{record.settleMsg,jdbcType=VARCHAR},
+      <if test="record.message != null">
+        message = #{record.message,jdbcType=VARCHAR},
       </if>
       <if test="record.channelName != null">
         channel_name = #{record.channelName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.ocCode != null">
-        oc_code = #{record.ocCode,jdbcType=VARCHAR},
-      </if>
-      <if test="record.ocMsg != null">
-        oc_msg = #{record.ocMsg,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -316,11 +294,9 @@
       ctime = #{record.ctime,jdbcType=VARCHAR},
       lutime = #{record.lutime,jdbcType=VARCHAR},
       note = #{record.note,jdbcType=VARCHAR},
-      settle_code = #{record.settleCode,jdbcType=VARCHAR},
-      settle_msg = #{record.settleMsg,jdbcType=VARCHAR},
-      channel_name = #{record.channelName,jdbcType=VARCHAR},
-      oc_code = #{record.ocCode,jdbcType=VARCHAR},
-      oc_msg = #{record.ocMsg,jdbcType=VARCHAR}
+      `status` = #{record.status,jdbcType=INTEGER},
+      message = #{record.message,jdbcType=VARCHAR},
+      channel_name = #{record.channelName,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -359,20 +335,14 @@
       <if test="note != null">
         note = #{note,jdbcType=VARCHAR},
       </if>
-      <if test="settleCode != null">
-        settle_code = #{settleCode,jdbcType=VARCHAR},
+      <if test="status != null">
+        `status` = #{status,jdbcType=INTEGER},
       </if>
-      <if test="settleMsg != null">
-        settle_msg = #{settleMsg,jdbcType=VARCHAR},
+      <if test="message != null">
+        message = #{message,jdbcType=VARCHAR},
       </if>
       <if test="channelName != null">
         channel_name = #{channelName,jdbcType=VARCHAR},
-      </if>
-      <if test="ocCode != null">
-        oc_code = #{ocCode,jdbcType=VARCHAR},
-      </if>
-      <if test="ocMsg != null">
-        oc_msg = #{ocMsg,jdbcType=VARCHAR},
       </if>
     </set>
     where sn = #{sn,jdbcType=VARCHAR}
@@ -390,11 +360,9 @@
       ctime = #{ctime,jdbcType=VARCHAR},
       lutime = #{lutime,jdbcType=VARCHAR},
       note = #{note,jdbcType=VARCHAR},
-      settle_code = #{settleCode,jdbcType=VARCHAR},
-      settle_msg = #{settleMsg,jdbcType=VARCHAR},
-      channel_name = #{channelName,jdbcType=VARCHAR},
-      oc_code = #{ocCode,jdbcType=VARCHAR},
-      oc_msg = #{ocMsg,jdbcType=VARCHAR}
+      `status` = #{status,jdbcType=INTEGER},
+      message = #{message,jdbcType=VARCHAR},
+      channel_name = #{channelName,jdbcType=VARCHAR}
     where sn = #{sn,jdbcType=VARCHAR}
   </update>
 
@@ -404,17 +372,25 @@
     real_amount = #{realAmount,jdbcType=BIGINT},
     `state` = 1,
     lutime = #{lutime,jdbcType=VARCHAR},
-    settle_code = #{settleCode,jdbcType=VARCHAR},
-    settle_msg = #{settleMsg,jdbcType=VARCHAR}
+    `status` = #{status,jdbcType=INTEGER},
+      message = #{message,jdbcType=VARCHAR}
     where sn = #{sn,jdbcType=VARCHAR}
   </update>
   <update id="done" parameterType="cj.netos.gateway.wallet.model.WithdrawRecord">
     update withdraw_record
     set
-      `state` = #{state,jdbcType=INTEGER},
+      `state` = 1,
       lutime = #{lutime,jdbcType=VARCHAR},
-      oc_code = #{ocCode,jdbcType=VARCHAR},
-      oc_msg = #{ocMsg,jdbcType=VARCHAR}
+      `status` = #{status,jdbcType=INTEGER},
+      message = #{message,jdbcType=VARCHAR}
+    where sn = #{sn,jdbcType=VARCHAR}
+  </update>
+  <update id="update" parameterType="cj.netos.gateway.wallet.model.WithdrawRecord">
+    update withdraw_record
+    set
+      lutime = #{lutime,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=INTEGER},
+      message = #{message,jdbcType=VARCHAR}
     where sn = #{sn,jdbcType=VARCHAR}
   </update>
 </mapper>

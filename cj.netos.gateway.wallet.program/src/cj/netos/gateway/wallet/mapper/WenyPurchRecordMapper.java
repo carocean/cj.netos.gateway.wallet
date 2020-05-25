@@ -2,7 +2,10 @@ package cj.netos.gateway.wallet.mapper;
 
 import cj.netos.gateway.wallet.model.WenyPurchRecord;
 import cj.netos.gateway.wallet.model.WenyPurchRecordExample;
+
+import java.math.BigDecimal;
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface WenyPurchRecordMapper {
@@ -65,5 +68,14 @@ public interface WenyPurchRecordMapper {
     void updateState(@Param(value = "sn") String sn, @Param(value = "state") int state, @Param(value = "code") String code, @Param(value = "message") String message, @Param(value = "lutime") String lutime);
 
     void done(@Param(value = "sn") String sn, @Param(value = "state") int state, @Param(value = "code") String code, @Param(value = "message") String message, @Param(value = "lutime") String lutime);
+
+    void ackPurchasing(@Param(value = "sn") String sn,
+                       @Param(value = "purchAmount") Long purchAmount,
+                       @Param(value = "feeRatio") BigDecimal feeRatio,
+                       @Param(value = "serviceFee") Long serviceFee,
+                       @Param(value = "principalAmount") Long principalAmount,
+                       @Param(value = "principalRatio") BigDecimal principalRatio,
+                       @Param(value = "ttm") BigDecimal ttm,
+                       @Param(value = "bankPurchSn") String bankPurchSn);
 
 }

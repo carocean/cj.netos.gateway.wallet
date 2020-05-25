@@ -1,7 +1,7 @@
 package cj.netos.gateway.wallet.ports;
 
 import cj.netos.gateway.wallet.result.ExchangeWenyResult;
-import cj.netos.gateway.wallet.result.PurchaseWenyResult;
+import cj.netos.gateway.wallet.result.PurchasingResult;
 import cj.netos.gateway.wallet.result.RechargeResult;
 import cj.netos.gateway.wallet.result.WithdrawResult;
 import cj.studio.ecm.net.CircuitException;
@@ -10,8 +10,6 @@ import cj.studio.openport.ISecuritySession;
 import cj.studio.openport.annotations.CjOpenport;
 import cj.studio.openport.annotations.CjOpenportParameter;
 import cj.studio.openport.annotations.CjOpenports;
-
-import java.math.BigDecimal;
 
 @CjOpenports(usage = "收单业务开放服务")
 public interface IReceiptTradePorts extends IOpenportService {
@@ -32,10 +30,10 @@ public interface IReceiptTradePorts extends IOpenportService {
 
 
     @CjOpenport(usage = "申购纹银")
-    PurchaseWenyResult purchaseWeny(ISecuritySession securitySession,
-                                    @CjOpenportParameter(usage = "要申购的纹银银行id", name = "wenyBankID") String wenyBankID,
-                                    @CjOpenportParameter(usage = "委托申购金额,单位为分", name = "amount") long amount,
-                                    @CjOpenportParameter(usage = "备注", name = "note") String note
+    PurchasingResult purchaseWeny(ISecuritySession securitySession,
+                                  @CjOpenportParameter(usage = "要申购的纹银银行id", name = "wenyBankID") String wenyBankID,
+                                  @CjOpenportParameter(usage = "委托申购金额,单位为分", name = "amount") long amount,
+                                  @CjOpenportParameter(usage = "备注", name = "note") String note
     ) throws CircuitException;
 
 

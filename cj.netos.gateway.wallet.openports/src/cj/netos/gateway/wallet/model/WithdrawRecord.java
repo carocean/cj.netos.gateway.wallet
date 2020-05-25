@@ -48,7 +48,7 @@ public class WithdrawRecord {
 
     /**
      * Column: state
-     * Remark: -3最终失败 -2渠道失败 -1预扣款失败 0-待提现 1预扣款成功 2-渠道已决清 3- 提现成功 
+     * Remark: 为当前的步骤号 是否出错看status，status记录当前步骤的状态
      */
     private Integer state;
 
@@ -70,32 +70,21 @@ public class WithdrawRecord {
     private String note;
 
     /**
-     * Column: settle_code
+     * Column: status
      * Remark: 订单完成时第三方渠道的返回码
      */
-    private String settleCode;
+    private Integer status;
 
     /**
-     * Column: settle_msg
+     * Column: message
      * Remark: 订单完成时第三方渠道的返回信息
      */
-    private String settleMsg;
+    private String message;
 
     /**
      * Column: channel_name
      */
     private String channelName;
-
-    /**
-     * Column: oc_code
-     * Remark: Oc处理晌应
-     */
-    private String ocCode;
-
-    /**
-     * Column: oc_msg
-     */
-    private String ocMsg;
 
     public String getSn() {
         return sn;
@@ -185,20 +174,20 @@ public class WithdrawRecord {
         this.note = note == null ? null : note.trim();
     }
 
-    public String getSettleCode() {
-        return settleCode;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setSettleCode(String settleCode) {
-        this.settleCode = settleCode == null ? null : settleCode.trim();
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
-    public String getSettleMsg() {
-        return settleMsg;
+    public String getMessage() {
+        return message;
     }
 
-    public void setSettleMsg(String settleMsg) {
-        this.settleMsg = settleMsg == null ? null : settleMsg.trim();
+    public void setMessage(String message) {
+        this.message = message == null ? null : message.trim();
     }
 
     public String getChannelName() {
@@ -207,21 +196,5 @@ public class WithdrawRecord {
 
     public void setChannelName(String channelName) {
         this.channelName = channelName == null ? null : channelName.trim();
-    }
-
-    public String getOcCode() {
-        return ocCode;
-    }
-
-    public void setOcCode(String ocCode) {
-        this.ocCode = ocCode == null ? null : ocCode.trim();
-    }
-
-    public String getOcMsg() {
-        return ocMsg;
-    }
-
-    public void setOcMsg(String ocMsg) {
-        this.ocMsg = ocMsg == null ? null : ocMsg.trim();
     }
 }

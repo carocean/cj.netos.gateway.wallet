@@ -48,8 +48,7 @@ public class RechargeBO  {
 
     /**
      * Column: state
-     * Remark: 0-待充值
-     1- 充值成功 2- 充值失败
+     * Remark: 为当前的步骤号 是否出错看status，status记录当前步骤的状态
      */
     private Integer state;
 
@@ -66,22 +65,22 @@ public class RechargeBO  {
     private String lutime;
 
     /**
+     * Column: status
+     * Remark: 订单完成时第三方渠道的返回码
+     */
+    private Integer status;
+
+    /**
+     * Column: message
+     * Remark: 订单完成时第三方渠道的返回信息
+     */
+    private String message;
+
+    /**
      * Column: note
      * Remark: 备注
      */
     private String note;
-
-    /**
-     * Column: settle_code
-     * Remark: 订单完成时第三方渠道的返回码
-     */
-    private String settleCode;
-
-    /**
-     * Column: settle_msg
-     * Remark: 订单完成时第三方渠道的返回信息
-     */
-    private String settleMsg;
 
     /**
      * Column: channel_name
@@ -94,7 +93,7 @@ public class RechargeBO  {
     }
 
     public void setSn(String sn) {
-        this.sn = sn == null ? null : sn.trim();
+        this.sn = sn;
     }
 
     public String getPerson() {
@@ -102,7 +101,7 @@ public class RechargeBO  {
     }
 
     public void setPerson(String person) {
-        this.person = person == null ? null : person.trim();
+        this.person = person;
     }
 
     public String getPersonName() {
@@ -110,7 +109,7 @@ public class RechargeBO  {
     }
 
     public void setPersonName(String personName) {
-        this.personName = personName == null ? null : personName.trim();
+        this.personName = personName;
     }
 
     public String getCurrency() {
@@ -118,7 +117,7 @@ public class RechargeBO  {
     }
 
     public void setCurrency(String currency) {
-        this.currency = currency == null ? null : currency.trim();
+        this.currency = currency;
     }
 
     public Long getDemandAmount() {
@@ -142,7 +141,7 @@ public class RechargeBO  {
     }
 
     public void setFromChannel(String fromChannel) {
-        this.fromChannel = fromChannel == null ? null : fromChannel.trim();
+        this.fromChannel = fromChannel;
     }
 
     public Integer getState() {
@@ -158,7 +157,7 @@ public class RechargeBO  {
     }
 
     public void setCtime(String ctime) {
-        this.ctime = ctime == null ? null : ctime.trim();
+        this.ctime = ctime;
     }
 
     public String getLutime() {
@@ -166,7 +165,23 @@ public class RechargeBO  {
     }
 
     public void setLutime(String lutime) {
-        this.lutime = lutime == null ? null : lutime.trim();
+        this.lutime = lutime;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public String getNote() {
@@ -174,23 +189,7 @@ public class RechargeBO  {
     }
 
     public void setNote(String note) {
-        this.note = note == null ? null : note.trim();
-    }
-
-    public String getSettleCode() {
-        return settleCode;
-    }
-
-    public void setSettleCode(String settleCode) {
-        this.settleCode = settleCode == null ? null : settleCode.trim();
-    }
-
-    public String getSettleMsg() {
-        return settleMsg;
-    }
-
-    public void setSettleMsg(String settleMsg) {
-        this.settleMsg = settleMsg == null ? null : settleMsg.trim();
+        this.note = note;
     }
 
     public String getChannelName() {
@@ -198,7 +197,7 @@ public class RechargeBO  {
     }
 
     public void setChannelName(String channelName) {
-        this.channelName = channelName == null ? null : channelName.trim();
+        this.channelName = channelName;
     }
 
     public static RechargeBO create(RechargeRecord record) {

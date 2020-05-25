@@ -18,7 +18,7 @@
     <result column="lutime" jdbcType="VARCHAR" property="lutime" />
     <result column="note" jdbcType="VARCHAR" property="note" />
     <result column="bankid" jdbcType="VARCHAR" property="bankid" />
-    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="status" jdbcType="INTEGER" property="status" />
     <result column="message" jdbcType="VARCHAR" property="message" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -84,7 +84,7 @@
   <sql id="Base_Column_List">
     <!-- @mbg.generated: generated automatically, do not modify! -->
     sn, person, person_name, currency, quatities, amount, price, refsn, purch_amount, 
-    profit, `state`, ctime, lutime, note, bankid, code, message
+    profit, `state`, ctime, lutime, note, bankid, `status`, message
   </sql>
   <select id="selectByExample" parameterType="cj.netos.gateway.wallet.model.WenyExchangeRecordExample" resultMap="BaseResultMap">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -127,13 +127,13 @@
       price, refsn, purch_amount, 
       profit, `state`, ctime, 
       lutime, note, bankid, 
-      code, message)
+      `status`, message)
     values (#{sn,jdbcType=VARCHAR}, #{person,jdbcType=VARCHAR}, #{personName,jdbcType=VARCHAR}, 
       #{currency,jdbcType=VARCHAR}, #{quatities,jdbcType=DECIMAL}, #{amount,jdbcType=BIGINT}, 
       #{price,jdbcType=DECIMAL}, #{refsn,jdbcType=VARCHAR}, #{purchAmount,jdbcType=BIGINT}, 
       #{profit,jdbcType=BIGINT}, #{state,jdbcType=INTEGER}, #{ctime,jdbcType=VARCHAR}, 
       #{lutime,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{bankid,jdbcType=VARCHAR}, 
-      #{code,jdbcType=VARCHAR}, #{message,jdbcType=VARCHAR})
+      #{status,jdbcType=INTEGER}, #{message,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cj.netos.gateway.wallet.model.WenyExchangeRecord">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -184,8 +184,8 @@
       <if test="bankid != null">
         bankid,
       </if>
-      <if test="code != null">
-        code,
+      <if test="status != null">
+        `status`,
       </if>
       <if test="message != null">
         message,
@@ -237,8 +237,8 @@
       <if test="bankid != null">
         #{bankid,jdbcType=VARCHAR},
       </if>
-      <if test="code != null">
-        #{code,jdbcType=VARCHAR},
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
       </if>
       <if test="message != null">
         #{message,jdbcType=VARCHAR},
@@ -301,8 +301,8 @@
       <if test="record.bankid != null">
         bankid = #{record.bankid,jdbcType=VARCHAR},
       </if>
-      <if test="record.code != null">
-        code = #{record.code,jdbcType=VARCHAR},
+      <if test="record.status != null">
+        `status` = #{record.status,jdbcType=INTEGER},
       </if>
       <if test="record.message != null">
         message = #{record.message,jdbcType=VARCHAR},
@@ -330,7 +330,7 @@
       lutime = #{record.lutime,jdbcType=VARCHAR},
       note = #{record.note,jdbcType=VARCHAR},
       bankid = #{record.bankid,jdbcType=VARCHAR},
-      code = #{record.code,jdbcType=VARCHAR},
+      `status` = #{record.status,jdbcType=INTEGER},
       message = #{record.message,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -382,8 +382,8 @@
       <if test="bankid != null">
         bankid = #{bankid,jdbcType=VARCHAR},
       </if>
-      <if test="code != null">
-        code = #{code,jdbcType=VARCHAR},
+      <if test="status != null">
+        `status` = #{status,jdbcType=INTEGER},
       </if>
       <if test="message != null">
         message = #{message,jdbcType=VARCHAR},
@@ -408,7 +408,7 @@
       lutime = #{lutime,jdbcType=VARCHAR},
       note = #{note,jdbcType=VARCHAR},
       bankid = #{bankid,jdbcType=VARCHAR},
-      code = #{code,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=INTEGER},
       message = #{message,jdbcType=VARCHAR}
     where sn = #{sn,jdbcType=VARCHAR}
   </update>
