@@ -65,9 +65,7 @@ public interface WenyPurchRecordMapper {
      */
     int updateByPrimaryKey(WenyPurchRecord record);
 
-    void updateState(@Param(value = "sn") String sn, @Param(value = "state") int state, @Param(value = "code") String code, @Param(value = "message") String message, @Param(value = "lutime") String lutime);
-
-    void done(@Param(value = "sn") String sn, @Param(value = "state") int state, @Param(value = "code") String code, @Param(value = "message") String message, @Param(value = "lutime") String lutime);
+    void done(@Param(value = "sn") String sn, @Param(value = "status") int status, @Param(value = "message") String message, @Param(value = "lutime") String lutime);
 
     void ackPurchasing(@Param(value = "sn") String sn,
                        @Param(value = "purchAmount") Long purchAmount,
@@ -77,5 +75,17 @@ public interface WenyPurchRecordMapper {
                        @Param(value = "principalRatio") BigDecimal principalRatio,
                        @Param(value = "ttm") BigDecimal ttm,
                        @Param(value = "bankPurchSn") String bankPurchSn);
+
+    void ackPurchased(
+            @Param(value = "sn") String sn,
+            @Param(value = "stock") BigDecimal stock,
+            @Param(value = "price") BigDecimal price,
+            @Param(value = "freeAmount") long freeAmount,
+            @Param(value = "freeRatio") BigDecimal freeRatio,
+            @Param(value = "reserveAmount") long reserveAmount,
+            @Param(value = "reserveRatio") BigDecimal reserveRatio,
+            @Param(value = "status") Integer status,
+            @Param(value = "message") String message,
+            @Param(value = "lutime") String lutime);
 
 }

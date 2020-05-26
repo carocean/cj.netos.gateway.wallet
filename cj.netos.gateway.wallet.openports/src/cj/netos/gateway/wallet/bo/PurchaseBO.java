@@ -1,6 +1,7 @@
 package cj.netos.gateway.wallet.bo;
 
 import cj.netos.gateway.wallet.model.WenyPurchRecord;
+import cj.netos.gateway.wallet.result.PurchasedResult;
 
 public class PurchaseBO {
     String sn;
@@ -25,6 +26,7 @@ public class PurchaseBO {
         bo.setCtime(record.getCtime());
         return bo;
     }
+
 
     public String getStatus() {
         return status;

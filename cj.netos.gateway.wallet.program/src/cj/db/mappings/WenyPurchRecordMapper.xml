@@ -524,15 +524,6 @@
       reserve_amount = #{reserveAmount,jdbcType=BIGINT}
     where sn = #{sn,jdbcType=VARCHAR}
   </update>
-  <update id="updateState" parameterType="cj.netos.gateway.wallet.model.WenyPurchRecord">
-    update weny_purch_record
-    set
-    `state` = -1,
-    lutime = #{lutime,jdbcType=VARCHAR},
-    code = #{code,jdbcType=VARCHAR},
-      message = #{message,jdbcType=VARCHAR}
-    where sn = #{sn,jdbcType=VARCHAR}
-  </update>
   <update id="ackPurchasing" parameterType="cj.netos.gateway.wallet.model.WenyPurchRecord">
     update weny_purch_record
     set
@@ -545,13 +536,28 @@
     bank_purch_sn = #{bankPurchSn,jdbcType=VARCHAR}
     where sn = #{sn,jdbcType=VARCHAR}
   </update>
+  <update id="ackPurchased" parameterType="cj.netos.gateway.wallet.model.WenyPurchRecord">
+    update weny_purch_record
+    set
+    stock = #{stock,jdbcType=DECIMAL},
+    price = #{price,jdbcType=DECIMAL},
+    lutime = #{lutime,jdbcType=VARCHAR},
+    `status` = #{status,jdbcType=INTEGER},
+    message = #{message,jdbcType=VARCHAR},
+    free_ratio = #{freeRatio,jdbcType=DECIMAL},
+    reserve_ratio = #{reserveRatio,jdbcType=DECIMAL},
+    free_amount = #{freeAmount,jdbcType=BIGINT},
+    reserve_amount = #{reserveAmount,jdbcType=BIGINT}
+    where sn = #{sn,jdbcType=VARCHAR}
+  </update>
   <update id="done" parameterType="cj.netos.gateway.wallet.model.WenyPurchRecord">
     update weny_purch_record
     set
-      `state` = #{state,jdbcType=INTEGER},
+      `state` = 1,
       lutime = #{lutime,jdbcType=VARCHAR},
-      code = #{code,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=INTEGER},
       message = #{message,jdbcType=VARCHAR}
     where sn = #{sn,jdbcType=VARCHAR}
   </update>
+
 </mapper>

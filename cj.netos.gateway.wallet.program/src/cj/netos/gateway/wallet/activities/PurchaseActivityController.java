@@ -1,6 +1,8 @@
 package cj.netos.gateway.wallet.activities;
 
 import cj.netos.gateway.wallet.*;
+import cj.netos.gateway.wallet.bo.PurchaseBO;
+import cj.netos.gateway.wallet.bo.PurchasedBO;
 import cj.netos.gateway.wallet.model.WenyPurchRecord;
 import cj.netos.gateway.wallet.result.PurchaseResult;
 import cj.netos.gateway.wallet.result.PurchasedResult;
@@ -45,9 +47,17 @@ public class PurchaseActivityController implements IPurchaseActivityController {
     @CjTransaction
     @Override
     public void settle(PurchasedResult result, String status, String message) throws CircuitException {
-        recordService.ackPurchased(result, status, message);
-        settleTradeService.settlePurchased(result, status, message);
-        CJSystem.logging().info(getClass(), String.format("申购已决清。%s<-%s", result.getOutTradeSn(), result.getSn()));
+        PurchasedBO purchasedBO = PurchasedBO.create(result);
+        recordService.ackPurchased(purchasedBO, status, message);
+        settleTradeService.settlePurchased(purchasedBO, status, message);
+        CJSystem.logging().info(getClass(), String.format("申购已收到决清指令。%s<-%s", purchasedBO.getSn(), purchasedBO.getBankPurchSn()));
     }
 
+    @CjTransaction
+    @Override
+    public void ackSettle(PurchaseResult result) {
+        PurchasedBO record=new Gson().fromJson((String)result.getRecord(),PurchasedBO.class);
+        recordService.ackPurchasedDone(record,result.getStatus(),result.getMessage());
+        CJSystem.logging().info(getClass(), String.format("申购已决清。%s<-%s", record.getSn(), record.getBankPurchSn()));
+    }
 }

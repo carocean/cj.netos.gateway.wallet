@@ -28,6 +28,7 @@ public class BankSettlePurchaseCommand implements IConsumerCommand {
     public void command(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws RabbitMQException, RetryCommandException, IOException {
         String json = new String(body);
         PurchasedResult result = new Gson().fromJson(json, PurchasedResult.class);
+
         LongString statusLS = (LongString) properties.getHeaders().get("status");
         LongString messageLS = (LongString) properties.getHeaders().get("message");
         String status = statusLS == null ? "200" : statusLS.toString();

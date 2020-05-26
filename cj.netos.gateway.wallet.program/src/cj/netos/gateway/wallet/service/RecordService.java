@@ -1,6 +1,7 @@
 package cj.netos.gateway.wallet.service;
 
 import cj.netos.gateway.wallet.IRecordService;
+import cj.netos.gateway.wallet.bo.PurchasedBO;
 import cj.netos.gateway.wallet.mapper.*;
 import cj.netos.gateway.wallet.model.RechargeActivity;
 import cj.netos.gateway.wallet.model.WenyPurchActivity;
@@ -9,7 +10,6 @@ import cj.netos.gateway.wallet.model.WithdrawActivity;
 import cj.netos.gateway.wallet.result.*;
 import cj.netos.gateway.wallet.util.IdWorker;
 import cj.netos.gateway.wallet.util.WalletUtils;
-import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.annotation.CjBridge;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
@@ -95,22 +95,15 @@ public class RecordService implements IRecordService {
         if (record == null) {
             return;
         }
-        record.setPurchAmount(purchasingResult.getAmount());
-        record.setFeeRatio(purchasingResult.getFeeRatio());
-        record.setServiceFee(purchasingResult.getServiceFee());
-        record.setPrincipalAmount(purchasingResult.getPrincipalAmount());
-        record.setPrincipalRatio(purchasingResult.getPrincipalRatio());
-        record.setTtm(purchasingResult.getTtm());
-        record.setBankPurchSn(purchasingResult.getSn());
         wenyPurchRecordMapper.ackPurchasing(
-                record.getSn(),
-                record.getPurchAmount(),
-                record.getFeeRatio(),
-                record.getServiceFee(),
-                record.getPrincipalAmount(),
-                record.getPrincipalRatio(),
-                record.getTtm(),
-                record.getBankPurchSn()
+                purchasingResult.getOutTradeSn(),
+                purchasingResult.getAmount(),
+                purchasingResult.getFeeRatio(),
+                purchasingResult.getServiceFee(),
+                purchasingResult.getPrincipalAmount(),
+                purchasingResult.getPrincipalRatio(),
+                purchasingResult.getTtm(),
+                purchasingResult.getSn()
         );
 
         WenyPurchActivity wenyPurchActivity = new WenyPurchActivity();
@@ -119,37 +112,53 @@ public class RecordService implements IRecordService {
         wenyPurchActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         wenyPurchActivity.setId(new IdWorker().nextId());
         wenyPurchActivity.setMessage(result.getMessage());
-        wenyPurchActivity.setRecordSn(record.getSn());
+        wenyPurchActivity.setRecordSn(purchasingResult.getOutTradeSn());
         wenyPurchActivity.setStatus(Integer.valueOf(result.getStatus()));
         wenyPurchActivityMapper.insert(wenyPurchActivity);
     }
 
     @CjTransaction
     @Override
-    public void ackPurchased(PurchasedResult result, String status, String message) {
-        WenyPurchRecord record = wenyPurchRecordMapper.selectByPrimaryKey(result.getOutTradeSn());
+    public void ackPurchased(PurchasedBO purchasedBO, String status, String message) {
+        WenyPurchRecord record = wenyPurchRecordMapper.selectByPrimaryKey(purchasedBO.getSn());
         if (record == null) {
             return;
         }
-        record.setStock(result.getStock());
-        record.setPrice(result.getPrice());
-        record.setFreeAmount(result.getFreeAmount());
-        record.setFreeRatio(result.getFreeRatio());
-        record.setReserveAmount(result.getReserveAmount());
-        record.setReserveRatio(result.getReserveRatio());
-        record.setState(1);
-        record.setStatus(Integer.valueOf(status));
-        record.setMessage(message);
-        record.setLutime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
-        wenyPurchRecordMapper.updateByPrimaryKeySelective(record);
+        wenyPurchRecordMapper.ackPurchased(
+                purchasedBO.getSn(),
+                purchasedBO.getStock(),
+                purchasedBO.getPrice(),
+                purchasedBO.getFreeAmount(),
+                purchasedBO.getFreeRatio(),
+                purchasedBO.getReserveAmount(),
+                purchasedBO.getReserveRatio(),
+                Integer.valueOf(status),
+                message,
+                WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis())
+        );
 
         WenyPurchActivity wenyPurchActivity = new WenyPurchActivity();
-        wenyPurchActivity.setActivityName("已决清");
+        wenyPurchActivity.setActivityName("决清中");
         wenyPurchActivity.setActivityNo(2);
         wenyPurchActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         wenyPurchActivity.setId(new IdWorker().nextId());
         wenyPurchActivity.setMessage(message);
-        wenyPurchActivity.setRecordSn(record.getSn());
+        wenyPurchActivity.setRecordSn(purchasedBO.getSn());
+        wenyPurchActivity.setStatus(Integer.valueOf(status));
+        wenyPurchActivityMapper.insert(wenyPurchActivity);
+    }
+
+    @CjTransaction
+    @Override
+    public void ackPurchasedDone(PurchasedBO purchasedBO, String status, String message) {
+        wenyPurchRecordMapper.done(purchasedBO.getSn(), Integer.valueOf(status), message, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        WenyPurchActivity wenyPurchActivity = new WenyPurchActivity();
+        wenyPurchActivity.setActivityName("已决清");
+        wenyPurchActivity.setActivityNo(3);
+        wenyPurchActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        wenyPurchActivity.setId(new IdWorker().nextId());
+        wenyPurchActivity.setMessage(message);
+        wenyPurchActivity.setRecordSn(purchasedBO.getSn());
         wenyPurchActivity.setStatus(Integer.valueOf(status));
         wenyPurchActivityMapper.insert(wenyPurchActivity);
     }

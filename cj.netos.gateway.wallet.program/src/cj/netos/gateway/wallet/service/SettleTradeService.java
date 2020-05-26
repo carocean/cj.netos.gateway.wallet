@@ -2,7 +2,7 @@ package cj.netos.gateway.wallet.service;
 
 import cj.netos.gateway.wallet.IRecordService;
 import cj.netos.gateway.wallet.ISettleTradeService;
-import cj.netos.gateway.wallet.bo.PurchaseBO;
+import cj.netos.gateway.wallet.bo.PurchasedBO;
 import cj.netos.gateway.wallet.bo.RechargeBO;
 import cj.netos.gateway.wallet.bo.WithdrawBO;
 import cj.netos.gateway.wallet.mapper.RechargeActivityMapper;
@@ -10,11 +10,9 @@ import cj.netos.gateway.wallet.mapper.RechargeRecordMapper;
 import cj.netos.gateway.wallet.mapper.WithdrawActivityMapper;
 import cj.netos.gateway.wallet.mapper.WithdrawRecordMapper;
 import cj.netos.gateway.wallet.model.*;
-import cj.netos.gateway.wallet.result.PurchasedResult;
 import cj.netos.gateway.wallet.util.IdWorker;
 import cj.netos.gateway.wallet.util.WalletUtils;
 import cj.netos.rabbitmq.IRabbitMQProducer;
-import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.annotation.CjBridge;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
@@ -104,17 +102,16 @@ public class SettleTradeService implements ISettleTradeService {
 
     @CjTransaction
     @Override
-    public void settlePurchased(PurchasedResult result, String status, String message) throws CircuitException {
+    public void settlePurchased(PurchasedBO purchasedBO, String status, String message) throws CircuitException {
         //决清之后将在订单款真正清除掉,如果实际申购金小于请求金则归还
-        WenyPurchRecord record = recordService.getPurchaseRecord(result.getOutTradeSn());
         AMQP.BasicProperties properties = new AMQP.BasicProperties().builder()
                 .type("/trade/settle.mhub")
                 .headers(new HashMap<String, Object>() {{
                     put("command", "purchase");
-                    put("person", record.getPerson());
-                    put("record_sn", record.getSn());
+                    put("person", purchasedBO.getPerson());
+                    put("record_sn", purchasedBO.getSn());
                 }})
                 .build();
-        rabbitMQProducer.publish("oc", properties, new Gson().toJson(record).getBytes());
+        rabbitMQProducer.publish("oc", properties, new Gson().toJson(purchasedBO).getBytes());
     }
 }

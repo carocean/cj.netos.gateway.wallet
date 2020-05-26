@@ -14,4 +14,6 @@ public interface IPurchaseActivityController {
     void settle(PurchasedResult result, String status, String message) throws CircuitException;
 
 
+    void ackSettle(PurchaseResult purchaseResult);
+
 }

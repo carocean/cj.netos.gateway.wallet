@@ -1,8 +1,8 @@
 package cj.netos.gateway.wallet;
 
+import cj.netos.gateway.wallet.bo.PurchasedBO;
 import cj.netos.gateway.wallet.model.WenyPurchRecord;
 import cj.netos.gateway.wallet.result.*;
-import cj.studio.orm.mybatis.annotation.CjTransaction;
 
 public interface IRecordService {
     WenyPurchRecord getPurchaseRecord(String sn);
@@ -18,7 +18,9 @@ public interface IRecordService {
 
     void ackPurchasing(PurchaseResult result);
 
-    void ackPurchased(PurchasedResult result, String status, String message);
+    void ackPurchased(PurchasedBO purchasedBO, String status, String message);
 
+
+    void ackPurchasedDone(PurchasedBO purchasedBO, String status, String message);
 
 }
