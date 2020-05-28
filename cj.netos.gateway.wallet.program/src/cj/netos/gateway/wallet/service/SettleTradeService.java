@@ -2,6 +2,7 @@ package cj.netos.gateway.wallet.service;
 
 import cj.netos.gateway.wallet.IRecordService;
 import cj.netos.gateway.wallet.ISettleTradeService;
+import cj.netos.gateway.wallet.bo.ExchangedBO;
 import cj.netos.gateway.wallet.bo.PurchasedBO;
 import cj.netos.gateway.wallet.bo.RechargeBO;
 import cj.netos.gateway.wallet.bo.WithdrawBO;
@@ -10,6 +11,7 @@ import cj.netos.gateway.wallet.mapper.RechargeRecordMapper;
 import cj.netos.gateway.wallet.mapper.WithdrawActivityMapper;
 import cj.netos.gateway.wallet.mapper.WithdrawRecordMapper;
 import cj.netos.gateway.wallet.model.*;
+import cj.netos.gateway.wallet.result.ExchangedResult;
 import cj.netos.gateway.wallet.util.IdWorker;
 import cj.netos.gateway.wallet.util.WalletUtils;
 import cj.netos.rabbitmq.IRabbitMQProducer;
@@ -113,5 +115,21 @@ public class SettleTradeService implements ISettleTradeService {
                 }})
                 .build();
         rabbitMQProducer.publish("oc", properties, new Gson().toJson(purchasedBO).getBytes());
+    }
+
+    @CjTransaction
+    @Override
+    public void settleExchange(ExchangedResult result, String status, String message) throws CircuitException {
+        AMQP.BasicProperties properties = new AMQP.BasicProperties().builder()
+                .type("/trade/settle.mhub")
+                .headers(new HashMap<String, Object>() {{
+                    put("command", "exchange");
+                    put("person", result.getExchanger());
+                    put("record_sn", result.getOutTradeSn());
+                }})
+                .build();
+        ExchangedBO bo = new ExchangedBO();
+        bo.load(result);
+        rabbitMQProducer.publish("oc", properties, new Gson().toJson(bo).getBytes());
     }
 }

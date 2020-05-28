@@ -418,63 +418,63 @@ public class WenyExchangeRecordExample {
             return (Criteria) this;
         }
 
-        public Criteria andQuatitiesIsNull() {
-            addCriterion("quatities is null");
+        public Criteria andStockIsNull() {
+            addCriterion("stock is null");
             return (Criteria) this;
         }
 
-        public Criteria andQuatitiesIsNotNull() {
-            addCriterion("quatities is not null");
+        public Criteria andStockIsNotNull() {
+            addCriterion("stock is not null");
             return (Criteria) this;
         }
 
-        public Criteria andQuatitiesEqualTo(BigDecimal value) {
-            addCriterion("quatities =", value, "quatities");
+        public Criteria andStockEqualTo(BigDecimal value) {
+            addCriterion("stock =", value, "stock");
             return (Criteria) this;
         }
 
-        public Criteria andQuatitiesNotEqualTo(BigDecimal value) {
-            addCriterion("quatities <>", value, "quatities");
+        public Criteria andStockNotEqualTo(BigDecimal value) {
+            addCriterion("stock <>", value, "stock");
             return (Criteria) this;
         }
 
-        public Criteria andQuatitiesGreaterThan(BigDecimal value) {
-            addCriterion("quatities >", value, "quatities");
+        public Criteria andStockGreaterThan(BigDecimal value) {
+            addCriterion("stock >", value, "stock");
             return (Criteria) this;
         }
 
-        public Criteria andQuatitiesGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("quatities >=", value, "quatities");
+        public Criteria andStockGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("stock >=", value, "stock");
             return (Criteria) this;
         }
 
-        public Criteria andQuatitiesLessThan(BigDecimal value) {
-            addCriterion("quatities <", value, "quatities");
+        public Criteria andStockLessThan(BigDecimal value) {
+            addCriterion("stock <", value, "stock");
             return (Criteria) this;
         }
 
-        public Criteria andQuatitiesLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("quatities <=", value, "quatities");
+        public Criteria andStockLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("stock <=", value, "stock");
             return (Criteria) this;
         }
 
-        public Criteria andQuatitiesIn(List<BigDecimal> values) {
-            addCriterion("quatities in", values, "quatities");
+        public Criteria andStockIn(List<BigDecimal> values) {
+            addCriterion("stock in", values, "stock");
             return (Criteria) this;
         }
 
-        public Criteria andQuatitiesNotIn(List<BigDecimal> values) {
-            addCriterion("quatities not in", values, "quatities");
+        public Criteria andStockNotIn(List<BigDecimal> values) {
+            addCriterion("stock not in", values, "stock");
             return (Criteria) this;
         }
 
-        public Criteria andQuatitiesBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("quatities between", value1, value2, "quatities");
+        public Criteria andStockBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("stock between", value1, value2, "stock");
             return (Criteria) this;
         }
 
-        public Criteria andQuatitiesNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("quatities not between", value1, value2, "quatities");
+        public Criteria andStockNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("stock not between", value1, value2, "stock");
             return (Criteria) this;
         }
 
@@ -1255,6 +1255,76 @@ public class WenyExchangeRecordExample {
 
         public Criteria andMessageNotBetween(String value1, String value2) {
             addCriterion("message not between", value1, value2, "message");
+            return (Criteria) this;
+        }
+
+        public Criteria andBankPurchNoIsNull() {
+            addCriterion("bank_purch_no is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBankPurchNoIsNotNull() {
+            addCriterion("bank_purch_no is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBankPurchNoEqualTo(String value) {
+            addCriterion("bank_purch_no =", value, "bankPurchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBankPurchNoNotEqualTo(String value) {
+            addCriterion("bank_purch_no <>", value, "bankPurchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBankPurchNoGreaterThan(String value) {
+            addCriterion("bank_purch_no >", value, "bankPurchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBankPurchNoGreaterThanOrEqualTo(String value) {
+            addCriterion("bank_purch_no >=", value, "bankPurchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBankPurchNoLessThan(String value) {
+            addCriterion("bank_purch_no <", value, "bankPurchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBankPurchNoLessThanOrEqualTo(String value) {
+            addCriterion("bank_purch_no <=", value, "bankPurchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBankPurchNoLike(String value) {
+            addCriterion("bank_purch_no like", value, "bankPurchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBankPurchNoNotLike(String value) {
+            addCriterion("bank_purch_no not like", value, "bankPurchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBankPurchNoIn(List<String> values) {
+            addCriterion("bank_purch_no in", values, "bankPurchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBankPurchNoNotIn(List<String> values) {
+            addCriterion("bank_purch_no not in", values, "bankPurchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBankPurchNoBetween(String value1, String value2) {
+            addCriterion("bank_purch_no between", value1, value2, "bankPurchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andBankPurchNoNotBetween(String value1, String value2) {
+            addCriterion("bank_purch_no not between", value1, value2, "bankPurchNo");
             return (Criteria) this;
         }
     }

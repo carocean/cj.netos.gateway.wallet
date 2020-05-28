@@ -16,6 +16,7 @@ public class PurchasedResult {
     String note;
     long serviceFee;
     BigDecimal principalRatio;
+    long principalAmount;
     long tailAmount;
     BigDecimal freeRatio;
     BigDecimal reserveRatio;
@@ -23,6 +24,14 @@ public class PurchasedResult {
     long reserveAmount;
     String bankid;
     String outTradeSn;
+
+    public long getPrincipalAmount() {
+        return principalAmount;
+    }
+
+    public void setPrincipalAmount(long principalAmount) {
+        this.principalAmount = principalAmount;
+    }
 
     public String getSn() {
         return sn;

@@ -23,4 +23,8 @@ public interface IRecordService {
 
     void ackPurchasedDone(PurchasedBO purchasedBO, String status, String message);
 
+    void ackExchange(ExchangingResult result);
+
+    void ackExchangedDone(ExchangingResult result, String status, String message);
+
 }

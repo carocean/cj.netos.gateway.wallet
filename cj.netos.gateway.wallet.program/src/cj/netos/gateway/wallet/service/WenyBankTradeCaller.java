@@ -1,9 +1,12 @@
 package cj.netos.gateway.wallet.service;
 
 import cj.netos.gateway.wallet.IWenyBankTradeCaller;
+import cj.netos.gateway.wallet.bo.ExchangeBO;
+import cj.netos.gateway.wallet.bo.ExchangedBO;
 import cj.netos.gateway.wallet.bo.PurchaseBO;
 import cj.netos.gateway.wallet.model.WenyExchangeRecord;
 import cj.netos.gateway.wallet.model.WenyPurchRecord;
+import cj.netos.gateway.wallet.result.ExchangedResult;
 import cj.netos.rabbitmq.IRabbitMQProducer;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
@@ -28,7 +31,18 @@ public class WenyBankTradeCaller implements IWenyBankTradeCaller {
                     put("person", record.getPerson());
                 }})
                 .build();
-        rabbitMQProducer.publish("oc", properties, new Gson().toJson(record).getBytes());
+        ExchangeBO exchangeBO = new ExchangeBO();
+        exchangeBO.setBankid(record.getBankid());
+        exchangeBO.setCurrency(record.getCurrency());
+        exchangeBO.setNote(record.getNote());
+        exchangeBO.setPerson(record.getPerson());
+        exchangeBO.setPersonName(record.getPersonName());
+        exchangeBO.setPurchAmount(record.getPurchAmount());
+        exchangeBO.setRefsn(record.getRefsn());
+        exchangeBO.setBankPurchNo(record.getBankPurchNo());
+        exchangeBO.setSn(record.getSn());
+        exchangeBO.setStock(record.getStock());
+        rabbitMQProducer.publish("oc", properties, new Gson().toJson(exchangeBO).getBytes());
         //网关通过mq等待command确认
     }
 
@@ -54,4 +68,5 @@ public class WenyBankTradeCaller implements IWenyBankTradeCaller {
         rabbitMQProducer.publish("oc", properties, new Gson().toJson(purchaseBO).getBytes());
         //网关通过mq等待command确认
     }
+
 }

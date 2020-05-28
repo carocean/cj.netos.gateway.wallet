@@ -31,10 +31,10 @@ public class WenyExchangeRecord {
     private String currency;
 
     /**
-     * Column: quatities
-     * Remark: 余额	即可用的零钱，单位为分
+     * Column: stock
+     * Remark: 纹银量
      */
-    private BigDecimal quatities;
+    private BigDecimal stock;
 
     /**
      * Column: amount
@@ -68,7 +68,7 @@ public class WenyExchangeRecord {
 
     /**
      * Column: state
-     * Remark: 为当前的步骤号 是否出错看status，status记录当前步骤的状态
+     * Remark: 0为创建；1为完成 是否出错看status，status记录当前步骤的状态
      */
     private Integer state;
 
@@ -107,6 +107,12 @@ public class WenyExchangeRecord {
      */
     private String message;
 
+    /**
+     * Column: bank_purch_no
+     * Remark: 原申购单关联的纹银银行申购号。在申购单中也有
+     */
+    private String bankPurchNo;
+
     public String getSn() {
         return sn;
     }
@@ -139,12 +145,12 @@ public class WenyExchangeRecord {
         this.currency = currency == null ? null : currency.trim();
     }
 
-    public BigDecimal getQuatities() {
-        return quatities;
+    public BigDecimal getStock() {
+        return stock;
     }
 
-    public void setQuatities(BigDecimal quatities) {
-        this.quatities = quatities;
+    public void setStock(BigDecimal stock) {
+        this.stock = stock;
     }
 
     public Long getAmount() {
@@ -241,5 +247,13 @@ public class WenyExchangeRecord {
 
     public void setMessage(String message) {
         this.message = message == null ? null : message.trim();
+    }
+
+    public String getBankPurchNo() {
+        return bankPurchNo;
+    }
+
+    public void setBankPurchNo(String bankPurchNo) {
+        this.bankPurchNo = bankPurchNo == null ? null : bankPurchNo.trim();
     }
 }

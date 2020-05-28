@@ -2,11 +2,9 @@ package cj.netos.gateway.wallet.mapper;
 
 import cj.netos.gateway.wallet.model.WenyPurchRecord;
 import cj.netos.gateway.wallet.model.WenyPurchRecordExample;
-
+import org.apache.ibatis.annotations.Param;
 import java.math.BigDecimal;
 import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
 
 public interface WenyPurchRecordMapper {
 
@@ -67,25 +65,7 @@ public interface WenyPurchRecordMapper {
 
     void done(@Param(value = "sn") String sn, @Param(value = "status") int status, @Param(value = "message") String message, @Param(value = "lutime") String lutime);
 
-    void ackPurchasing(@Param(value = "sn") String sn,
-                       @Param(value = "purchAmount") Long purchAmount,
-                       @Param(value = "feeRatio") BigDecimal feeRatio,
-                       @Param(value = "serviceFee") Long serviceFee,
-                       @Param(value = "principalAmount") Long principalAmount,
-                       @Param(value = "principalRatio") BigDecimal principalRatio,
-                       @Param(value = "ttm") BigDecimal ttm,
-                       @Param(value = "bankPurchSn") String bankPurchSn);
+    void ackPurchasing(@Param(value = "sn") String sn, @Param(value = "purchAmount") Long purchAmount, @Param(value = "feeRatio") BigDecimal feeRatio, @Param(value = "serviceFee") Long serviceFee, @Param(value = "principalAmount") Long principalAmount, @Param(value = "principalRatio") BigDecimal principalRatio, @Param(value = "ttm") BigDecimal ttm, @Param(value = "bankPurchSn") String bankPurchSn);
 
-    void ackPurchased(
-            @Param(value = "sn") String sn,
-            @Param(value = "stock") BigDecimal stock,
-            @Param(value = "price") BigDecimal price,
-            @Param(value = "freeAmount") long freeAmount,
-            @Param(value = "freeRatio") BigDecimal freeRatio,
-            @Param(value = "reserveAmount") long reserveAmount,
-            @Param(value = "reserveRatio") BigDecimal reserveRatio,
-            @Param(value = "status") Integer status,
-            @Param(value = "message") String message,
-            @Param(value = "lutime") String lutime);
-
+    void ackPurchased(@Param(value = "sn") String sn, @Param(value = "stock") BigDecimal stock, @Param(value = "price") BigDecimal price, @Param(value = "freeAmount") long freeAmount, @Param(value = "freeRatio") BigDecimal freeRatio, @Param(value = "reserveAmount") long reserveAmount, @Param(value = "reserveRatio") BigDecimal reserveRatio, @Param(value = "status") Integer status, @Param(value = "message") String message, @Param(value = "lutime") String lutime);
 }

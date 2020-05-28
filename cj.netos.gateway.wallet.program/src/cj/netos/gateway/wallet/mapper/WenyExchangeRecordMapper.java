@@ -61,4 +61,8 @@ public interface WenyExchangeRecordMapper {
      * @mbg.generated generated automatically, do not modify!
      */
     int updateByPrimaryKey(WenyExchangeRecord record);
+
+    void updateStatus(@Param(value = "sn") String sn, @Param(value = "status") int status, @Param(value = "message") String message, @Param(value = "lutime") String lutime);
+
+    void done(@Param(value = "sn") String sn, @Param(value = "status") int status, @Param(value = "message") String message, @Param(value = "lutime") String lutime);
 }

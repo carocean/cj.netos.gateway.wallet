@@ -2,7 +2,7 @@ package cj.netos.gateway.wallet.ports;
 
 import cj.netos.gateway.wallet.*;
 import cj.netos.gateway.wallet.model.*;
-import cj.netos.gateway.wallet.result.ExchangeWenyResult;
+import cj.netos.gateway.wallet.result.ExchangedResult;
 import cj.netos.gateway.wallet.result.PurchasingResult;
 import cj.netos.gateway.wallet.result.RechargeResult;
 import cj.netos.gateway.wallet.result.WithdrawResult;
@@ -85,7 +85,7 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
     }
 
     @Override
-    public ExchangeWenyResult exchangeWeny(ISecuritySession securitySession, String purchase_sn, String note) throws CircuitException {
+    public ExchangedResult exchangeWeny(ISecuritySession securitySession, String purchase_sn, String note) throws CircuitException {
         if (StringUtil.isEmpty(purchase_sn)) {
             throw new CircuitException("404", String.format("申购单号为空"));
         }
@@ -94,6 +94,6 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
         String personName = (String) personInfo.get("nickName");
 
         WenyExchangeRecord record = exchangeActivityController.doReceipt(securitySession.principal(), personName, purchase_sn, note);
-        return new Gson().fromJson(new Gson().toJson(record), ExchangeWenyResult.class);
+        return new Gson().fromJson(new Gson().toJson(record), ExchangedResult.class);
     }
 }

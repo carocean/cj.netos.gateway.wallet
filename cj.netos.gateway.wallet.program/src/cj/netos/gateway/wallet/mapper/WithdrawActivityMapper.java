@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 public interface WithdrawActivityMapper {
+
     /**
      * @mbg.generated generated automatically, do not modify!
      */
@@ -62,5 +63,4 @@ public interface WithdrawActivityMapper {
     int updateByPrimaryKey(WithdrawActivity record);
 
     WithdrawActivity getLastWithdrawActivity(@Param(value = "record_sn") String record_sn);
-
 }

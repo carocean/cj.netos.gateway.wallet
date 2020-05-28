@@ -3,10 +3,7 @@ package cj.netos.gateway.wallet.service;
 import cj.netos.gateway.wallet.IRecordService;
 import cj.netos.gateway.wallet.bo.PurchasedBO;
 import cj.netos.gateway.wallet.mapper.*;
-import cj.netos.gateway.wallet.model.RechargeActivity;
-import cj.netos.gateway.wallet.model.WenyPurchActivity;
-import cj.netos.gateway.wallet.model.WenyPurchRecord;
-import cj.netos.gateway.wallet.model.WithdrawActivity;
+import cj.netos.gateway.wallet.model.*;
 import cj.netos.gateway.wallet.result.*;
 import cj.netos.gateway.wallet.util.IdWorker;
 import cj.netos.gateway.wallet.util.WalletUtils;
@@ -31,6 +28,10 @@ public class RecordService implements IRecordService {
     WithdrawActivityMapper withdrawActivityMapper;
     @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.WenyPurchActivityMapper")
     WenyPurchActivityMapper wenyPurchActivityMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.WenyExchangeActivityMapper")
+    WenyExchangeActivityMapper wenyExchangeActivityMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.WenyExchangeRecordMapper")
+    WenyExchangeRecordMapper wenyExchangeRecordMapper;
 
     @CjTransaction
     @Override
@@ -90,21 +91,23 @@ public class RecordService implements IRecordService {
     @CjTransaction
     @Override
     public void ackPurchasing(PurchaseResult result) {
-        PurchasingResult purchasingResult = new Gson().fromJson((String) result.getRecord(), PurchasingResult.class);
-        WenyPurchRecord record = wenyPurchRecordMapper.selectByPrimaryKey(purchasingResult.getOutTradeSn());
+        WenyPurchRecord record = wenyPurchRecordMapper.selectByPrimaryKey(result.getSn());
         if (record == null) {
             return;
         }
-        wenyPurchRecordMapper.ackPurchasing(
-                purchasingResult.getOutTradeSn(),
-                purchasingResult.getAmount(),
-                purchasingResult.getFeeRatio(),
-                purchasingResult.getServiceFee(),
-                purchasingResult.getPrincipalAmount(),
-                purchasingResult.getPrincipalRatio(),
-                purchasingResult.getTtm(),
-                purchasingResult.getSn()
-        );
+        PurchasingResult purchasingResult = new Gson().fromJson((String) result.getRecord(), PurchasingResult.class);
+        if (purchasingResult != null) {
+            wenyPurchRecordMapper.ackPurchasing(
+                    purchasingResult.getOutTradeSn(),
+                    purchasingResult.getAmount(),
+                    purchasingResult.getFeeRatio(),
+                    purchasingResult.getServiceFee(),
+                    purchasingResult.getPrincipalAmount(),
+                    purchasingResult.getPrincipalRatio(),
+                    purchasingResult.getTtm(),
+                    purchasingResult.getSn()
+            );
+        }
 
         WenyPurchActivity wenyPurchActivity = new WenyPurchActivity();
         wenyPurchActivity.setActivityName("已回单");
@@ -112,7 +115,7 @@ public class RecordService implements IRecordService {
         wenyPurchActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         wenyPurchActivity.setId(new IdWorker().nextId());
         wenyPurchActivity.setMessage(result.getMessage());
-        wenyPurchActivity.setRecordSn(purchasingResult.getOutTradeSn());
+        wenyPurchActivity.setRecordSn(result.getSn());
         wenyPurchActivity.setStatus(Integer.valueOf(result.getStatus()));
         wenyPurchActivityMapper.insert(wenyPurchActivity);
     }
@@ -161,5 +164,35 @@ public class RecordService implements IRecordService {
         wenyPurchActivity.setRecordSn(purchasedBO.getSn());
         wenyPurchActivity.setStatus(Integer.valueOf(status));
         wenyPurchActivityMapper.insert(wenyPurchActivity);
+    }
+
+    @CjTransaction
+    @Override
+    public void ackExchange(ExchangingResult result) {
+        wenyExchangeRecordMapper.updateStatus(result.getSn(), Integer.valueOf(result.getStatus()), result.getMessage(), WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        WenyExchangeActivity wenyExchangeActivity = new WenyExchangeActivity();
+        wenyExchangeActivity.setActivityName("已回单");
+        wenyExchangeActivity.setActivityNo(1);
+        wenyExchangeActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        wenyExchangeActivity.setId(new IdWorker().nextId());
+        wenyExchangeActivity.setMessage(result.getMessage());
+        wenyExchangeActivity.setStatus(Integer.valueOf(result.getStatus()));
+        wenyExchangeActivity.setRecordSn(result.getSn());
+        wenyExchangeActivityMapper.insert(wenyExchangeActivity);
+
+    }
+    @CjTransaction
+    @Override
+    public void ackExchangedDone(ExchangingResult result, String status, String message) {
+        wenyExchangeRecordMapper.done(result.getSn(), Integer.valueOf(status), message, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        WenyExchangeActivity wenyExchangeActivity = new WenyExchangeActivity();
+        wenyExchangeActivity.setActivityName("已决清");
+        wenyExchangeActivity.setActivityNo(3);
+        wenyExchangeActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        wenyExchangeActivity.setId(new IdWorker().nextId());
+        wenyExchangeActivity.setMessage(message);
+        wenyExchangeActivity.setRecordSn(result.getSn());
+        wenyExchangeActivity.setStatus(Integer.valueOf(status));
+        wenyExchangeActivityMapper.insert(wenyExchangeActivity);
     }
 }

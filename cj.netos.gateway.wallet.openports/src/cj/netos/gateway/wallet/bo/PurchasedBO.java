@@ -84,13 +84,12 @@ public class PurchasedBO {
     private String bankid;
 
 
-
     /**
      * Column: principal_ratio
      * Remark: 本金率
      */
     private BigDecimal principalRatio;
-
+    long principalAmount;
 
     /**
      * Column: bank_purch_sn
@@ -121,14 +120,15 @@ public class PurchasedBO {
      * Remark: 准备金
      */
     private Long reserveAmount;
+
     public static PurchasedBO create(PurchasedResult result) {
         return new PurchasedBO().load(result);
     }
 
     private PurchasedBO load(PurchasedResult result) {
-        this.bankid=result.getBankid();
-        this.bankPurchSn=result.getSn();
-        this.sn=result.getOutTradeSn();
+        this.bankid = result.getBankid();
+        this.bankPurchSn = result.getSn();
+        this.sn = result.getOutTradeSn();
         this.currency = result.getCurrency();
         this.feeRatio = result.getFreeRatio();
         this.freeAmount = result.getFreeAmount();
@@ -144,7 +144,16 @@ public class PurchasedBO {
         this.serviceFee = result.getServiceFee();
         this.stock = result.getStock();
         this.ttm = result.getTtm();
+        this.principalAmount = result.getPrincipalAmount();
         return this;
+    }
+
+    public long getPrincipalAmount() {
+        return principalAmount;
+    }
+
+    public void setPrincipalAmount(long principalAmount) {
+        this.principalAmount = principalAmount;
     }
 
     public String getSn() {

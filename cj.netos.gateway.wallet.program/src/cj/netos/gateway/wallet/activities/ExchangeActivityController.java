@@ -1,15 +1,21 @@
 package cj.netos.gateway.wallet.activities;
 
-import cj.netos.gateway.wallet.IExchangeActivityController;
-import cj.netos.gateway.wallet.IReceiptTradeService;
-import cj.netos.gateway.wallet.IWenyBankTradeCaller;
+import cj.netos.gateway.wallet.*;
+import cj.netos.gateway.wallet.bo.ExchangedBO;
 import cj.netos.gateway.wallet.model.WenyExchangeRecord;
 import cj.netos.gateway.wallet.model.WenyPurchRecord;
+import cj.netos.gateway.wallet.result.ExchangedResult;
+import cj.netos.gateway.wallet.result.ExchangingResult;
+import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.annotation.CjBridge;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
 import cj.studio.ecm.net.CircuitException;
 import cj.studio.orm.mybatis.annotation.CjTransaction;
+import cj.ultimate.gson2.com.google.gson.Gson;
+import com.rabbitmq.client.AMQP;
+
+import java.util.HashMap;
 
 @CjBridge(aspects = "@transaction")
 @CjService(name = "exchangeActivityController")
@@ -19,6 +25,10 @@ public class ExchangeActivityController implements IExchangeActivityController {
 
     @CjServiceRef
     IWenyBankTradeCaller wenyBankTradeCaller;
+    @CjServiceRef
+    ISettleTradeService settleTradeService;
+    @CjServiceRef
+    IRecordService recordService;
 
     @CjTransaction
     @Override
@@ -35,6 +45,28 @@ public class ExchangeActivityController implements IExchangeActivityController {
         }
         WenyExchangeRecord record = receiptTradeService.exchangeWeny(principal, personName, purchRecord, note);
         wenyBankTradeCaller.exchange(record);
+        CJSystem.logging().info(getClass(), String.format("承兑已收单，单号：%s，原申购金额：%s，承兑量：%s", record.getSn(), purchRecord.getPurchAmount(), record.getStock()));
         return record;
+    }
+
+    @CjTransaction
+    @Override
+    public void ackReceipt(ExchangingResult result) {
+        recordService.ackExchange(result);
+        CJSystem.logging().info(getClass(), String.format("承兑已回单，单号：%s，原申购金额：%s，承兑量：%s", result.getSn(), result.getStatus(), result.getMessage()));
+    }
+
+    @CjTransaction
+    @Override
+    public void settle(ExchangedResult result, String status, String message) throws CircuitException {
+        settleTradeService.settleExchange(result, status, message);
+        CJSystem.logging().info(getClass(), String.format("承兑收到决清指令，单号：%s<-%s %s %s", result.getOutTradeSn(), result.getSn(), status, message));
+    }
+
+    @CjTransaction
+    @Override
+    public void ackSettle(ExchangingResult result) {
+        recordService.ackExchangedDone(result, result.getStatus(), result.getMessage());
+        CJSystem.logging().info(getClass(), String.format("承兑已决清。%s %s %s", result.getSn(), result.getStatus(), result.getMessage()));
     }
 }

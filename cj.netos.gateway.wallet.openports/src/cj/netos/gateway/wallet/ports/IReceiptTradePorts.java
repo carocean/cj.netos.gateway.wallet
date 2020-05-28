@@ -1,6 +1,6 @@
 package cj.netos.gateway.wallet.ports;
 
-import cj.netos.gateway.wallet.result.ExchangeWenyResult;
+import cj.netos.gateway.wallet.result.ExchangedResult;
 import cj.netos.gateway.wallet.result.PurchasingResult;
 import cj.netos.gateway.wallet.result.RechargeResult;
 import cj.netos.gateway.wallet.result.WithdrawResult;
@@ -38,9 +38,9 @@ public interface IReceiptTradePorts extends IOpenportService {
 
 
     @CjOpenport(usage = "承兑纹银")
-    ExchangeWenyResult exchangeWeny(ISecuritySession securitySession,
-                                    @CjOpenportParameter(usage = "要承兑的纹银申购单号", name = "purchase_sn") String purchase_sn,
-                                    @CjOpenportParameter(usage = "备注", name = "note") String note
+    ExchangedResult exchangeWeny(ISecuritySession securitySession,
+                                 @CjOpenportParameter(usage = "要承兑的纹银申购单号", name = "purchase_sn") String purchase_sn,
+                                 @CjOpenportParameter(usage = "备注", name = "note") String note
     ) throws CircuitException;
 
 //    @CjOpenport(usage = "付款，付给系统内其它用户。注：当余额不足时会失败", command = "post")

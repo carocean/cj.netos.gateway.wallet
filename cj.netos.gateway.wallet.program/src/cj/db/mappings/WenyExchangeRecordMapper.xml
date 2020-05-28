@@ -7,7 +7,7 @@
     <result column="person" jdbcType="VARCHAR" property="person" />
     <result column="person_name" jdbcType="VARCHAR" property="personName" />
     <result column="currency" jdbcType="VARCHAR" property="currency" />
-    <result column="quatities" jdbcType="DECIMAL" property="quatities" />
+    <result column="stock" jdbcType="DECIMAL" property="stock" />
     <result column="amount" jdbcType="BIGINT" property="amount" />
     <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="refsn" jdbcType="VARCHAR" property="refsn" />
@@ -20,6 +20,7 @@
     <result column="bankid" jdbcType="VARCHAR" property="bankid" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="message" jdbcType="VARCHAR" property="message" />
+    <result column="bank_purch_no" jdbcType="VARCHAR" property="bankPurchNo" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -83,8 +84,8 @@
   </sql>
   <sql id="Base_Column_List">
     <!-- @mbg.generated: generated automatically, do not modify! -->
-    sn, person, person_name, currency, quatities, amount, price, refsn, purch_amount, 
-    profit, `state`, ctime, lutime, note, bankid, `status`, message
+    sn, person, person_name, currency, stock, amount, price, refsn, purch_amount, profit, 
+    `state`, ctime, lutime, note, bankid, `status`, message, bank_purch_no
   </sql>
   <select id="selectByExample" parameterType="cj.netos.gateway.wallet.model.WenyExchangeRecordExample" resultMap="BaseResultMap">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -123,17 +124,19 @@
   <insert id="insert" parameterType="cj.netos.gateway.wallet.model.WenyExchangeRecord">
     <!-- @mbg.generated: generated automatically, do not modify! -->
     insert into weny_exchange_record (sn, person, person_name, 
-      currency, quatities, amount, 
+      currency, stock, amount, 
       price, refsn, purch_amount, 
       profit, `state`, ctime, 
       lutime, note, bankid, 
-      `status`, message)
+      `status`, message, bank_purch_no
+      )
     values (#{sn,jdbcType=VARCHAR}, #{person,jdbcType=VARCHAR}, #{personName,jdbcType=VARCHAR}, 
-      #{currency,jdbcType=VARCHAR}, #{quatities,jdbcType=DECIMAL}, #{amount,jdbcType=BIGINT}, 
+      #{currency,jdbcType=VARCHAR}, #{stock,jdbcType=DECIMAL}, #{amount,jdbcType=BIGINT}, 
       #{price,jdbcType=DECIMAL}, #{refsn,jdbcType=VARCHAR}, #{purchAmount,jdbcType=BIGINT}, 
       #{profit,jdbcType=BIGINT}, #{state,jdbcType=INTEGER}, #{ctime,jdbcType=VARCHAR}, 
       #{lutime,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{bankid,jdbcType=VARCHAR}, 
-      #{status,jdbcType=INTEGER}, #{message,jdbcType=VARCHAR})
+      #{status,jdbcType=INTEGER}, #{message,jdbcType=VARCHAR}, #{bankPurchNo,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="cj.netos.gateway.wallet.model.WenyExchangeRecord">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -151,8 +154,8 @@
       <if test="currency != null">
         currency,
       </if>
-      <if test="quatities != null">
-        quatities,
+      <if test="stock != null">
+        stock,
       </if>
       <if test="amount != null">
         amount,
@@ -190,6 +193,9 @@
       <if test="message != null">
         message,
       </if>
+      <if test="bankPurchNo != null">
+        bank_purch_no,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="sn != null">
@@ -204,8 +210,8 @@
       <if test="currency != null">
         #{currency,jdbcType=VARCHAR},
       </if>
-      <if test="quatities != null">
-        #{quatities,jdbcType=DECIMAL},
+      <if test="stock != null">
+        #{stock,jdbcType=DECIMAL},
       </if>
       <if test="amount != null">
         #{amount,jdbcType=BIGINT},
@@ -243,6 +249,9 @@
       <if test="message != null">
         #{message,jdbcType=VARCHAR},
       </if>
+      <if test="bankPurchNo != null">
+        #{bankPurchNo,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="cj.netos.gateway.wallet.model.WenyExchangeRecordExample" resultType="java.lang.Long">
@@ -268,8 +277,8 @@
       <if test="record.currency != null">
         currency = #{record.currency,jdbcType=VARCHAR},
       </if>
-      <if test="record.quatities != null">
-        quatities = #{record.quatities,jdbcType=DECIMAL},
+      <if test="record.stock != null">
+        stock = #{record.stock,jdbcType=DECIMAL},
       </if>
       <if test="record.amount != null">
         amount = #{record.amount,jdbcType=BIGINT},
@@ -307,6 +316,9 @@
       <if test="record.message != null">
         message = #{record.message,jdbcType=VARCHAR},
       </if>
+      <if test="record.bankPurchNo != null">
+        bank_purch_no = #{record.bankPurchNo,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -319,7 +331,7 @@
       person = #{record.person,jdbcType=VARCHAR},
       person_name = #{record.personName,jdbcType=VARCHAR},
       currency = #{record.currency,jdbcType=VARCHAR},
-      quatities = #{record.quatities,jdbcType=DECIMAL},
+      stock = #{record.stock,jdbcType=DECIMAL},
       amount = #{record.amount,jdbcType=BIGINT},
       price = #{record.price,jdbcType=DECIMAL},
       refsn = #{record.refsn,jdbcType=VARCHAR},
@@ -331,7 +343,8 @@
       note = #{record.note,jdbcType=VARCHAR},
       bankid = #{record.bankid,jdbcType=VARCHAR},
       `status` = #{record.status,jdbcType=INTEGER},
-      message = #{record.message,jdbcType=VARCHAR}
+      message = #{record.message,jdbcType=VARCHAR},
+      bank_purch_no = #{record.bankPurchNo,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -349,8 +362,8 @@
       <if test="currency != null">
         currency = #{currency,jdbcType=VARCHAR},
       </if>
-      <if test="quatities != null">
-        quatities = #{quatities,jdbcType=DECIMAL},
+      <if test="stock != null">
+        stock = #{stock,jdbcType=DECIMAL},
       </if>
       <if test="amount != null">
         amount = #{amount,jdbcType=BIGINT},
@@ -388,6 +401,9 @@
       <if test="message != null">
         message = #{message,jdbcType=VARCHAR},
       </if>
+      <if test="bankPurchNo != null">
+        bank_purch_no = #{bankPurchNo,jdbcType=VARCHAR},
+      </if>
     </set>
     where sn = #{sn,jdbcType=VARCHAR}
   </update>
@@ -397,7 +413,7 @@
     set person = #{person,jdbcType=VARCHAR},
       person_name = #{personName,jdbcType=VARCHAR},
       currency = #{currency,jdbcType=VARCHAR},
-      quatities = #{quatities,jdbcType=DECIMAL},
+      stock = #{stock,jdbcType=DECIMAL},
       amount = #{amount,jdbcType=BIGINT},
       price = #{price,jdbcType=DECIMAL},
       refsn = #{refsn,jdbcType=VARCHAR},
@@ -409,7 +425,25 @@
       note = #{note,jdbcType=VARCHAR},
       bankid = #{bankid,jdbcType=VARCHAR},
       `status` = #{status,jdbcType=INTEGER},
-      message = #{message,jdbcType=VARCHAR}
+      message = #{message,jdbcType=VARCHAR},
+      bank_purch_no = #{bankPurchNo,jdbcType=VARCHAR}
+    where sn = #{sn,jdbcType=VARCHAR}
+  </update>
+  <update id="updateStatus" parameterType="cj.netos.gateway.wallet.model.WenyExchangeRecord">
+    update weny_exchange_record
+    set
+    lutime = #{lutime,jdbcType=VARCHAR},
+    `status` = #{status,jdbcType=INTEGER},
+    message = #{message,jdbcType=VARCHAR}
+    where sn = #{sn,jdbcType=VARCHAR}
+  </update>
+  <update id="done" parameterType="cj.netos.gateway.wallet.model.WenyExchangeRecord">
+    update weny_exchange_record
+    set
+    `state` = 1,
+    lutime = #{lutime,jdbcType=VARCHAR},
+    `status` = #{status,jdbcType=INTEGER},
+    message = #{message,jdbcType=VARCHAR}
     where sn = #{sn,jdbcType=VARCHAR}
   </update>
 </mapper>

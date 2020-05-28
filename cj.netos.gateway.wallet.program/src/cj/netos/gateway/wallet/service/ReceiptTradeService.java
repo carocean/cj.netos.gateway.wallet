@@ -3,6 +3,7 @@ package cj.netos.gateway.wallet.service;
 import cj.netos.gateway.wallet.IReceiptTradeService;
 import cj.netos.gateway.wallet.mapper.*;
 import cj.netos.gateway.wallet.model.*;
+import cj.netos.gateway.wallet.result.ExchangingResult;
 import cj.netos.gateway.wallet.util.IdWorker;
 import cj.netos.gateway.wallet.util.WalletUtils;
 import cj.studio.ecm.annotation.CjBridge;
@@ -137,9 +138,10 @@ public class ReceiptTradeService implements IReceiptTradeService {
         record.setNote(note);
         record.setRefsn(purchRecord.getSn());
         record.setSn(new IdWorker().nextId());
-        record.setQuatities(purchRecord.getStock());
+        record.setStock(purchRecord.getStock());
         record.setStatus(200);
         record.setMessage("ok");
+        record.setBankPurchNo(purchRecord.getBankPurchSn());
         wenyExchangeRecordMapper.insert(record);
 
         WenyExchangeActivity wenyExchangeActivity = new WenyExchangeActivity();
@@ -171,6 +173,7 @@ public class ReceiptTradeService implements IReceiptTradeService {
     public WithdrawRecord getWithdrawRecord(String sn) {
         return withdrawRecordMapper.selectByPrimaryKey(sn);
     }
+
     @CjTransaction
     @Override
     public WithdrawActivity getLastWithdrawActivity(String sn) {

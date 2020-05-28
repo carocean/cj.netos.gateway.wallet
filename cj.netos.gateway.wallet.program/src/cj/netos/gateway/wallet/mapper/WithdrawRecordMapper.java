@@ -64,8 +64,7 @@ public interface WithdrawRecordMapper {
 
     void settle(@Param(value = "sn") String sn, @Param(value = "realAmount") long realAmount, @Param(value = "status") int status, @Param(value = "message") String message, @Param(value = "lutime") String lutime);
 
-    void done(@Param(value = "sn") String sn,  @Param(value = "status") int status, @Param(value = "message") String message, @Param(value = "lutime") String lutime);
+    void done(@Param(value = "sn") String sn, @Param(value = "status") int status, @Param(value = "message") String message, @Param(value = "lutime") String lutime);
 
-    void update(@Param(value = "sn") String sn,  @Param(value = "status") int status, @Param(value = "message") String message, @Param(value = "lutime") String lutime);
-
+    void update(@Param(value = "sn") String sn, @Param(value = "status") int status, @Param(value = "message") String message, @Param(value = "lutime") String lutime);
 }

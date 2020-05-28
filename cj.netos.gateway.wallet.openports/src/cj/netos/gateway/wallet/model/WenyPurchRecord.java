@@ -68,7 +68,7 @@ public class WenyPurchRecord {
 
     /**
      * Column: state
-     * Remark: 为当前的步骤号 是否出错看status，status记录当前步骤的状态
+     * Remark: 0为创建；1为完成 是否出错看status，status记录当前步骤的状态
      */
     private Integer state;
 

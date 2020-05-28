@@ -1,6 +1,7 @@
 package cj.netos.gateway.wallet;
 
 import cj.netos.gateway.wallet.model.*;
+import cj.netos.gateway.wallet.result.ExchangingResult;
 import cj.studio.ecm.net.CircuitException;
 
 import java.math.BigDecimal;
