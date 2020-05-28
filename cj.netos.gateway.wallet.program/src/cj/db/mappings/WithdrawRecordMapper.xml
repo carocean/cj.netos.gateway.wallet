@@ -393,4 +393,11 @@
       message = #{message,jdbcType=VARCHAR}
     where sn = #{sn,jdbcType=VARCHAR}
   </update>
+  <select id="page" parameterType="cj.netos.gateway.wallet.model.WithdrawRecord" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from withdraw_record
+    where person = #{person,jdbcType=VARCHAR}
+    limit #{offset},#{limit}
+  </select>
 </mapper>

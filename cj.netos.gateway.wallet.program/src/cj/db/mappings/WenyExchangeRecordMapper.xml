@@ -446,4 +446,11 @@
     message = #{message,jdbcType=VARCHAR}
     where sn = #{sn,jdbcType=VARCHAR}
   </update>
+  <select id="page" parameterType="cj.netos.gateway.wallet.model.WenyExchangeRecord" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from weny_exchange_record
+    where person = #{person,jdbcType=VARCHAR}
+    limit #{offset},#{limit}
+  </select>
 </mapper>

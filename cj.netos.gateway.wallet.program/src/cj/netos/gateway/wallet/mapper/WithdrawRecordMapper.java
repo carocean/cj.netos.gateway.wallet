@@ -2,8 +2,9 @@ package cj.netos.gateway.wallet.mapper;
 
 import cj.netos.gateway.wallet.model.WithdrawRecord;
 import cj.netos.gateway.wallet.model.WithdrawRecordExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface WithdrawRecordMapper {
 
@@ -67,4 +68,7 @@ public interface WithdrawRecordMapper {
     void done(@Param(value = "sn") String sn, @Param(value = "status") int status, @Param(value = "message") String message, @Param(value = "lutime") String lutime);
 
     void update(@Param(value = "sn") String sn, @Param(value = "status") int status, @Param(value = "message") String message, @Param(value = "lutime") String lutime);
+
+    List<WithdrawRecord> page(@Param(value = "person") String person, @Param(value = "limit") int limit, @Param(value = "offset") long offset);
+
 }

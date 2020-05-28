@@ -13,6 +13,8 @@ import cj.studio.ecm.annotation.CjServiceRef;
 import cj.studio.orm.mybatis.annotation.CjTransaction;
 import cj.ultimate.gson2.com.google.gson.Gson;
 
+import java.util.List;
+
 @CjBridge(aspects = "@transaction")
 @CjService(name = "recordService")
 public class RecordService implements IRecordService {
@@ -181,6 +183,7 @@ public class RecordService implements IRecordService {
         wenyExchangeActivityMapper.insert(wenyExchangeActivity);
 
     }
+
     @CjTransaction
     @Override
     public void ackExchangedDone(ExchangingResult result, String status, String message) {
@@ -194,5 +197,77 @@ public class RecordService implements IRecordService {
         wenyExchangeActivity.setRecordSn(result.getSn());
         wenyExchangeActivity.setStatus(Integer.valueOf(status));
         wenyExchangeActivityMapper.insert(wenyExchangeActivity);
+    }
+
+    @CjTransaction
+    @Override
+    public RechargeRecord getRechargeRecord(String principal, String record_sn) {
+        RechargeRecordExample example = new RechargeRecordExample();
+        example.createCriteria().andSnEqualTo(record_sn).andPersonEqualTo(principal);
+        List<RechargeRecord> list = rechargeRecordMapper.selectByExample(example);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
+
+    @CjTransaction
+    @Override
+    public WithdrawRecord getWithdrawRecord(String principal, String record_sn) {
+        WithdrawRecordExample example = new WithdrawRecordExample();
+        example.createCriteria().andSnEqualTo(record_sn).andPersonEqualTo(principal);
+        List<WithdrawRecord> list = withdrawRecordMapper.selectByExample(example);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
+
+    @CjTransaction
+    @Override
+    public WenyPurchRecord getPurchaseRecordOfPerson(String principal, String record_sn) {
+        WenyPurchRecordExample example = new WenyPurchRecordExample();
+        example.createCriteria().andSnEqualTo(record_sn).andPersonEqualTo(principal);
+        List<WenyPurchRecord> list = wenyPurchRecordMapper.selectByExample(example);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
+
+    @CjTransaction
+    @Override
+    public WenyExchangeRecord getExchangeRecord(String principal, String record_sn) {
+        WenyExchangeRecordExample example = new WenyExchangeRecordExample();
+        example.createCriteria().andSnEqualTo(record_sn).andPersonEqualTo(principal);
+        List<WenyExchangeRecord> list = wenyExchangeRecordMapper.selectByExample(example);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
+
+    @CjTransaction
+    @Override
+    public List<RechargeRecord> pageRechargeRecord(String principal, int limit, long offset) {
+        return rechargeRecordMapper.page(principal,limit,offset);
+    }
+
+    @CjTransaction
+    @Override
+    public List<WithdrawRecord> pageWithdrawRecord(String principal, int limit, long offset) {
+        return withdrawRecordMapper.page(principal,limit,offset);
+    }
+
+    @CjTransaction
+    @Override
+    public List<WenyPurchRecord> pagePurchaseRecord(String principal, int limit, long offset) {
+        return wenyPurchRecordMapper.page(principal,limit,offset);
+    }
+
+    @CjTransaction
+    @Override
+    public List<WenyExchangeRecord> pageExchangeRecord(String principal, int limit, long offset) {
+        return wenyExchangeRecordMapper.page(principal,limit,offset);
     }
 }

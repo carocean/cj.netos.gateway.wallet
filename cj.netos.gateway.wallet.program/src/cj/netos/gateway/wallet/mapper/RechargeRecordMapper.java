@@ -2,7 +2,9 @@ package cj.netos.gateway.wallet.mapper;
 
 import cj.netos.gateway.wallet.model.RechargeRecord;
 import cj.netos.gateway.wallet.model.RechargeRecordExample;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface RechargeRecordMapper {
@@ -65,4 +67,7 @@ public interface RechargeRecordMapper {
     void settle(@Param(value = "sn") String sn, @Param(value = "realAmount") long realAmount, @Param(value = "status") int status, @Param(value = "message") String message, @Param(value = "lutime") String lutime);
 
     void done(@Param(value = "sn") String sn, @Param(value = "status") int status, @Param(value = "message") String message, @Param(value = "lutime") String lutime);
+
+    List<RechargeRecord> page(@Param(value = "person") String person, @Param(value = "limit") int limit, @Param(value = "offset") long offset);
+
 }
