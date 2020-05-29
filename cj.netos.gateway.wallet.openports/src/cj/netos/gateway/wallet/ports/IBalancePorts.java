@@ -30,19 +30,18 @@ public interface IBalancePorts extends IOpenportService {
     ) throws CircuitException;
 
     @CjOpenport(usage = "获取冻结账户余额")
-    Map<String, Object> getFreezenAccount(ISecuritySession securitySession
+    Map<String, Object> getFreezenAccount(ISecuritySession securitySession,
+                                          @CjOpenportParameter(usage = "纹银银行行号", name = "wenyBankID") String wenyBankID
     ) throws CircuitException;
 
     @CjOpenport(usage = "获取收益账户余额")
-    Map<String, Object> getProfitAccount(ISecuritySession securitySession
+    Map<String, Object> getProfitAccount(ISecuritySession securitySession,
+                                         @CjOpenportParameter(usage = "纹银银行行号", name = "wenyBankID") String wenyBankID
     ) throws CircuitException;
 
-    @CjOpenport(usage = "获取访问者的所有纹银账户余额")
-    Map<String, Object> listStockAccount(ISecuritySession securitySession
-    ) throws CircuitException;
 
     @CjOpenport(usage = "获取访问者的纹银关联账户余额。包括，纹银账户、冻结账户、收益账户")
-    Map<String, Object> getRelatedStockAccount(ISecuritySession securitySession
+    Map<String, Object> getWenyAccounts(ISecuritySession securitySession
     ) throws CircuitException;
 
     @CjOpenport(usage = "获取纹银账户余额")

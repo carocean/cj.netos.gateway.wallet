@@ -12,11 +12,13 @@ import java.util.List;
 public interface IFreezenBillPorts extends IOpenportService {
     @CjOpenport(usage = "分页账单，倒序")
     List<Object> pageBill(ISecuritySession securitySession,
+                          @CjOpenportParameter(usage = "行号", name = "wenyBankID") String wenyBankID,
                           @CjOpenportParameter(usage = "页大小", name = "limit") int limit,
                           @CjOpenportParameter(usage = "偏移", name = "offset") long offset
     ) throws CircuitException;
     @CjOpenport(usage = "月账单，倒序")
     List<Object> monthBill(ISecuritySession securitySession,
+                           @CjOpenportParameter(usage = "行号", name = "wenyBankID") String wenyBankID,
                            @CjOpenportParameter(usage = "年", name = "year") int year,
                            @CjOpenportParameter(usage = "月.（java特性，实际用份减1）", name = "month") int month,
                            @CjOpenportParameter(usage = "页大小", name = "limit") int limit,

@@ -15,12 +15,12 @@ public class StockBillPorts implements IStockBillPorts {
     IStockBillService stockBillService;
 
     @Override
-    public List<Object> pageBill(ISecuritySession securitySession, int limit, long offset) throws CircuitException {
-        return stockBillService.pageBill(securitySession.principal(), limit, offset);
+    public List<Object> pageBill(ISecuritySession securitySession, String wenyBankID,int limit, long offset) throws CircuitException {
+        return stockBillService.pageBill(securitySession.principal(),wenyBankID, limit, offset);
     }
 
     @Override
-    public List<Object> monthBill(ISecuritySession securitySession, int year, int month, int limit, long offset) throws CircuitException {
-        return stockBillService.monthBill(securitySession.principal(), year, month, limit, offset);
+    public List<Object> monthBill(ISecuritySession securitySession,String wenyBankID, int year, int month, int limit, long offset) throws CircuitException {
+        return stockBillService.monthBill(securitySession.principal(),wenyBankID, year, month, limit, offset);
     }
 }

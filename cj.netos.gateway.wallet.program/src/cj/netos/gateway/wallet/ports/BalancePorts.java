@@ -34,23 +34,18 @@ public class BalancePorts implements IBalancePorts {
     }
 
     @Override
-    public Map<String, Object> getFreezenAccount(ISecuritySession securitySession) throws CircuitException {
-        return balanceService.getFreezenAccount(securitySession.principal());
+    public Map<String, Object> getFreezenAccount(ISecuritySession securitySession,String wenyBankID) throws CircuitException {
+        return balanceService.getFreezenAccount(securitySession.principal(),wenyBankID);
     }
 
     @Override
-    public Map<String, Object> getProfitAccount(ISecuritySession securitySession) throws CircuitException {
-        return balanceService.getProfitAccount(securitySession.principal());
+    public Map<String, Object> getProfitAccount(ISecuritySession securitySession,String wenyBankID) throws CircuitException {
+        return balanceService.getProfitAccount(securitySession.principal(),wenyBankID);
     }
 
     @Override
-    public Map<String, Object> listStockAccount(ISecuritySession securitySession) throws CircuitException {
-        return balanceService.listStockAccount(securitySession.principal());
-    }
-
-    @Override
-    public Map<String, Object> getRelatedStockAccount(ISecuritySession securitySession) throws CircuitException {
-        return balanceService.getRelatedStockAccount(securitySession.principal());
+    public Map<String, Object> getWenyAccounts(ISecuritySession securitySession) throws CircuitException {
+        return balanceService.getWenyAccounts(securitySession.principal());
     }
 
     @Override

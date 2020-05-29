@@ -14,12 +14,12 @@ public class ProfitBillPorts implements IProfitBillPorts {
     IProfitBillService profitBillService;
 
     @Override
-    public List<Object> pageBill(ISecuritySession securitySession, int limit, long offset) throws CircuitException {
-        return profitBillService.pageBill(securitySession.principal(), limit, offset);
+    public List<Object> pageBill(ISecuritySession securitySession,String wenyBankID, int limit, long offset) throws CircuitException {
+        return profitBillService.pageBill(securitySession.principal(),wenyBankID, limit, offset);
     }
 
     @Override
-    public List<Object> monthBill(ISecuritySession securitySession, int year, int month, int limit, long offset) throws CircuitException {
-        return profitBillService.monthBill(securitySession.principal(), year, month, limit, offset);
+    public List<Object> monthBill(ISecuritySession securitySession,String wenyBankID, int year, int month, int limit, long offset) throws CircuitException {
+        return profitBillService.monthBill(securitySession.principal(),wenyBankID, year, month, limit, offset);
     }
 }
