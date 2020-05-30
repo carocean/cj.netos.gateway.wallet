@@ -68,7 +68,7 @@ public class WenyPurchRecord {
 
     /**
      * Column: state
-     * Remark: 0为创建；1为完成 是否出错看status，status记录当前步骤的状态
+     * Remark: 0为创建；1为完成； 是否出错看status，status记录当前步骤的状态
      */
     private Integer state;
 
@@ -148,6 +148,12 @@ public class WenyPurchRecord {
      * Remark: 准备金
      */
     private Long reserveAmount;
+
+    /**
+     * Column: exchange_state
+     * Remark: 0 未承兑 1承兑中 2已承兑
+     */
+    private Integer exchangeState;
 
     public String getSn() {
         return sn;
@@ -339,5 +345,13 @@ public class WenyPurchRecord {
 
     public void setReserveAmount(Long reserveAmount) {
         this.reserveAmount = reserveAmount;
+    }
+
+    public Integer getExchangeState() {
+        return exchangeState;
+    }
+
+    public void setExchangeState(Integer exchangeState) {
+        this.exchangeState = exchangeState;
     }
 }

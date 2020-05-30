@@ -2,9 +2,7 @@ package cj.netos.gateway.wallet.mapper;
 
 import cj.netos.gateway.wallet.model.WenyPurchRecord;
 import cj.netos.gateway.wallet.model.WenyPurchRecordExample;
-import cj.netos.gateway.wallet.model.WithdrawRecord;
 import org.apache.ibatis.annotations.Param;
-
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -73,6 +71,12 @@ public interface WenyPurchRecordMapper {
 
     List<WenyPurchRecord> page(@Param(value = "person") String person, @Param(value = "limit") int limit, @Param(value = "offset") long offset);
 
-    void updateStatus(@Param(value = "sn") String sn, @Param(value = "status") Integer status, @Param(value = "message") String message,@Param(value = "lutime") String lutime);
+    void updateStatus(@Param(value = "sn") String sn, @Param(value = "status") Integer status, @Param(value = "message") String message, @Param(value = "lutime") String lutime);
+
+    void exchanging(@Param(value = "sn") String sn, @Param(value = "lutime") String lutime);
+
+    void exchanged(@Param(value = "sn") String sn, @Param(value = "lutime") String lutime);
+
+    List<WenyPurchRecord> pageUnexchanged(@Param(value = "person") String person, @Param(value = "limit") int limit, @Param(value = "offset") long offset);
 
 }

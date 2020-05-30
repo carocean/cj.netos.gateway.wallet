@@ -121,10 +121,10 @@ public class SettleTradeService implements ISettleTradeService {
     @CjTransaction
     @Override
     public void settleExchange(ExchangedResult result, String status, String message) throws CircuitException {
-        int _status=Integer.valueOf(status);
+        int _status = Float.valueOf(status).intValue();
         if (_status < 300) {
-            wenyExchangeRecordMapper.settle(result.getOutTradeSn(), result.getAmount(), result.getPrice(),result.getProfit(), WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
-        }else{
+            wenyExchangeRecordMapper.settle(result.getOutTradeSn(), result.getAmount(), result.getPrice(), result.getProfit(), WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        } else {
             wenyExchangeRecordMapper.updateStatus(result.getOutTradeSn(), _status, message, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         }
         WenyExchangeActivity wenyExchangeActivity = new WenyExchangeActivity();
@@ -137,6 +137,7 @@ public class SettleTradeService implements ISettleTradeService {
         wenyExchangeActivity.setRecordSn(result.getOutTradeSn());
         wenyExchangeActivityMapper.insert(wenyExchangeActivity);
 
+        WenyExchangeRecord record = recordService.getExchangeRecord(result.getExchanger(), result.getOutTradeSn());
         AMQP.BasicProperties properties = new AMQP.BasicProperties().builder()
                 .type("/trade/settle.mhub")
                 .headers(new HashMap<String, Object>() {{
@@ -146,7 +147,7 @@ public class SettleTradeService implements ISettleTradeService {
                 }})
                 .build();
         ExchangedBO bo = new ExchangedBO();
-        bo.load(result);
+        bo.load(result, record.getRefsn());
         rabbitMQProducer.publish("oc", properties, new Gson().toJson(bo).getBytes());
     }
 }

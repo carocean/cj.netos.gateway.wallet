@@ -33,6 +33,8 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
 
     @CjServiceRef
     IWithdrawActivityController withdrawActivityController;
+    @CjServiceRef
+    IRecordService recordService;
 
     @Override
     public RechargeResult recharge(ISecuritySession securitySession, String currency, long amount, String payChannelID, String note) throws CircuitException {
@@ -89,11 +91,54 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
         if (StringUtil.isEmpty(purchase_sn)) {
             throw new CircuitException("404", String.format("申购单号为空"));
         }
+        WenyPurchRecord exists = recordService.getPurchaseRecord(purchase_sn);
+        if (exists == null) {
+            throw new CircuitException("404", String.format("原申购单不存在:%s", purchase_sn));
+        }
+        if (!securitySession.principal().equals(exists.getPerson())) {
+            throw new CircuitException("404", String.format("不能承兑他人的申购单:%s", purchase_sn));
+        }
+        if (exists.getState() == 0) {
+            throw new CircuitException("500", String.format("原申购未完成:%s", purchase_sn));
+        }
+        if (exists.getExchangeState() != null && exists.getExchangeState() == 1) {
+            throw new CircuitException("500", String.format("原申购正在承兑:%s", purchase_sn));
+        }
+        if (exists.getExchangeState() != null && exists.getExchangeState() == 2) {
+            throw new CircuitException("500", String.format("原申购已承兑:%s", purchase_sn));
+        }
+        if (exists.getState() != 1 && exists.getStatus() >= 300) {
+            throw new CircuitException("500", String.format("原申购出错:%s", purchase_sn));
+        }
+        WenyExchangeRecord record = exchangeActivityController.doReceipt(exists.getPerson(), exists.getPersonName(), purchase_sn, note);
+        return new Gson().fromJson(new Gson().toJson(record), ExchangedResult.class);
+    }
 
-        Map<String, Object> personInfo = personService.getPersonInfo((String) securitySession.property("accessToken"));
-        String personName = (String) personInfo.get("nickName");
-
-        WenyExchangeRecord record = exchangeActivityController.doReceipt(securitySession.principal(), personName, purchase_sn, note);
+    @Override
+    public ExchangedResult exchangeWenyOfPerson(ISecuritySession securitySession, String purchase_sn, String note) throws CircuitException {
+        if (StringUtil.isEmpty(purchase_sn)) {
+            throw new CircuitException("404", String.format("申购单号为空"));
+        }
+        WenyPurchRecord exists = recordService.getPurchaseRecord(purchase_sn);
+        if (exists == null) {
+            throw new CircuitException("404", String.format("原申购单不存在:%s", purchase_sn));
+        }
+        if (!"system.netos".equals(securitySession.principal())) {
+            throw new CircuitException("800", String.format("无权承兑:%s", purchase_sn));
+        }
+        if (exists.getState() == 0) {
+            throw new CircuitException("500", String.format("原申购未完成:%s", purchase_sn));
+        }
+        if (exists.getExchangeState() != null && exists.getExchangeState() == 1) {
+            throw new CircuitException("500", String.format("原申购正在承兑:%s", purchase_sn));
+        }
+        if (exists.getExchangeState() != null && exists.getExchangeState() == 2) {
+            throw new CircuitException("500", String.format("原申购已承兑:%s", purchase_sn));
+        }
+        if (exists.getState() != 1 && exists.getStatus() >= 300) {
+            throw new CircuitException("500", String.format("原申购出错:%s", purchase_sn));
+        }
+        WenyExchangeRecord record = exchangeActivityController.doReceipt(exists.getPerson(), exists.getPersonName(), purchase_sn, note);
         return new Gson().fromJson(new Gson().toJson(record), ExchangedResult.class);
     }
 }

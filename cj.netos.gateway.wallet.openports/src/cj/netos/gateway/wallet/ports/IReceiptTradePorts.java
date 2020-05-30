@@ -5,9 +5,11 @@ import cj.netos.gateway.wallet.result.PurchasingResult;
 import cj.netos.gateway.wallet.result.RechargeResult;
 import cj.netos.gateway.wallet.result.WithdrawResult;
 import cj.studio.ecm.net.CircuitException;
+import cj.studio.openport.AccessTokenIn;
 import cj.studio.openport.IOpenportService;
 import cj.studio.openport.ISecuritySession;
 import cj.studio.openport.annotations.CjOpenport;
+import cj.studio.openport.annotations.CjOpenportAppSecurity;
 import cj.studio.openport.annotations.CjOpenportParameter;
 import cj.studio.openport.annotations.CjOpenports;
 
@@ -39,6 +41,13 @@ public interface IReceiptTradePorts extends IOpenportService {
 
     @CjOpenport(usage = "承兑纹银")
     ExchangedResult exchangeWeny(ISecuritySession securitySession,
+                                 @CjOpenportParameter(usage = "要承兑的纹银申购单号", name = "purchase_sn") String purchase_sn,
+                                 @CjOpenportParameter(usage = "备注", name = "note") String note
+    ) throws CircuitException;
+
+    @CjOpenportAppSecurity
+    @CjOpenport(usage = "承兑纹银",tokenIn = AccessTokenIn.nope)
+    ExchangedResult exchangeWenyOfPerson(ISecuritySession securitySession,
                                  @CjOpenportParameter(usage = "要承兑的纹银申购单号", name = "purchase_sn") String purchase_sn,
                                  @CjOpenportParameter(usage = "备注", name = "note") String note
     ) throws CircuitException;

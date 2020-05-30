@@ -1677,6 +1677,66 @@ public class WenyPurchRecordExample {
             addCriterion("reserve_amount not between", value1, value2, "reserveAmount");
             return (Criteria) this;
         }
+
+        public Criteria andExchangeStateIsNull() {
+            addCriterion("exchange_state is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExchangeStateIsNotNull() {
+            addCriterion("exchange_state is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExchangeStateEqualTo(Integer value) {
+            addCriterion("exchange_state =", value, "exchangeState");
+            return (Criteria) this;
+        }
+
+        public Criteria andExchangeStateNotEqualTo(Integer value) {
+            addCriterion("exchange_state <>", value, "exchangeState");
+            return (Criteria) this;
+        }
+
+        public Criteria andExchangeStateGreaterThan(Integer value) {
+            addCriterion("exchange_state >", value, "exchangeState");
+            return (Criteria) this;
+        }
+
+        public Criteria andExchangeStateGreaterThanOrEqualTo(Integer value) {
+            addCriterion("exchange_state >=", value, "exchangeState");
+            return (Criteria) this;
+        }
+
+        public Criteria andExchangeStateLessThan(Integer value) {
+            addCriterion("exchange_state <", value, "exchangeState");
+            return (Criteria) this;
+        }
+
+        public Criteria andExchangeStateLessThanOrEqualTo(Integer value) {
+            addCriterion("exchange_state <=", value, "exchangeState");
+            return (Criteria) this;
+        }
+
+        public Criteria andExchangeStateIn(List<Integer> values) {
+            addCriterion("exchange_state in", values, "exchangeState");
+            return (Criteria) this;
+        }
+
+        public Criteria andExchangeStateNotIn(List<Integer> values) {
+            addCriterion("exchange_state not in", values, "exchangeState");
+            return (Criteria) this;
+        }
+
+        public Criteria andExchangeStateBetween(Integer value1, Integer value2) {
+            addCriterion("exchange_state between", value1, value2, "exchangeState");
+            return (Criteria) this;
+        }
+
+        public Criteria andExchangeStateNotBetween(Integer value1, Integer value2) {
+            addCriterion("exchange_state not between", value1, value2, "exchangeState");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

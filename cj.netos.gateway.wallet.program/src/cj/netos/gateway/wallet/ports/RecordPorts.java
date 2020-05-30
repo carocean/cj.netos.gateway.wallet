@@ -38,6 +38,11 @@ public class RecordPorts implements IRecordPorts {
     }
 
     @Override
+    public WenyExchangeRecord getExchangeRecordByPurchase(ISecuritySession securitySession, String purchase_sn) throws CircuitException {
+        return recordService.getExchangeRecordByPurchase(securitySession.principal(),purchase_sn);
+    }
+
+    @Override
     public List<RechargeRecord> pageRechargeRecord(ISecuritySession securitySession, int limit, long offset) throws CircuitException {
         return recordService.pageRechargeRecord(securitySession.principal(),limit,offset);
     }
@@ -50,6 +55,11 @@ public class RecordPorts implements IRecordPorts {
     @Override
     public List<WenyPurchRecord> pagePurchaseRecord(ISecuritySession securitySession,int limit, long offset) throws CircuitException {
         return recordService.pagePurchaseRecord(securitySession.principal(),limit,offset);
+    }
+
+    @Override
+    public List<WenyPurchRecord> pagePurchaseRecordOfUnexchanged(ISecuritySession securitySession, int limit, long offset) throws CircuitException {
+        return recordService.pagePurchaseRecordOfUnexchanged(securitySession.principal(),limit,offset);
     }
 
     @Override

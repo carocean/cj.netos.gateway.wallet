@@ -110,7 +110,9 @@ public class ReceiptTradeService implements IReceiptTradeService {
         record.setSn(new IdWorker().nextId());
         record.setStatus(200);
         record.setMessage("ok");
+        record.setExchangeState(0);
         wenyPurchRecordMapper.insert(record);
+
         WenyPurchActivity wenyPurchActivity = new WenyPurchActivity();
         wenyPurchActivity.setActivityName("已收单");
         wenyPurchActivity.setActivityNo(0);
@@ -126,6 +128,7 @@ public class ReceiptTradeService implements IReceiptTradeService {
     @CjTransaction
     @Override
     public WenyExchangeRecord exchangeWeny(String principal, String personName, WenyPurchRecord purchRecord, String note) throws CircuitException {
+
         WenyExchangeRecord record = new WenyExchangeRecord();
         record.setPurchAmount(purchRecord.getPurchAmount());
         record.setCurrency("WENY");
@@ -143,6 +146,7 @@ public class ReceiptTradeService implements IReceiptTradeService {
         record.setMessage("ok");
         record.setBankPurchNo(purchRecord.getBankPurchSn());
         wenyExchangeRecordMapper.insert(record);
+        wenyPurchRecordMapper.exchanging(record.getRefsn(),WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
 
         WenyExchangeActivity wenyExchangeActivity = new WenyExchangeActivity();
         wenyExchangeActivity.setActivityName("已收单");

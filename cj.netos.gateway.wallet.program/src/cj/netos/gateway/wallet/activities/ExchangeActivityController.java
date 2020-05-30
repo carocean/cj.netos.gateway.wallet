@@ -53,7 +53,7 @@ public class ExchangeActivityController implements IExchangeActivityController {
     @Override
     public void ackReceipt(ExchangingResult result) {
         recordService.ackExchange(result);
-        CJSystem.logging().info(getClass(), String.format("承兑已回单，单号：%s，原申购金额：%s，承兑量：%s", result.getSn(), result.getStatus(), result.getMessage()));
+        CJSystem.logging().info(getClass(), String.format("承兑已回单，单号：%s，%s %s", result.getSn(), result.getStatus(), result.getMessage()));
     }
 
     @CjTransaction

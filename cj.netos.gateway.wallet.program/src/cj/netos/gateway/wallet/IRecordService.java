@@ -48,4 +48,8 @@ public interface IRecordService {
 
     List<WenyExchangeRecord> pageExchangeRecord(String principal, int limit, long offset);
 
+    List<WenyPurchRecord> pagePurchaseRecordOfUnexchanged(String principal, int limit, long offset);
+
+    WenyExchangeRecord getExchangeRecordByPurchase(String principal, String purchase_sn);
+
 }

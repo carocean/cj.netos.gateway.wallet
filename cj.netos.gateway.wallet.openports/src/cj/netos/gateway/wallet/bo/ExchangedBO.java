@@ -24,15 +24,16 @@ public class ExchangedBO {
     String bankid;
     String bankPurchaseSn;
     String bankExchangeSn;
+    String walletPurchaseSn;
 
-    public void load(ExchangedResult result) {
-        sn=result.getOutTradeSn();
-        exchanger=result.getExchanger();
-        personName=result.getPersonName();
+    public void load(ExchangedResult result,String refsn) {
+        sn = result.getOutTradeSn();
+        exchanger = result.getExchanger();
+        personName = result.getPersonName();
         currency = result.getCurrency();
         amount = result.getAmount();
         stock = result.getStock();
-        price=result.getPrice();
+        price = result.getPrice();
         ttm = result.getTtm();
         profit = result.getProfit();
         purchaseAmount = result.getPurchaseAmount();
@@ -45,7 +46,17 @@ public class ExchangedBO {
         bankid = result.getBankid();
         bankExchangeSn = result.getSn();
         bankPurchaseSn = result.getRefPurchase();
+        walletPurchaseSn = refsn;
     }
+
+    public String getWalletPurchaseSn() {
+        return walletPurchaseSn;
+    }
+
+    public void setWalletPurchaseSn(String walletPurchaseSn) {
+        this.walletPurchaseSn = walletPurchaseSn;
+    }
+
     public String getSn() {
         return sn;
     }

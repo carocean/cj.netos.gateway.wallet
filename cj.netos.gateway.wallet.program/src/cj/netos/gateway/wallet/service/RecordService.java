@@ -97,6 +97,7 @@ public class RecordService implements IRecordService {
         if (record == null) {
             return;
         }
+        int _status=Float.valueOf(result.getStatus()).intValue();
         PurchasingResult purchasingResult = new Gson().fromJson((String) result.getRecord(), PurchasingResult.class);
         if (purchasingResult != null) {
             wenyPurchRecordMapper.ackPurchasing(
@@ -108,7 +109,7 @@ public class RecordService implements IRecordService {
                     purchasingResult.getPrincipalRatio(),
                     purchasingResult.getTtm(),
                     purchasingResult.getSn(),
-                    Integer.valueOf(result.getStatus()),
+                    _status,
                     result.getMessage()
             );
         }
@@ -120,9 +121,9 @@ public class RecordService implements IRecordService {
         wenyPurchActivity.setId(new IdWorker().nextId());
         wenyPurchActivity.setMessage(result.getMessage());
         wenyPurchActivity.setRecordSn(result.getSn());
-        wenyPurchActivity.setStatus(Integer.valueOf(result.getStatus()));
+        wenyPurchActivity.setStatus(_status);
         wenyPurchActivityMapper.insert(wenyPurchActivity);
-        int status = Integer.valueOf(result.getStatus());
+        int status = _status;
         if (status >= 300) {
             wenyPurchRecordMapper.done(result.getSn(), status, result.getMessage(), WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         } else {
@@ -145,7 +146,7 @@ public class RecordService implements IRecordService {
                 purchasedBO.getFreeRatio(),
                 purchasedBO.getReserveAmount(),
                 purchasedBO.getReserveRatio(),
-                Integer.valueOf(status),
+                Float.valueOf(status).intValue(),
                 message,
                 WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis())
         );
@@ -157,9 +158,9 @@ public class RecordService implements IRecordService {
         wenyPurchActivity.setId(new IdWorker().nextId());
         wenyPurchActivity.setMessage(message);
         wenyPurchActivity.setRecordSn(purchasedBO.getSn());
-        wenyPurchActivity.setStatus(Integer.valueOf(status));
+        wenyPurchActivity.setStatus(Float.valueOf(status).intValue());
         wenyPurchActivityMapper.insert(wenyPurchActivity);
-        int _status = Integer.valueOf(status);
+        int _status = Float.valueOf(status).intValue();
         if (_status >= 300) {
             wenyPurchRecordMapper.done(purchasedBO.getSn(), _status, message, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         } else {
@@ -170,7 +171,7 @@ public class RecordService implements IRecordService {
     @CjTransaction
     @Override
     public void ackPurchasedDone(PurchasedBO purchasedBO, String status, String message) {
-        wenyPurchRecordMapper.done(purchasedBO.getSn(), Integer.valueOf(status), message, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        wenyPurchRecordMapper.done(purchasedBO.getSn(), Float.valueOf(status).intValue(), message, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         WenyPurchActivity wenyPurchActivity = new WenyPurchActivity();
         wenyPurchActivity.setActivityName("已决清");
         wenyPurchActivity.setActivityNo(3);
@@ -178,21 +179,27 @@ public class RecordService implements IRecordService {
         wenyPurchActivity.setId(new IdWorker().nextId());
         wenyPurchActivity.setMessage(message);
         wenyPurchActivity.setRecordSn(purchasedBO.getSn());
-        wenyPurchActivity.setStatus(Integer.valueOf(status));
+        wenyPurchActivity.setStatus(Float.valueOf(status).intValue());
         wenyPurchActivityMapper.insert(wenyPurchActivity);
     }
 
     @CjTransaction
     @Override
     public void ackExchange(ExchangingResult result) {
-        wenyExchangeRecordMapper.updateStatus(result.getSn(), Integer.valueOf(result.getStatus()), result.getMessage(), WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        int _status = Float.valueOf(result.getStatus()).intValue();
+        if (_status >= 300) {
+            wenyExchangeRecordMapper.done(result.getSn(), _status, result.getMessage(), WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        } else {
+            wenyExchangeRecordMapper.updateStatus(result.getSn(), _status, result.getMessage(), WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        }
+
         WenyExchangeActivity wenyExchangeActivity = new WenyExchangeActivity();
         wenyExchangeActivity.setActivityName("已回单");
         wenyExchangeActivity.setActivityNo(1);
         wenyExchangeActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         wenyExchangeActivity.setId(new IdWorker().nextId());
         wenyExchangeActivity.setMessage(result.getMessage());
-        wenyExchangeActivity.setStatus(Integer.valueOf(result.getStatus()));
+        wenyExchangeActivity.setStatus(Float.valueOf(result.getStatus()).intValue());
         wenyExchangeActivity.setRecordSn(result.getSn());
         wenyExchangeActivityMapper.insert(wenyExchangeActivity);
 
@@ -201,7 +208,12 @@ public class RecordService implements IRecordService {
     @CjTransaction
     @Override
     public void ackExchangedDone(ExchangingResult result, String status, String message) {
-        wenyExchangeRecordMapper.done(result.getSn(), Integer.valueOf(status), message, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        int _status = Float.valueOf(result.getStatus()).intValue();
+        wenyExchangeRecordMapper.done(result.getSn(), _status, message, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        ExchangeResult exchangeResult = new Gson().fromJson((String) result.getRecord(), ExchangeResult.class);
+        if (exchangeResult != null) {
+            wenyPurchRecordMapper.exchanged(exchangeResult.getWalletPuchaseSn(), WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        }
         WenyExchangeActivity wenyExchangeActivity = new WenyExchangeActivity();
         wenyExchangeActivity.setActivityName("已决清");
         wenyExchangeActivity.setActivityNo(4);
@@ -209,7 +221,7 @@ public class RecordService implements IRecordService {
         wenyExchangeActivity.setId(new IdWorker().nextId());
         wenyExchangeActivity.setMessage(message);
         wenyExchangeActivity.setRecordSn(result.getSn());
-        wenyExchangeActivity.setStatus(Integer.valueOf(status));
+        wenyExchangeActivity.setStatus(_status);
         wenyExchangeActivityMapper.insert(wenyExchangeActivity);
     }
 
@@ -263,6 +275,18 @@ public class RecordService implements IRecordService {
 
     @CjTransaction
     @Override
+    public WenyExchangeRecord getExchangeRecordByPurchase(String principal, String purchase_sn) {
+        WenyExchangeRecordExample example = new WenyExchangeRecordExample();
+        example.createCriteria().andRefsnEqualTo(purchase_sn).andPersonEqualTo(principal);
+        List<WenyExchangeRecord> list = wenyExchangeRecordMapper.selectByExample(example);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
+
+    @CjTransaction
+    @Override
     public List<RechargeRecord> pageRechargeRecord(String principal, int limit, long offset) {
         return rechargeRecordMapper.page(principal, limit, offset);
     }
@@ -277,6 +301,12 @@ public class RecordService implements IRecordService {
     @Override
     public List<WenyPurchRecord> pagePurchaseRecord(String principal, int limit, long offset) {
         return wenyPurchRecordMapper.page(principal, limit, offset);
+    }
+
+    @CjTransaction
+    @Override
+    public List<WenyPurchRecord> pagePurchaseRecordOfUnexchanged(String principal, int limit, long offset) {
+        return wenyPurchRecordMapper.pageUnexchanged(principal, limit, offset);
     }
 
     @CjTransaction
