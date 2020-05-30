@@ -613,6 +613,7 @@
     and state=1
     and exchange_state=0
     and status &lt; 300
+    order by ctime asc,ttm asc
     limit #{offset},#{limit}
   </select>
 </mapper>
