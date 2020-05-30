@@ -2,6 +2,8 @@ package cj.netos.gateway.wallet.mapper;
 
 import cj.netos.gateway.wallet.model.WenyExchangeRecord;
 import cj.netos.gateway.wallet.model.WenyExchangeRecordExample;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 import cj.netos.gateway.wallet.model.WenyPurchRecord;
@@ -69,5 +71,7 @@ public interface WenyExchangeRecordMapper {
     void done(@Param(value = "sn") String sn, @Param(value = "status") int status, @Param(value = "message") String message, @Param(value = "lutime") String lutime);
 
     List<WenyExchangeRecord> page(@Param(value = "person") String person, @Param(value = "limit") int limit, @Param(value = "offset") long offset);
+
+    void settle(@Param(value = "sn") String sn, @Param(value = "amount") long amount,@Param(value = "price")  BigDecimal price, @Param(value = "profit") long profit, @Param(value = "lutime") String lutime);
 
 }

@@ -533,6 +533,8 @@
     ttm = #{ttm,jdbcType=DECIMAL},
     principal_ratio = #{principalRatio,jdbcType=DECIMAL},
     principal_amount = #{principalAmount,jdbcType=BIGINT},
+    `status` = #{status,jdbcType=INTEGER},
+      message = #{message,jdbcType=VARCHAR},
     bank_purch_sn = #{bankPurchSn,jdbcType=VARCHAR}
     where sn = #{sn,jdbcType=VARCHAR}
   </update>
@@ -554,6 +556,14 @@
     update weny_purch_record
     set
       `state` = 1,
+      lutime = #{lutime,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=INTEGER},
+      message = #{message,jdbcType=VARCHAR}
+    where sn = #{sn,jdbcType=VARCHAR}
+  </update>
+  <update id="updateStatus" parameterType="cj.netos.gateway.wallet.model.WenyPurchRecord">
+    update weny_purch_record
+    set
       lutime = #{lutime,jdbcType=VARCHAR},
       `status` = #{status,jdbcType=INTEGER},
       message = #{message,jdbcType=VARCHAR}

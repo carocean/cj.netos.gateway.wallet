@@ -453,4 +453,14 @@
     where person = #{person,jdbcType=VARCHAR}
     limit #{offset},#{limit}
   </select>
+
+  <update id="settle" parameterType="cj.netos.gateway.wallet.model.WenyExchangeRecord">
+    update weny_exchange_record
+    set
+    amount = #{amount,jdbcType=BIGINT},
+    price = #{price,jdbcType=DECIMAL},
+    profit = #{profit,jdbcType=BIGINT},
+    lutime = #{lutime,jdbcType=VARCHAR}
+    where sn = #{sn,jdbcType=VARCHAR}
+  </update>
 </mapper>

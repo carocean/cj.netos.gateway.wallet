@@ -6,10 +6,7 @@ import cj.netos.gateway.wallet.bo.ExchangedBO;
 import cj.netos.gateway.wallet.bo.PurchasedBO;
 import cj.netos.gateway.wallet.bo.RechargeBO;
 import cj.netos.gateway.wallet.bo.WithdrawBO;
-import cj.netos.gateway.wallet.mapper.RechargeActivityMapper;
-import cj.netos.gateway.wallet.mapper.RechargeRecordMapper;
-import cj.netos.gateway.wallet.mapper.WithdrawActivityMapper;
-import cj.netos.gateway.wallet.mapper.WithdrawRecordMapper;
+import cj.netos.gateway.wallet.mapper.*;
 import cj.netos.gateway.wallet.model.*;
 import cj.netos.gateway.wallet.result.ExchangedResult;
 import cj.netos.gateway.wallet.util.IdWorker;
@@ -37,6 +34,10 @@ public class SettleTradeService implements ISettleTradeService {
     WithdrawRecordMapper withdrawRecordMapper;
     @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.WithdrawActivityMapper")
     WithdrawActivityMapper withdrawActivityMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.WenyExchangeRecordMapper")
+    WenyExchangeRecordMapper wenyExchangeRecordMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.WenyExchangeActivityMapper")
+    WenyExchangeActivityMapper wenyExchangeActivityMapper;
     @CjServiceRef
     IRecordService recordService;
     @CjServiceRef(refByName = "@.rabbitmq.producer.trade")
@@ -120,6 +121,22 @@ public class SettleTradeService implements ISettleTradeService {
     @CjTransaction
     @Override
     public void settleExchange(ExchangedResult result, String status, String message) throws CircuitException {
+        int _status=Integer.valueOf(status);
+        if (_status < 300) {
+            wenyExchangeRecordMapper.settle(result.getOutTradeSn(), result.getAmount(), result.getPrice(),result.getProfit(), WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        }else{
+            wenyExchangeRecordMapper.updateStatus(result.getOutTradeSn(), _status, message, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        }
+        WenyExchangeActivity wenyExchangeActivity = new WenyExchangeActivity();
+        wenyExchangeActivity.setActivityName("收到决清指令");
+        wenyExchangeActivity.setActivityNo(3);
+        wenyExchangeActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        wenyExchangeActivity.setId(new IdWorker().nextId());
+        wenyExchangeActivity.setMessage(message);
+        wenyExchangeActivity.setStatus(Integer.valueOf(_status));
+        wenyExchangeActivity.setRecordSn(result.getOutTradeSn());
+        wenyExchangeActivityMapper.insert(wenyExchangeActivity);
+
         AMQP.BasicProperties properties = new AMQP.BasicProperties().builder()
                 .type("/trade/settle.mhub")
                 .headers(new HashMap<String, Object>() {{
