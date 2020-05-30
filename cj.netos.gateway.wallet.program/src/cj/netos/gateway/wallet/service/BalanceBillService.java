@@ -7,6 +7,7 @@ import cj.netos.gateway.wallet.ports.IBalanceBillPorts;
 import cj.studio.ecm.IServiceSite;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
+import cj.studio.ecm.annotation.CjServiceSite;
 import cj.studio.ecm.net.CircuitException;
 import cj.studio.openport.ISecuritySession;
 import cj.studio.openport.util.Encript;
@@ -18,7 +19,7 @@ import java.util.*;
 
 @CjService(name = "balanceBillService")
 public class BalanceBillService implements IBalanceBillService {
-    @CjServiceRef
+    @CjServiceSite
     IServiceSite site;
 
     @Override
@@ -32,7 +33,7 @@ public class BalanceBillService implements IBalanceBillService {
         String appid = site.getProperty("appid");
         String appKey = site.getProperty("appKey");
         String appSecret = site.getProperty("appSecret");
-        String portsUrl = site.getProperty("rhub.ports.oc.wallet");
+        String portsUrl = site.getProperty("rhub.ports.oc.bill.balance");
         String nonce = Encript.md5(String.format("%s%s", UUID.randomUUID().toString(), System.currentTimeMillis()));
         String sign = Encript.md5(String.format("%s%s%s", appKey, nonce, appSecret));
 
@@ -84,7 +85,7 @@ public class BalanceBillService implements IBalanceBillService {
         String appid = site.getProperty("appid");
         String appKey = site.getProperty("appKey");
         String appSecret = site.getProperty("appSecret");
-        String portsUrl = site.getProperty("rhub.ports.oc.wallet");
+        String portsUrl = site.getProperty("rhub.ports.oc.bill.balance");
         String nonce = Encript.md5(String.format("%s%s", UUID.randomUUID().toString(), System.currentTimeMillis()));
         String sign = Encript.md5(String.format("%s%s%s", appKey, nonce, appSecret));
 

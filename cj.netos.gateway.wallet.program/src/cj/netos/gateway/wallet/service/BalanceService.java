@@ -30,7 +30,7 @@ public class BalanceService implements IBalanceService {
         String appid = site.getProperty("appid");
         String appKey = site.getProperty("appKey");
         String appSecret = site.getProperty("appSecret");
-        String portsUrl = site.getProperty("rhub.ports.oc.wallet");
+        String portsUrl = site.getProperty("rhub.ports.oc.balance");
         String nonce = Encript.md5(String.format("%s%s", UUID.randomUUID().toString(), System.currentTimeMillis()));
         String sign = Encript.md5(String.format("%s%s%s", appKey, nonce, appSecret));
 
@@ -82,7 +82,7 @@ public class BalanceService implements IBalanceService {
         String appid = site.getProperty("appid");
         String appKey = site.getProperty("appKey");
         String appSecret = site.getProperty("appSecret");
-        String portsUrl = site.getProperty("rhub.ports.oc.wallet");
+        String portsUrl = site.getProperty("rhub.ports.oc.balance");
         String nonce = Encript.md5(String.format("%s%s", UUID.randomUUID().toString(), System.currentTimeMillis()));
         String sign = Encript.md5(String.format("%s%s%s", appKey, nonce, appSecret));
 
@@ -134,7 +134,7 @@ public class BalanceService implements IBalanceService {
         String appid = site.getProperty("appid");
         String appKey = site.getProperty("appKey");
         String appSecret = site.getProperty("appSecret");
-        String portsUrl = site.getProperty("rhub.ports.oc.wallet");
+        String portsUrl = site.getProperty("rhub.ports.oc.balance");
         String nonce = Encript.md5(String.format("%s%s", UUID.randomUUID().toString(), System.currentTimeMillis()));
         String sign = Encript.md5(String.format("%s%s%s", appKey, nonce, appSecret));
 
@@ -186,7 +186,7 @@ public class BalanceService implements IBalanceService {
         String appid = site.getProperty("appid");
         String appKey = site.getProperty("appKey");
         String appSecret = site.getProperty("appSecret");
-        String portsUrl = site.getProperty("rhub.ports.oc.wallet");
+        String portsUrl = site.getProperty("rhub.ports.oc.balance");
         String nonce = Encript.md5(String.format("%s%s", UUID.randomUUID().toString(), System.currentTimeMillis()));
         String sign = Encript.md5(String.format("%s%s%s", appKey, nonce, appSecret));
 
@@ -229,7 +229,7 @@ public class BalanceService implements IBalanceService {
 
     @Override
     public Map<String, Object> getFreezenAccount(String principal, String wenyBankID) throws CircuitException {
-        return callGetFreezenAccount(wenyBankID, wenyBankID);
+        return callGetFreezenAccount(principal, wenyBankID);
     }
 
     private Map<String, Object> callGetFreezenAccount(String person, String wenyBankID) throws CircuitException {
@@ -238,7 +238,7 @@ public class BalanceService implements IBalanceService {
         String appid = site.getProperty("appid");
         String appKey = site.getProperty("appKey");
         String appSecret = site.getProperty("appSecret");
-        String portsUrl = site.getProperty("rhub.ports.oc.wallet");
+        String portsUrl = site.getProperty("rhub.ports.oc.balance");
         String nonce = Encript.md5(String.format("%s%s", UUID.randomUUID().toString(), System.currentTimeMillis()));
         String sign = Encript.md5(String.format("%s%s%s", appKey, nonce, appSecret));
 
@@ -290,7 +290,7 @@ public class BalanceService implements IBalanceService {
         String appid = site.getProperty("appid");
         String appKey = site.getProperty("appKey");
         String appSecret = site.getProperty("appSecret");
-        String portsUrl = site.getProperty("rhub.ports.oc.wallet");
+        String portsUrl = site.getProperty("rhub.ports.oc.balance");
         String nonce = Encript.md5(String.format("%s%s", UUID.randomUUID().toString(), System.currentTimeMillis()));
         String sign = Encript.md5(String.format("%s%s%s", appKey, nonce, appSecret));
 
@@ -342,7 +342,7 @@ public class BalanceService implements IBalanceService {
         String appid = site.getProperty("appid");
         String appKey = site.getProperty("appKey");
         String appSecret = site.getProperty("appSecret");
-        String portsUrl = site.getProperty("rhub.ports.oc.wallet");
+        String portsUrl = site.getProperty("rhub.ports.oc.balance");
         String nonce = Encript.md5(String.format("%s%s", UUID.randomUUID().toString(), System.currentTimeMillis()));
         String sign = Encript.md5(String.format("%s%s%s", appKey, nonce, appSecret));
 
@@ -394,7 +394,7 @@ public class BalanceService implements IBalanceService {
         String appid = site.getProperty("appid");
         String appKey = site.getProperty("appKey");
         String appSecret = site.getProperty("appSecret");
-        String portsUrl = site.getProperty("rhub.ports.oc.wallet");
+        String portsUrl = site.getProperty("rhub.ports.oc.balance");
         String nonce = Encript.md5(String.format("%s%s", UUID.randomUUID().toString(), System.currentTimeMillis()));
         String sign = Encript.md5(String.format("%s%s%s", appKey, nonce, appSecret));
 
