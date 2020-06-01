@@ -26,10 +26,10 @@ public class WalletPorts implements IWalletPorts {
     @Override
     public boolean hasWallet(ISecuritySession securitySession) throws CircuitException {
 
-        return callIsinitWallet(securitySession.principal());
+        return call_hasWallet(securitySession.principal());
     }
 
-    private boolean callIsinitWallet(String person) throws CircuitException {
+    private boolean call_hasWallet(String person) throws CircuitException {
         OkHttpClient client = (OkHttpClient) site.getService("@.http");
 
         String appid = site.getProperty("appid");
@@ -44,7 +44,7 @@ public class WalletPorts implements IWalletPorts {
         RequestBody body = RequestBody.create(new Gson().toJson(args).getBytes());
         final Request request = new Request.Builder()
                 .url(String.format("%s?person=%s", portsUrl, person))
-                .addHeader("Rest-Command", "isinitWallet")
+                .addHeader("Rest-Command", "hasWallet")
                 .addHeader("app-id", appid)
                 .addHeader("app-key", appKey)
                 .addHeader("app-nonce", nonce)
@@ -81,10 +81,10 @@ public class WalletPorts implements IWalletPorts {
         if (person == null) {
             throw new CircuitException("404", String.format("用户不存在:" + securitySession.principal()));
         }
-        return callInitWallet(person);
+        return call_createWallet(person);
     }
 
-    protected Map<String, Object> callInitWallet(Map<String, Object> person) throws CircuitException {
+    protected Map<String, Object> call_createWallet(Map<String, Object> person) throws CircuitException {
 
         OkHttpClient client = (OkHttpClient) site.getService("@.http");
 
@@ -100,7 +100,7 @@ public class WalletPorts implements IWalletPorts {
         RequestBody body = RequestBody.create(new Gson().toJson(args).getBytes());
         final Request request = new Request.Builder()
                 .url(portsUrl)
-                .addHeader("Rest-Command", "initWallet")
+                .addHeader("Rest-Command", "createWallet")
                 .addHeader("app-id", appid)
                 .addHeader("app-key", appKey)
                 .addHeader("app-nonce", nonce)
