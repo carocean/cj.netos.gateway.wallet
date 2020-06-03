@@ -603,6 +603,7 @@
     <include refid="Base_Column_List" />
     from weny_purch_record
     where person = #{person,jdbcType=VARCHAR}
+    order by ctime desc
     limit #{offset},#{limit}
   </select>
   <select id="pageUnexchanged" parameterType="cj.netos.gateway.wallet.model.WenyPurchRecord" resultMap="BaseResultMap">
@@ -613,7 +614,7 @@
     and state=1
     and exchange_state=0
     and status &lt; 300
-    order by ctime asc,ttm asc
+    order by ctime desc
     limit #{offset},#{limit}
   </select>
 </mapper>
