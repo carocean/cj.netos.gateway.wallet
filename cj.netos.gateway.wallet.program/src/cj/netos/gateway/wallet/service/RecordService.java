@@ -320,6 +320,11 @@ public class RecordService implements IRecordService {
     public List<WenyPurchRecord> pagePurchaseRecordOfUnexchanged(String principal, int limit, long offset) {
         return wenyPurchRecordMapper.pageUnexchanged(principal, limit, offset);
     }
+    @CjTransaction
+    @Override
+    public List<WenyPurchRecord> pagePurchaseRecordOfExchanged(String principal, int limit, long offset) {
+        return wenyPurchRecordMapper.pageExchanged(principal, limit, offset);
+    }
 
     @CjTransaction
     @Override

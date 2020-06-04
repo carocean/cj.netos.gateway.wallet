@@ -79,4 +79,6 @@ public interface WenyPurchRecordMapper {
 
     List<WenyPurchRecord> pageUnexchanged(@Param(value = "person") String person, @Param(value = "limit") int limit, @Param(value = "offset") long offset);
 
+    List<WenyPurchRecord> pageExchanged(@Param(value = "person") String person, @Param(value = "limit") int limit, @Param(value = "offset") long offset);
+
 }

@@ -53,4 +53,6 @@ public interface IRecordService {
 
     List<WenyExchangeActivity> getExchangeActivities(String principal, String record_sn);
 
+    List<WenyPurchRecord> pagePurchaseRecordOfExchanged(String principal, int limit, long offset);
+
 }

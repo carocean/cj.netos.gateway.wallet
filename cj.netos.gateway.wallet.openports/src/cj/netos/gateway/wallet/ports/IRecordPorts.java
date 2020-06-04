@@ -70,7 +70,11 @@ public interface IRecordPorts extends IOpenportService {
                                                           @CjOpenportParameter(usage = "页大小", name = "limit") int limit,
                                                           @CjOpenportParameter(usage = "偏移", name = "offset") long offset
     ) throws CircuitException;
-
+    @CjOpenport(usage = "分页获取已承兑的且可以承兑的申购记录")
+    List<WenyPurchRecord> pagePurchaseRecordOfExchanged(ISecuritySession securitySession,
+                                                          @CjOpenportParameter(usage = "页大小", name = "limit") int limit,
+                                                          @CjOpenportParameter(usage = "偏移", name = "offset") long offset
+    ) throws CircuitException;
     @CjOpenport(usage = "分页获取承兑记录")
     List<WenyExchangeRecord> pageExchangeRecord(ISecuritySession securitySession,
                                                 @CjOpenportParameter(usage = "页大小", name = "limit") int limit,

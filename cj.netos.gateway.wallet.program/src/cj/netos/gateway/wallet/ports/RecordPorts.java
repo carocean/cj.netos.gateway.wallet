@@ -70,6 +70,11 @@ public class RecordPorts implements IRecordPorts {
     }
 
     @Override
+    public List<WenyPurchRecord> pagePurchaseRecordOfExchanged(ISecuritySession securitySession, int limit, long offset) throws CircuitException {
+        return recordService.pagePurchaseRecordOfExchanged(securitySession.principal(),limit,offset);
+    }
+
+    @Override
     public List<WenyExchangeRecord> pageExchangeRecord(ISecuritySession securitySession,  int limit, long offset) throws CircuitException {
         return recordService.pageExchangeRecord(securitySession.principal(),limit,offset);
     }
