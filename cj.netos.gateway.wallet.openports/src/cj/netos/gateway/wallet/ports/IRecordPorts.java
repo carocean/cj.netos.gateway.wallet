@@ -1,9 +1,6 @@
 package cj.netos.gateway.wallet.ports;
 
-import cj.netos.gateway.wallet.model.RechargeRecord;
-import cj.netos.gateway.wallet.model.WenyExchangeRecord;
-import cj.netos.gateway.wallet.model.WenyPurchRecord;
-import cj.netos.gateway.wallet.model.WithdrawRecord;
+import cj.netos.gateway.wallet.model.*;
 import cj.studio.ecm.net.CircuitException;
 import cj.studio.openport.IOpenportService;
 import cj.studio.openport.ISecuritySession;
@@ -30,9 +27,19 @@ public interface IRecordPorts extends IOpenportService {
                                       @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
     ) throws CircuitException;
 
+    @CjOpenport(usage = "获取申购过程步骤")
+    List<WenyPurchActivity> getPurchaseActivities(ISecuritySession securitySession,
+                                                  @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
+    ) throws CircuitException;
+
     @CjOpenport(usage = "获取承兑记录")
     WenyExchangeRecord getExchangeRecord(ISecuritySession securitySession,
                                          @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "获取承兑过程步骤")
+    List<WenyExchangeActivity> getExchangeActivities(ISecuritySession securitySession,
+                                                  @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
     ) throws CircuitException;
 
     @CjOpenport(usage = "通过申购单获取已承兑记录")

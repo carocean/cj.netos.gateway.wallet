@@ -61,4 +61,7 @@ public interface WenyPurchActivityMapper {
      * @mbg.generated generated automatically, do not modify!
      */
     int updateByPrimaryKey(WenyPurchActivity record);
+
+    List<WenyPurchActivity> getAllActivities(@Param(value = "record_sn") String record_sn);
+
 }

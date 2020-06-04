@@ -1,10 +1,7 @@
 package cj.netos.gateway.wallet;
 
 import cj.netos.gateway.wallet.bo.PurchasedBO;
-import cj.netos.gateway.wallet.model.RechargeRecord;
-import cj.netos.gateway.wallet.model.WenyExchangeRecord;
-import cj.netos.gateway.wallet.model.WenyPurchRecord;
-import cj.netos.gateway.wallet.model.WithdrawRecord;
+import cj.netos.gateway.wallet.model.*;
 import cj.netos.gateway.wallet.result.*;
 
 import java.util.List;
@@ -51,5 +48,9 @@ public interface IRecordService {
     List<WenyPurchRecord> pagePurchaseRecordOfUnexchanged(String principal, int limit, long offset);
 
     WenyExchangeRecord getExchangeRecordByPurchase(String principal, String purchase_sn);
+
+    List<WenyPurchActivity> getPurchaseActivities(String principal, String record_sn);
+
+    List<WenyExchangeActivity> getExchangeActivities(String principal, String record_sn);
 
 }

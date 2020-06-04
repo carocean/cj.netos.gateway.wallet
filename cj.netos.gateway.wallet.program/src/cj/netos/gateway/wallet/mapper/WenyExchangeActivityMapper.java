@@ -61,4 +61,7 @@ public interface WenyExchangeActivityMapper {
      * @mbg.generated generated automatically, do not modify!
      */
     int updateByPrimaryKey(WenyExchangeActivity record);
+
+    List<WenyExchangeActivity> getAllActivities(@Param(value = "record_sn") String record_sn);
+
 }

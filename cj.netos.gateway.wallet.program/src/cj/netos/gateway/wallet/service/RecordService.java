@@ -97,7 +97,7 @@ public class RecordService implements IRecordService {
         if (record == null) {
             return;
         }
-        int _status=Float.valueOf(result.getStatus()).intValue();
+        int _status = Float.valueOf(result.getStatus()).intValue();
         PurchasingResult purchasingResult = new Gson().fromJson((String) result.getRecord(), PurchasingResult.class);
         if (purchasingResult != null) {
             wenyPurchRecordMapper.ackPurchasing(
@@ -263,6 +263,12 @@ public class RecordService implements IRecordService {
 
     @CjTransaction
     @Override
+    public List<WenyPurchActivity> getPurchaseActivities(String principal, String record_sn) {
+        return wenyPurchActivityMapper.getAllActivities( record_sn);
+    }
+
+    @CjTransaction
+    @Override
     public WenyExchangeRecord getExchangeRecord(String principal, String record_sn) {
         WenyExchangeRecordExample example = new WenyExchangeRecordExample();
         example.createCriteria().andSnEqualTo(record_sn).andPersonEqualTo(principal);
@@ -271,6 +277,12 @@ public class RecordService implements IRecordService {
             return null;
         }
         return list.get(0);
+    }
+
+    @CjTransaction
+    @Override
+    public List<WenyExchangeActivity> getExchangeActivities(String principal, String record_sn) {
+        return wenyExchangeActivityMapper.getAllActivities(record_sn);
     }
 
     @CjTransaction

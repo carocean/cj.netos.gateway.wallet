@@ -1,10 +1,7 @@
 package cj.netos.gateway.wallet.ports;
 
 import cj.netos.gateway.wallet.IRecordService;
-import cj.netos.gateway.wallet.model.RechargeRecord;
-import cj.netos.gateway.wallet.model.WenyExchangeRecord;
-import cj.netos.gateway.wallet.model.WenyPurchRecord;
-import cj.netos.gateway.wallet.model.WithdrawRecord;
+import cj.netos.gateway.wallet.model.*;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
 import cj.studio.ecm.net.CircuitException;
@@ -33,8 +30,18 @@ public class RecordPorts implements IRecordPorts {
     }
 
     @Override
+    public List<WenyPurchActivity> getPurchaseActivities(ISecuritySession securitySession, String record_sn) throws CircuitException {
+        return recordService.getPurchaseActivities(securitySession.principal(),record_sn);
+    }
+
+    @Override
     public WenyExchangeRecord getExchangeRecord(ISecuritySession securitySession, String record_sn) throws CircuitException {
         return recordService.getExchangeRecord(securitySession.principal(),record_sn);
+    }
+
+    @Override
+    public List<WenyExchangeActivity> getExchangeActivities(ISecuritySession securitySession, String record_sn) throws CircuitException {
+        return recordService.getExchangeActivities(securitySession.principal(),record_sn);
     }
 
     @Override

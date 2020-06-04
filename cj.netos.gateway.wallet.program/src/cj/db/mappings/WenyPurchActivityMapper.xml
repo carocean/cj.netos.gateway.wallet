@@ -255,4 +255,12 @@
       ctime = #{ctime,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+
+  <select id="getAllActivities" parameterType="cj.netos.gateway.wallet.model.WenyPurchActivity" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from weny_purch_activity
+    where record_sn = #{record_sn,jdbcType=VARCHAR}
+    order by activity_no asc
+  </select>
 </mapper>
