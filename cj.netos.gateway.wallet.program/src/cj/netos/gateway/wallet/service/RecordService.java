@@ -239,6 +239,12 @@ public class RecordService implements IRecordService {
 
     @CjTransaction
     @Override
+    public List<RechargeActivity> getRechargeActivities(String principal, String record_sn) {
+        return rechargeActivityMapper.getAllActivities(record_sn);
+    }
+
+    @CjTransaction
+    @Override
     public WithdrawRecord getWithdrawRecord(String principal, String record_sn) {
         WithdrawRecordExample example = new WithdrawRecordExample();
         example.createCriteria().andSnEqualTo(record_sn).andPersonEqualTo(principal);
@@ -247,6 +253,12 @@ public class RecordService implements IRecordService {
             return null;
         }
         return list.get(0);
+    }
+
+    @CjTransaction
+    @Override
+    public List<WithdrawActivity> getWithdrawActivities(String principal, String record_sn) {
+        return withdrawActivityMapper.getAllActivities(record_sn);
     }
 
     @CjTransaction
@@ -264,7 +276,7 @@ public class RecordService implements IRecordService {
     @CjTransaction
     @Override
     public List<WenyPurchActivity> getPurchaseActivities(String principal, String record_sn) {
-        return wenyPurchActivityMapper.getAllActivities( record_sn);
+        return wenyPurchActivityMapper.getAllActivities(record_sn);
     }
 
     @CjTransaction
@@ -311,24 +323,25 @@ public class RecordService implements IRecordService {
 
     @CjTransaction
     @Override
-    public List<WenyPurchRecord> pagePurchaseRecord(String principal, int limit, long offset) {
-        return wenyPurchRecordMapper.page(principal, limit, offset);
+    public List<WenyPurchRecord> pagePurchaseRecord(String principal, String wenyBankID, int limit, long offset) {
+        return wenyPurchRecordMapper.page(principal, wenyBankID, limit, offset);
     }
 
     @CjTransaction
     @Override
-    public List<WenyPurchRecord> pagePurchaseRecordOfUnexchanged(String principal, int limit, long offset) {
-        return wenyPurchRecordMapper.pageUnexchanged(principal, limit, offset);
-    }
-    @CjTransaction
-    @Override
-    public List<WenyPurchRecord> pagePurchaseRecordOfExchanged(String principal, int limit, long offset) {
-        return wenyPurchRecordMapper.pageExchanged(principal, limit, offset);
+    public List<WenyPurchRecord> pagePurchaseRecordOfUnexchanged(String principal, String wenyBankID, int limit, long offset) {
+        return wenyPurchRecordMapper.pageUnexchanged(principal, wenyBankID, limit, offset);
     }
 
     @CjTransaction
     @Override
-    public List<WenyExchangeRecord> pageExchangeRecord(String principal, int limit, long offset) {
-        return wenyExchangeRecordMapper.page(principal, limit, offset);
+    public List<WenyPurchRecord> pagePurchaseRecordOfExchanged(String principal, String wenyBankID, int limit, long offset) {
+        return wenyPurchRecordMapper.pageExchanged(principal, wenyBankID, limit, offset);
+    }
+
+    @CjTransaction
+    @Override
+    public List<WenyExchangeRecord> pageExchangeRecord(String principal, String wenyBankID, int limit, long offset) {
+        return wenyExchangeRecordMapper.page(principal, wenyBankID, limit, offset);
     }
 }

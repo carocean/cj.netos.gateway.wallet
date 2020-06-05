@@ -41,11 +41,11 @@ public interface IRecordService {
 
     List<WithdrawRecord> pageWithdrawRecord(String principal, int limit, long offset);
 
-    List<WenyPurchRecord> pagePurchaseRecord(String principal, int limit, long offset);
+    List<WenyPurchRecord> pagePurchaseRecord(String principal, String wenyBankID, int limit, long offset);
 
-    List<WenyExchangeRecord> pageExchangeRecord(String principal, int limit, long offset);
+    List<WenyExchangeRecord> pageExchangeRecord(String principal, String wenyBankID, int limit, long offset);
 
-    List<WenyPurchRecord> pagePurchaseRecordOfUnexchanged(String principal, int limit, long offset);
+    List<WenyPurchRecord> pagePurchaseRecordOfUnexchanged(String principal, String wenyBankID, int limit, long offset);
 
     WenyExchangeRecord getExchangeRecordByPurchase(String principal, String purchase_sn);
 
@@ -53,6 +53,10 @@ public interface IRecordService {
 
     List<WenyExchangeActivity> getExchangeActivities(String principal, String record_sn);
 
-    List<WenyPurchRecord> pagePurchaseRecordOfExchanged(String principal, int limit, long offset);
+    List<WenyPurchRecord> pagePurchaseRecordOfExchanged(String principal, String wenyBankID, int limit, long offset);
+
+    List<RechargeActivity> getRechargeActivities(String principal, String record_sn);
+
+    List<WithdrawActivity> getWithdrawActivities(String principal, String record_sn);
 
 }

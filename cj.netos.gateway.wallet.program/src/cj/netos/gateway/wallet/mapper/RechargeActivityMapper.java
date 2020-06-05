@@ -61,4 +61,7 @@ public interface RechargeActivityMapper {
      * @mbg.generated generated automatically, do not modify!
      */
     int updateByPrimaryKey(RechargeActivity record);
+
+    List<RechargeActivity> getAllActivities(@Param(value = "record_sn") String record_sn);
+
 }

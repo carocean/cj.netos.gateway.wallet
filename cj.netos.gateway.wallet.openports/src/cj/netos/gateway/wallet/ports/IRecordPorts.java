@@ -17,9 +17,19 @@ public interface IRecordPorts extends IOpenportService {
                                      @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
     ) throws CircuitException;
 
+    @CjOpenport(usage = "获取充值步骤")
+    List<RechargeActivity> getRechargeActivities(ISecuritySession securitySession,
+                                                 @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
+    ) throws CircuitException;
+
     @CjOpenport(usage = "获取提现记录")
     WithdrawRecord getWithdrawRecord(ISecuritySession securitySession,
                                      @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "获取提现步骤")
+    List<WithdrawActivity> getWithdrawActivities(ISecuritySession securitySession,
+                                                 @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
     ) throws CircuitException;
 
     @CjOpenport(usage = "获取申购记录")
@@ -39,7 +49,7 @@ public interface IRecordPorts extends IOpenportService {
 
     @CjOpenport(usage = "获取承兑过程步骤")
     List<WenyExchangeActivity> getExchangeActivities(ISecuritySession securitySession,
-                                                  @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
+                                                     @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
     ) throws CircuitException;
 
     @CjOpenport(usage = "通过申购单获取已承兑记录")
@@ -61,22 +71,28 @@ public interface IRecordPorts extends IOpenportService {
 
     @CjOpenport(usage = "分页获取申购记录")
     List<WenyPurchRecord> pagePurchaseRecord(ISecuritySession securitySession,
+                                             @CjOpenportParameter(usage = "纹银银行行号", name = "wenyBankID") String wenyBankID,
                                              @CjOpenportParameter(usage = "页大小", name = "limit") int limit,
                                              @CjOpenportParameter(usage = "偏移", name = "offset") long offset
     ) throws CircuitException;
 
     @CjOpenport(usage = "分页获取未承兑的且可以承兑的申购记录")
     List<WenyPurchRecord> pagePurchaseRecordOfUnexchanged(ISecuritySession securitySession,
+                                                          @CjOpenportParameter(usage = "纹银银行行号", name = "wenyBankID") String wenyBankID,
                                                           @CjOpenportParameter(usage = "页大小", name = "limit") int limit,
                                                           @CjOpenportParameter(usage = "偏移", name = "offset") long offset
     ) throws CircuitException;
+
     @CjOpenport(usage = "分页获取已承兑的且可以承兑的申购记录")
     List<WenyPurchRecord> pagePurchaseRecordOfExchanged(ISecuritySession securitySession,
-                                                          @CjOpenportParameter(usage = "页大小", name = "limit") int limit,
-                                                          @CjOpenportParameter(usage = "偏移", name = "offset") long offset
+                                                        @CjOpenportParameter(usage = "纹银银行行号", name = "wenyBankID") String wenyBankID,
+                                                        @CjOpenportParameter(usage = "页大小", name = "limit") int limit,
+                                                        @CjOpenportParameter(usage = "偏移", name = "offset") long offset
     ) throws CircuitException;
+
     @CjOpenport(usage = "分页获取承兑记录")
     List<WenyExchangeRecord> pageExchangeRecord(ISecuritySession securitySession,
+                                                @CjOpenportParameter(usage = "纹银银行行号", name = "wenyBankID") String wenyBankID,
                                                 @CjOpenportParameter(usage = "页大小", name = "limit") int limit,
                                                 @CjOpenportParameter(usage = "偏移", name = "offset") long offset
     ) throws CircuitException;

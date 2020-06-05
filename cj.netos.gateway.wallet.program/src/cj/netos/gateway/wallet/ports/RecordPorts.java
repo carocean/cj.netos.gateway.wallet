@@ -20,8 +20,18 @@ public class RecordPorts implements IRecordPorts {
     }
 
     @Override
+    public List<RechargeActivity> getRechargeActivities(ISecuritySession securitySession, String record_sn) throws CircuitException {
+        return recordService.getRechargeActivities(securitySession.principal(),record_sn);
+    }
+
+    @Override
     public WithdrawRecord getWithdrawRecord(ISecuritySession securitySession, String record_sn) throws CircuitException {
         return recordService.getWithdrawRecord(securitySession.principal(),record_sn);
+    }
+
+    @Override
+    public List<WithdrawActivity> getWithdrawActivities(ISecuritySession securitySession, String record_sn) throws CircuitException {
+        return recordService.getWithdrawActivities(securitySession.principal(),record_sn);
     }
 
     @Override
@@ -60,22 +70,22 @@ public class RecordPorts implements IRecordPorts {
     }
 
     @Override
-    public List<WenyPurchRecord> pagePurchaseRecord(ISecuritySession securitySession,int limit, long offset) throws CircuitException {
-        return recordService.pagePurchaseRecord(securitySession.principal(),limit,offset);
+    public List<WenyPurchRecord> pagePurchaseRecord(ISecuritySession securitySession, String wenyBankID,int limit, long offset) throws CircuitException {
+        return recordService.pagePurchaseRecord(securitySession.principal(),wenyBankID,limit,offset);
     }
 
     @Override
-    public List<WenyPurchRecord> pagePurchaseRecordOfUnexchanged(ISecuritySession securitySession, int limit, long offset) throws CircuitException {
-        return recordService.pagePurchaseRecordOfUnexchanged(securitySession.principal(),limit,offset);
+    public List<WenyPurchRecord> pagePurchaseRecordOfUnexchanged(ISecuritySession securitySession, String wenyBankID, int limit, long offset) throws CircuitException {
+        return recordService.pagePurchaseRecordOfUnexchanged(securitySession.principal(),wenyBankID,limit,offset);
     }
 
     @Override
-    public List<WenyPurchRecord> pagePurchaseRecordOfExchanged(ISecuritySession securitySession, int limit, long offset) throws CircuitException {
-        return recordService.pagePurchaseRecordOfExchanged(securitySession.principal(),limit,offset);
+    public List<WenyPurchRecord> pagePurchaseRecordOfExchanged(ISecuritySession securitySession,  String wenyBankID,int limit, long offset) throws CircuitException {
+        return recordService.pagePurchaseRecordOfExchanged(securitySession.principal(),wenyBankID,limit,offset);
     }
 
     @Override
-    public List<WenyExchangeRecord> pageExchangeRecord(ISecuritySession securitySession,  int limit, long offset) throws CircuitException {
-        return recordService.pageExchangeRecord(securitySession.principal(),limit,offset);
+    public List<WenyExchangeRecord> pageExchangeRecord(ISecuritySession securitySession,   String wenyBankID,int limit, long offset) throws CircuitException {
+        return recordService.pageExchangeRecord(securitySession.principal(),wenyBankID,limit,offset);
     }
 }

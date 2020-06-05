@@ -451,6 +451,7 @@
     <include refid="Base_Column_List" />
     from weny_exchange_record
     where person = #{person,jdbcType=VARCHAR}
+    and bankid=#{bankid}
     order by ctime desc
     limit #{offset},#{limit}
   </select>

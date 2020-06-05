@@ -603,6 +603,7 @@
     <include refid="Base_Column_List" />
     from weny_purch_record
     where person = #{person,jdbcType=VARCHAR}
+    and bankid=#{bankid}
     order by ctime desc
     limit #{offset},#{limit}
   </select>
@@ -611,6 +612,7 @@
     <include refid="Base_Column_List" />
     from weny_purch_record
     where person = #{person,jdbcType=VARCHAR}
+    and bankid=#{bankid}
     and state=1
     and exchange_state=0
     order by ctime desc
@@ -621,6 +623,7 @@
     <include refid="Base_Column_List" />
     from weny_purch_record
     where person = #{person,jdbcType=VARCHAR}
+    and bankid=#{bankid}
     and state=1
     and exchange_state=2
     order by ctime desc

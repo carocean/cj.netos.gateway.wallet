@@ -63,4 +63,7 @@ public interface WithdrawActivityMapper {
     int updateByPrimaryKey(WithdrawActivity record);
 
     WithdrawActivity getLastWithdrawActivity(@Param(value = "record_sn") String record_sn);
+
+    List<WithdrawActivity> getAllActivities(@Param(value = "record_sn") String record_sn);
+
 }
