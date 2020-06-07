@@ -3,6 +3,7 @@ package cj.netos.gateway.wallet;
 import cj.netos.gateway.wallet.bo.PurchasedBO;
 import cj.netos.gateway.wallet.model.*;
 import cj.netos.gateway.wallet.result.*;
+import cj.studio.orm.mybatis.annotation.CjTransaction;
 
 import java.util.List;
 
@@ -58,5 +59,29 @@ public interface IRecordService {
     List<RechargeActivity> getRechargeActivities(String principal, String record_sn);
 
     List<WithdrawActivity> getWithdrawActivities(String principal, String record_sn);
+
+    PayRecord getPayment(String principal, String payment_sn);
+
+    PayDetails getPayDetails(String payment_sn);
+
+    List<PayActivity> getPayActivities(String record_sn);
+
+    TransProfitRecord getTransProfitRecord(String principal, String record_sn);
+
+    List<TransProfitActivity> getTransProfitActivities(String principal, String record_sn);
+
+    TransAbsorbRecord getTransAbsorbRecord(String principal, String record_sn);
+
+    List<TransAbsorbActivity> getTransAbsorbActivities(String principal, String record_sn);
+
+    DepositAbsorbRecord getDepositAbsorbRecord(String principal, String record_sn);
+
+    List<DepositAbsorbActivity> getDepositAbsorbActivities(String principal, String record_sn);
+
+    void ackDepositAbsorb(DepositAbsorbResult result);
+
+    void ackTransAbsorb(TransAbsorbResult result);
+
+    void ackTransProfit(TransProfitResult result);
 
 }

@@ -1,5 +1,6 @@
 package cj.netos.gateway.wallet.ports;
 
+import cj.netos.gateway.wallet.IPayActivityController;
 import cj.netos.gateway.wallet.IRechargeActivityController;
 import cj.netos.gateway.wallet.IWithdrawActivityController;
 import cj.studio.ecm.annotation.CjService;
@@ -13,6 +14,8 @@ public class SettleTradePorts implements ISettleTradePorts {
     IRechargeActivityController rechargeActivityController;
     @CjServiceRef
     IWithdrawActivityController withdrawActivityController;
+    @CjServiceRef
+    IPayActivityController payActivityController;
 
     @Override
     public void recharge(ISecuritySession securitySession, String sn, long amount, String code, String message) throws CircuitException {
@@ -23,5 +26,15 @@ public class SettleTradePorts implements ISettleTradePorts {
     public void withdraw(ISecuritySession securitySession, String sn, long amount, String code, String message) throws CircuitException {
         withdrawActivityController.settle(securitySession.principal(), sn, amount, code, message);
 
+    }
+
+    @Override
+    public void payment(ISecuritySession securitySession, String payment_sn) throws CircuitException {
+        payActivityController.payment(securitySession.principal(), payment_sn);
+    }
+
+    @Override
+    public void refund(ISecuritySession securitySession, String payment_sn) throws CircuitException {
+        payActivityController.refund(securitySession.principal(), payment_sn);
     }
 }

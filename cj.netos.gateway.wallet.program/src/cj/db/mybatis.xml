@@ -41,5 +41,14 @@
         <mapper resource="cj/db/mappings/WenyExchangeActivityMapper.xml"/>
         <mapper resource="cj/db/mappings/WenyPurchActivityMapper.xml"/>
         <mapper resource="cj/db/mappings/WithdrawActivityMapper.xml"/>
+        <mapper resource="cj/db/mappings/DepositAbsorbActivityMapper.xml"/>
+        <mapper resource="cj/db/mappings/DepositAbsorbRecordMapper.xml"/>
+        <mapper resource="cj/db/mappings/TransAbsorbActivityMapper.xml"/>
+        <mapper resource="cj/db/mappings/TransAbsorbRecordMapper.xml"/>
+        <mapper resource="cj/db/mappings/TransProfitActivityMapper.xml"/>
+        <mapper resource="cj/db/mappings/TransProfitRecordMapper.xml"/>
+        <mapper resource="cj/db/mappings/PayRecordMapper.xml"/>
+        <mapper resource="cj/db/mappings/PayDetailsMapper.xml"/>
+        <mapper resource="cj/db/mappings/PayActivityMapper.xml"/>
     </mappers>
 </configuration>

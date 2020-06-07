@@ -1,7 +1,9 @@
 package cj.netos.gateway.wallet.service;
 
 import cj.netos.gateway.wallet.IRecordService;
+import cj.netos.gateway.wallet.bo.DepositAbsorbBO;
 import cj.netos.gateway.wallet.bo.PurchasedBO;
+import cj.netos.gateway.wallet.bo.TransAbsorbBO;
 import cj.netos.gateway.wallet.mapper.*;
 import cj.netos.gateway.wallet.model.*;
 import cj.netos.gateway.wallet.result.*;
@@ -34,6 +36,26 @@ public class RecordService implements IRecordService {
     WenyExchangeActivityMapper wenyExchangeActivityMapper;
     @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.WenyExchangeRecordMapper")
     WenyExchangeRecordMapper wenyExchangeRecordMapper;
+
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.PayRecordMapper")
+    PayRecordMapper payRecordMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.PayActivityMapper")
+    PayActivityMapper payActivityMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.PayDetailsMapper")
+    PayDetailsMapper payDetailsMapper;
+
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.TransProfitRecordMapper")
+    TransProfitRecordMapper transProfitRecordMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.TransProfitActivityMapper")
+    TransProfitActivityMapper transProfitActivityMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.TransAbsorbRecordMapper")
+    TransAbsorbRecordMapper transAbsorbRecordMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.TransAbsorbActivityMapper")
+    TransAbsorbActivityMapper transAbsorbActivityMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.DepositAbsorbRecordMapper")
+    DepositAbsorbRecordMapper depositAbsorbRecordMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.DepositAbsorbActivityMapper")
+    DepositAbsorbActivityMapper depositAbsorbActivityMapper;
 
     @CjTransaction
     @Override
@@ -343,5 +365,142 @@ public class RecordService implements IRecordService {
     @Override
     public List<WenyExchangeRecord> pageExchangeRecord(String principal, String wenyBankID, int limit, long offset) {
         return wenyExchangeRecordMapper.page(principal, wenyBankID, limit, offset);
+    }
+
+    @CjTransaction
+    @Override
+    public PayRecord getPayment(String principal, String payment_sn) {
+        PayRecordExample example = new PayRecordExample();
+        example.createCriteria().andSnEqualTo(payment_sn).andPersonEqualTo(principal);
+        List<PayRecord> list = payRecordMapper.selectByExample(example);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
+
+    @CjTransaction
+    @Override
+    public PayDetails getPayDetails(String payment_sn) {
+        PayDetailsExample example = new PayDetailsExample();
+        example.createCriteria().andPaySnEqualTo(payment_sn);
+        List<PayDetails> list = payDetailsMapper.selectByExample(example);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
+
+    @CjTransaction
+    @Override
+    public List<PayActivity> getPayActivities(String record_sn) {
+        return payActivityMapper.getAllActivities(record_sn);
+    }
+
+    @CjTransaction
+    @Override
+    public TransProfitRecord getTransProfitRecord(String principal, String record_sn) {
+        TransProfitRecordExample example = new TransProfitRecordExample();
+        example.createCriteria().andSnEqualTo(record_sn).andPersonEqualTo(principal);
+        List<TransProfitRecord> list = transProfitRecordMapper.selectByExample(example);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
+
+    @Override
+    public List<TransProfitActivity> getTransProfitActivities(String principal, String record_sn) {
+        return transProfitActivityMapper.getAllActivities(record_sn);
+    }
+
+    @CjTransaction
+    @Override
+    public TransAbsorbRecord getTransAbsorbRecord(String principal, String record_sn) {
+        TransAbsorbRecordExample example = new TransAbsorbRecordExample();
+        example.createCriteria().andSnEqualTo(record_sn).andPersonEqualTo(principal);
+        List<TransAbsorbRecord> list = transAbsorbRecordMapper.selectByExample(example);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
+
+    @CjTransaction
+    @Override
+    public List<TransAbsorbActivity> getTransAbsorbActivities(String principal, String record_sn) {
+        return transAbsorbActivityMapper.getAllActivities(record_sn);
+    }
+
+    @CjTransaction
+    @Override
+    public DepositAbsorbRecord getDepositAbsorbRecord(String principal, String record_sn) {
+        DepositAbsorbRecordExample example = new DepositAbsorbRecordExample();
+        example.createCriteria().andSnEqualTo(record_sn).andPersonEqualTo(principal);
+        List<DepositAbsorbRecord> list = depositAbsorbRecordMapper.selectByExample(example);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
+
+    @CjTransaction
+    @Override
+    public List<DepositAbsorbActivity> getDepositAbsorbActivities(String principal, String record_sn) {
+        return depositAbsorbActivityMapper.getAllActivities(record_sn);
+    }
+
+    @CjTransaction
+    @Override
+    public void ackDepositAbsorb(DepositAbsorbResult result) {
+        int _status = Float.valueOf(result.getStatus()).intValue();
+        DepositAbsorbBO bo = new Gson().fromJson((String) result.getRecord(), DepositAbsorbBO.class);
+        depositAbsorbRecordMapper.done(result.getSn(), bo.getDemandAmount(), _status, result.getMessage(), WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+
+        DepositAbsorbActivity depositAbsorbActivity = new DepositAbsorbActivity();
+        depositAbsorbActivity.setActivityName("已完成");
+        depositAbsorbActivity.setActivityNo(1);
+        depositAbsorbActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        depositAbsorbActivity.setId(new IdWorker().nextId());
+        depositAbsorbActivity.setMessage(result.getMessage());
+        depositAbsorbActivity.setStatus(Float.valueOf(result.getStatus()).intValue());
+        depositAbsorbActivity.setRecordSn(result.getSn());
+        depositAbsorbActivityMapper.insert(depositAbsorbActivity);
+    }
+
+    @CjTransaction
+    @Override
+    public void ackTransAbsorb(TransAbsorbResult result) {
+        int _status = Float.valueOf(result.getStatus()).intValue();
+        TransAbsorbBO bo = new Gson().fromJson((String) result.getRecord(), TransAbsorbBO.class);
+        transAbsorbRecordMapper.done(result.getSn(), bo.getDemandAmount(), _status, result.getMessage(), WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+
+        TransAbsorbActivity transAbsorbActivity = new TransAbsorbActivity();
+        transAbsorbActivity.setActivityName("已完成");
+        transAbsorbActivity.setActivityNo(1);
+        transAbsorbActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        transAbsorbActivity.setId(new IdWorker().nextId());
+        transAbsorbActivity.setMessage(result.getMessage());
+        transAbsorbActivity.setStatus(Float.valueOf(result.getStatus()).intValue());
+        transAbsorbActivity.setRecordSn(result.getSn());
+        transAbsorbActivityMapper.insert(transAbsorbActivity);
+    }
+
+    @CjTransaction
+    @Override
+    public void ackTransProfit(TransProfitResult result) {
+        int _status = Float.valueOf(result.getStatus()).intValue();
+        TransAbsorbBO bo = new Gson().fromJson((String) result.getRecord(), TransAbsorbBO.class);
+        transProfitRecordMapper.done(result.getSn(), bo.getDemandAmount(), _status, result.getMessage(), WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+
+        TransProfitActivity transProfitActivity = new TransProfitActivity();
+        transProfitActivity.setActivityName("已完成");
+        transProfitActivity.setActivityNo(1);
+        transProfitActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        transProfitActivity.setId(new IdWorker().nextId());
+        transProfitActivity.setMessage(result.getMessage());
+        transProfitActivity.setStatus(Float.valueOf(result.getStatus()).intValue());
+        transProfitActivity.setRecordSn(result.getSn());
+        transProfitActivityMapper.insert(transProfitActivity);
     }
 }

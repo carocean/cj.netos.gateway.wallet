@@ -63,5 +63,4 @@ public interface WenyExchangeActivityMapper {
     int updateByPrimaryKey(WenyExchangeActivity record);
 
     List<WenyExchangeActivity> getAllActivities(@Param(value = "record_sn") String record_sn);
-
 }

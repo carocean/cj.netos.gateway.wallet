@@ -1,9 +1,9 @@
 package cj.netos.gateway.wallet.service;
 
 import cj.netos.gateway.wallet.IReceiptTradeService;
+import cj.netos.gateway.wallet.bo.PayDetailsBO;
 import cj.netos.gateway.wallet.mapper.*;
 import cj.netos.gateway.wallet.model.*;
-import cj.netos.gateway.wallet.result.ExchangingResult;
 import cj.netos.gateway.wallet.util.IdWorker;
 import cj.netos.gateway.wallet.util.WalletUtils;
 import cj.studio.ecm.annotation.CjBridge;
@@ -32,6 +32,25 @@ public class ReceiptTradeService implements IReceiptTradeService {
     WenyPurchActivityMapper wenyPurchActivityMapper;
     @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.WenyExchangeActivityMapper")
     WenyExchangeActivityMapper wenyExchangeActivityMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.DepositAbsorbRecordMapper")
+    DepositAbsorbRecordMapper depositAbsorbRecordMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.DepositAbsorbActivityMapper")
+    DepositAbsorbActivityMapper depositAbsorbActivityMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.TransAbsorbRecordMapper")
+    TransAbsorbRecordMapper transAbsorbRecordMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.TransAbsorbActivityMapper")
+    TransAbsorbActivityMapper transAbsorbActivityMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.TransProfitRecordMapper")
+    TransProfitRecordMapper transProfitRecordMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.TransProfitActivityMapper")
+    TransProfitActivityMapper transProfitActivityMapper;
+
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.PayRecordMapper")
+    PayRecordMapper payRecordMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.PayActivityMapper")
+    PayActivityMapper payActivityMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.PayDetailsMapper")
+    PayDetailsMapper payDetailsMapper;
 
     @CjTransaction
     @Override
@@ -93,6 +112,138 @@ public class ReceiptTradeService implements IReceiptTradeService {
         return record;
     }
 
+    @CjTransaction
+    @Override
+    public DepositAbsorbRecord depositAbsorb(String principal, String personName, long amount, String sourceCode, String sourceTitle, String note) {
+        DepositAbsorbRecord record = new DepositAbsorbRecord();
+        record.setDemandAmount(amount);
+        record.setCurrency("CNY");
+        record.setSourceCode(sourceCode);
+        record.setSourceTitle(sourceTitle);
+        record.setPerson(principal);
+        record.setState(0);
+        record.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        record.setLutime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        record.setPersonName(personName);
+        record.setNote(note);
+        record.setSn(new IdWorker().nextId());
+        record.setStatus(200);
+        record.setMessage("ok");
+        depositAbsorbRecordMapper.insert(record);
+
+        DepositAbsorbActivity depositAbsorbActivity = new DepositAbsorbActivity();
+        depositAbsorbActivity.setActivityName("已收单");
+        depositAbsorbActivity.setActivityNo(0);
+        depositAbsorbActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        depositAbsorbActivity.setId(new IdWorker().nextId());
+        depositAbsorbActivity.setMessage(record.getMessage());
+        depositAbsorbActivity.setStatus(record.getStatus());
+        depositAbsorbActivity.setRecordSn(record.getSn());
+        depositAbsorbActivityMapper.insert(depositAbsorbActivity);
+        return record;
+    }
+
+    @CjTransaction
+    @Override
+    public TransAbsorbRecord transAbsorb(String principal, String personName, long amount, String note) {
+        TransAbsorbRecord record = new TransAbsorbRecord();
+        record.setDemandAmount(amount);
+        record.setCurrency("CNY");
+        record.setPerson(principal);
+        record.setState(0);
+        record.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        record.setLutime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        record.setPersonName(personName);
+        record.setNote(note);
+        record.setSn(new IdWorker().nextId());
+        record.setStatus(200);
+        record.setMessage("ok");
+        transAbsorbRecordMapper.insert(record);
+
+        TransAbsorbActivity transAbsorbActivity = new TransAbsorbActivity();
+        transAbsorbActivity.setActivityName("已收单");
+        transAbsorbActivity.setActivityNo(0);
+        transAbsorbActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        transAbsorbActivity.setId(new IdWorker().nextId());
+        transAbsorbActivity.setMessage(record.getMessage());
+        transAbsorbActivity.setStatus(record.getStatus());
+        transAbsorbActivity.setRecordSn(record.getSn());
+        transAbsorbActivityMapper.insert(transAbsorbActivity);
+        return record;
+    }
+
+    @CjTransaction
+    @Override
+    public TransProfitRecord transProfit(String principal, String personName, String wenyBankID, long amount, String note) {
+        TransProfitRecord record = new TransProfitRecord();
+        record.setDemandAmount(amount);
+        record.setCurrency("CNY");
+        record.setPerson(principal);
+        record.setState(0);
+        record.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        record.setLutime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        record.setPersonName(personName);
+        record.setNote(note);
+        record.setSn(new IdWorker().nextId());
+        record.setStatus(200);
+        record.setMessage("ok");
+        record.setBankid(wenyBankID);
+        transProfitRecordMapper.insert(record);
+
+        TransProfitActivity transProfitActivity = new TransProfitActivity();
+        transProfitActivity.setActivityName("已收单");
+        transProfitActivity.setActivityNo(0);
+        transProfitActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        transProfitActivity.setId(new IdWorker().nextId());
+        transProfitActivity.setMessage(record.getMessage());
+        transProfitActivity.setStatus(record.getStatus());
+        transProfitActivity.setRecordSn(record.getSn());
+        transProfitActivityMapper.insert(transProfitActivity);
+        return record;
+    }
+
+    @CjTransaction
+    @Override
+    public PayRecord payable(String principal, String personName, long amount, int type, PayDetailsBO details, String note) {
+        PayRecord record = new PayRecord();
+        record.setAmount(amount);
+        record.setCurrency("CNY");
+        record.setPerson(principal);
+        record.setState(0);
+        record.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        record.setLutime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        record.setPersonName(personName);
+        record.setNote(note);
+        record.setSn(new IdWorker().nextId());
+        record.setStatus(200);
+        record.setMessage("ok");
+        record.setType(type);
+        payRecordMapper.insert(record);
+
+        PayDetails payDetails=new PayDetails();
+        payDetails.setId(new IdWorker().nextId());
+        payDetails.setMerchId(details.getMerchid());
+        payDetails.setMerchName(details.getMerchName());
+        payDetails.setNote(details.getNote());
+        payDetails.setOrderNo(details.getOrderno());
+        payDetails.setOrderTitle(details.getOrderTitle());
+        payDetails.setPaySn(record.getSn());
+        payDetails.setServiceId(details.getServiceid());
+        payDetails.setServiceName(details.getServiceName());
+        payDetailsMapper.insert(payDetails);
+
+        PayActivity payActivity = new PayActivity();
+        payActivity.setActivityName("已收单");
+        payActivity.setActivityNo(0);
+        payActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        payActivity.setId(new IdWorker().nextId());
+        payActivity.setMessage(record.getMessage());
+        payActivity.setStatus(record.getStatus());
+        payActivity.setRecordSn(record.getSn());
+        payActivityMapper.insert(payActivity);
+
+        return record;
+    }
 
     @CjTransaction
     @Override
@@ -146,7 +297,7 @@ public class ReceiptTradeService implements IReceiptTradeService {
         record.setMessage("ok");
         record.setBankPurchNo(purchRecord.getBankPurchSn());
         wenyExchangeRecordMapper.insert(record);
-        wenyPurchRecordMapper.exchanging(record.getRefsn(),WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        wenyPurchRecordMapper.exchanging(record.getRefsn(), WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
 
         WenyExchangeActivity wenyExchangeActivity = new WenyExchangeActivity();
         wenyExchangeActivity.setActivityName("已收单");

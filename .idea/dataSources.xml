@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="netos.wallet.main" uuid="7d9d0859-3c2d-4577-bbef-6a8bf0006e36">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://47.104.128.137:3306/netos.wallet.main</jdbc-url>
+      <keep-alive enable="true" />
+    </data-source>
+    <data-source source="LOCAL" name="netos.uc" uuid="5b0d5b65-39b5-4c46-a869-3bd5e4c50146">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://47.104.128.137:3306/netos.uc</jdbc-url>
+      <keep-alive enable="true" />
+    </data-source>
+    <data-source source="LOCAL" name="netos.weny.main" uuid="53ce36b9-45bb-44e8-a61e-fee0cab2ca93">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://47.104.128.137:3306/netos.weny.main</jdbc-url>
+      <keep-alive enable="true" />
+    </data-source>
+  </component>
+</project>

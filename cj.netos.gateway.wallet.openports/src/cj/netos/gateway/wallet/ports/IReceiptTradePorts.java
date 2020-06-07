@@ -1,13 +1,12 @@
 package cj.netos.gateway.wallet.ports;
 
-import cj.netos.gateway.wallet.result.ExchangedResult;
-import cj.netos.gateway.wallet.result.PurchasingResult;
-import cj.netos.gateway.wallet.result.RechargeResult;
-import cj.netos.gateway.wallet.result.WithdrawResult;
+import cj.netos.gateway.wallet.bo.PayDetailsBO;
+import cj.netos.gateway.wallet.result.*;
 import cj.studio.ecm.net.CircuitException;
 import cj.studio.openport.AccessTokenIn;
 import cj.studio.openport.IOpenportService;
 import cj.studio.openport.ISecuritySession;
+import cj.studio.openport.PKeyInRequest;
 import cj.studio.openport.annotations.CjOpenport;
 import cj.studio.openport.annotations.CjOpenportAppSecurity;
 import cj.studio.openport.annotations.CjOpenportParameter;
@@ -30,6 +29,39 @@ public interface IReceiptTradePorts extends IOpenportService {
                             @CjOpenportParameter(usage = "备注", name = "note") String note
     ) throws CircuitException;
 
+    @CjOpenport(usage = "从我的收益账户转入零钱账户")
+    TransferProfitResult transferProfit(ISecuritySession securitySession,
+                                        @CjOpenportParameter(usage = "要申购的纹银银行id", name = "wenyBankID") String wenyBankID,
+                                        @CjOpenportParameter(usage = "转账金额,单位为分", name = "amount") long amount,
+                                        @CjOpenportParameter(usage = "备注", name = "note") String note
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "从我的洇金账户转入零钱账户")
+    TransferAbsorbResult transferAbsorb(ISecuritySession securitySession,
+                                        @CjOpenportParameter(usage = "转账金额,单位为分", name = "amount") long amount,
+                                        @CjOpenportParameter(usage = "备注", name = "note") String note
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "存入洇金。在使用gbera服务时洇取的洇金存入到洇金账户")
+    DepositAbsorbResult depositAbsorb(ISecuritySession securitySession,
+                                      @CjOpenportParameter(usage = "存入金额,单位为分", name = "amount") long amount,
+                                      @CjOpenportParameter(usage = "洇金来源代码，一般是来源的模块名", name = "sourceCode") String sourceCode,
+                                      @CjOpenportParameter(usage = "洇金来源的显示名", name = "sourceTitle") String sourceTitle,
+                                      @CjOpenportParameter(usage = "备注", name = "note") String note
+    ) throws CircuitException;
+
+
+    @CjOpenport(usage = "应付款收单。采用付款方主动模式，应付款收单的逻辑是应该向谁付什么款，但并未实际支付，而是执行预扣款。\n" +
+            "1。对于收方主动扫付款码收款的情况，收方扫码后得到付方的临时支付令牌，并创建临时收款单，付方轮询到后验证令牌通过后开始调用支付程序，两方是个互动过程。\n" +
+            "2。对于付方主动扫收款码的情况，则付方主动调用支付程序，成功后通知收款方即可。\n" +
+            "因此对于收付款和转账的接口仅3个，即应付方法、支付方法（实际执行）、退款方法，后两个方法在决清ports中实现", command = "post")
+    PayableResult payable(ISecuritySession securitySession,
+                          @CjOpenportParameter(usage = "付款金额,单位为分", name = "amount") long amount,
+                          @CjOpenportParameter(usage = "收款人", name = "payee") String payee,
+                          @CjOpenportParameter(usage = "付款类型，有：0 normal_pay(普通无附带属性，如p2p转账)|1 qrcode_payer_scan(我扫码收款方主动支付)|2 qrcode_payeer_scan(我被收款方扫码我方支付)|3 receipt_pay(支付收款单)|4 order_pay(支付订单)", name = "type") int type,
+                          @CjOpenportParameter(usage = "交易明细，如类型是支付订单，则明细中有商户、订单号等", name = "details", in = PKeyInRequest.content ,simpleModelFile = "/payable_details.md") PayDetailsBO details,
+                          @CjOpenportParameter(usage = "备注", name = "note") String note
+    ) throws CircuitException;
 
     @CjOpenport(usage = "申购纹银")
     PurchasingResult purchaseWeny(ISecuritySession securitySession,
@@ -46,40 +78,9 @@ public interface IReceiptTradePorts extends IOpenportService {
     ) throws CircuitException;
 
     @CjOpenportAppSecurity
-    @CjOpenport(usage = "承兑纹银",tokenIn = AccessTokenIn.nope)
+    @CjOpenport(usage = "承兑纹银", tokenIn = AccessTokenIn.nope)
     ExchangedResult exchangeWenyOfPerson(ISecuritySession securitySession,
-                                 @CjOpenportParameter(usage = "要承兑的纹银申购单号", name = "purchase_sn") String purchase_sn,
-                                 @CjOpenportParameter(usage = "备注", name = "note") String note
+                                         @CjOpenportParameter(usage = "要承兑的纹银申购单号", name = "purchase_sn") String purchase_sn,
+                                         @CjOpenportParameter(usage = "备注", name = "note") String note
     ) throws CircuitException;
-
-//    @CjOpenport(usage = "付款，付给系统内其它用户。注：当余额不足时会失败", command = "post")
-//    void payment(ISecuritySession securitySession,
-//                 @CjOpenportParameter(usage = "金额,单位为分", name = "amount") long amount,
-//                 @CjOpenportParameter(usage = "收款人", name = "payee") String payee,
-//                 @CjOpenportParameter(usage = "付款类型。二维码付款(qrcode_pay)，支付订单(order_pay)", name = "type") String type,
-//                 @CjOpenportParameter(usage = "交易明细，如类型是支付订单，则明细中有商户、订单号等", name = "details", in = PKeyInRequest.content) TradeDetailsBO details
-//    ) throws CircuitException;
-//
-//    @CjOpenport(usage = "收款，从系统内其它用户处接收款项。", command = "post")
-//    void gathering(ISecuritySession securitySession,
-//                   @CjOpenportParameter(usage = "金额,单位为分", name = "amount")
-//                           long amount,
-//                   @CjOpenportParameter(usage = "付款人", name = "payer")
-//                           String payer,
-//                   @CjOpenportParameter(usage = "收款类型。二维码收款(qrcode_gather)，售出收款(order_gather)", name = "type")
-//                           String type,
-//                   @CjOpenportParameter(usage = "交易明细，如类型是售出收款，则明细中有商户、订单号等", name = "details", in = PKeyInRequest.content)
-//                           TradeDetailsBO details
-//    ) throws CircuitException;
-//
-//    @CjOpenport(usage = "转账。一个系统内用户付款到另一系统内用户收款。注：当余额不足时可能会从他的非余额支付渠道中扣款", command = "post")
-//    void transfer(ISecuritySession securitySession,
-//                  @CjOpenportParameter(usage = "金额,单位为分", name = "amount") long amount,
-//                  @CjOpenportParameter(usage = "收款人", name = "payee") String payee,
-//                  @CjOpenportParameter(usage = "交易明细，如类型是支付订单，则明细中有商户、订单号等", name = "details", in = PKeyInRequest.content) TradeDetailsBO details
-//    ) throws CircuitException;
-//
-//    @CjOpenport(usage = "查询余额")
-//    void queryAmount(ISecuritySession securitySession
-//    ) throws CircuitException;
 }

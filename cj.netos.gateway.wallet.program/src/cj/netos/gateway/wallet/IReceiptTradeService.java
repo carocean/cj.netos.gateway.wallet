@@ -1,10 +1,8 @@
 package cj.netos.gateway.wallet;
 
+import cj.netos.gateway.wallet.bo.PayDetailsBO;
 import cj.netos.gateway.wallet.model.*;
-import cj.netos.gateway.wallet.result.ExchangingResult;
 import cj.studio.ecm.net.CircuitException;
-
-import java.math.BigDecimal;
 
 public interface IReceiptTradeService {
     RechargeRecord recharge(String principal, String personName, String currency, long amount, PayChannel payChannel, String note);
@@ -23,5 +21,13 @@ public interface IReceiptTradeService {
     WithdrawRecord getWithdrawRecord(String sn);
 
     WithdrawActivity getLastWithdrawActivity(String sn);
+
+    DepositAbsorbRecord depositAbsorb(String principal, String personName, long amount, String sourceCode, String sourceTitle, String note);
+
+    TransAbsorbRecord transAbsorb(String principal, String personName, long amount, String note);
+
+    TransProfitRecord transProfit(String principal, String personName, String wenyBankID, long amount, String note);
+
+    PayRecord payable(String principal, String personName, long amount, int type, PayDetailsBO details, String note);
 
 }

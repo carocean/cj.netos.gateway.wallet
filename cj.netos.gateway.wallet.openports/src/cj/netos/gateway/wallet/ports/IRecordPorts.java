@@ -1,6 +1,7 @@
 package cj.netos.gateway.wallet.ports;
 
 import cj.netos.gateway.wallet.model.*;
+import cj.netos.gateway.wallet.result.PaymentResult;
 import cj.studio.ecm.net.CircuitException;
 import cj.studio.openport.IOpenportService;
 import cj.studio.openport.ISecuritySession;
@@ -31,6 +32,47 @@ public interface IRecordPorts extends IOpenportService {
     List<WithdrawActivity> getWithdrawActivities(ISecuritySession securitySession,
                                                  @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
     ) throws CircuitException;
+
+    @CjOpenport(usage = "获取支付记录")
+    PaymentResult getPayRecord(ISecuritySession securitySession,
+                               @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "获取支付步骤")
+    List<PayActivity> getPayActivities(ISecuritySession securitySession,
+                                       @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "获取收益金提取记录")
+    TransProfitRecord getTransProfitRecord(ISecuritySession securitySession,
+                                           @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "获取收益金提取步骤")
+    List<TransProfitActivity> getTransProfitActivities(ISecuritySession securitySession,
+                                                       @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "获取洇金提取记录")
+    TransAbsorbRecord getTransAbsorbRecord(ISecuritySession securitySession,
+                                           @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "获取洇金提取步骤")
+    List<TransAbsorbActivity> getTransAbsorbActivities(ISecuritySession securitySession,
+                                                       @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "获取存入洇金记录")
+    DepositAbsorbRecord getDepositAbsorbRecord(ISecuritySession securitySession,
+                                               @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "获取存入洇金步骤")
+    List<DepositAbsorbActivity> getDepositAbsorbActivities(ISecuritySession securitySession,
+                                                           @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
+    ) throws CircuitException;
+
 
     @CjOpenport(usage = "获取申购记录")
     WenyPurchRecord getPurchaseRecord(ISecuritySession securitySession,

@@ -7,7 +7,7 @@ public class PaymentBO {
     long amount;
     String type;
     long ctime;
-    TradeDetailsBO details;
+    PayDetailsBO details;
 
     public String getPayer() {
         return payer;
@@ -57,11 +57,11 @@ public class PaymentBO {
         this.ctime = ctime;
     }
 
-    public TradeDetailsBO getDetails() {
+    public PayDetailsBO getDetails() {
         return details;
     }
 
-    public void setDetails(TradeDetailsBO details) {
+    public void setDetails(PayDetailsBO details) {
         this.details = details;
     }
 }

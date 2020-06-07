@@ -1,11 +1,9 @@
 package cj.netos.gateway.wallet.ports;
 
 import cj.netos.gateway.wallet.*;
+import cj.netos.gateway.wallet.bo.PayDetailsBO;
 import cj.netos.gateway.wallet.model.*;
-import cj.netos.gateway.wallet.result.ExchangedResult;
-import cj.netos.gateway.wallet.result.PurchasingResult;
-import cj.netos.gateway.wallet.result.RechargeResult;
-import cj.netos.gateway.wallet.result.WithdrawResult;
+import cj.netos.gateway.wallet.result.*;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
 import cj.studio.ecm.net.CircuitException;
@@ -33,6 +31,14 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
 
     @CjServiceRef
     IWithdrawActivityController withdrawActivityController;
+    @CjServiceRef
+    ITransferProfitActivityController transferProfitActivityController;
+    @CjServiceRef
+    ITransferAbsorbActivityController transferAbsorbActivityController;
+    @CjServiceRef
+    IDepositAbsorbActivityController depositAbsorbActivityController;
+    @CjServiceRef
+    IPayActivityController payActivityController;
     @CjServiceRef
     IRecordService recordService;
 
@@ -71,6 +77,60 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
         return new Gson().fromJson(new Gson().toJson(record), WithdrawResult.class);
     }
 
+    @Override
+    public TransferProfitResult transferProfit(ISecuritySession securitySession,String wenyBankID,  long amount, String note) throws CircuitException {
+        if (amount < 0) {
+            throw new CircuitException("500", "金额为负数");
+        }
+        if (StringUtil.isEmpty(wenyBankID)) {
+            throw new CircuitException("404", String.format("行号为空"));
+        }
+        Map<String, Object> personInfo = personService.getPersonInfo((String) securitySession.property("accessToken"));
+        String personName = (String) personInfo.get("nickName");
+        TransProfitRecord record = transferProfitActivityController.doReceipt(securitySession.principal(), personName,wenyBankID, amount, note);
+        return new Gson().fromJson(new Gson().toJson(record), TransferProfitResult.class);
+    }
+
+    @Override
+    public TransferAbsorbResult transferAbsorb(ISecuritySession securitySession,long amount, String note) throws CircuitException {
+        if (amount < 0) {
+            throw new CircuitException("500", "金额为负数");
+        }
+
+        Map<String, Object> personInfo = personService.getPersonInfo((String) securitySession.property("accessToken"));
+        String personName = (String) personInfo.get("nickName");
+        TransAbsorbRecord record = transferAbsorbActivityController.doReceipt(securitySession.principal(), personName, amount, note);
+        return new Gson().fromJson(new Gson().toJson(record), TransferAbsorbResult.class);
+    }
+
+    @Override
+    public DepositAbsorbResult depositAbsorb(ISecuritySession securitySession, long amount, String sourceCode, String sourceTitle, String note) throws CircuitException {
+        if (amount < 0) {
+            throw new CircuitException("500", "金额为负数");
+        }
+        if (StringUtil.isEmpty(sourceCode)) {
+            throw new CircuitException("404", String.format("洇金来源代码为空"));
+        }
+        Map<String, Object> personInfo = personService.getPersonInfo((String) securitySession.property("accessToken"));
+        String personName = (String) personInfo.get("nickName");
+        DepositAbsorbRecord record = depositAbsorbActivityController.doReceipt(securitySession.principal(), personName, amount, sourceCode, sourceTitle, note);
+        return new Gson().fromJson(new Gson().toJson(record), DepositAbsorbResult.class);
+    }
+
+    @Override
+    public PayableResult payable(ISecuritySession securitySession, long amount, String payee, int type, PayDetailsBO details, String note) throws CircuitException {
+        if (amount < 0) {
+            throw new CircuitException("500", "金额为负数");
+        }
+        if (StringUtil.isEmpty(payee)) {
+            throw new CircuitException("404", String.format("收款人为空"));
+        }
+
+        Map<String, Object> personInfo = personService.getPersonInfo((String) securitySession.property("accessToken"));
+        String personName = (String) personInfo.get("nickName");
+        PayRecord record = payActivityController.doReceipt(securitySession.principal(), personName, amount, type, details, note);
+        return new Gson().fromJson(new Gson().toJson(record), PayableResult.class);
+    }
 
     @Override
     public PurchasingResult purchaseWeny(ISecuritySession securitySession, String wenyBankID, long amount, String note) throws CircuitException {
