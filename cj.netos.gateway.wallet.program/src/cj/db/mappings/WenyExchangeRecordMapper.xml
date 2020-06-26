@@ -452,7 +452,7 @@
     from weny_exchange_record
     where person = #{person,jdbcType=VARCHAR}
     and bankid=#{bankid}
-    order by ctime desc
+    order by ctime asc
     limit #{offset},#{limit}
   </select>
 

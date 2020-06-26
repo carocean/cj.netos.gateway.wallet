@@ -27,6 +27,10 @@ dependencies {
 
     compile group: 'cj.netos.rabbitmq', name: 'cj.netos.rabbitmq', version: ref_cj_netos_rabbitmq_version
     compile group: 'org.yaml', name: 'snakeyaml', version: '1.25'
+    // https://mvnrepository.com/artifact/com.alipay.sdk/alipay-sdk-java
+    compile group: 'com.alipay.sdk', name: 'alipay-sdk-java', version: '4.10.0.ALL'
+
+
 }
 task copyRefembeds(type: Copy) {
     from configurations.compileClasspath.files {
