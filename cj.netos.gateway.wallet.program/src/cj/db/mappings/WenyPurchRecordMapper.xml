@@ -604,7 +604,7 @@
     from weny_purch_record
     where person = #{person,jdbcType=VARCHAR}
     and bankid=#{bankid}
-    order by ctime asc
+    order by ctime desc
     limit #{offset},#{limit}
   </select>
   <select id="pageUnexchanged" parameterType="cj.netos.gateway.wallet.model.WenyPurchRecord" resultMap="BaseResultMap">
@@ -615,7 +615,7 @@
     and bankid=#{bankid}
     and state=1
     and exchange_state=0
-    order by ctime asc
+    order by ctime desc
     limit #{offset},#{limit}
   </select>
   <select id="pageExchanged" parameterType="cj.netos.gateway.wallet.model.WenyPurchRecord" resultMap="BaseResultMap">
@@ -626,7 +626,7 @@
     and bankid=#{bankid}
     and state=1
     and exchange_state=2
-    order by ctime asc
+    order by ctime desc
     limit #{offset},#{limit}
   </select>
 </mapper>
