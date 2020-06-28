@@ -30,4 +30,6 @@ public interface IReceiptTradeService {
 
     PayRecord payable(String principal, String personName, long amount, int type, PayDetailsBO details, String note);
 
+    TransShunterRecord transShunter(String principal, String personName, String wenyBankID, String shunter, long amount, String note);
+
 }

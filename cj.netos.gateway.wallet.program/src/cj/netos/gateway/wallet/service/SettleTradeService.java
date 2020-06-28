@@ -2,10 +2,7 @@ package cj.netos.gateway.wallet.service;
 
 import cj.netos.gateway.wallet.IRecordService;
 import cj.netos.gateway.wallet.ISettleTradeService;
-import cj.netos.gateway.wallet.bo.ExchangedBO;
-import cj.netos.gateway.wallet.bo.PurchasedBO;
-import cj.netos.gateway.wallet.bo.RechargeBO;
-import cj.netos.gateway.wallet.bo.WithdrawBO;
+import cj.netos.gateway.wallet.bo.*;
 import cj.netos.gateway.wallet.mapper.*;
 import cj.netos.gateway.wallet.model.*;
 import cj.netos.gateway.wallet.result.ExchangedResult;
@@ -149,5 +146,18 @@ public class SettleTradeService implements ISettleTradeService {
         ExchangedBO bo = new ExchangedBO();
         bo.load(result, record.getRefsn());
         rabbitMQProducer.publish("oc", properties, new Gson().toJson(bo).getBytes());
+    }
+    @CjTransaction
+    @Override
+    public void settleTransShunter(WithdrawShunterBO withdrawShunterBO, String status, String message) throws CircuitException {
+        AMQP.BasicProperties properties = new AMQP.BasicProperties().builder()
+                .type("/trade/settle.mhub")
+                .headers(new HashMap<String, Object>() {{
+                    put("command", "transShunter");
+                    put("person", withdrawShunterBO.getPerson());
+                    put("record_sn", withdrawShunterBO.getSn());
+                }})
+                .build();
+        rabbitMQProducer.publish("oc", properties, new Gson().toJson(withdrawShunterBO).getBytes());
     }
 }

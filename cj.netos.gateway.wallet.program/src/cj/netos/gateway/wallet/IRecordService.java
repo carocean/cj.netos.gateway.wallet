@@ -1,9 +1,9 @@
 package cj.netos.gateway.wallet;
 
 import cj.netos.gateway.wallet.bo.PurchasedBO;
+import cj.netos.gateway.wallet.bo.WithdrawShunterBO;
 import cj.netos.gateway.wallet.model.*;
 import cj.netos.gateway.wallet.result.*;
-import cj.studio.orm.mybatis.annotation.CjTransaction;
 
 import java.util.List;
 
@@ -83,5 +83,12 @@ public interface IRecordService {
     void ackTransAbsorb(TransAbsorbResult result);
 
     void ackTransProfit(TransProfitResult result);
+
+
+    void ackTransShunterReceipt(TransShuntResult result);
+
+    void ackTransShuntFromBank(WithdrawShunterBO withdrawShunterBO, String status, String message);
+
+    void ackTransShunterDone(WithdrawShunterBO record, String status, String message);
 
 }

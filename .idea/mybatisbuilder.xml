@@ -230,6 +230,26 @@
             </TableInfo>
           </value>
         </entry>
+        <entry key="netos.wallet.main#trans_shunter_activity">
+          <value>
+            <TableInfo>
+              <option name="database" value="netos.wallet.main" />
+              <option name="domainName" value="TransShunterActivity" />
+              <option name="tableComment" value="账金转入处理步骤" />
+              <option name="tableName" value="trans_shunter_activity" />
+            </TableInfo>
+          </value>
+        </entry>
+        <entry key="netos.wallet.main#trans_shunter_record">
+          <value>
+            <TableInfo>
+              <option name="database" value="netos.wallet.main" />
+              <option name="domainName" value="TransShunterRecord" />
+              <option name="tableComment" value="账金转入余额" />
+              <option name="tableName" value="trans_shunter_record" />
+            </TableInfo>
+          </value>
+        </entry>
         <entry key="netos.wallet.main#weny_exchange_activity">
           <value>
             <TableInfo>

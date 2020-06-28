@@ -36,11 +36,21 @@ public interface IReceiptTradePorts extends IOpenportService {
                                         @CjOpenportParameter(usage = "备注", name = "note") String note
     ) throws CircuitException;
 
+    @CjOpenport(usage = "用于合作伙伴从其账金账户将收入转入到其零钱账户。如果没有账金提取权限则报801异常")
+    TransShuntResult transferShunter(
+            ISecuritySession securitySession,
+            @CjOpenportParameter(usage = "账金账户所在的的纹银银行id", name = "wenyBankID") String wenyBankID,
+            @CjOpenportParameter(usage = "账金账户", name = "shunter") String shunter,
+            @CjOpenportParameter(usage = "申请转入的金额,单位为分", name = "amount") long amount,
+            @CjOpenportParameter(usage = "备注", name = "note") String note
+    ) throws CircuitException;
+
     @CjOpenport(usage = "从我的洇金账户转入零钱账户")
     TransferAbsorbResult transferAbsorb(ISecuritySession securitySession,
                                         @CjOpenportParameter(usage = "转账金额,单位为分", name = "amount") long amount,
                                         @CjOpenportParameter(usage = "备注", name = "note") String note
     ) throws CircuitException;
+
 
     @CjOpenport(usage = "存入洇金。在使用gbera服务时洇取的洇金存入到洇金账户")
     DepositAbsorbResult depositAbsorb(ISecuritySession securitySession,
@@ -59,7 +69,7 @@ public interface IReceiptTradePorts extends IOpenportService {
                           @CjOpenportParameter(usage = "付款金额,单位为分", name = "amount") long amount,
                           @CjOpenportParameter(usage = "收款人", name = "payee") String payee,
                           @CjOpenportParameter(usage = "付款类型，有：0 normal_pay(普通无附带属性，如p2p转账)|1 qrcode_payer_scan(我扫码收款方主动支付)|2 qrcode_payeer_scan(我被收款方扫码我方支付)|3 receipt_pay(支付收款单)|4 order_pay(支付订单)", name = "type") int type,
-                          @CjOpenportParameter(usage = "交易明细，如类型是支付订单，则明细中有商户、订单号等", name = "details", in = PKeyInRequest.content ,simpleModelFile = "/payable_details.md") PayDetailsBO details,
+                          @CjOpenportParameter(usage = "交易明细，如类型是支付订单，则明细中有商户、订单号等", name = "details", in = PKeyInRequest.content, simpleModelFile = "/payable_details.md") PayDetailsBO details,
                           @CjOpenportParameter(usage = "备注", name = "note") String note
     ) throws CircuitException;
 

@@ -34,6 +34,8 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
     @CjServiceRef
     ITransferProfitActivityController transferProfitActivityController;
     @CjServiceRef
+    ITransferShunterActivityController transferShunterActivityController;
+    @CjServiceRef
     ITransferAbsorbActivityController transferAbsorbActivityController;
     @CjServiceRef
     IDepositAbsorbActivityController depositAbsorbActivityController;
@@ -78,7 +80,7 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
     }
 
     @Override
-    public TransferProfitResult transferProfit(ISecuritySession securitySession,String wenyBankID,  long amount, String note) throws CircuitException {
+    public TransferProfitResult transferProfit(ISecuritySession securitySession, String wenyBankID, long amount, String note) throws CircuitException {
         if (amount < 0) {
             throw new CircuitException("500", "金额为负数");
         }
@@ -87,12 +89,30 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
         }
         Map<String, Object> personInfo = personService.getPersonInfo((String) securitySession.property("accessToken"));
         String personName = (String) personInfo.get("nickName");
-        TransProfitRecord record = transferProfitActivityController.doReceipt(securitySession.principal(), personName,wenyBankID, amount, note);
+        TransProfitRecord record = transferProfitActivityController.doReceipt(securitySession.principal(), personName, wenyBankID, amount, note);
         return new Gson().fromJson(new Gson().toJson(record), TransferProfitResult.class);
     }
 
     @Override
-    public TransferAbsorbResult transferAbsorb(ISecuritySession securitySession,long amount, String note) throws CircuitException {
+    public TransShuntResult transferShunter(ISecuritySession securitySession, String wenyBankID, String shunter, long amount, String note) throws CircuitException {
+        if (amount < 0) {
+            throw new CircuitException("500", "金额为负数");
+        }
+        if (StringUtil.isEmpty(wenyBankID)) {
+            throw new CircuitException("404", String.format("行号为空"));
+        }
+        if (StringUtil.isEmpty(shunter)) {
+            throw new CircuitException("404", String.format("账金账户为空"));
+        }
+        Map<String, Object> personInfo = personService.getPersonInfo((String) securitySession.property("accessToken"));
+        String personName = (String) personInfo.get("nickName");
+
+        TransShunterRecord record = transferShunterActivityController.doReceipt(securitySession.principal(), personName, wenyBankID, shunter, amount, note);
+        return new Gson().fromJson(new Gson().toJson(record), TransShuntResult.class);
+    }
+
+    @Override
+    public TransferAbsorbResult transferAbsorb(ISecuritySession securitySession, long amount, String note) throws CircuitException {
         if (amount < 0) {
             throw new CircuitException("500", "金额为负数");
         }

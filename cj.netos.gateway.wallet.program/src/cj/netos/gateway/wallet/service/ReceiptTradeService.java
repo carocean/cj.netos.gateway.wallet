@@ -44,7 +44,10 @@ public class ReceiptTradeService implements IReceiptTradeService {
     TransProfitRecordMapper transProfitRecordMapper;
     @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.TransProfitActivityMapper")
     TransProfitActivityMapper transProfitActivityMapper;
-
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.TransShunterRecordMapper")
+    TransShunterRecordMapper transShunterRecordMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.TransShunterActivityMapper")
+    TransShunterActivityMapper transShunterActivityMapper;
     @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.PayRecordMapper")
     PayRecordMapper payRecordMapper;
     @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.PayActivityMapper")
@@ -220,7 +223,7 @@ public class ReceiptTradeService implements IReceiptTradeService {
         record.setType(type);
         payRecordMapper.insert(record);
 
-        PayDetails payDetails=new PayDetails();
+        PayDetails payDetails = new PayDetails();
         payDetails.setId(new IdWorker().nextId());
         payDetails.setMerchId(details.getMerchid());
         payDetails.setMerchName(details.getMerchName());
@@ -273,6 +276,37 @@ public class ReceiptTradeService implements IReceiptTradeService {
         wenyPurchActivity.setStatus(200);
         wenyPurchActivity.setRecordSn(record.getSn());
         wenyPurchActivityMapper.insert(wenyPurchActivity);
+        return record;
+    }
+
+    @CjTransaction
+    @Override
+    public TransShunterRecord transShunter(String principal, String personName, String wenyBankID, String shunter, long amount, String note) {
+        TransShunterRecord record = new TransShunterRecord();
+        record.setDemandAmount(amount);
+        record.setCurrency("CNY");
+        record.setBankid(wenyBankID);
+        record.setPerson(principal);
+        record.setState(0);
+        record.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        record.setLutime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        record.setPersonName(personName);
+        record.setNote(note);
+        record.setSn(new IdWorker().nextId());
+        record.setStatus(200);
+        record.setMessage("ok");
+        record.setShunter(shunter);
+        transShunterRecordMapper.insert(record);
+
+        TransShunterActivity transShunterActivity = new TransShunterActivity();
+        transShunterActivity.setActivityName("已收单");
+        transShunterActivity.setActivityNo(0);
+        transShunterActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        transShunterActivity.setId(new IdWorker().nextId());
+        transShunterActivity.setMessage(record.getMessage());
+        transShunterActivity.setStatus(200);
+        transShunterActivity.setRecordSn(record.getSn());
+        transShunterActivityMapper.insert(transShunterActivity);
         return record;
     }
 

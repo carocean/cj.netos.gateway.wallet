@@ -1,6 +1,7 @@
 package cj.netos.gateway.wallet;
 
 import cj.netos.gateway.wallet.bo.PurchasedBO;
+import cj.netos.gateway.wallet.bo.WithdrawShunterBO;
 import cj.netos.gateway.wallet.model.RechargeRecord;
 import cj.netos.gateway.wallet.model.WithdrawRecord;
 import cj.netos.gateway.wallet.result.ExchangedResult;
@@ -14,5 +15,7 @@ public interface ISettleTradeService {
     void settlePurchased(PurchasedBO purchasedBO, String status, String message) throws CircuitException;
 
     void settleExchange(ExchangedResult result, String status, String message) throws CircuitException;
+
+    void settleTransShunter(WithdrawShunterBO withdrawShunterBO, String status, String message) throws CircuitException;
 
 }

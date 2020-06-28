@@ -2,11 +2,11 @@ package cj.netos.gateway.wallet.service;
 
 import cj.netos.gateway.wallet.IWenyBankTradeCaller;
 import cj.netos.gateway.wallet.bo.ExchangeBO;
-import cj.netos.gateway.wallet.bo.ExchangedBO;
 import cj.netos.gateway.wallet.bo.PurchaseBO;
+import cj.netos.gateway.wallet.bo.WithdrawShunterBO;
+import cj.netos.gateway.wallet.model.TransShunterRecord;
 import cj.netos.gateway.wallet.model.WenyExchangeRecord;
 import cj.netos.gateway.wallet.model.WenyPurchRecord;
-import cj.netos.gateway.wallet.result.ExchangedResult;
 import cj.netos.rabbitmq.IRabbitMQProducer;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
@@ -69,4 +69,27 @@ public class WenyBankTradeCaller implements IWenyBankTradeCaller {
         //网关通过mq等待command确认
     }
 
+    @Override
+    public void transShunter(TransShunterRecord record) throws CircuitException {
+        WithdrawShunterBO withdrawShunterBO = new WithdrawShunterBO();
+        withdrawShunterBO.setSn(record.getSn());
+        withdrawShunterBO.setWenyBankID(record.getBankid());
+        withdrawShunterBO.setPerson(record.getPerson());
+        withdrawShunterBO.setPersonName(record.getPersonName());
+        withdrawShunterBO.setDemandAmount(record.getDemandAmount());
+        withdrawShunterBO.setCtime(record.getCtime());
+        withdrawShunterBO.setCurrency(record.getCurrency());
+        withdrawShunterBO.setNote(record.getNote());
+        withdrawShunterBO.setShunter(record.getShunter());
+        AMQP.BasicProperties properties = new AMQP.BasicProperties().builder()
+                .type("/trade/receipt.mhub")
+                .headers(new HashMap<String, Object>() {{
+                    put("command", "transShunter");
+                    put("person", record.getPerson());
+                    put("record_sn", record.getSn());
+                }})
+                .build();
+        rabbitMQProducer.publish("oc", properties, new Gson().toJson(withdrawShunterBO).getBytes());
+        //网关通过mq等待command确认
+    }
 }

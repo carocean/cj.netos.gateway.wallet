@@ -4,6 +4,7 @@ import cj.netos.gateway.wallet.IRecordService;
 import cj.netos.gateway.wallet.bo.DepositAbsorbBO;
 import cj.netos.gateway.wallet.bo.PurchasedBO;
 import cj.netos.gateway.wallet.bo.TransAbsorbBO;
+import cj.netos.gateway.wallet.bo.WithdrawShunterBO;
 import cj.netos.gateway.wallet.mapper.*;
 import cj.netos.gateway.wallet.model.*;
 import cj.netos.gateway.wallet.result.*;
@@ -56,6 +57,11 @@ public class RecordService implements IRecordService {
     DepositAbsorbRecordMapper depositAbsorbRecordMapper;
     @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.DepositAbsorbActivityMapper")
     DepositAbsorbActivityMapper depositAbsorbActivityMapper;
+
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.TransShunterRecordMapper")
+    TransShunterRecordMapper transShunterRecordMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.TransShunterActivityMapper")
+    TransShunterActivityMapper transShunterActivityMapper;
 
     @CjTransaction
     @Override
@@ -502,5 +508,86 @@ public class RecordService implements IRecordService {
         transProfitActivity.setStatus(Float.valueOf(result.getStatus()).intValue());
         transProfitActivity.setRecordSn(result.getSn());
         transProfitActivityMapper.insert(transProfitActivity);
+    }
+
+    @CjTransaction
+    @Override
+    public void ackTransShunterReceipt(TransShuntResult result) {
+        TransShunterRecord record = transShunterRecordMapper.selectByPrimaryKey(result.getSn());
+        if (record == null) {
+            return;
+        }
+        int _status = Float.valueOf(result.getStatus()).intValue();
+        WithdrawShunterResult withdrawShunterResult = new Gson().fromJson((String) result.getRecord(), WithdrawShunterResult.class);
+        if (withdrawShunterResult != null) {
+            transShunterRecordMapper.ackReceipt(
+                    withdrawShunterResult.getOutTradeSn(),
+                    withdrawShunterResult.getSn(),
+                    _status,
+                    result.getMessage(),
+                    WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis())
+            );
+        }
+
+        TransShunterActivity transShunterActivity = new TransShunterActivity();
+        transShunterActivity.setActivityName("已回单");
+        transShunterActivity.setActivityNo(1);
+        transShunterActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        transShunterActivity.setId(new IdWorker().nextId());
+        transShunterActivity.setMessage(result.getMessage());
+        transShunterActivity.setRecordSn(result.getSn());
+        transShunterActivity.setStatus(_status);
+        transShunterActivityMapper.insert(transShunterActivity);
+        int status = _status;
+        if (status >= 300) {
+            transShunterRecordMapper.done(result.getSn(),result.getOutTradeSn(), status, result.getMessage(), WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        } else {
+            transShunterRecordMapper.updateStatus(result.getSn(),result.getOutTradeSn(), status, result.getMessage(), WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        }
+    }
+    @CjTransaction
+    @Override
+    public void ackTransShuntFromBank(WithdrawShunterBO bo, String status, String message) {
+        TransShunterRecord record = transShunterRecordMapper.selectByPrimaryKey(bo.getSn());
+        if (record == null) {
+            return;
+        }
+        transShunterRecordMapper.ackTransShuntFromBank(
+                bo.getSn(),
+                bo.getRealAmount(),
+                Float.valueOf(status).intValue(),
+                message,
+                WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis())
+        );
+
+        TransShunterActivity transShunterActivity = new TransShunterActivity();
+        transShunterActivity.setActivityName("决清中");
+        transShunterActivity.setActivityNo(2);
+        transShunterActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        transShunterActivity.setId(new IdWorker().nextId());
+        transShunterActivity.setMessage(message);
+        transShunterActivity.setRecordSn(bo.getSn());
+        transShunterActivity.setStatus(Float.valueOf(status).intValue());
+        transShunterActivityMapper.insert(transShunterActivity);
+        int _status = Float.valueOf(status).intValue();
+        if (_status >= 300) {
+            transShunterRecordMapper.done(bo.getSn(),bo.getOutTradeSn(), _status, message, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        } else {
+            transShunterRecordMapper.updateStatus(bo.getSn(),bo.getOutTradeSn(), _status, message, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        }
+    }
+    @CjTransaction
+    @Override
+    public void ackTransShunterDone(WithdrawShunterBO bo, String status, String message) {
+        transShunterRecordMapper.done(bo.getSn(),bo.getOutTradeSn(), Float.valueOf(status).intValue(), message, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        TransShunterActivity transShunterActivity = new TransShunterActivity();
+        transShunterActivity.setActivityName("已决清");
+        transShunterActivity.setActivityNo(3);
+        transShunterActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        transShunterActivity.setId(new IdWorker().nextId());
+        transShunterActivity.setMessage(message);
+        transShunterActivity.setRecordSn(bo.getSn());
+        transShunterActivity.setStatus(Float.valueOf(status).intValue());
+        transShunterActivityMapper.insert(transShunterActivity);
     }
 }
