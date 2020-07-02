@@ -1,10 +1,7 @@
 package cj.netos.gateway.wallet.service;
 
 import cj.netos.gateway.wallet.IRecordService;
-import cj.netos.gateway.wallet.bo.DepositAbsorbBO;
-import cj.netos.gateway.wallet.bo.PurchasedBO;
-import cj.netos.gateway.wallet.bo.TransAbsorbBO;
-import cj.netos.gateway.wallet.bo.WithdrawShunterBO;
+import cj.netos.gateway.wallet.bo.*;
 import cj.netos.gateway.wallet.mapper.*;
 import cj.netos.gateway.wallet.model.*;
 import cj.netos.gateway.wallet.result.*;
@@ -63,6 +60,11 @@ public class RecordService implements IRecordService {
     @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.TransShunterActivityMapper")
     TransShunterActivityMapper transShunterActivityMapper;
 
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.P2pRecordMapper")
+    P2pRecordMapper p2pRecordMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.P2pActivityMapper")
+    P2pActivityMapper p2pActivityMapper;
+
     @CjTransaction
     @Override
     public WenyPurchRecord getPurchaseRecord(String sn) {
@@ -72,13 +74,17 @@ public class RecordService implements IRecordService {
     @CjTransaction
     @Override
     public void ackRechargeRecord(RechargeResult result) {
-        rechargeRecordMapper.done(result.getSn(), Integer.valueOf(result.getStatus()), result.getMessage(), WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        String msg = result.getMessage();
+        if (msg.length() > 250) {
+            msg = msg.substring(0, 250);
+        }
+        rechargeRecordMapper.done(result.getSn(), Integer.valueOf(result.getStatus()), msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         RechargeActivity rechargeActivity = new RechargeActivity();
         rechargeActivity.setActivityName("已决清");
         rechargeActivity.setActivityNo(2);
         rechargeActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         rechargeActivity.setId(new IdWorker().nextId());
-        rechargeActivity.setMessage(result.getMessage());
+        rechargeActivity.setMessage(msg);
         rechargeActivity.setRecordSn(result.getSn());
         rechargeActivity.setStatus(Integer.valueOf(result.getStatus()));
         rechargeActivityMapper.insert(rechargeActivity);
@@ -88,13 +94,17 @@ public class RecordService implements IRecordService {
     @CjTransaction
     @Override
     public void ackWithdrawRecordOnorder(WithdrawResult result) {
-        withdrawRecordMapper.update(result.getSn(), Integer.valueOf(result.getStatus()), result.getMessage(), WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        String msg = result.getMessage();
+        if (msg.length() > 250) {
+            msg = msg.substring(0, 250);
+        }
+        withdrawRecordMapper.update(result.getSn(), Integer.valueOf(result.getStatus()), msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         WithdrawActivity withdrawActivity = new WithdrawActivity();
         withdrawActivity.setActivityName("预扣款完成");
         withdrawActivity.setActivityNo(2);
         withdrawActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         withdrawActivity.setId(new IdWorker().nextId());
-        withdrawActivity.setMessage(result.getMessage());
+        withdrawActivity.setMessage(msg);
         withdrawActivity.setRecordSn(result.getSn());
         withdrawActivity.setStatus(Integer.valueOf(result.getStatus()));
         withdrawActivityMapper.insert(withdrawActivity);
@@ -104,13 +114,17 @@ public class RecordService implements IRecordService {
     @CjTransaction
     @Override
     public void ackWithdrawRecordSettled(WithdrawResult result) {
-        withdrawRecordMapper.done(result.getSn(), Integer.valueOf(result.getStatus()), result.getMessage(), WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        String msg = result.getMessage();
+        if (msg.length() > 250) {
+            msg = msg.substring(0, 250);
+        }
+        withdrawRecordMapper.done(result.getSn(), Integer.valueOf(result.getStatus()), msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         WithdrawActivity withdrawActivity = new WithdrawActivity();
         withdrawActivity.setActivityName("已决清");
         withdrawActivity.setActivityNo(3);
         withdrawActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         withdrawActivity.setId(new IdWorker().nextId());
-        withdrawActivity.setMessage(result.getMessage());
+        withdrawActivity.setMessage(msg);
         withdrawActivity.setRecordSn(result.getSn());
         withdrawActivity.setStatus(Integer.valueOf(result.getStatus()));
         withdrawActivityMapper.insert(withdrawActivity);
@@ -125,6 +139,10 @@ public class RecordService implements IRecordService {
         if (record == null) {
             return;
         }
+        String msg = result.getMessage();
+        if (msg.length() > 250) {
+            msg = msg.substring(0, 250);
+        }
         int _status = Float.valueOf(result.getStatus()).intValue();
         PurchasingResult purchasingResult = new Gson().fromJson((String) result.getRecord(), PurchasingResult.class);
         if (purchasingResult != null) {
@@ -138,7 +156,7 @@ public class RecordService implements IRecordService {
                     purchasingResult.getTtm(),
                     purchasingResult.getSn(),
                     _status,
-                    result.getMessage()
+                    msg
             );
         }
 
@@ -147,15 +165,15 @@ public class RecordService implements IRecordService {
         wenyPurchActivity.setActivityNo(1);
         wenyPurchActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         wenyPurchActivity.setId(new IdWorker().nextId());
-        wenyPurchActivity.setMessage(result.getMessage());
+        wenyPurchActivity.setMessage(msg);
         wenyPurchActivity.setRecordSn(result.getSn());
         wenyPurchActivity.setStatus(_status);
         wenyPurchActivityMapper.insert(wenyPurchActivity);
         int status = _status;
         if (status >= 300) {
-            wenyPurchRecordMapper.done(result.getSn(), status, result.getMessage(), WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+            wenyPurchRecordMapper.done(result.getSn(), status, msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         } else {
-            wenyPurchRecordMapper.updateStatus(result.getSn(), status, result.getMessage(), WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+            wenyPurchRecordMapper.updateStatus(result.getSn(), status, msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         }
     }
 
@@ -166,6 +184,10 @@ public class RecordService implements IRecordService {
         if (record == null) {
             return;
         }
+        String msg = message;
+        if (msg.length() > 250) {
+            msg = msg.substring(0, 250);
+        }
         wenyPurchRecordMapper.ackPurchased(
                 purchasedBO.getSn(),
                 purchasedBO.getStock(),
@@ -175,7 +197,7 @@ public class RecordService implements IRecordService {
                 purchasedBO.getReserveAmount(),
                 purchasedBO.getReserveRatio(),
                 Float.valueOf(status).intValue(),
-                message,
+                msg,
                 WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis())
         );
 
@@ -184,28 +206,32 @@ public class RecordService implements IRecordService {
         wenyPurchActivity.setActivityNo(2);
         wenyPurchActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         wenyPurchActivity.setId(new IdWorker().nextId());
-        wenyPurchActivity.setMessage(message);
+        wenyPurchActivity.setMessage(msg);
         wenyPurchActivity.setRecordSn(purchasedBO.getSn());
         wenyPurchActivity.setStatus(Float.valueOf(status).intValue());
         wenyPurchActivityMapper.insert(wenyPurchActivity);
         int _status = Float.valueOf(status).intValue();
         if (_status >= 300) {
-            wenyPurchRecordMapper.done(purchasedBO.getSn(), _status, message, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+            wenyPurchRecordMapper.done(purchasedBO.getSn(), _status, msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         } else {
-            wenyPurchRecordMapper.updateStatus(purchasedBO.getSn(), _status, message, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+            wenyPurchRecordMapper.updateStatus(purchasedBO.getSn(), _status, msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         }
     }
 
     @CjTransaction
     @Override
     public void ackPurchasedDone(PurchasedBO purchasedBO, String status, String message) {
-        wenyPurchRecordMapper.done(purchasedBO.getSn(), Float.valueOf(status).intValue(), message, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        String msg = message;
+        if (msg.length() > 250) {
+            msg = msg.substring(0, 250);
+        }
+        wenyPurchRecordMapper.done(purchasedBO.getSn(), Float.valueOf(status).intValue(), msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         WenyPurchActivity wenyPurchActivity = new WenyPurchActivity();
         wenyPurchActivity.setActivityName("已决清");
         wenyPurchActivity.setActivityNo(3);
         wenyPurchActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         wenyPurchActivity.setId(new IdWorker().nextId());
-        wenyPurchActivity.setMessage(message);
+        wenyPurchActivity.setMessage(msg);
         wenyPurchActivity.setRecordSn(purchasedBO.getSn());
         wenyPurchActivity.setStatus(Float.valueOf(status).intValue());
         wenyPurchActivityMapper.insert(wenyPurchActivity);
@@ -215,10 +241,14 @@ public class RecordService implements IRecordService {
     @Override
     public void ackExchange(ExchangingResult result) {
         int _status = Float.valueOf(result.getStatus()).intValue();
+        String msg = result.getMessage();
+        if (msg.length() > 250) {
+            msg = msg.substring(0, 250);
+        }
         if (_status >= 300) {
-            wenyExchangeRecordMapper.done(result.getSn(), _status, result.getMessage(), WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+            wenyExchangeRecordMapper.done(result.getSn(), _status, msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         } else {
-            wenyExchangeRecordMapper.updateStatus(result.getSn(), _status, result.getMessage(), WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+            wenyExchangeRecordMapper.updateStatus(result.getSn(), _status, msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         }
 
         WenyExchangeActivity wenyExchangeActivity = new WenyExchangeActivity();
@@ -226,7 +256,7 @@ public class RecordService implements IRecordService {
         wenyExchangeActivity.setActivityNo(1);
         wenyExchangeActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         wenyExchangeActivity.setId(new IdWorker().nextId());
-        wenyExchangeActivity.setMessage(result.getMessage());
+        wenyExchangeActivity.setMessage(msg);
         wenyExchangeActivity.setStatus(Float.valueOf(result.getStatus()).intValue());
         wenyExchangeActivity.setRecordSn(result.getSn());
         wenyExchangeActivityMapper.insert(wenyExchangeActivity);
@@ -237,7 +267,11 @@ public class RecordService implements IRecordService {
     @Override
     public void ackExchangedDone(ExchangingResult result, String status, String message) {
         int _status = Float.valueOf(result.getStatus()).intValue();
-        wenyExchangeRecordMapper.done(result.getSn(), _status, message, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        String msg = message;
+        if (msg.length() > 250) {
+            msg = msg.substring(0, 250);
+        }
+        wenyExchangeRecordMapper.done(result.getSn(), _status, msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         ExchangeResult exchangeResult = new Gson().fromJson((String) result.getRecord(), ExchangeResult.class);
         if (exchangeResult != null) {
             wenyPurchRecordMapper.exchanged(exchangeResult.getWalletPuchaseSn(), WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
@@ -247,7 +281,7 @@ public class RecordService implements IRecordService {
         wenyExchangeActivity.setActivityNo(4);
         wenyExchangeActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         wenyExchangeActivity.setId(new IdWorker().nextId());
-        wenyExchangeActivity.setMessage(message);
+        wenyExchangeActivity.setMessage(msg);
         wenyExchangeActivity.setRecordSn(result.getSn());
         wenyExchangeActivity.setStatus(_status);
         wenyExchangeActivityMapper.insert(wenyExchangeActivity);
@@ -461,14 +495,18 @@ public class RecordService implements IRecordService {
     public void ackDepositAbsorb(DepositAbsorbResult result) {
         int _status = Float.valueOf(result.getStatus()).intValue();
         DepositAbsorbBO bo = new Gson().fromJson((String) result.getRecord(), DepositAbsorbBO.class);
-        depositAbsorbRecordMapper.done(result.getSn(), bo.getDemandAmount(), _status, result.getMessage(), WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        String msg = result.getMessage();
+        if (msg.length() > 250) {
+            msg = msg.substring(0, 250);
+        }
+        depositAbsorbRecordMapper.done(result.getSn(), bo.getDemandAmount(), _status, msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
 
         DepositAbsorbActivity depositAbsorbActivity = new DepositAbsorbActivity();
         depositAbsorbActivity.setActivityName("已完成");
         depositAbsorbActivity.setActivityNo(1);
         depositAbsorbActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         depositAbsorbActivity.setId(new IdWorker().nextId());
-        depositAbsorbActivity.setMessage(result.getMessage());
+        depositAbsorbActivity.setMessage(msg);
         depositAbsorbActivity.setStatus(Float.valueOf(result.getStatus()).intValue());
         depositAbsorbActivity.setRecordSn(result.getSn());
         depositAbsorbActivityMapper.insert(depositAbsorbActivity);
@@ -479,14 +517,18 @@ public class RecordService implements IRecordService {
     public void ackTransAbsorb(TransAbsorbResult result) {
         int _status = Float.valueOf(result.getStatus()).intValue();
         TransAbsorbBO bo = new Gson().fromJson((String) result.getRecord(), TransAbsorbBO.class);
-        transAbsorbRecordMapper.done(result.getSn(), bo.getDemandAmount(), _status, result.getMessage(), WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        String msg = result.getMessage();
+        if (msg.length() > 250) {
+            msg = msg.substring(0, 250);
+        }
+        transAbsorbRecordMapper.done(result.getSn(), bo.getDemandAmount(), _status, msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
 
         TransAbsorbActivity transAbsorbActivity = new TransAbsorbActivity();
         transAbsorbActivity.setActivityName("已完成");
         transAbsorbActivity.setActivityNo(1);
         transAbsorbActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         transAbsorbActivity.setId(new IdWorker().nextId());
-        transAbsorbActivity.setMessage(result.getMessage());
+        transAbsorbActivity.setMessage(msg);
         transAbsorbActivity.setStatus(Float.valueOf(result.getStatus()).intValue());
         transAbsorbActivity.setRecordSn(result.getSn());
         transAbsorbActivityMapper.insert(transAbsorbActivity);
@@ -497,14 +539,18 @@ public class RecordService implements IRecordService {
     public void ackTransProfit(TransProfitResult result) {
         int _status = Float.valueOf(result.getStatus()).intValue();
         TransAbsorbBO bo = new Gson().fromJson((String) result.getRecord(), TransAbsorbBO.class);
-        transProfitRecordMapper.done(result.getSn(), bo.getDemandAmount(), _status, result.getMessage(), WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        String msg = result.getMessage();
+        if (msg.length() > 250) {
+            msg = msg.substring(0, 250);
+        }
+        transProfitRecordMapper.done(result.getSn(), bo.getDemandAmount(), _status, msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
 
         TransProfitActivity transProfitActivity = new TransProfitActivity();
         transProfitActivity.setActivityName("已完成");
         transProfitActivity.setActivityNo(1);
         transProfitActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         transProfitActivity.setId(new IdWorker().nextId());
-        transProfitActivity.setMessage(result.getMessage());
+        transProfitActivity.setMessage(msg);
         transProfitActivity.setStatus(Float.valueOf(result.getStatus()).intValue());
         transProfitActivity.setRecordSn(result.getSn());
         transProfitActivityMapper.insert(transProfitActivity);
@@ -517,6 +563,10 @@ public class RecordService implements IRecordService {
         if (record == null) {
             return;
         }
+        String msg = result.getMessage();
+        if (msg.length() > 250) {
+            msg = msg.substring(0, 250);
+        }
         int _status = Float.valueOf(result.getStatus()).intValue();
         WithdrawShunterResult withdrawShunterResult = new Gson().fromJson((String) result.getRecord(), WithdrawShunterResult.class);
         if (withdrawShunterResult != null) {
@@ -524,7 +574,7 @@ public class RecordService implements IRecordService {
                     withdrawShunterResult.getOutTradeSn(),
                     withdrawShunterResult.getSn(),
                     _status,
-                    result.getMessage(),
+                    msg,
                     WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis())
             );
         }
@@ -534,17 +584,18 @@ public class RecordService implements IRecordService {
         transShunterActivity.setActivityNo(1);
         transShunterActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         transShunterActivity.setId(new IdWorker().nextId());
-        transShunterActivity.setMessage(result.getMessage());
+        transShunterActivity.setMessage(msg);
         transShunterActivity.setRecordSn(result.getSn());
         transShunterActivity.setStatus(_status);
         transShunterActivityMapper.insert(transShunterActivity);
         int status = _status;
         if (status >= 300) {
-            transShunterRecordMapper.done(result.getSn(),result.getOutTradeSn(), status, result.getMessage(), WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+            transShunterRecordMapper.done(result.getSn(), result.getOutTradeSn(), status, msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         } else {
-            transShunterRecordMapper.updateStatus(result.getSn(),result.getOutTradeSn(), status, result.getMessage(), WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+            transShunterRecordMapper.updateStatus(result.getSn(), result.getOutTradeSn(), status, msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         }
     }
+
     @CjTransaction
     @Override
     public void ackTransShuntFromBank(WithdrawShunterBO bo, String status, String message) {
@@ -552,11 +603,15 @@ public class RecordService implements IRecordService {
         if (record == null) {
             return;
         }
+        String msg = message;
+        if (msg.length() > 250) {
+            msg = msg.substring(0, 250);
+        }
         transShunterRecordMapper.ackTransShuntFromBank(
                 bo.getSn(),
                 bo.getRealAmount(),
                 Float.valueOf(status).intValue(),
-                message,
+                msg,
                 WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis())
         );
 
@@ -565,29 +620,74 @@ public class RecordService implements IRecordService {
         transShunterActivity.setActivityNo(2);
         transShunterActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         transShunterActivity.setId(new IdWorker().nextId());
-        transShunterActivity.setMessage(message);
+        transShunterActivity.setMessage(msg);
         transShunterActivity.setRecordSn(bo.getSn());
         transShunterActivity.setStatus(Float.valueOf(status).intValue());
         transShunterActivityMapper.insert(transShunterActivity);
         int _status = Float.valueOf(status).intValue();
         if (_status >= 300) {
-            transShunterRecordMapper.done(bo.getSn(),bo.getOutTradeSn(), _status, message, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+            transShunterRecordMapper.done(bo.getSn(), bo.getOutTradeSn(), _status, msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         } else {
-            transShunterRecordMapper.updateStatus(bo.getSn(),bo.getOutTradeSn(), _status, message, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+            transShunterRecordMapper.updateStatus(bo.getSn(), bo.getOutTradeSn(), _status, msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         }
     }
+
     @CjTransaction
     @Override
     public void ackTransShunterDone(WithdrawShunterBO bo, String status, String message) {
-        transShunterRecordMapper.done(bo.getSn(),bo.getOutTradeSn(), Float.valueOf(status).intValue(), message, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        String msg = message;
+        if (msg.length() > 250) {
+            msg = msg.substring(0, 250);
+        }
+        transShunterRecordMapper.done(bo.getSn(), bo.getOutTradeSn(), Float.valueOf(status).intValue(), message, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         TransShunterActivity transShunterActivity = new TransShunterActivity();
         transShunterActivity.setActivityName("已决清");
         transShunterActivity.setActivityNo(3);
         transShunterActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         transShunterActivity.setId(new IdWorker().nextId());
-        transShunterActivity.setMessage(message);
+        transShunterActivity.setMessage(msg);
         transShunterActivity.setRecordSn(bo.getSn());
         transShunterActivity.setStatus(Float.valueOf(status).intValue());
         transShunterActivityMapper.insert(transShunterActivity);
+    }
+
+    @CjTransaction
+    @Override
+    public void ackPayTrade(PayResult result) {
+        String msg = result.getMessage();
+        if (msg.length() > 250) {
+            msg = msg.substring(0, 250);
+        }
+        PayBO bo = new Gson().fromJson((String) result.getRecord(), PayBO.class);
+        payRecordMapper.done(bo.getSn(), Float.valueOf(result.getStatus()).intValue(), msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        PayActivity payActivity = new PayActivity();
+        payActivity.setActivityName("已决清");
+        payActivity.setActivityNo(1);
+        payActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        payActivity.setId(new IdWorker().nextId());
+        payActivity.setMessage(msg);
+        payActivity.setRecordSn(bo.getSn());
+        payActivity.setStatus(Float.valueOf(result.getStatus()).intValue());
+        payActivityMapper.insert(payActivity);
+    }
+
+    @CjTransaction
+    @Override
+    public void ackP2P(P2PResult result) {
+        String msg = result.getMessage();
+        if (msg.length() > 250) {
+            msg = msg.substring(0, 250);
+        }
+        P2PBO bo = new Gson().fromJson((String) result.getRecord(), P2PBO.class);
+        p2pRecordMapper.done(bo.getSn(), Float.valueOf(result.getStatus()).intValue(), msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        P2pActivity p2pActivity = new P2pActivity();
+        p2pActivity.setActivityName("已决清");
+        p2pActivity.setActivityNo(1);
+        p2pActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        p2pActivity.setId(new IdWorker().nextId());
+        p2pActivity.setMessage(msg);
+        p2pActivity.setRecordSn(bo.getSn());
+        p2pActivity.setStatus(Float.valueOf(result.getStatus()).intValue());
+        p2pActivityMapper.insert(p2pActivity);
     }
 }

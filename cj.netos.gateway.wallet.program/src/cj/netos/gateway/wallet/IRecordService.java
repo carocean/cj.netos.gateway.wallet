@@ -91,4 +91,8 @@ public interface IRecordService {
 
     void ackTransShunterDone(WithdrawShunterBO record, String status, String message);
 
+    void ackPayTrade(PayResult result);
+
+    void ackP2P(P2PResult result);
+
 }

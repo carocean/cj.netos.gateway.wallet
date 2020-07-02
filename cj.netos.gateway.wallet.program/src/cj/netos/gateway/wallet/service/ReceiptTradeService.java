@@ -55,6 +55,11 @@ public class ReceiptTradeService implements IReceiptTradeService {
     @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.PayDetailsMapper")
     PayDetailsMapper payDetailsMapper;
 
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.P2pRecordMapper")
+    P2pRecordMapper p2pRecordMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.P2pActivityMapper")
+    P2pActivityMapper p2pActivityMapper;
+
     @CjTransaction
     @Override
     public RechargeRecord recharge(String principal, String personName, String currency, long amount, PayChannel payChannel, String note) {
@@ -207,7 +212,7 @@ public class ReceiptTradeService implements IReceiptTradeService {
 
     @CjTransaction
     @Override
-    public PayRecord payable(String principal, String personName, long amount, int type, PayDetailsBO details, String note) {
+    public PayRecord payTrade(String principal, String personName, long amount, int type, PayDetailsBO details, String note) {
         PayRecord record = new PayRecord();
         record.setAmount(amount);
         record.setCurrency("CNY");
@@ -225,8 +230,9 @@ public class ReceiptTradeService implements IReceiptTradeService {
 
         PayDetails payDetails = new PayDetails();
         payDetails.setId(new IdWorker().nextId());
-        payDetails.setMerchId(details.getMerchid());
-        payDetails.setMerchName(details.getMerchName());
+        payDetails.setPayeeCode(details.getPayeeCode());
+        payDetails.setPayeeName(details.getPayeeName());
+        payDetails.setPayeeType(details.getPayeeType());
         payDetails.setNote(details.getNote());
         payDetails.setOrderNo(details.getOrderno());
         payDetails.setOrderTitle(details.getOrderTitle());
@@ -342,6 +348,42 @@ public class ReceiptTradeService implements IReceiptTradeService {
         wenyExchangeActivity.setStatus(200);
         wenyExchangeActivity.setRecordSn(record.getSn());
         wenyExchangeActivityMapper.insert(wenyExchangeActivity);
+        return record;
+    }
+
+    @CjTransaction
+    @Override
+    public P2pRecord p2p(String payer, String payerName, String payee, String payeeName, long amount, int type,String direct, String note) {
+        P2pRecord record = new P2pRecord();
+        record.setAmount(amount);
+        record.setCurrency("CNY");
+        record.setPayer(payer);
+        record.setPayerName(payerName);
+        record.setPayee(payee);
+        record.setPayeeName(payeeName);
+        record.setState(0);
+        record.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        record.setLutime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        record.setNote(note);
+        record.setSn(new IdWorker().nextId());
+        record.setStatus(200);
+        record.setMessage("ok");
+        record.setType(type);
+        record.setDirect(direct);
+
+        p2pRecordMapper.insert(record);
+
+
+        P2pActivity p2pActivity = new P2pActivity();
+        p2pActivity.setActivityName("已收单");
+        p2pActivity.setActivityNo(0);
+        p2pActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        p2pActivity.setId(new IdWorker().nextId());
+        p2pActivity.setMessage(record.getMessage());
+        p2pActivity.setStatus(record.getStatus());
+        p2pActivity.setRecordSn(record.getSn());
+        p2pActivityMapper.insert(p2pActivity);
+
         return record;
     }
 

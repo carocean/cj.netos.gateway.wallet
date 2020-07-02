@@ -21,7 +21,6 @@ public class PaymentResult extends PayRecord {
         this.setLutime(record.getLutime());
         this.setMessage(record.getMessage());
         this.setNote(record.getNote());
-        this.setPayee(record.getPayee());
         this.setPerson(record.getPerson());
         this.setPersonName(record.getPersonName());
         this.setSn((record.getSn()));

@@ -54,4 +54,38 @@ public class DefaultPersonService implements IPersonService {
         map = new Gson().fromJson(json, HashMap.class);
         return map;
     }
+    @Override
+    public Map<String, Object> findPerson(String person,String accessToken) throws CheckAccessTokenException {
+        OkHttpClient client = (OkHttpClient) site.getService("@.http");
+        String url = site.getProperty("rhub.ports.person");
+        final Request request = new Request.Builder()
+                .url(String.format("%s?person=%s",url,person))
+                .addHeader("Rest-Command", "findPerson")
+                .addHeader("cjtoken", accessToken)
+                .get()
+                .build();
+        final Call call = client.newCall(request);
+        Response response = null;
+        try {
+            response = call.execute();
+        } catch (IOException e) {
+            throw new CheckAccessTokenException("1002", e);
+        }
+        if (response.code() >= 400) {
+            throw new CheckAccessTokenException("1002", String.format("远程访问失败:%s", response.message()));
+        }
+        String json = null;
+        try {
+            json = response.body().string();
+        } catch (IOException e) {
+            throw new CheckAccessTokenException("1002", e);
+        }
+        Map<String, Object> map = new Gson().fromJson(json, HashMap.class);
+        if (Double.parseDouble(map.get("status") + "") >= 400) {
+            throw new CheckAccessTokenException(map.get("status") + "", map.get("message") + "");
+        }
+        json = (String) map.get("dataText");
+        map = new Gson().fromJson(json, HashMap.class);
+        return map;
+    }
 }

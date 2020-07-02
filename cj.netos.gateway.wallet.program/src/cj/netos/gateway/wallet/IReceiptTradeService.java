@@ -28,8 +28,10 @@ public interface IReceiptTradeService {
 
     TransProfitRecord transProfit(String principal, String personName, String wenyBankID, long amount, String note);
 
-    PayRecord payable(String principal, String personName, long amount, int type, PayDetailsBO details, String note);
+    PayRecord payTrade(String principal, String personName, long amount, int type, PayDetailsBO details, String note);
 
     TransShunterRecord transShunter(String principal, String personName, String wenyBankID, String shunter, long amount, String note);
+
+    P2pRecord p2p(String payer, String payerName, String payee, String payeeName, long amount, int type,String direct, String note);
 
 }

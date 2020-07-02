@@ -207,143 +207,213 @@ public class PayDetailsExample {
             return (Criteria) this;
         }
 
-        public Criteria andMerchIdIsNull() {
-            addCriterion("merch_id is null");
+        public Criteria andPayeeCodeIsNull() {
+            addCriterion("payee_code is null");
             return (Criteria) this;
         }
 
-        public Criteria andMerchIdIsNotNull() {
-            addCriterion("merch_id is not null");
+        public Criteria andPayeeCodeIsNotNull() {
+            addCriterion("payee_code is not null");
             return (Criteria) this;
         }
 
-        public Criteria andMerchIdEqualTo(String value) {
-            addCriterion("merch_id =", value, "merchId");
+        public Criteria andPayeeCodeEqualTo(String value) {
+            addCriterion("payee_code =", value, "payeeCode");
             return (Criteria) this;
         }
 
-        public Criteria andMerchIdNotEqualTo(String value) {
-            addCriterion("merch_id <>", value, "merchId");
+        public Criteria andPayeeCodeNotEqualTo(String value) {
+            addCriterion("payee_code <>", value, "payeeCode");
             return (Criteria) this;
         }
 
-        public Criteria andMerchIdGreaterThan(String value) {
-            addCriterion("merch_id >", value, "merchId");
+        public Criteria andPayeeCodeGreaterThan(String value) {
+            addCriterion("payee_code >", value, "payeeCode");
             return (Criteria) this;
         }
 
-        public Criteria andMerchIdGreaterThanOrEqualTo(String value) {
-            addCriterion("merch_id >=", value, "merchId");
+        public Criteria andPayeeCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("payee_code >=", value, "payeeCode");
             return (Criteria) this;
         }
 
-        public Criteria andMerchIdLessThan(String value) {
-            addCriterion("merch_id <", value, "merchId");
+        public Criteria andPayeeCodeLessThan(String value) {
+            addCriterion("payee_code <", value, "payeeCode");
             return (Criteria) this;
         }
 
-        public Criteria andMerchIdLessThanOrEqualTo(String value) {
-            addCriterion("merch_id <=", value, "merchId");
+        public Criteria andPayeeCodeLessThanOrEqualTo(String value) {
+            addCriterion("payee_code <=", value, "payeeCode");
             return (Criteria) this;
         }
 
-        public Criteria andMerchIdLike(String value) {
-            addCriterion("merch_id like", value, "merchId");
+        public Criteria andPayeeCodeLike(String value) {
+            addCriterion("payee_code like", value, "payeeCode");
             return (Criteria) this;
         }
 
-        public Criteria andMerchIdNotLike(String value) {
-            addCriterion("merch_id not like", value, "merchId");
+        public Criteria andPayeeCodeNotLike(String value) {
+            addCriterion("payee_code not like", value, "payeeCode");
             return (Criteria) this;
         }
 
-        public Criteria andMerchIdIn(List<String> values) {
-            addCriterion("merch_id in", values, "merchId");
+        public Criteria andPayeeCodeIn(List<String> values) {
+            addCriterion("payee_code in", values, "payeeCode");
             return (Criteria) this;
         }
 
-        public Criteria andMerchIdNotIn(List<String> values) {
-            addCriterion("merch_id not in", values, "merchId");
+        public Criteria andPayeeCodeNotIn(List<String> values) {
+            addCriterion("payee_code not in", values, "payeeCode");
             return (Criteria) this;
         }
 
-        public Criteria andMerchIdBetween(String value1, String value2) {
-            addCriterion("merch_id between", value1, value2, "merchId");
+        public Criteria andPayeeCodeBetween(String value1, String value2) {
+            addCriterion("payee_code between", value1, value2, "payeeCode");
             return (Criteria) this;
         }
 
-        public Criteria andMerchIdNotBetween(String value1, String value2) {
-            addCriterion("merch_id not between", value1, value2, "merchId");
+        public Criteria andPayeeCodeNotBetween(String value1, String value2) {
+            addCriterion("payee_code not between", value1, value2, "payeeCode");
             return (Criteria) this;
         }
 
-        public Criteria andMerchNameIsNull() {
-            addCriterion("merch_name is null");
+        public Criteria andPayeeNameIsNull() {
+            addCriterion("payee_name is null");
             return (Criteria) this;
         }
 
-        public Criteria andMerchNameIsNotNull() {
-            addCriterion("merch_name is not null");
+        public Criteria andPayeeNameIsNotNull() {
+            addCriterion("payee_name is not null");
             return (Criteria) this;
         }
 
-        public Criteria andMerchNameEqualTo(String value) {
-            addCriterion("merch_name =", value, "merchName");
+        public Criteria andPayeeNameEqualTo(String value) {
+            addCriterion("payee_name =", value, "payeeName");
             return (Criteria) this;
         }
 
-        public Criteria andMerchNameNotEqualTo(String value) {
-            addCriterion("merch_name <>", value, "merchName");
+        public Criteria andPayeeNameNotEqualTo(String value) {
+            addCriterion("payee_name <>", value, "payeeName");
             return (Criteria) this;
         }
 
-        public Criteria andMerchNameGreaterThan(String value) {
-            addCriterion("merch_name >", value, "merchName");
+        public Criteria andPayeeNameGreaterThan(String value) {
+            addCriterion("payee_name >", value, "payeeName");
             return (Criteria) this;
         }
 
-        public Criteria andMerchNameGreaterThanOrEqualTo(String value) {
-            addCriterion("merch_name >=", value, "merchName");
+        public Criteria andPayeeNameGreaterThanOrEqualTo(String value) {
+            addCriterion("payee_name >=", value, "payeeName");
             return (Criteria) this;
         }
 
-        public Criteria andMerchNameLessThan(String value) {
-            addCriterion("merch_name <", value, "merchName");
+        public Criteria andPayeeNameLessThan(String value) {
+            addCriterion("payee_name <", value, "payeeName");
             return (Criteria) this;
         }
 
-        public Criteria andMerchNameLessThanOrEqualTo(String value) {
-            addCriterion("merch_name <=", value, "merchName");
+        public Criteria andPayeeNameLessThanOrEqualTo(String value) {
+            addCriterion("payee_name <=", value, "payeeName");
             return (Criteria) this;
         }
 
-        public Criteria andMerchNameLike(String value) {
-            addCriterion("merch_name like", value, "merchName");
+        public Criteria andPayeeNameLike(String value) {
+            addCriterion("payee_name like", value, "payeeName");
             return (Criteria) this;
         }
 
-        public Criteria andMerchNameNotLike(String value) {
-            addCriterion("merch_name not like", value, "merchName");
+        public Criteria andPayeeNameNotLike(String value) {
+            addCriterion("payee_name not like", value, "payeeName");
             return (Criteria) this;
         }
 
-        public Criteria andMerchNameIn(List<String> values) {
-            addCriterion("merch_name in", values, "merchName");
+        public Criteria andPayeeNameIn(List<String> values) {
+            addCriterion("payee_name in", values, "payeeName");
             return (Criteria) this;
         }
 
-        public Criteria andMerchNameNotIn(List<String> values) {
-            addCriterion("merch_name not in", values, "merchName");
+        public Criteria andPayeeNameNotIn(List<String> values) {
+            addCriterion("payee_name not in", values, "payeeName");
             return (Criteria) this;
         }
 
-        public Criteria andMerchNameBetween(String value1, String value2) {
-            addCriterion("merch_name between", value1, value2, "merchName");
+        public Criteria andPayeeNameBetween(String value1, String value2) {
+            addCriterion("payee_name between", value1, value2, "payeeName");
             return (Criteria) this;
         }
 
-        public Criteria andMerchNameNotBetween(String value1, String value2) {
-            addCriterion("merch_name not between", value1, value2, "merchName");
+        public Criteria andPayeeNameNotBetween(String value1, String value2) {
+            addCriterion("payee_name not between", value1, value2, "payeeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayeeTypeIsNull() {
+            addCriterion("payee_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayeeTypeIsNotNull() {
+            addCriterion("payee_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayeeTypeEqualTo(String value) {
+            addCriterion("payee_type =", value, "payeeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayeeTypeNotEqualTo(String value) {
+            addCriterion("payee_type <>", value, "payeeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayeeTypeGreaterThan(String value) {
+            addCriterion("payee_type >", value, "payeeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayeeTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("payee_type >=", value, "payeeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayeeTypeLessThan(String value) {
+            addCriterion("payee_type <", value, "payeeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayeeTypeLessThanOrEqualTo(String value) {
+            addCriterion("payee_type <=", value, "payeeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayeeTypeLike(String value) {
+            addCriterion("payee_type like", value, "payeeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayeeTypeNotLike(String value) {
+            addCriterion("payee_type not like", value, "payeeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayeeTypeIn(List<String> values) {
+            addCriterion("payee_type in", values, "payeeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayeeTypeNotIn(List<String> values) {
+            addCriterion("payee_type not in", values, "payeeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayeeTypeBetween(String value1, String value2) {
+            addCriterion("payee_type between", value1, value2, "payeeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayeeTypeNotBetween(String value1, String value2) {
+            addCriterion("payee_type not between", value1, value2, "payeeType");
             return (Criteria) this;
         }
 

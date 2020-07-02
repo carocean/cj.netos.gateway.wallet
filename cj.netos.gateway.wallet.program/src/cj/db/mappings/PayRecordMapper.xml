@@ -14,7 +14,6 @@
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="message" jdbcType="VARCHAR" property="message" />
     <result column="note" jdbcType="VARCHAR" property="note" />
-    <result column="payee" jdbcType="VARCHAR" property="payee" />
     <result column="type" jdbcType="INTEGER" property="type" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -80,7 +79,7 @@
   <sql id="Base_Column_List">
     <!-- @mbg.generated: generated automatically, do not modify! -->
     sn, person, person_name, currency, amount, `state`, ctime, lutime, `status`, message, 
-    note, payee, `type`
+    note, `type`
   </sql>
   <select id="selectByExample" parameterType="cj.netos.gateway.wallet.model.PayRecordExample" resultMap="BaseResultMap">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -121,13 +120,13 @@
     insert into pay_record (sn, person, person_name, 
       currency, amount, `state`, 
       ctime, lutime, `status`, 
-      message, note, payee, 
-      `type`)
+      message, note, `type`
+      )
     values (#{sn,jdbcType=VARCHAR}, #{person,jdbcType=VARCHAR}, #{personName,jdbcType=VARCHAR}, 
       #{currency,jdbcType=VARCHAR}, #{amount,jdbcType=BIGINT}, #{state,jdbcType=INTEGER}, 
       #{ctime,jdbcType=VARCHAR}, #{lutime,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
-      #{message,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{payee,jdbcType=VARCHAR}, 
-      #{type,jdbcType=INTEGER})
+      #{message,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="cj.netos.gateway.wallet.model.PayRecord">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -166,9 +165,6 @@
       <if test="note != null">
         note,
       </if>
-      <if test="payee != null">
-        payee,
-      </if>
       <if test="type != null">
         `type`,
       </if>
@@ -206,9 +202,6 @@
       </if>
       <if test="note != null">
         #{note,jdbcType=VARCHAR},
-      </if>
-      <if test="payee != null">
-        #{payee,jdbcType=VARCHAR},
       </if>
       <if test="type != null">
         #{type,jdbcType=INTEGER},
@@ -259,9 +252,6 @@
       <if test="record.note != null">
         note = #{record.note,jdbcType=VARCHAR},
       </if>
-      <if test="record.payee != null">
-        payee = #{record.payee,jdbcType=VARCHAR},
-      </if>
       <if test="record.type != null">
         `type` = #{record.type,jdbcType=INTEGER},
       </if>
@@ -284,7 +274,6 @@
       `status` = #{record.status,jdbcType=INTEGER},
       message = #{record.message,jdbcType=VARCHAR},
       note = #{record.note,jdbcType=VARCHAR},
-      payee = #{record.payee,jdbcType=VARCHAR},
       `type` = #{record.type,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -324,9 +313,6 @@
       <if test="note != null">
         note = #{note,jdbcType=VARCHAR},
       </if>
-      <if test="payee != null">
-        payee = #{payee,jdbcType=VARCHAR},
-      </if>
       <if test="type != null">
         `type` = #{type,jdbcType=INTEGER},
       </if>
@@ -346,8 +332,16 @@
       `status` = #{status,jdbcType=INTEGER},
       message = #{message,jdbcType=VARCHAR},
       note = #{note,jdbcType=VARCHAR},
-      payee = #{payee,jdbcType=VARCHAR},
       `type` = #{type,jdbcType=INTEGER}
+    where sn = #{sn,jdbcType=VARCHAR}
+  </update>
+  <update id="done" parameterType="cj.netos.gateway.wallet.model.PayRecord">
+    update pay_record
+    set
+      `state` = 1,
+      lutime = #{lutime,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=INTEGER},
+      message = #{message,jdbcType=VARCHAR}
     where sn = #{sn,jdbcType=VARCHAR}
   </update>
 </mapper>

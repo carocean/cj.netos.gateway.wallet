@@ -43,6 +43,7 @@ public class CheckAccessTokenStrategy implements ICheckAccessTokenStrategy {
         _securitySession.property("appid", appid);
         _securitySession.property("device",tokeninfo.get("device"));
         _securitySession.property("accessToken", accessToken);
+        _securitySession.property("nickName", tokeninfo.get("nickName"));
         return _securitySession;
     }
 

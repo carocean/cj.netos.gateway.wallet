@@ -27,14 +27,4 @@ public class SettleTradePorts implements ISettleTradePorts {
         withdrawActivityController.settle(securitySession.principal(), sn, amount, code, message);
 
     }
-
-    @Override
-    public void payment(ISecuritySession securitySession, String payment_sn) throws CircuitException {
-        payActivityController.payment(securitySession.principal(), payment_sn);
-    }
-
-    @Override
-    public void refund(ISecuritySession securitySession, String payment_sn) throws CircuitException {
-        payActivityController.refund(securitySession.principal(), payment_sn);
-    }
 }

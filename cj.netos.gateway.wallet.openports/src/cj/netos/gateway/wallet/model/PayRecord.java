@@ -71,12 +71,6 @@ public class PayRecord {
     private String note;
 
     /**
-     * Column: payee
-     * Remark: 收款人
-     */
-    private String payee;
-
-    /**
      * Column: type
      * Remark: 付款类型，有： 0 normal_pay(普通无附带属性，如p2p转账) 1 qrcode_payer_scan(我扫码收款方主动支付) 2 qrcode_payeer_scan(我被收款方扫码我方支付) 3 receipt_pay(支付收款单) 4 order_pay(支付订单)
      */
@@ -168,14 +162,6 @@ public class PayRecord {
 
     public void setNote(String note) {
         this.note = note == null ? null : note.trim();
-    }
-
-    public String getPayee() {
-        return payee;
-    }
-
-    public void setPayee(String payee) {
-        this.payee = payee == null ? null : payee.trim();
     }
 
     public Integer getType() {

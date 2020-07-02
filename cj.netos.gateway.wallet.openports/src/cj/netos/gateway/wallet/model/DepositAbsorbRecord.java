@@ -30,7 +30,7 @@ public class DepositAbsorbRecord {
 
     /**
      * Column: demand_amount
-     * Remark: 要求冲值金额
+     * Remark: 要求冲值金额单位为1/10的8次方分
      */
     private Long demandAmount;
 

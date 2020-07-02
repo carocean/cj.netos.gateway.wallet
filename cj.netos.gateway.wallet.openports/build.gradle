@@ -19,6 +19,7 @@ sourceSets {
 dependencies {
     compile group: 'cj.netos.openport', name: 'cj.studio.openport', version: ref_cj_studio_openport_version
     compile group: 'cj.netos.rabbitmq', name: 'cj.netos.rabbitmq', version: ref_cj_netos_rabbitmq_version
+    compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 }
 
  task releaseToProgram(type: Copy) {

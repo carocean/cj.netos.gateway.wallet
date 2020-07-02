@@ -32,14 +32,4 @@ public interface ISettleTradePorts extends IOpenportService {
                   @CjOpenportParameter(usage = "订单完成时第三方渠道的返回码", name = "code") String code,
                   @CjOpenportParameter(usage = "订单完成时第三方渠道的返回信息", name = "message") String message
     ) throws CircuitException;
-
-    @CjOpenport(usage = "实际支付")
-    void payment(ISecuritySession securitySession,
-                 @CjOpenportParameter(usage = "付款单号", name = "payment_sn") String payment_sn
-    ) throws CircuitException;
-
-    @CjOpenport(usage = "应付单退款")
-    void refund(ISecuritySession securitySession,
-                @CjOpenportParameter(usage = "付款单号", name = "payment_sn") String payment_sn
-    ) throws CircuitException;
 }

@@ -4,12 +4,16 @@ import cj.netos.gateway.wallet.*;
 import cj.netos.gateway.wallet.bo.PayDetailsBO;
 import cj.netos.gateway.wallet.model.*;
 import cj.netos.gateway.wallet.result.*;
+import cj.netos.gateway.wallet.util.JwtUtil;
+import cj.studio.ecm.IServiceSite;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
+import cj.studio.ecm.annotation.CjServiceSite;
 import cj.studio.ecm.net.CircuitException;
 import cj.studio.openport.ISecuritySession;
 import cj.ultimate.gson2.com.google.gson.Gson;
 import cj.ultimate.util.StringUtil;
+import io.jsonwebtoken.Claims;
 
 import java.util.Map;
 
@@ -41,8 +45,15 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
     IDepositAbsorbActivityController depositAbsorbActivityController;
     @CjServiceRef
     IPayActivityController payActivityController;
+
+    @CjServiceRef(refByName = "p2pActivityController")
+    IP2PActivityController p2pActivityController;
+
     @CjServiceRef
     IRecordService recordService;
+
+    @CjServiceSite
+    IServiceSite site;
 
     @Override
     public RechargeResult recharge(ISecuritySession securitySession, String currency, long amount, String payChannelID, String note) throws CircuitException {
@@ -124,21 +135,22 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
     }
 
     @Override
-    public DepositAbsorbResult depositAbsorb(ISecuritySession securitySession, long amount, String sourceCode, String sourceTitle, String note) throws CircuitException {
+    public PayableResult payTrade(ISecuritySession securitySession, long amount, int type, PayDetailsBO details, String note) throws CircuitException {
         if (amount < 0) {
             throw new CircuitException("500", "金额为负数");
         }
-        if (StringUtil.isEmpty(sourceCode)) {
-            throw new CircuitException("404", String.format("洇金来源代码为空"));
+        if (details == null) {
+            throw new CircuitException("404", String.format("付款明细为空"));
         }
+
         Map<String, Object> personInfo = personService.getPersonInfo((String) securitySession.property("accessToken"));
         String personName = (String) personInfo.get("nickName");
-        DepositAbsorbRecord record = depositAbsorbActivityController.doReceipt(securitySession.principal(), personName, amount, sourceCode, sourceTitle, note);
-        return new Gson().fromJson(new Gson().toJson(record), DepositAbsorbResult.class);
+        PayRecord record = payActivityController.doReceipt(securitySession.principal(), personName, amount, type, details, note);
+        return new Gson().fromJson(new Gson().toJson(record), PayableResult.class);
     }
 
     @Override
-    public PayableResult payable(ISecuritySession securitySession, long amount, String payee, int type, PayDetailsBO details, String note) throws CircuitException {
+    public P2PResult transTo(ISecuritySession securitySession, long amount, String payee, int type, String note) throws CircuitException {
         if (amount < 0) {
             throw new CircuitException("500", "金额为负数");
         }
@@ -146,10 +158,33 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
             throw new CircuitException("404", String.format("收款人为空"));
         }
 
-        Map<String, Object> personInfo = personService.getPersonInfo((String) securitySession.property("accessToken"));
-        String personName = (String) personInfo.get("nickName");
-        PayRecord record = payActivityController.doReceipt(securitySession.principal(), personName, amount, type, details, note);
-        return new Gson().fromJson(new Gson().toJson(record), PayableResult.class);
+        Map<String, Object> payeeObj = personService.findPerson(payee,(String)securitySession.property("accessToken"));
+        P2pRecord record = p2pActivityController.doReceipt(securitySession.principal(), (String) securitySession.property("nickName"), (String) payee, (String) payeeObj.get("nickName"), amount, type,"to", note);
+        return new Gson().fromJson(new Gson().toJson(record), P2PResult.class);
+    }
+
+    @Override
+    public P2PResult transFrom(ISecuritySession securitySession, String payerSignText, int type, String note) throws CircuitException {
+        if (StringUtil.isEmpty(payerSignText)) {
+            throw new CircuitException("404", String.format("payerSignText为空"));
+        }
+        String key = site.getProperty("payer.key");
+        Claims claims = JwtUtil.parseJWT(key, payerSignText);
+        String amountStr =(String) claims.get("amount");
+        long amount = Long.valueOf(amountStr);
+        if (amount < 0) {
+            throw new CircuitException("500", "金额为负数");
+        }
+        P2pRecord record = p2pActivityController.doReceipt((String) claims.get("payer"), (String) claims.get("name"), securitySession.principal(), (String) securitySession.property("nickName"), amount, type,"from", note);
+        return new Gson().fromJson(new Gson().toJson(record), P2PResult.class);
+    }
+
+    @Override
+    public String genPayerSignText(ISecuritySession securitySession, long amount) throws CircuitException {
+        String key = site.getProperty("payer.key");
+        String expired = site.getProperty("payer.expired");
+        String jwt = JwtUtil.createJWT(key, Long.valueOf(expired), securitySession.principal(), (String) securitySession.property("nickName"), amount);
+        return jwt;
     }
 
     @Override

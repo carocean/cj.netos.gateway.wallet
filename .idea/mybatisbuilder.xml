@@ -120,6 +120,26 @@
             </TableInfo>
           </value>
         </entry>
+        <entry key="netos.wallet.main#p2p_activity">
+          <value>
+            <TableInfo>
+              <option name="database" value="netos.wallet.main" />
+              <option name="domainName" value="P2pActivity" />
+              <option name="tableComment" value="转账处理步骤。" />
+              <option name="tableName" value="p2p_activity" />
+            </TableInfo>
+          </value>
+        </entry>
+        <entry key="netos.wallet.main#p2p_record">
+          <value>
+            <TableInfo>
+              <option name="database" value="netos.wallet.main" />
+              <option name="domainName" value="P2pRecord" />
+              <option name="tableComment" value="p2p转账记录流水" />
+              <option name="tableName" value="p2p_record" />
+            </TableInfo>
+          </value>
+        </entry>
         <entry key="netos.wallet.main#pay_activity">
           <value>
             <TableInfo>

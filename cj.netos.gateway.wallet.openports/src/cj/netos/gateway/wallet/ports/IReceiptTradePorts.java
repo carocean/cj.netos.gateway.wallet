@@ -52,25 +52,33 @@ public interface IReceiptTradePorts extends IOpenportService {
     ) throws CircuitException;
 
 
-    @CjOpenport(usage = "存入洇金。在使用gbera服务时洇取的洇金存入到洇金账户")
-    DepositAbsorbResult depositAbsorb(ISecuritySession securitySession,
-                                      @CjOpenportParameter(usage = "存入金额,单位为分", name = "amount") long amount,
-                                      @CjOpenportParameter(usage = "洇金来源代码，一般是来源的模块名", name = "sourceCode") String sourceCode,
-                                      @CjOpenportParameter(usage = "洇金来源的显示名", name = "sourceTitle") String sourceTitle,
-                                      @CjOpenportParameter(usage = "备注", name = "note") String note
+    @CjOpenport(usage = "付款交易，即向账务系统外支付（不属于本账务系统的外部系统），如付款给商户、付款给洇取器等等，而针对系统内其它公号的支付请使用转账服务", command = "post")
+    PayableResult payTrade(ISecuritySession securitySession,
+                           @CjOpenportParameter(usage = "付款金额,单位为分", name = "amount") long amount,
+                           @CjOpenportParameter(usage = "0. qrcode_pay(扫码支付)|1 order_pay(支付订单)", name = "type") int type,
+                           @CjOpenportParameter(usage = "交易明细，如类型是支付订单，则明细中有商户、订单号等", name = "details", in = PKeyInRequest.content, simpleModelFile = "/payable_details.md") PayDetailsBO details,
+                           @CjOpenportParameter(usage = "备注", name = "note") String note
     ) throws CircuitException;
 
-
-    @CjOpenport(usage = "应付款收单。采用付款方主动模式，应付款收单的逻辑是应该向谁付什么款，但并未实际支付，而是执行预扣款。\n" +
-            "1。对于收方主动扫付款码收款的情况，收方扫码后得到付方的临时支付令牌，并创建临时收款单，付方轮询到后验证令牌通过后开始调用支付程序，两方是个互动过程。\n" +
-            "2。对于付方主动扫收款码的情况，则付方主动调用支付程序，成功后通知收款方即可。\n" +
-            "因此对于收付款和转账的接口仅3个，即应付方法、支付方法（实际执行）、退款方法，后两个方法在决清ports中实现", command = "post")
-    PayableResult payable(ISecuritySession securitySession,
-                          @CjOpenportParameter(usage = "付款金额,单位为分", name = "amount") long amount,
+    @CjOpenport(usage = "我转账给对方(P2P)，仅用于系统内用户之间互转")
+    P2PResult transTo(ISecuritySession securitySession,
+                          @CjOpenportParameter(usage = "转账金额,单位为分", name = "amount") long amount,
                           @CjOpenportParameter(usage = "收款人", name = "payee") String payee,
-                          @CjOpenportParameter(usage = "付款类型，有：0 normal_pay(普通无附带属性，如p2p转账)|1 qrcode_payer_scan(我扫码收款方主动支付)|2 qrcode_payeer_scan(我被收款方扫码我方支付)|3 receipt_pay(支付收款单)|4 order_pay(支付订单)", name = "type") int type,
-                          @CjOpenportParameter(usage = "交易明细，如类型是支付订单，则明细中有商户、订单号等", name = "details", in = PKeyInRequest.content, simpleModelFile = "/payable_details.md") PayDetailsBO details,
+                          @CjOpenportParameter(usage = "转账类型：0.p2p(直转)|1 qrcode_pay(扫码收款人)", name = "type") int type,
                           @CjOpenportParameter(usage = "备注", name = "note") String note
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "生成付款人签名")
+    String genPayerSignText(
+            ISecuritySession securitySession,
+            @CjOpenportParameter(usage = "付款金额,单位为分", name = "amount") long amount
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "向对方收款(P2P)，仅用于系统内用户之间互转")
+    P2PResult transFrom(ISecuritySession securitySession,
+                            @CjOpenportParameter(usage = "付款人签名。在向对方收款时对方需要展示签名（付方要生成签名，可能放在二维码中）", name = "payerSignText") String payerSignText,
+                            @CjOpenportParameter(usage = "转账类型：0.p2p(直转)|1 qrcode_pay(扫码付款人)", name = "type") int type,
+                            @CjOpenportParameter(usage = "备注", name = "note") String note
     ) throws CircuitException;
 
     @CjOpenport(usage = "申购纹银")

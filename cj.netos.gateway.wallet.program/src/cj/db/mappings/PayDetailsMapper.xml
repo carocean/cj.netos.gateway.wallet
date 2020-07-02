@@ -4,8 +4,9 @@
   <resultMap id="BaseResultMap" type="cj.netos.gateway.wallet.model.PayDetails">
     <!-- @mbg.generated: generated automatically, do not modify! -->
     <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="merch_id" jdbcType="VARCHAR" property="merchId" />
-    <result column="merch_name" jdbcType="VARCHAR" property="merchName" />
+    <result column="payee_code" jdbcType="VARCHAR" property="payeeCode" />
+    <result column="payee_name" jdbcType="VARCHAR" property="payeeName" />
+    <result column="payee_type" jdbcType="VARCHAR" property="payeeType" />
     <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
     <result column="order_title" jdbcType="VARCHAR" property="orderTitle" />
     <result column="service_id" jdbcType="VARCHAR" property="serviceId" />
@@ -75,8 +76,8 @@
   </sql>
   <sql id="Base_Column_List">
     <!-- @mbg.generated: generated automatically, do not modify! -->
-    id, merch_id, merch_name, order_no, order_title, service_id, service_name, note, 
-    pay_sn
+    id, payee_code, payee_name, payee_type, order_no, order_title, service_id, service_name, 
+    note, pay_sn
   </sql>
   <select id="selectByExample" parameterType="cj.netos.gateway.wallet.model.PayDetailsExample" resultMap="BaseResultMap">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -114,14 +115,14 @@
   </delete>
   <insert id="insert" parameterType="cj.netos.gateway.wallet.model.PayDetails">
     <!-- @mbg.generated: generated automatically, do not modify! -->
-    insert into pay_details (id, merch_id, merch_name, 
-      order_no, order_title, service_id, 
-      service_name, note, pay_sn
-      )
-    values (#{id,jdbcType=VARCHAR}, #{merchId,jdbcType=VARCHAR}, #{merchName,jdbcType=VARCHAR}, 
-      #{orderNo,jdbcType=VARCHAR}, #{orderTitle,jdbcType=VARCHAR}, #{serviceId,jdbcType=VARCHAR}, 
-      #{serviceName,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{paySn,jdbcType=VARCHAR}
-      )
+    insert into pay_details (id, payee_code, payee_name, 
+      payee_type, order_no, order_title, 
+      service_id, service_name, note, 
+      pay_sn)
+    values (#{id,jdbcType=VARCHAR}, #{payeeCode,jdbcType=VARCHAR}, #{payeeName,jdbcType=VARCHAR}, 
+      #{payeeType,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{orderTitle,jdbcType=VARCHAR}, 
+      #{serviceId,jdbcType=VARCHAR}, #{serviceName,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, 
+      #{paySn,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cj.netos.gateway.wallet.model.PayDetails">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -130,11 +131,14 @@
       <if test="id != null">
         id,
       </if>
-      <if test="merchId != null">
-        merch_id,
+      <if test="payeeCode != null">
+        payee_code,
       </if>
-      <if test="merchName != null">
-        merch_name,
+      <if test="payeeName != null">
+        payee_name,
+      </if>
+      <if test="payeeType != null">
+        payee_type,
       </if>
       <if test="orderNo != null">
         order_no,
@@ -159,11 +163,14 @@
       <if test="id != null">
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="merchId != null">
-        #{merchId,jdbcType=VARCHAR},
+      <if test="payeeCode != null">
+        #{payeeCode,jdbcType=VARCHAR},
       </if>
-      <if test="merchName != null">
-        #{merchName,jdbcType=VARCHAR},
+      <if test="payeeName != null">
+        #{payeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="payeeType != null">
+        #{payeeType,jdbcType=VARCHAR},
       </if>
       <if test="orderNo != null">
         #{orderNo,jdbcType=VARCHAR},
@@ -199,11 +206,14 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=VARCHAR},
       </if>
-      <if test="record.merchId != null">
-        merch_id = #{record.merchId,jdbcType=VARCHAR},
+      <if test="record.payeeCode != null">
+        payee_code = #{record.payeeCode,jdbcType=VARCHAR},
       </if>
-      <if test="record.merchName != null">
-        merch_name = #{record.merchName,jdbcType=VARCHAR},
+      <if test="record.payeeName != null">
+        payee_name = #{record.payeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payeeType != null">
+        payee_type = #{record.payeeType,jdbcType=VARCHAR},
       </if>
       <if test="record.orderNo != null">
         order_no = #{record.orderNo,jdbcType=VARCHAR},
@@ -232,8 +242,9 @@
     <!-- @mbg.generated: generated automatically, do not modify! -->
     update pay_details
     set id = #{record.id,jdbcType=VARCHAR},
-      merch_id = #{record.merchId,jdbcType=VARCHAR},
-      merch_name = #{record.merchName,jdbcType=VARCHAR},
+      payee_code = #{record.payeeCode,jdbcType=VARCHAR},
+      payee_name = #{record.payeeName,jdbcType=VARCHAR},
+      payee_type = #{record.payeeType,jdbcType=VARCHAR},
       order_no = #{record.orderNo,jdbcType=VARCHAR},
       order_title = #{record.orderTitle,jdbcType=VARCHAR},
       service_id = #{record.serviceId,jdbcType=VARCHAR},
@@ -248,11 +259,14 @@
     <!-- @mbg.generated: generated automatically, do not modify! -->
     update pay_details
     <set>
-      <if test="merchId != null">
-        merch_id = #{merchId,jdbcType=VARCHAR},
+      <if test="payeeCode != null">
+        payee_code = #{payeeCode,jdbcType=VARCHAR},
       </if>
-      <if test="merchName != null">
-        merch_name = #{merchName,jdbcType=VARCHAR},
+      <if test="payeeName != null">
+        payee_name = #{payeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="payeeType != null">
+        payee_type = #{payeeType,jdbcType=VARCHAR},
       </if>
       <if test="orderNo != null">
         order_no = #{orderNo,jdbcType=VARCHAR},
@@ -278,8 +292,9 @@
   <update id="updateByPrimaryKey" parameterType="cj.netos.gateway.wallet.model.PayDetails">
     <!-- @mbg.generated: generated automatically, do not modify! -->
     update pay_details
-    set merch_id = #{merchId,jdbcType=VARCHAR},
-      merch_name = #{merchName,jdbcType=VARCHAR},
+    set payee_code = #{payeeCode,jdbcType=VARCHAR},
+      payee_name = #{payeeName,jdbcType=VARCHAR},
+      payee_type = #{payeeType,jdbcType=VARCHAR},
       order_no = #{orderNo,jdbcType=VARCHAR},
       order_title = #{orderTitle,jdbcType=VARCHAR},
       service_id = #{serviceId,jdbcType=VARCHAR},

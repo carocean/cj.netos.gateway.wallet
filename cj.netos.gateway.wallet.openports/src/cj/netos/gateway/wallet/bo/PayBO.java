@@ -1,5 +1,7 @@
 package cj.netos.gateway.wallet.bo;
 
+import cj.netos.gateway.wallet.model.PayDetails;
+
 public class PayBO {
 
     private long amount;
@@ -9,6 +11,15 @@ public class PayBO {
     private String person;
     private String personName;
     private int type;
+    PayDetailsBO details;
+
+    public PayDetailsBO getDetails() {
+        return details;
+    }
+
+    public void setDetails(PayDetailsBO details) {
+        this.details = details;
+    }
 
     public void setSn(String sn) {
 

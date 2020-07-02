@@ -10,16 +10,22 @@ public class PayDetails {
     private String id;
 
     /**
-     * Column: merch_id
-     * Remark: 商户的唯一编号
+     * Column: payee_code
+     * Remark: 收款人代码
      */
-    private String merchId;
+    private String payeeCode;
 
     /**
-     * Column: merch_name
-     * Remark: 商户名
+     * Column: payee_name
+     * Remark: 收款人名称
      */
-    private String merchName;
+    private String payeeName;
+
+    /**
+     * Column: payee_type
+     * Remark: 收款人类型，如：商户、洇取器等非系统内用户
+     */
+    private String payeeType;
 
     /**
      * Column: order_no
@@ -64,20 +70,28 @@ public class PayDetails {
         this.id = id == null ? null : id.trim();
     }
 
-    public String getMerchId() {
-        return merchId;
+    public String getPayeeCode() {
+        return payeeCode;
     }
 
-    public void setMerchId(String merchId) {
-        this.merchId = merchId == null ? null : merchId.trim();
+    public void setPayeeCode(String payeeCode) {
+        this.payeeCode = payeeCode == null ? null : payeeCode.trim();
     }
 
-    public String getMerchName() {
-        return merchName;
+    public String getPayeeName() {
+        return payeeName;
     }
 
-    public void setMerchName(String merchName) {
-        this.merchName = merchName == null ? null : merchName.trim();
+    public void setPayeeName(String payeeName) {
+        this.payeeName = payeeName == null ? null : payeeName.trim();
+    }
+
+    public String getPayeeType() {
+        return payeeType;
+    }
+
+    public void setPayeeType(String payeeType) {
+        this.payeeType = payeeType == null ? null : payeeType.trim();
     }
 
     public String getOrderNo() {

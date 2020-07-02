@@ -2,9 +2,7 @@ package cj.netos.gateway.wallet.mapper;
 
 import cj.netos.gateway.wallet.model.TransShunterRecord;
 import cj.netos.gateway.wallet.model.TransShunterRecordExample;
-
 import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
 
 public interface TransShunterRecordMapper {
@@ -64,12 +62,11 @@ public interface TransShunterRecordMapper {
      */
     int updateByPrimaryKey(TransShunterRecord record);
 
-    void ackReceipt(@Param(value = "sn") String sn, @Param(value = "outTradeSn") String outTradeSn, @Param(value = "status") int status, @Param(value = "message") String message,@Param(value = "lutime")String lutime);
+    void ackReceipt(@Param(value = "sn") String sn, @Param(value = "outTradeSn") String outTradeSn, @Param(value = "status") int status, @Param(value = "message") String message, @Param(value = "lutime") String lutime);
 
     void done(@Param(value = "sn") String sn, @Param(value = "outTradeSn") String outTradeSn, @Param(value = "status") int status, @Param(value = "message") String message, @Param(value = "lutime") String lutime);
 
-    void updateStatus(@Param(value = "sn") String sn,  @Param(value = "outTradeSn") String outTradeSn,@Param(value = "status") Integer status, @Param(value = "message") String message, @Param(value = "lutime") String lutime);
+    void updateStatus(@Param(value = "sn") String sn, @Param(value = "outTradeSn") String outTradeSn, @Param(value = "status") Integer status, @Param(value = "message") String message, @Param(value = "lutime") String lutime);
 
-    void ackTransShuntFromBank(@Param(value = "sn") String sn,@Param(value = "realAmount") long realAmount, @Param(value = "status") Integer status, @Param(value = "message") String message, @Param(value = "lutime") String lutime);
-
+    void ackTransShuntFromBank(@Param(value = "sn") String sn, @Param(value = "realAmount") long realAmount, @Param(value = "status") Integer status, @Param(value = "message") String message, @Param(value = "lutime") String lutime);
 }
