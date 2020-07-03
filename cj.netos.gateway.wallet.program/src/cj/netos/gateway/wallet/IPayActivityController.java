@@ -10,4 +10,6 @@ public interface IPayActivityController {
 
     void ackReceipt(PayResult result);
 
+    void sendPayInfo(PayResult result) throws CircuitException;
+
 }

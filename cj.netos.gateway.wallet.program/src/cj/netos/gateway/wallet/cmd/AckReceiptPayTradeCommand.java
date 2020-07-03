@@ -8,8 +8,10 @@ import cj.netos.rabbitmq.CjConsumer;
 import cj.netos.rabbitmq.RabbitMQException;
 import cj.netos.rabbitmq.RetryCommandException;
 import cj.netos.rabbitmq.consumer.IConsumerCommand;
+import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
+import cj.studio.ecm.net.CircuitException;
 import cj.ultimate.gson2.com.google.gson.Gson;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Envelope;
@@ -25,6 +27,11 @@ public class AckReceiptPayTradeCommand implements IConsumerCommand {
     public void command(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws RabbitMQException, RetryCommandException, IOException {
         PayResult result = new Gson().fromJson(new String(body), PayResult.class);
         payActivityController.ackReceipt(result);
+        try {
+            payActivityController.sendPayInfo(result);
+        } catch (CircuitException e) {
+            CJSystem.logging().error(e);
+        }
     }
 
 }
