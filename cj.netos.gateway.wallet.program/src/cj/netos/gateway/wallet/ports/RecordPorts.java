@@ -54,6 +54,28 @@ public class RecordPorts implements IRecordPorts {
     }
 
     @Override
+    public P2pRecord getP2PRecord(ISecuritySession securitySession, String record_sn) throws CircuitException {
+        P2pRecord record = recordService.getP2PRecord(securitySession.principal(), record_sn);
+        return record;
+    }
+
+    @Override
+    public List<P2pActivity> getP2PActivities(ISecuritySession securitySession, String record_sn) throws CircuitException {
+        return recordService.getP2PActivities(record_sn);
+    }
+
+    @Override
+    public DepositHubTailsRecord getDepositHubTailsRecord(ISecuritySession securitySession, String record_sn) throws CircuitException {
+        DepositHubTailsRecord record = recordService.getDepositHubTailsRecord(securitySession.principal(), record_sn);
+        return record;
+    }
+
+    @Override
+    public List<DepositHubTailsActivity> getDepositHubTailsActivities(ISecuritySession securitySession, String record_sn) throws CircuitException {
+        return recordService.getDepositHubTailsActivities(record_sn);
+    }
+
+    @Override
     public List<PayActivity> getPayActivities(ISecuritySession securitySession, String record_sn) throws CircuitException {
         return recordService.getPayActivities(record_sn);
     }

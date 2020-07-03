@@ -97,4 +97,12 @@ public interface IRecordService {
 
     void ackDepositHubTails(DepositHubTailsResult result);
 
+    P2pRecord getP2PRecord(String principal, String record_sn);
+
+    List<P2pActivity> getP2PActivities(String record_sn);
+
+    DepositHubTailsRecord getDepositHubTailsRecord(String principal, String record_sn);
+
+    List<DepositHubTailsActivity> getDepositHubTailsActivities(String record_sn);
+
 }

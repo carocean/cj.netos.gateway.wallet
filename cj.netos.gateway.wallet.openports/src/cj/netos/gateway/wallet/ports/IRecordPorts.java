@@ -43,6 +43,26 @@ public interface IRecordPorts extends IOpenportService {
                                        @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
     ) throws CircuitException;
 
+    @CjOpenport(usage = "获取系统内转账记录")
+    P2pRecord getP2PRecord(ISecuritySession securitySession,
+                           @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "获取系统转账步骤")
+    List<P2pActivity> getP2PActivities(ISecuritySession securitySession,
+                                       @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "获取洇取器尾金存单")
+    DepositHubTailsRecord getDepositHubTailsRecord(ISecuritySession securitySession,
+                                                   @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "获取洇取器尾金存入步骤")
+    List<DepositHubTailsActivity> getDepositHubTailsActivities(ISecuritySession securitySession,
+                                                               @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
+    ) throws CircuitException;
+
     @CjOpenport(usage = "获取收益金提取记录")
     TransProfitRecord getTransProfitRecord(ISecuritySession securitySession,
                                            @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn

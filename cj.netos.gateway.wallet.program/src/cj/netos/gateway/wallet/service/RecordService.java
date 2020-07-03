@@ -444,6 +444,34 @@ public class RecordService implements IRecordService {
 
     @CjTransaction
     @Override
+    public P2pRecord getP2PRecord(String principal, String record_sn) {
+        return p2pRecordMapper.selectByPrimaryKey(record_sn);
+    }
+
+    @CjTransaction
+    @Override
+    public List<P2pActivity> getP2PActivities(String record_sn) {
+        P2pActivityExample example = new P2pActivityExample();
+        example.createCriteria().andRecordSnEqualTo(record_sn);
+        return p2pActivityMapper.selectByExample(example);
+    }
+
+    @CjTransaction
+    @Override
+    public DepositHubTailsRecord getDepositHubTailsRecord(String principal, String record_sn) {
+        return depositHubTailsRecordMapper.selectByPrimaryKey(record_sn);
+    }
+
+    @CjTransaction
+    @Override
+    public List<DepositHubTailsActivity> getDepositHubTailsActivities(String record_sn) {
+        DepositHubTailsActivityExample example = new DepositHubTailsActivityExample();
+        example.createCriteria().andRecordSnEqualTo(record_sn);
+        return depositHubTailsActivityMapper.selectByExample(example);
+    }
+
+    @CjTransaction
+    @Override
     public TransProfitRecord getTransProfitRecord(String principal, String record_sn) {
         TransProfitRecordExample example = new TransProfitRecordExample();
         example.createCriteria().andSnEqualTo(record_sn).andPersonEqualTo(principal);
@@ -526,7 +554,7 @@ public class RecordService implements IRecordService {
         if (msg.length() > 250) {
             msg = msg.substring(0, 250);
         }
-        depositHubTailsRecordMapper.done(result.getSn(),  _status, msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        depositHubTailsRecordMapper.done(result.getSn(), _status, msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
 
         DepositHubTailsActivity activity = new DepositHubTailsActivity();
         activity.setActivityName("已完成");
