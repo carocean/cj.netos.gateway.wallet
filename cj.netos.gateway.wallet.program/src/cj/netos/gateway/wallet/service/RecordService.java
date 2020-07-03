@@ -65,6 +65,11 @@ public class RecordService implements IRecordService {
     @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.P2pActivityMapper")
     P2pActivityMapper p2pActivityMapper;
 
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.DepositHubTailsRecordMapper")
+    DepositHubTailsRecordMapper depositHubTailsRecordMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.DepositHubTailsActivityMapper")
+    DepositHubTailsActivityMapper depositHubTailsActivityMapper;
+
     @CjTransaction
     @Override
     public WenyPurchRecord getPurchaseRecord(String sn) {
@@ -510,6 +515,28 @@ public class RecordService implements IRecordService {
         depositAbsorbActivity.setStatus(Float.valueOf(result.getStatus()).intValue());
         depositAbsorbActivity.setRecordSn(result.getSn());
         depositAbsorbActivityMapper.insert(depositAbsorbActivity);
+    }
+
+    @CjTransaction
+    @Override
+    public void ackDepositHubTails(DepositHubTailsResult result) {
+        int _status = Float.valueOf(result.getStatus()).intValue();
+        DepositHubTailsBO bo = new Gson().fromJson((String) result.getRecord(), DepositHubTailsBO.class);
+        String msg = result.getMessage();
+        if (msg.length() > 250) {
+            msg = msg.substring(0, 250);
+        }
+        depositHubTailsRecordMapper.done(result.getSn(),  _status, msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+
+        DepositHubTailsActivity activity = new DepositHubTailsActivity();
+        activity.setActivityName("已完成");
+        activity.setActivityNo(1);
+        activity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        activity.setId(new IdWorker().nextId());
+        activity.setMessage(msg);
+        activity.setStatus(Float.valueOf(result.getStatus()).intValue());
+        activity.setRecordSn(result.getSn());
+        depositHubTailsActivityMapper.insert(activity);
     }
 
     @CjTransaction

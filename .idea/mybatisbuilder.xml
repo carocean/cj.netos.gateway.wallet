@@ -120,6 +120,26 @@
             </TableInfo>
           </value>
         </entry>
+        <entry key="netos.wallet.main#deposit_hub_tails_activity">
+          <value>
+            <TableInfo>
+              <option name="database" value="netos.wallet.main" />
+              <option name="domainName" value="DepositHubTailsActivity" />
+              <option name="tableComment" value="存入洇取器尾金的处理步骤" />
+              <option name="tableName" value="deposit_hub_tails_activity" />
+            </TableInfo>
+          </value>
+        </entry>
+        <entry key="netos.wallet.main#deposit_hub_tails_record">
+          <value>
+            <TableInfo>
+              <option name="database" value="netos.wallet.main" />
+              <option name="domainName" value="DepositHubTailsRecord" />
+              <option name="tableComment" value="存入洇取中心的尾金" />
+              <option name="tableName" value="deposit_hub_tails_record" />
+            </TableInfo>
+          </value>
+        </entry>
         <entry key="netos.wallet.main#p2p_activity">
           <value>
             <TableInfo>

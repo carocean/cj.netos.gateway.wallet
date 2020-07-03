@@ -1,19 +1,21 @@
 package cj.netos.gateway.wallet.bo;
 
+import java.math.BigDecimal;
+
 public class DepositAbsorbBO {
     String sn;
     String person;
     String personName;
     String sourceCode;
     String sourceTitle;
-    long demandAmount;
+    BigDecimal demandAmount;
     String note;
      String currency;
 
     public DepositAbsorbBO() {
     }
 
-    public DepositAbsorbBO(String sn, String person, String personName, String sourceCode, String sourceTitle, long demandAmount, String note, String currency) {
+    public DepositAbsorbBO(String sn, String person, String personName, String sourceCode, String sourceTitle, BigDecimal demandAmount, String note, String currency) {
         this.sn = sn;
         this.person = person;
         this.personName = personName;
@@ -64,11 +66,11 @@ public class DepositAbsorbBO {
         this.sourceTitle = sourceTitle;
     }
 
-    public long getDemandAmount() {
+    public BigDecimal getDemandAmount() {
         return demandAmount;
     }
 
-    public void setDemandAmount(long demandAmount) {
+    public void setDemandAmount(BigDecimal demandAmount) {
         this.demandAmount = demandAmount;
     }
 

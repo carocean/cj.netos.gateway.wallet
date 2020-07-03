@@ -1,5 +1,6 @@
 package cj.netos.gateway.wallet.service;
 
+import cj.netos.gateway.wallet.AbsorberHubTailsResult;
 import cj.netos.gateway.wallet.IReceiptTradeService;
 import cj.netos.gateway.wallet.bo.PayDetailsBO;
 import cj.netos.gateway.wallet.mapper.*;
@@ -11,6 +12,8 @@ import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
 import cj.studio.ecm.net.CircuitException;
 import cj.studio.orm.mybatis.annotation.CjTransaction;
+
+import java.math.BigDecimal;
 
 @CjBridge(aspects = "@transaction")
 @CjService(name = "receiptTradeService")
@@ -59,6 +62,11 @@ public class ReceiptTradeService implements IReceiptTradeService {
     P2pRecordMapper p2pRecordMapper;
     @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.P2pActivityMapper")
     P2pActivityMapper p2pActivityMapper;
+
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.DepositHubTailsRecordMapper")
+    DepositHubTailsRecordMapper depositHubTailsRecordMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.DepositHubTailsActivityMapper")
+    DepositHubTailsActivityMapper depositHubTailsActivityMapper;
 
     @CjTransaction
     @Override
@@ -122,7 +130,7 @@ public class ReceiptTradeService implements IReceiptTradeService {
 
     @CjTransaction
     @Override
-    public DepositAbsorbRecord depositAbsorb(String principal, String personName, long amount, String sourceCode, String sourceTitle, String note) {
+    public DepositAbsorbRecord depositAbsorb(String principal, String personName, BigDecimal amount, String sourceCode, String sourceTitle, String note) {
         DepositAbsorbRecord record = new DepositAbsorbRecord();
         record.setDemandAmount(amount);
         record.setCurrency("CNY");
@@ -353,7 +361,7 @@ public class ReceiptTradeService implements IReceiptTradeService {
 
     @CjTransaction
     @Override
-    public P2pRecord p2p(String payer, String payerName, String payee, String payeeName, long amount, int type,String direct, String note) {
+    public P2pRecord p2p(String payer, String payerName, String payee, String payeeName, long amount, int type, String direct, String note) {
         P2pRecord record = new P2pRecord();
         record.setAmount(amount);
         record.setCurrency("CNY");
@@ -383,6 +391,38 @@ public class ReceiptTradeService implements IReceiptTradeService {
         p2pActivity.setStatus(record.getStatus());
         p2pActivity.setRecordSn(record.getSn());
         p2pActivityMapper.insert(p2pActivity);
+
+        return record;
+    }
+
+    @CjTransaction
+    @Override
+    public DepositHubTailsRecord depositHubTails(AbsorberHubTailsResult result) {
+        DepositHubTailsRecord record = new DepositHubTailsRecord();
+        record.setAmount(result.getAmount());
+        record.setCurrency("CNY");
+        record.setPerson(result.getPerson());
+        record.setPersonName(result.getPersonName());
+        record.setState(0);
+        record.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        record.setLutime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        record.setNote(result.getNote());
+        record.setSn(new IdWorker().nextId());
+        record.setStatus(200);
+        record.setMessage("ok");
+
+        depositHubTailsRecordMapper.insert(record);
+
+
+        DepositHubTailsActivity tailsActivity = new DepositHubTailsActivity();
+        tailsActivity.setActivityName("已收单");
+        tailsActivity.setActivityNo(0);
+        tailsActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        tailsActivity.setId(new IdWorker().nextId());
+        tailsActivity.setMessage(record.getMessage());
+        tailsActivity.setStatus(record.getStatus());
+        tailsActivity.setRecordSn(record.getSn());
+        depositHubTailsActivityMapper.insert(tailsActivity);
 
         return record;
     }

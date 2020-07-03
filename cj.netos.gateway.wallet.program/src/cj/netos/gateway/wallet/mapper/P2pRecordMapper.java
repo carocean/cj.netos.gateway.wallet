@@ -2,9 +2,7 @@ package cj.netos.gateway.wallet.mapper;
 
 import cj.netos.gateway.wallet.model.P2pRecord;
 import cj.netos.gateway.wallet.model.P2pRecordExample;
-
 import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
 
 public interface P2pRecordMapper {
@@ -65,5 +63,4 @@ public interface P2pRecordMapper {
     int updateByPrimaryKey(P2pRecord record);
 
     void done(@Param(value = "sn") String sn, @Param(value = "status") int status, @Param(value = "message") String message, @Param(value = "lutime") String lutime);
-
 }

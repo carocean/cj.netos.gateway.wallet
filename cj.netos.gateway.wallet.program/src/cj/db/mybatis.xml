@@ -54,5 +54,7 @@
         <mapper resource="cj/db/mappings/TransShunterRecordMapper.xml"/>
         <mapper resource="cj/db/mappings/P2pActivityMapper.xml"/>
         <mapper resource="cj/db/mappings/P2pRecordMapper.xml"/>
+        <mapper resource="cj/db/mappings/DepositHubTailsActivityMapper.xml"/>
+        <mapper resource="cj/db/mappings/DepositHubTailsRecordMapper.xml"/>
     </mappers>
 </configuration>

@@ -1,5 +1,7 @@
 package cj.netos.gateway.wallet.model;
 
+import java.math.BigDecimal;
+
 /**
  * Table: deposit_absorb_record
  */
@@ -30,15 +32,15 @@ public class DepositAbsorbRecord {
 
     /**
      * Column: demand_amount
-     * Remark: 要求冲值金额单位为1/10的8次方分
+     * Remark: 要求冲值金额单位分
      */
-    private Long demandAmount;
+    private BigDecimal demandAmount;
 
     /**
      * Column: real_amount
      * Remark: 实际冲值发生额
      */
-    private Long realAmount;
+    private BigDecimal realAmount;
 
     /**
      * Column: state
@@ -120,19 +122,19 @@ public class DepositAbsorbRecord {
         this.currency = currency == null ? null : currency.trim();
     }
 
-    public Long getDemandAmount() {
+    public BigDecimal getDemandAmount() {
         return demandAmount;
     }
 
-    public void setDemandAmount(Long demandAmount) {
+    public void setDemandAmount(BigDecimal demandAmount) {
         this.demandAmount = demandAmount;
     }
 
-    public Long getRealAmount() {
+    public BigDecimal getRealAmount() {
         return realAmount;
     }
 
-    public void setRealAmount(Long realAmount) {
+    public void setRealAmount(BigDecimal realAmount) {
         this.realAmount = realAmount;
     }
 

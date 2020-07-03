@@ -7,8 +7,8 @@
     <result column="person" jdbcType="VARCHAR" property="person" />
     <result column="person_name" jdbcType="VARCHAR" property="personName" />
     <result column="currency" jdbcType="VARCHAR" property="currency" />
-    <result column="demand_amount" jdbcType="BIGINT" property="demandAmount" />
-    <result column="real_amount" jdbcType="BIGINT" property="realAmount" />
+    <result column="demand_amount" jdbcType="DECIMAL" property="demandAmount" />
+    <result column="real_amount" jdbcType="DECIMAL" property="realAmount" />
     <result column="state" jdbcType="INTEGER" property="state" />
     <result column="ctime" jdbcType="VARCHAR" property="ctime" />
     <result column="lutime" jdbcType="VARCHAR" property="lutime" />
@@ -125,7 +125,7 @@
       `status`, message, source_code, 
       source_title, note)
     values (#{sn,jdbcType=VARCHAR}, #{person,jdbcType=VARCHAR}, #{personName,jdbcType=VARCHAR}, 
-      #{currency,jdbcType=VARCHAR}, #{demandAmount,jdbcType=BIGINT}, #{realAmount,jdbcType=BIGINT}, 
+      #{currency,jdbcType=VARCHAR}, #{demandAmount,jdbcType=DECIMAL}, #{realAmount,jdbcType=DECIMAL}, 
       #{state,jdbcType=INTEGER}, #{ctime,jdbcType=VARCHAR}, #{lutime,jdbcType=VARCHAR}, 
       #{status,jdbcType=INTEGER}, #{message,jdbcType=VARCHAR}, #{sourceCode,jdbcType=VARCHAR}, 
       #{sourceTitle,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR})
@@ -191,10 +191,10 @@
         #{currency,jdbcType=VARCHAR},
       </if>
       <if test="demandAmount != null">
-        #{demandAmount,jdbcType=BIGINT},
+        #{demandAmount,jdbcType=DECIMAL},
       </if>
       <if test="realAmount != null">
-        #{realAmount,jdbcType=BIGINT},
+        #{realAmount,jdbcType=DECIMAL},
       </if>
       <if test="state != null">
         #{state,jdbcType=INTEGER},
@@ -246,10 +246,10 @@
         currency = #{record.currency,jdbcType=VARCHAR},
       </if>
       <if test="record.demandAmount != null">
-        demand_amount = #{record.demandAmount,jdbcType=BIGINT},
+        demand_amount = #{record.demandAmount,jdbcType=DECIMAL},
       </if>
       <if test="record.realAmount != null">
-        real_amount = #{record.realAmount,jdbcType=BIGINT},
+        real_amount = #{record.realAmount,jdbcType=DECIMAL},
       </if>
       <if test="record.state != null">
         `state` = #{record.state,jdbcType=INTEGER},
@@ -287,8 +287,8 @@
       person = #{record.person,jdbcType=VARCHAR},
       person_name = #{record.personName,jdbcType=VARCHAR},
       currency = #{record.currency,jdbcType=VARCHAR},
-      demand_amount = #{record.demandAmount,jdbcType=BIGINT},
-      real_amount = #{record.realAmount,jdbcType=BIGINT},
+      demand_amount = #{record.demandAmount,jdbcType=DECIMAL},
+      real_amount = #{record.realAmount,jdbcType=DECIMAL},
       `state` = #{record.state,jdbcType=INTEGER},
       ctime = #{record.ctime,jdbcType=VARCHAR},
       lutime = #{record.lutime,jdbcType=VARCHAR},
@@ -315,10 +315,10 @@
         currency = #{currency,jdbcType=VARCHAR},
       </if>
       <if test="demandAmount != null">
-        demand_amount = #{demandAmount,jdbcType=BIGINT},
+        demand_amount = #{demandAmount,jdbcType=DECIMAL},
       </if>
       <if test="realAmount != null">
-        real_amount = #{realAmount,jdbcType=BIGINT},
+        real_amount = #{realAmount,jdbcType=DECIMAL},
       </if>
       <if test="state != null">
         `state` = #{state,jdbcType=INTEGER},
@@ -353,8 +353,8 @@
     set person = #{person,jdbcType=VARCHAR},
       person_name = #{personName,jdbcType=VARCHAR},
       currency = #{currency,jdbcType=VARCHAR},
-      demand_amount = #{demandAmount,jdbcType=BIGINT},
-      real_amount = #{realAmount,jdbcType=BIGINT},
+      demand_amount = #{demandAmount,jdbcType=DECIMAL},
+      real_amount = #{realAmount,jdbcType=DECIMAL},
       `state` = #{state,jdbcType=INTEGER},
       ctime = #{ctime,jdbcType=VARCHAR},
       lutime = #{lutime,jdbcType=VARCHAR},
@@ -368,7 +368,7 @@
   <update id="done" parameterType="cj.netos.gateway.wallet.model.DepositAbsorbRecord">
     update deposit_absorb_record
     set
-    real_amount = #{realAmount,jdbcType=BIGINT},
+    real_amount = #{realAmount,jdbcType=DECIMAL},
     `state` = 1,
     lutime = #{lutime,jdbcType=VARCHAR},
     `status` = #{status,jdbcType=INTEGER},

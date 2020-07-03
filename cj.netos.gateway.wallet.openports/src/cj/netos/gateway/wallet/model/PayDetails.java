@@ -23,7 +23,7 @@ public class PayDetails {
 
     /**
      * Column: payee_type
-     * Remark: 收款人类型，如：商户、洇取器等非系统内用户
+     * Remark: 收款人类型，如：商户、洇取器等非系统内用户 merchant商户 absorber洇取器
      */
     private String payeeType;
 

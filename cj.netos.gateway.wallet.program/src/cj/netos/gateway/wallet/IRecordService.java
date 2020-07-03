@@ -95,4 +95,6 @@ public interface IRecordService {
 
     void ackP2P(P2PResult result);
 
+    void ackDepositHubTails(DepositHubTailsResult result);
+
 }

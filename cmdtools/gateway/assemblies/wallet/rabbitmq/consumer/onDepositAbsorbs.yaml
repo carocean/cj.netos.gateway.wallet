@@ -15,7 +15,7 @@ connectionTimeout: 0
 workPoolTimeout: 0
 queue:
   #队列名。该队列会自动在rabbitmq上创建，如果存在则可直接使用
-  name: absorb.robot-1.toWallet
+  name: absorb.robot-1.onDepositToWallet
   #设置是否持久化。为 true 则设置队列为持久化。持久化的队列会存盘，在 服务器重启的时候可以保证不丢失相关信息。
   #默认为false
   durable: true
@@ -48,7 +48,7 @@ basicQos:
 # 可以绑定到多个exchange上接收消息
 #使用的交换器必须在rabbitmq上已经创建。注：如果先启动生产者节点会自动创建，也可按生产者节点的交换器配置手动在rabbitmq上配置
 exchanges:
-  - robot.hub.amq.topic
+  - robot.hub.deposit.amq.topic
 #如果exchanges列表中的交换机在服务器上不存在，则在此列表中查找并自动创建。
 #由于生产会自动创建交换机，而消费者只是绑定到交换机上使用，这导致总是要先启动生产节点而后再启动消费节点。但如果一个节点即是消费节点又是生产节点，则节点便产生异常，致使必须手动在rabbitmq上创建交换机，因此：
 #autoCreateExchanges配置可以在消费者节点检测到不存在要绑定的交换机时自动创建交换机。但是如果与生产者节点配置的交换机属性不同的话会报出异常，因此：
@@ -56,7 +56,7 @@ exchanges:
 autoCreateExchanges:
   -
     # 该交换器名提供给消费者绑定
-    name: robot.hub.amq.topic
+    name: robot.hub.deposit.amq.topic
     # direct|fanout|topic|header
     type: topic
     #设置是否持久 durable 设置为 true 表示持久化， 反之是非持久,设置为true则将Exchange存盘，即使服务器重启数据也不会丢失。默认为false

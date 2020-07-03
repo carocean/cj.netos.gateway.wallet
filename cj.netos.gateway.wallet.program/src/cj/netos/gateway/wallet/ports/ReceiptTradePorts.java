@@ -135,7 +135,7 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
     }
 
     @Override
-    public PayableResult payTrade(ISecuritySession securitySession, long amount, int type, PayDetailsBO details, String note) throws CircuitException {
+    public PaymentResult payTrade(ISecuritySession securitySession, long amount, int type, PayDetailsBO details, String note) throws CircuitException {
         if (amount < 0) {
             throw new CircuitException("500", "金额为负数");
         }
@@ -146,7 +146,11 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
         Map<String, Object> personInfo = personService.getPersonInfo((String) securitySession.property("accessToken"));
         String personName = (String) personInfo.get("nickName");
         PayRecord record = payActivityController.doReceipt(securitySession.principal(), personName, amount, type, details, note);
-        return new Gson().fromJson(new Gson().toJson(record), PayableResult.class);
+        PayDetails details1 = recordService.getPayDetails(record.getSn());
+        PaymentResult result = new PaymentResult();
+        result.load(record);
+        result.setDetails(details1);
+        return result;
     }
 
     @Override
@@ -158,8 +162,8 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
             throw new CircuitException("404", String.format("收款人为空"));
         }
 
-        Map<String, Object> payeeObj = personService.findPerson(payee,(String)securitySession.property("accessToken"));
-        P2pRecord record = p2pActivityController.doReceipt(securitySession.principal(), (String) securitySession.property("nickName"), (String) payee, (String) payeeObj.get("nickName"), amount, type,"to", note);
+        Map<String, Object> payeeObj = personService.findPerson(payee, (String) securitySession.property("accessToken"));
+        P2pRecord record = p2pActivityController.doReceipt(securitySession.principal(), (String) securitySession.property("nickName"), (String) payee, (String) payeeObj.get("nickName"), amount, type, "to", note);
         return new Gson().fromJson(new Gson().toJson(record), P2PResult.class);
     }
 
@@ -170,12 +174,12 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
         }
         String key = site.getProperty("payer.key");
         Claims claims = JwtUtil.parseJWT(key, payerSignText);
-        String amountStr =(String) claims.get("amount");
+        String amountStr = (String) claims.get("amount");
         long amount = Long.valueOf(amountStr);
         if (amount < 0) {
             throw new CircuitException("500", "金额为负数");
         }
-        P2pRecord record = p2pActivityController.doReceipt((String) claims.get("payer"), (String) claims.get("name"), securitySession.principal(), (String) securitySession.property("nickName"), amount, type,"from", note);
+        P2pRecord record = p2pActivityController.doReceipt((String) claims.get("payer"), (String) claims.get("name"), securitySession.principal(), (String) securitySession.property("nickName"), amount, type, "from", note);
         return new Gson().fromJson(new Gson().toJson(record), P2PResult.class);
     }
 

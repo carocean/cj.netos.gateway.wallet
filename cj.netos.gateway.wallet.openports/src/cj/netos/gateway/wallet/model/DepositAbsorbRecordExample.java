@@ -1,5 +1,6 @@
 package cj.netos.gateway.wallet.model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -427,52 +428,52 @@ public class DepositAbsorbRecordExample {
             return (Criteria) this;
         }
 
-        public Criteria andDemandAmountEqualTo(Long value) {
+        public Criteria andDemandAmountEqualTo(BigDecimal value) {
             addCriterion("demand_amount =", value, "demandAmount");
             return (Criteria) this;
         }
 
-        public Criteria andDemandAmountNotEqualTo(Long value) {
+        public Criteria andDemandAmountNotEqualTo(BigDecimal value) {
             addCriterion("demand_amount <>", value, "demandAmount");
             return (Criteria) this;
         }
 
-        public Criteria andDemandAmountGreaterThan(Long value) {
+        public Criteria andDemandAmountGreaterThan(BigDecimal value) {
             addCriterion("demand_amount >", value, "demandAmount");
             return (Criteria) this;
         }
 
-        public Criteria andDemandAmountGreaterThanOrEqualTo(Long value) {
+        public Criteria andDemandAmountGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("demand_amount >=", value, "demandAmount");
             return (Criteria) this;
         }
 
-        public Criteria andDemandAmountLessThan(Long value) {
+        public Criteria andDemandAmountLessThan(BigDecimal value) {
             addCriterion("demand_amount <", value, "demandAmount");
             return (Criteria) this;
         }
 
-        public Criteria andDemandAmountLessThanOrEqualTo(Long value) {
+        public Criteria andDemandAmountLessThanOrEqualTo(BigDecimal value) {
             addCriterion("demand_amount <=", value, "demandAmount");
             return (Criteria) this;
         }
 
-        public Criteria andDemandAmountIn(List<Long> values) {
+        public Criteria andDemandAmountIn(List<BigDecimal> values) {
             addCriterion("demand_amount in", values, "demandAmount");
             return (Criteria) this;
         }
 
-        public Criteria andDemandAmountNotIn(List<Long> values) {
+        public Criteria andDemandAmountNotIn(List<BigDecimal> values) {
             addCriterion("demand_amount not in", values, "demandAmount");
             return (Criteria) this;
         }
 
-        public Criteria andDemandAmountBetween(Long value1, Long value2) {
+        public Criteria andDemandAmountBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("demand_amount between", value1, value2, "demandAmount");
             return (Criteria) this;
         }
 
-        public Criteria andDemandAmountNotBetween(Long value1, Long value2) {
+        public Criteria andDemandAmountNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("demand_amount not between", value1, value2, "demandAmount");
             return (Criteria) this;
         }
@@ -487,52 +488,52 @@ public class DepositAbsorbRecordExample {
             return (Criteria) this;
         }
 
-        public Criteria andRealAmountEqualTo(Long value) {
+        public Criteria andRealAmountEqualTo(BigDecimal value) {
             addCriterion("real_amount =", value, "realAmount");
             return (Criteria) this;
         }
 
-        public Criteria andRealAmountNotEqualTo(Long value) {
+        public Criteria andRealAmountNotEqualTo(BigDecimal value) {
             addCriterion("real_amount <>", value, "realAmount");
             return (Criteria) this;
         }
 
-        public Criteria andRealAmountGreaterThan(Long value) {
+        public Criteria andRealAmountGreaterThan(BigDecimal value) {
             addCriterion("real_amount >", value, "realAmount");
             return (Criteria) this;
         }
 
-        public Criteria andRealAmountGreaterThanOrEqualTo(Long value) {
+        public Criteria andRealAmountGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("real_amount >=", value, "realAmount");
             return (Criteria) this;
         }
 
-        public Criteria andRealAmountLessThan(Long value) {
+        public Criteria andRealAmountLessThan(BigDecimal value) {
             addCriterion("real_amount <", value, "realAmount");
             return (Criteria) this;
         }
 
-        public Criteria andRealAmountLessThanOrEqualTo(Long value) {
+        public Criteria andRealAmountLessThanOrEqualTo(BigDecimal value) {
             addCriterion("real_amount <=", value, "realAmount");
             return (Criteria) this;
         }
 
-        public Criteria andRealAmountIn(List<Long> values) {
+        public Criteria andRealAmountIn(List<BigDecimal> values) {
             addCriterion("real_amount in", values, "realAmount");
             return (Criteria) this;
         }
 
-        public Criteria andRealAmountNotIn(List<Long> values) {
+        public Criteria andRealAmountNotIn(List<BigDecimal> values) {
             addCriterion("real_amount not in", values, "realAmount");
             return (Criteria) this;
         }
 
-        public Criteria andRealAmountBetween(Long value1, Long value2) {
+        public Criteria andRealAmountBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("real_amount between", value1, value2, "realAmount");
             return (Criteria) this;
         }
 
-        public Criteria andRealAmountNotBetween(Long value1, Long value2) {
+        public Criteria andRealAmountNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("real_amount not between", value1, value2, "realAmount");
             return (Criteria) this;
         }

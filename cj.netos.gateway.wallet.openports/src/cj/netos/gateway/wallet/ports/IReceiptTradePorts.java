@@ -53,7 +53,7 @@ public interface IReceiptTradePorts extends IOpenportService {
 
 
     @CjOpenport(usage = "付款交易，即向账务系统外支付（不属于本账务系统的外部系统），如付款给商户、付款给洇取器等等，而针对系统内其它公号的支付请使用转账服务", command = "post")
-    PayableResult payTrade(ISecuritySession securitySession,
+    PaymentResult payTrade(ISecuritySession securitySession,
                            @CjOpenportParameter(usage = "付款金额,单位为分", name = "amount") long amount,
                            @CjOpenportParameter(usage = "0. qrcode_pay(扫码支付)|1 order_pay(支付订单)", name = "type") int type,
                            @CjOpenportParameter(usage = "交易明细，如类型是支付订单，则明细中有商户、订单号等", name = "details", in = PKeyInRequest.content, simpleModelFile = "/payable_details.md") PayDetailsBO details,

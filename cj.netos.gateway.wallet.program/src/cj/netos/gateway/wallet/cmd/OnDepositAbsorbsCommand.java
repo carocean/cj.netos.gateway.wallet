@@ -38,8 +38,7 @@ public class OnDepositAbsorbsCommand implements IConsumerCommand {
         HashMap<String, Object> result = new Gson().fromJson(json, HashMap.class);
         Map<String, Object> absorber = (Map<String, Object>) result.get("absorber");
         Map<String, Object> recipients = (Map<String, Object>) result.get("recipients");
-        BigDecimal amountFen = new BigDecimal(result.get("amount") + "");//单位为1/10的8次方分，故而可用长整型表示，最大值可容纳9亿2千万，对于一个人的洇金完全足够
-        long amount = amountFen.multiply(new BigDecimal("100000000")).longValue();
+        BigDecimal amount = new BigDecimal(result.get("amount") + "");
         String refsn = (String) result.get("refsn");//在洇金机器内的洇取单号
         String sourceCode = (String) absorber.get("id");//源代码指向洇取器的标识
         String sourceTitle = (String) absorber.get("title");//源代码指向洇取器的标题

@@ -18,6 +18,7 @@ import cj.studio.orm.mybatis.annotation.CjTransaction;
 import cj.ultimate.gson2.com.google.gson.Gson;
 import com.rabbitmq.client.AMQP;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 
 @CjBridge(aspects = "@transaction")
@@ -34,7 +35,7 @@ public class DepositAbsorbActivityController implements IDepositAbsorbActivityCo
 
     @CjTransaction
     @Override
-    public DepositAbsorbRecord doReceipt(String principal, String personName, long amount, String sourceCode, String sourceTitle, String note) throws CircuitException {
+    public DepositAbsorbRecord doReceipt(String principal, String personName, BigDecimal amount, String sourceCode, String sourceTitle, String note) throws CircuitException {
         DepositAbsorbRecord record = receiptTradeService.depositAbsorb(principal, personName, amount, sourceCode, sourceTitle, note);
         //发送存入指令
         DepositAbsorbBO depositAbsorbBO = new DepositAbsorbBO();

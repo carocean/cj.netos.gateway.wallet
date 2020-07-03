@@ -2,6 +2,8 @@ package cj.netos.gateway.wallet.mapper;
 
 import cj.netos.gateway.wallet.model.DepositAbsorbRecord;
 import cj.netos.gateway.wallet.model.DepositAbsorbRecordExample;
+
+import java.math.BigDecimal;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -62,5 +64,5 @@ public interface DepositAbsorbRecordMapper {
      */
     int updateByPrimaryKey(DepositAbsorbRecord record);
 
-    void done(@Param(value = "sn") String sn, @Param(value = "realAmount") long realAmount, @Param(value = "status") int status, @Param(value = "message") String message, @Param(value = "lutime") String lutime);
+    void done(@Param(value = "sn") String sn, @Param(value = "realAmount") BigDecimal realAmount, @Param(value = "status") int status, @Param(value = "message") String message, @Param(value = "lutime") String lutime);
 }
