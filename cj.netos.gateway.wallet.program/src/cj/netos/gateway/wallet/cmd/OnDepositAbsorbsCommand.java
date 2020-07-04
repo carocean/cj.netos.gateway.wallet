@@ -21,7 +21,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-@CjConsumer(name = "onDepositAbsorbs")
+@CjConsumer(name = "fromRobot_onDepositAbsorbs")
 @CjService(name = "/robot/hub.ports#distribute")//从纹银银行过来
 public class OnDepositAbsorbsCommand implements IConsumerCommand {
     @CjServiceRef

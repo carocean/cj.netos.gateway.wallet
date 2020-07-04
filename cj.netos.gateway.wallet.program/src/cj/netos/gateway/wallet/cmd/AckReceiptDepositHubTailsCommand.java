@@ -14,7 +14,7 @@ import com.rabbitmq.client.Envelope;
 
 import java.io.IOException;
 
-@CjConsumer(name = "ack")
+@CjConsumer(name = "fromOC_ack_receipt_depositHubTails")
 @CjService(name = "/trade/receipt/ack.mhub#depositHubTails")
 public class AckReceiptDepositHubTailsCommand implements IConsumerCommand {
     @CjServiceRef

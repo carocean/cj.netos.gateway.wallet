@@ -16,7 +16,7 @@ import com.rabbitmq.client.Envelope;
 
 import java.io.IOException;
 
-@CjConsumer(name = "ack")
+@CjConsumer(name = "fromOC_ack_receipt_p2p")
 @CjService(name = "/trade/receipt/ack.mhub#p2p")
 public class AckReceiptP2PCommand implements IConsumerCommand {
     @CjServiceRef

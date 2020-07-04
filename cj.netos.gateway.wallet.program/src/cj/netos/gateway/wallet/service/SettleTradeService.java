@@ -37,8 +37,18 @@ public class SettleTradeService implements ISettleTradeService {
     WenyExchangeActivityMapper wenyExchangeActivityMapper;
     @CjServiceRef
     IRecordService recordService;
-    @CjServiceRef(refByName = "@.rabbitmq.producer.trade")
-    IRabbitMQProducer rabbitMQProducer;
+    @CjServiceRef(refByName = "@.rabbitmq.producer.toOC_settle_exchange")
+    IRabbitMQProducer toOC_settle_exchange;
+    @CjServiceRef(refByName = "@.rabbitmq.producer.toOC_settle_purchase")
+    IRabbitMQProducer toOC_settle_purchase;
+
+    @CjServiceRef(refByName = "@.rabbitmq.producer.toOC_settle_recharge")
+    IRabbitMQProducer toOC_settle_recharge;
+
+    @CjServiceRef(refByName = "@.rabbitmq.producer.toOC_settle_withdraw")
+    IRabbitMQProducer toOC_settle_withdraw;
+    @CjServiceRef(refByName = "@.rabbitmq.producer.toOC_settle_transShunter")
+    IRabbitMQProducer toOC_settle_transShunter;
 
     @CjTransaction
     @Override
@@ -67,7 +77,7 @@ public class SettleTradeService implements ISettleTradeService {
         rechargeBO.setRealAmount(amount);
         rechargeBO.setStatus(Integer.valueOf(code));
         rechargeBO.setMessage(message);
-        rabbitMQProducer.publish("oc", properties, new Gson().toJson(rechargeBO).getBytes());
+        toOC_settle_recharge.publish("oc", properties, new Gson().toJson(rechargeBO).getBytes());
     }
 
     @CjTransaction
@@ -97,7 +107,7 @@ public class SettleTradeService implements ISettleTradeService {
         withdrawBO.setRealAmount(amount);
         withdrawBO.setSettleCode(code);
         withdrawBO.setSettleMsg(message);
-        rabbitMQProducer.publish("oc", properties, new Gson().toJson(withdrawBO).getBytes());
+        toOC_settle_withdraw.publish("oc", properties, new Gson().toJson(withdrawBO).getBytes());
     }
 
     @CjTransaction
@@ -112,7 +122,7 @@ public class SettleTradeService implements ISettleTradeService {
                     put("record_sn", purchasedBO.getSn());
                 }})
                 .build();
-        rabbitMQProducer.publish("oc", properties, new Gson().toJson(purchasedBO).getBytes());
+        toOC_settle_purchase.publish("oc", properties, new Gson().toJson(purchasedBO).getBytes());
     }
 
     @CjTransaction
@@ -145,8 +155,9 @@ public class SettleTradeService implements ISettleTradeService {
                 .build();
         ExchangedBO bo = new ExchangedBO();
         bo.load(result, record.getRefsn());
-        rabbitMQProducer.publish("oc", properties, new Gson().toJson(bo).getBytes());
+        toOC_settle_exchange.publish("oc", properties, new Gson().toJson(bo).getBytes());
     }
+
     @CjTransaction
     @Override
     public void settleTransShunter(WithdrawShunterBO withdrawShunterBO, String status, String message) throws CircuitException {
@@ -158,6 +169,6 @@ public class SettleTradeService implements ISettleTradeService {
                     put("record_sn", withdrawShunterBO.getSn());
                 }})
                 .build();
-        rabbitMQProducer.publish("oc", properties, new Gson().toJson(withdrawShunterBO).getBytes());
+        toOC_settle_transShunter.publish("oc", properties, new Gson().toJson(withdrawShunterBO).getBytes());
     }
 }

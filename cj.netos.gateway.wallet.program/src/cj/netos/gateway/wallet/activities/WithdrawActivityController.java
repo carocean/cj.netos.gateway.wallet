@@ -27,8 +27,8 @@ public class WithdrawActivityController implements IWithdrawActivityController {
     @CjServiceRef
     IRecordService recordService;
 
-    @CjServiceRef(refByName = "@.rabbitmq.producer.trade")
-    IRabbitMQProducer rabbitMQProducer;
+    @CjServiceRef(refByName = "@.rabbitmq.producer.toOC_receipt_withdraw")
+    IRabbitMQProducer toOC_receipt_withdraw;
 
     @CjTransaction
     @Override
@@ -43,7 +43,7 @@ public class WithdrawActivityController implements IWithdrawActivityController {
                 }})
                 .build();
         WithdrawBO withdrawBO = WithdrawBO.create(record);
-        rabbitMQProducer.publish("oc", properties, new Gson().toJson(withdrawBO).getBytes());
+        toOC_receipt_withdraw.publish("oc", properties, new Gson().toJson(withdrawBO).getBytes());
         return record;
     }
 

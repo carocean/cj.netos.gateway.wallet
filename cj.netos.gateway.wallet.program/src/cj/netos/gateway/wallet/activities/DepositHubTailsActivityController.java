@@ -21,8 +21,8 @@ public class DepositHubTailsActivityController implements IDepositHubTailsActivi
     IReceiptTradeService receiptTradeService;
     @CjServiceRef
     IRecordService recordService;
-    @CjServiceRef(refByName = "@.rabbitmq.producer.trade")
-    IRabbitMQProducer rabbitMQProducer;
+    @CjServiceRef(refByName = "@.rabbitmq.producer.toOC_receipt_depositHubTails")
+    IRabbitMQProducer toOC_receipt_depositHubTails;
 
     @Override
     public DepositHubTailsRecord doReceipt(AbsorberHubTailsResult result) throws CircuitException {
@@ -44,7 +44,7 @@ public class DepositHubTailsActivityController implements IDepositHubTailsActivi
                     put("record_sn", record.getSn());
                 }})
                 .build();
-        rabbitMQProducer.publish("oc", properties, new Gson().toJson(depositHubTailsBO).getBytes());
+        toOC_receipt_depositHubTails.publish("oc", properties, new Gson().toJson(depositHubTailsBO).getBytes());
         //网关通过mq等待command确认
         return record;
     }

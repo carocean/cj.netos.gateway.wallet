@@ -15,7 +15,7 @@ import com.rabbitmq.client.Envelope;
 
 import java.io.IOException;
 
-@CjConsumer(name = "onWithdrawHubTails")
+@CjConsumer(name = "fromRobot_onWithdrawHubTails")
 @CjService(name = "/robot/hub.ports#withrawHubTails")//从纹银银行过来
 public class OnWithdrawHubTailsCommand implements IConsumerCommand {
     @CjServiceRef

@@ -27,8 +27,8 @@ public class PayActivityController implements IPayActivityController {
     IReceiptTradeService receiptTradeService;
     @CjServiceRef
     IRecordService recordService;
-    @CjServiceRef(refByName = "@.rabbitmq.producer.trade")
-    IRabbitMQProducer rabbitMQProducer;
+    @CjServiceRef(refByName = "@.rabbitmq.producer.toOC_receipt_payTrade")
+    IRabbitMQProducer toOC_receipt_payTrade;
 
     @CjServiceRef(refByName = "@.rabbitmq.producer.notifyFinishedPay")
     IRabbitMQProducer notifyFinishedPay;
@@ -57,7 +57,7 @@ public class PayActivityController implements IPayActivityController {
                 }})
                 .build();
 
-        rabbitMQProducer.publish("oc", properties, new Gson().toJson(payBO).getBytes());
+        toOC_receipt_payTrade.publish("oc", properties, new Gson().toJson(payBO).getBytes());
         //网关通过mq等待command确认
         return record;
     }

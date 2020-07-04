@@ -30,8 +30,8 @@ public class DepositAbsorbActivityController implements IDepositAbsorbActivityCo
     ISettleTradeService settleTradeService;
     @CjServiceRef
     IRecordService recordService;
-    @CjServiceRef(refByName = "@.rabbitmq.producer.trade")
-    IRabbitMQProducer rabbitMQProducer;
+    @CjServiceRef(refByName = "@.rabbitmq.producer.toOC_receipt_depositAbsorb")
+    IRabbitMQProducer toOC_receipt_depositAbsorb;
 
     @CjTransaction
     @Override
@@ -56,7 +56,7 @@ public class DepositAbsorbActivityController implements IDepositAbsorbActivityCo
                     put("record_sn", record.getSn());
                 }})
                 .build();
-        rabbitMQProducer.publish("oc", properties, new Gson().toJson(depositAbsorbBO).getBytes());
+        toOC_receipt_depositAbsorb.publish("oc", properties, new Gson().toJson(depositAbsorbBO).getBytes());
         //网关通过mq等待command确认
         return record;
     }

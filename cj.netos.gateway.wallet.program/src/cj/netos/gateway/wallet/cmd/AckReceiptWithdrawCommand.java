@@ -14,7 +14,7 @@ import com.rabbitmq.client.Envelope;
 
 import java.io.IOException;
 
-@CjConsumer(name = "ack")
+@CjConsumer(name = "fromOC_ack_receipt_withdraw")
 @CjService(name = "/trade/receipt/ack.mhub#withdraw")
 public class AckReceiptWithdrawCommand implements IConsumerCommand {
     @CjServiceRef

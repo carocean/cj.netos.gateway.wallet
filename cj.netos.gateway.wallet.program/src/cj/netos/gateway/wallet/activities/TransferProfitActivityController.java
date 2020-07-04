@@ -28,8 +28,8 @@ public class TransferProfitActivityController implements ITransferProfitActivity
     ISettleTradeService settleTradeService;
     @CjServiceRef
     IRecordService recordService;
-    @CjServiceRef(refByName = "@.rabbitmq.producer.trade")
-    IRabbitMQProducer rabbitMQProducer;
+    @CjServiceRef(refByName = "@.rabbitmq.producer.toOC_receipt_transProfit")
+    IRabbitMQProducer toOC_receipt_transProfit;
 
     @CjTransaction
     @Override
@@ -55,7 +55,7 @@ public class TransferProfitActivityController implements ITransferProfitActivity
                 }})
                 .build();
 
-        rabbitMQProducer.publish("oc", properties, new Gson().toJson(transProfitBO).getBytes());
+        toOC_receipt_transProfit.publish("oc", properties, new Gson().toJson(transProfitBO).getBytes());
         //网关通过mq等待command确认
         return record;
     }

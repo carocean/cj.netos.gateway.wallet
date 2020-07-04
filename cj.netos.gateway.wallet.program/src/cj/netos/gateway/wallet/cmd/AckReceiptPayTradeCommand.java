@@ -18,7 +18,7 @@ import com.rabbitmq.client.Envelope;
 
 import java.io.IOException;
 
-@CjConsumer(name = "ack")
+@CjConsumer(name = "fromOC_ack_receipt_payTrade")
 @CjService(name = "/trade/receipt/ack.mhub#payTrade")
 public class AckReceiptPayTradeCommand implements IConsumerCommand {
     @CjServiceRef

@@ -23,8 +23,8 @@ public class P2PActivityController implements IP2PActivityController {
     IReceiptTradeService receiptTradeService;
     @CjServiceRef
     IRecordService recordService;
-    @CjServiceRef(refByName = "@.rabbitmq.producer.trade")
-    IRabbitMQProducer rabbitMQProducer;
+    @CjServiceRef(refByName = "@.rabbitmq.producer.toOC_receipt_p2p")
+    IRabbitMQProducer toOC_receipt_p2p;
 
     @Override
     public P2pRecord doReceipt(String payer, String payerName, String payee, String payeeName, long amount, int type,String direct, String note) throws CircuitException {
@@ -52,7 +52,7 @@ public class P2PActivityController implements IP2PActivityController {
                 }})
                 .build();
 
-        rabbitMQProducer.publish("oc", properties, new Gson().toJson(p2PBO).getBytes());
+        toOC_receipt_p2p.publish("oc", properties, new Gson().toJson(p2PBO).getBytes());
         //网关通过mq等待command确认
         return record;
     }

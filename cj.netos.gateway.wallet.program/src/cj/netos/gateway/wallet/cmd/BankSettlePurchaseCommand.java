@@ -17,7 +17,7 @@ import com.rabbitmq.client.LongString;
 
 import java.io.IOException;
 
-@CjConsumer(name = "wybank")
+@CjConsumer(name = "fromWybank")
 @CjService(name = "/wybank/trade/settle.mq#purchase")//从纹银银行过来
 public class BankSettlePurchaseCommand implements IConsumerCommand {
 

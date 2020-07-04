@@ -14,7 +14,7 @@ import com.rabbitmq.client.Envelope;
 
 import java.io.IOException;
 
-@CjConsumer(name = "ack")
+@CjConsumer(name = "fromOC_ack_settle_purchase")
 @CjService(name = "/trade/settle/ack.mhub#purchase")
 public class AckSettlePurchaseCommand implements IConsumerCommand {
 

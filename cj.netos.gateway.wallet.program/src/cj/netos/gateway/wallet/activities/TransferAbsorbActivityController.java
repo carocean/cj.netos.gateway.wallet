@@ -28,8 +28,8 @@ public class TransferAbsorbActivityController implements ITransferAbsorbActivity
     ISettleTradeService settleTradeService;
     @CjServiceRef
     IRecordService recordService;
-    @CjServiceRef(refByName = "@.rabbitmq.producer.trade")
-    IRabbitMQProducer rabbitMQProducer;
+    @CjServiceRef(refByName = "@.rabbitmq.producer.toOC_receipt_transAbsorb")
+    IRabbitMQProducer toOC_receipt_transAbsorb;
 
     @CjTransaction
     @Override
@@ -54,7 +54,7 @@ public class TransferAbsorbActivityController implements ITransferAbsorbActivity
                 }})
                 .build();
 
-        rabbitMQProducer.publish("oc", properties, new Gson().toJson(transAbsorbBO).getBytes());
+        toOC_receipt_transAbsorb.publish("oc", properties, new Gson().toJson(transAbsorbBO).getBytes());
         //网关通过mq等待command确认
         return record;
     }

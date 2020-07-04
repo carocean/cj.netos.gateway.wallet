@@ -18,9 +18,14 @@ import java.util.HashMap;
 
 @CjService(name = "wenyBankTradeCaller")
 public class WenyBankTradeCaller implements IWenyBankTradeCaller {
-    @CjServiceRef(refByName = "@.rabbitmq.producer.trade")
-    IRabbitMQProducer rabbitMQProducer;
+    @CjServiceRef(refByName = "@.rabbitmq.producer.toOC_receipt_exchange")
+    IRabbitMQProducer toOC_receipt_exchange;
 
+    @CjServiceRef(refByName = "@.rabbitmq.producer.toOC_receipt_purchase")
+    IRabbitMQProducer toOC_receipt_purchase;
+
+    @CjServiceRef(refByName = "@.rabbitmq.producer.toOC_receipt_transShunter")
+    IRabbitMQProducer toOC_receipt_transShunter;
     @Override
     public void exchange(WenyExchangeRecord record) throws CircuitException {
         //向纹银银行提交承兑交易(交由oc处理）
@@ -42,7 +47,7 @@ public class WenyBankTradeCaller implements IWenyBankTradeCaller {
         exchangeBO.setBankPurchNo(record.getBankPurchNo());
         exchangeBO.setSn(record.getSn());
         exchangeBO.setStock(record.getStock());
-        rabbitMQProducer.publish("oc", properties, new Gson().toJson(exchangeBO).getBytes());
+        toOC_receipt_exchange.publish("oc", properties, new Gson().toJson(exchangeBO).getBytes());
         //网关通过mq等待command确认
     }
 
@@ -65,7 +70,7 @@ public class WenyBankTradeCaller implements IWenyBankTradeCaller {
                     put("record_sn", record.getSn());
                 }})
                 .build();
-        rabbitMQProducer.publish("oc", properties, new Gson().toJson(purchaseBO).getBytes());
+        toOC_receipt_purchase.publish("oc", properties, new Gson().toJson(purchaseBO).getBytes());
         //网关通过mq等待command确认
     }
 
@@ -89,7 +94,7 @@ public class WenyBankTradeCaller implements IWenyBankTradeCaller {
                     put("record_sn", record.getSn());
                 }})
                 .build();
-        rabbitMQProducer.publish("oc", properties, new Gson().toJson(withdrawShunterBO).getBytes());
+        toOC_receipt_transShunter.publish("oc", properties, new Gson().toJson(withdrawShunterBO).getBytes());
         //网关通过mq等待command确认
     }
 }
