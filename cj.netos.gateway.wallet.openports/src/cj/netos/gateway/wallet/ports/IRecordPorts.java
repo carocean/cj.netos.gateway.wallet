@@ -83,6 +83,16 @@ public interface IRecordPorts extends IOpenportService {
                                                        @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
     ) throws CircuitException;
 
+    @CjOpenport(usage = "获取账金提取记录")
+    TransShunterRecord getTransShunterRecord(ISecuritySession securitySession,
+                                             @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "获取账金提取步骤")
+    List<TransShunterActivity> getTransShunterActivities(ISecuritySession securitySession,
+                                                         @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
+    ) throws CircuitException;
+
     @CjOpenport(usage = "获取存入洇金记录")
     DepositAbsorbRecord getDepositAbsorbRecord(ISecuritySession securitySession,
                                                @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn

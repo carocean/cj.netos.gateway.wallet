@@ -61,4 +61,7 @@ public interface TransShunterActivityMapper {
      * @mbg.generated generated automatically, do not modify!
      */
     int updateByPrimaryKey(TransShunterActivity record);
+
+    List<TransShunterActivity> getAllActivities(@Param(value = "recordSn") String recordSn);
+
 }

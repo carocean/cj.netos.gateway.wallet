@@ -105,4 +105,8 @@ public interface IRecordService {
 
     List<DepositHubTailsActivity> getDepositHubTailsActivities(String record_sn);
 
+    TransShunterRecord getTransShunterRecord(String principal, String record_sn);
+
+    List<TransShunterActivity> getTransShunterActivities(String principal, String record_sn);
+
 }

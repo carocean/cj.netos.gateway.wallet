@@ -255,4 +255,11 @@
       ctime = #{ctime,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="getAllActivities" parameterType="cj.netos.gateway.wallet.model.TransShunterActivity" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from trans_shunter_activity
+    where record_sn = #{recordSn,jdbcType=VARCHAR}
+    order by activity_no asc
+  </select>
 </mapper>

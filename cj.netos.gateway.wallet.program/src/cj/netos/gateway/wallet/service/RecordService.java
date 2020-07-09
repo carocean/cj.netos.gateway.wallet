@@ -482,9 +482,28 @@ public class RecordService implements IRecordService {
         return list.get(0);
     }
 
+    @CjTransaction
     @Override
     public List<TransProfitActivity> getTransProfitActivities(String principal, String record_sn) {
         return transProfitActivityMapper.getAllActivities(record_sn);
+    }
+
+    @CjTransaction
+    @Override
+    public TransShunterRecord getTransShunterRecord(String principal, String record_sn) {
+        TransShunterRecordExample example = new TransShunterRecordExample();
+        example.createCriteria().andSnEqualTo(record_sn).andPersonEqualTo(principal);
+        List<TransShunterRecord> list = transShunterRecordMapper.selectByExample(example);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
+
+    @CjTransaction
+    @Override
+    public List<TransShunterActivity> getTransShunterActivities(String principal, String record_sn) {
+        return transShunterActivityMapper.getAllActivities(record_sn);
     }
 
     @CjTransaction

@@ -159,4 +159,14 @@ public class RecordPorts implements IRecordPorts {
     public List<DepositAbsorbActivity> getDepositAbsorbActivities(ISecuritySession securitySession, String record_sn) throws CircuitException {
         return recordService.getDepositAbsorbActivities(securitySession.principal(),record_sn);
     }
+
+    @Override
+    public TransShunterRecord getTransShunterRecord(ISecuritySession securitySession, String record_sn) throws CircuitException {
+        return recordService.getTransShunterRecord(securitySession.principal(),record_sn);
+    }
+
+    @Override
+    public List<TransShunterActivity> getTransShunterActivities(ISecuritySession securitySession, String record_sn) throws CircuitException {
+        return recordService.getTransShunterActivities(securitySession.principal(),record_sn);
+    }
 }
