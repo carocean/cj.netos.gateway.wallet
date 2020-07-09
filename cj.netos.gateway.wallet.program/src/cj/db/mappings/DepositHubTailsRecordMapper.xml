@@ -14,6 +14,7 @@
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="message" jdbcType="VARCHAR" property="message" />
     <result column="note" jdbcType="VARCHAR" property="note" />
+    <result column="bankid" jdbcType="VARCHAR" property="bankid" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -78,7 +79,7 @@
   <sql id="Base_Column_List">
     <!-- @mbg.generated: generated automatically, do not modify! -->
     sn, person, person_name, currency, amount, `state`, ctime, lutime, `status`, message, 
-    note
+    note, bankid
   </sql>
   <select id="selectByExample" parameterType="cj.netos.gateway.wallet.model.DepositHubTailsRecordExample" resultMap="BaseResultMap">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -119,11 +120,13 @@
     insert into deposit_hub_tails_record (sn, person, person_name, 
       currency, amount, `state`, 
       ctime, lutime, `status`, 
-      message, note)
+      message, note, bankid
+      )
     values (#{sn,jdbcType=VARCHAR}, #{person,jdbcType=VARCHAR}, #{personName,jdbcType=VARCHAR}, 
       #{currency,jdbcType=VARCHAR}, #{amount,jdbcType=BIGINT}, #{state,jdbcType=INTEGER}, 
       #{ctime,jdbcType=VARCHAR}, #{lutime,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
-      #{message,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR})
+      #{message,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{bankid,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="cj.netos.gateway.wallet.model.DepositHubTailsRecord">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -162,6 +165,9 @@
       <if test="note != null">
         note,
       </if>
+      <if test="bankid != null">
+        bankid,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="sn != null">
@@ -196,6 +202,9 @@
       </if>
       <if test="note != null">
         #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="bankid != null">
+        #{bankid,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -243,6 +252,9 @@
       <if test="record.note != null">
         note = #{record.note,jdbcType=VARCHAR},
       </if>
+      <if test="record.bankid != null">
+        bankid = #{record.bankid,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -261,7 +273,8 @@
       lutime = #{record.lutime,jdbcType=VARCHAR},
       `status` = #{record.status,jdbcType=INTEGER},
       message = #{record.message,jdbcType=VARCHAR},
-      note = #{record.note,jdbcType=VARCHAR}
+      note = #{record.note,jdbcType=VARCHAR},
+      bankid = #{record.bankid,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -300,6 +313,9 @@
       <if test="note != null">
         note = #{note,jdbcType=VARCHAR},
       </if>
+      <if test="bankid != null">
+        bankid = #{bankid,jdbcType=VARCHAR},
+      </if>
     </set>
     where sn = #{sn,jdbcType=VARCHAR}
   </update>
@@ -315,7 +331,8 @@
       lutime = #{lutime,jdbcType=VARCHAR},
       `status` = #{status,jdbcType=INTEGER},
       message = #{message,jdbcType=VARCHAR},
-      note = #{note,jdbcType=VARCHAR}
+      note = #{note,jdbcType=VARCHAR},
+      bankid = #{bankid,jdbcType=VARCHAR}
     where sn = #{sn,jdbcType=VARCHAR}
   </update>
   <update id="done" parameterType="cj.netos.gateway.wallet.model.DepositHubTailsRecord">

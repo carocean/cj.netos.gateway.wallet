@@ -70,6 +70,12 @@ public class DepositHubTailsRecord {
      */
     private String note;
 
+    /**
+     * Column: bankid
+     * Remark: 纹银银行标识
+     */
+    private String bankid;
+
     public String getSn() {
         return sn;
     }
@@ -156,5 +162,13 @@ public class DepositHubTailsRecord {
 
     public void setNote(String note) {
         this.note = note == null ? null : note.trim();
+    }
+
+    public String getBankid() {
+        return bankid;
+    }
+
+    public void setBankid(String bankid) {
+        this.bankid = bankid == null ? null : bankid.trim();
     }
 }

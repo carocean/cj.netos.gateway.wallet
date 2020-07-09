@@ -35,6 +35,7 @@ public class DepositHubTailsActivityController implements IDepositHubTailsActivi
         depositHubTailsBO.setPerson(record.getPerson());
         depositHubTailsBO.setPersonName(record.getPersonName());
         depositHubTailsBO.setAmount(record.getAmount());
+        depositHubTailsBO.setBankid(record.getBankid());
 
         AMQP.BasicProperties properties = new AMQP.BasicProperties().builder()
                 .type("/trade/receipt.mhub")

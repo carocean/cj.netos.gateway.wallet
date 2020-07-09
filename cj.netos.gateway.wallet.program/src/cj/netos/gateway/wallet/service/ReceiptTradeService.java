@@ -410,6 +410,7 @@ public class ReceiptTradeService implements IReceiptTradeService {
         record.setSn(new IdWorker().nextId());
         record.setStatus(200);
         record.setMessage("ok");
+        record.setBankid(result.getBankid());
 
         depositHubTailsRecordMapper.insert(record);
 

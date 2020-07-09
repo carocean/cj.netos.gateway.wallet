@@ -2,10 +2,9 @@ package cj.netos.gateway.wallet.mapper;
 
 import cj.netos.gateway.wallet.model.DepositAbsorbRecord;
 import cj.netos.gateway.wallet.model.DepositAbsorbRecordExample;
-
+import org.apache.ibatis.annotations.Param;
 import java.math.BigDecimal;
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 public interface DepositAbsorbRecordMapper {
 

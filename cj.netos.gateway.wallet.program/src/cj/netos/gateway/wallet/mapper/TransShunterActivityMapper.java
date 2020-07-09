@@ -63,5 +63,4 @@ public interface TransShunterActivityMapper {
     int updateByPrimaryKey(TransShunterActivity record);
 
     List<TransShunterActivity> getAllActivities(@Param(value = "recordSn") String recordSn);
-
 }

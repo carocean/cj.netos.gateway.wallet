@@ -7,6 +7,15 @@ public class DepositHubTailsBO {
     long amount;
     String note;
     String currency;
+    String bankid;
+
+    public String getBankid() {
+        return bankid;
+    }
+
+    public void setBankid(String bankid) {
+        this.bankid = bankid;
+    }
 
     public String getSn() {
         return sn;
