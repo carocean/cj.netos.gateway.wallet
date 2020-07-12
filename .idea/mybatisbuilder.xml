@@ -140,6 +140,16 @@
             </TableInfo>
           </value>
         </entry>
+        <entry key="netos.wallet.main#p2p_ evidence">
+          <value>
+            <TableInfo>
+              <option name="database" value="netos.wallet.main" />
+              <option name="domainName" value="P2pEvidence" />
+              <option name="tableComment" value="p2p交易凭证发放" />
+              <option name="tableName" value="p2p_ evidence" />
+            </TableInfo>
+          </value>
+        </entry>
         <entry key="netos.wallet.main#p2p_activity">
           <value>
             <TableInfo>

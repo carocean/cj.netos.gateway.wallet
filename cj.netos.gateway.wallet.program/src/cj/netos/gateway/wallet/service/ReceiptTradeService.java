@@ -361,7 +361,7 @@ public class ReceiptTradeService implements IReceiptTradeService {
 
     @CjTransaction
     @Override
-    public P2pRecord p2p(String payer, String payerName, String payee, String payeeName, long amount, int type, String direct, String note) {
+    public P2pRecord p2p(String payer, String payerName, String payee, String payeeName, long amount, int type, String direct,String evidence,  String note) {
         P2pRecord record = new P2pRecord();
         record.setAmount(amount);
         record.setCurrency("CNY");
@@ -378,6 +378,7 @@ public class ReceiptTradeService implements IReceiptTradeService {
         record.setMessage("ok");
         record.setType(type);
         record.setDirect(direct);
+        record.setEvidence(evidence);
 
         p2pRecordMapper.insert(record);
 

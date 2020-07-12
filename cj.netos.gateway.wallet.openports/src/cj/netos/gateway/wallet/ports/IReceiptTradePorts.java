@@ -60,25 +60,43 @@ public interface IReceiptTradePorts extends IOpenportService {
                            @CjOpenportParameter(usage = "备注", name = "note") String note
     ) throws CircuitException;
 
-    @CjOpenport(usage = "我转账给对方(P2P)，仅用于系统内用户之间互转")
-    P2PResult transTo(ISecuritySession securitySession,
-                          @CjOpenportParameter(usage = "转账金额,单位为分", name = "amount") long amount,
-                          @CjOpenportParameter(usage = "收款人", name = "payee") String payee,
-                          @CjOpenportParameter(usage = "转账类型：0.p2p(直转)|1 qrcode_pay(扫码收款人)", name = "type") int type,
-                          @CjOpenportParameter(usage = "备注", name = "note") String note
-    ) throws CircuitException;
 
-    @CjOpenport(usage = "生成付款人签名")
-    String genPayerSignText(
+    @CjOpenport(usage = "生成收款凭证，返回证凭号")
+    String genReceivableEvidence(
             ISecuritySession securitySession,
-            @CjOpenportParameter(usage = "付款金额,单位为分", name = "amount") long amount
+            @CjOpenportParameter(usage = "过期时间", name = "expire") long expire,
+            @CjOpenportParameter(usage = "可使用的次数", name = "useTimes") long useTimes
     ) throws CircuitException;
 
-    @CjOpenport(usage = "向对方收款(P2P)，仅用于系统内用户之间互转")
-    P2PResult transFrom(ISecuritySession securitySession,
-                            @CjOpenportParameter(usage = "付款人签名。在向对方收款时对方需要展示签名（付方要生成签名，可能放在二维码中）", name = "payerSignText") String payerSignText,
+    @CjOpenport(usage = "生成付款凭证，返回证凭号")
+    String genPayableEvidence(
+            ISecuritySession securitySession,
+            @CjOpenportParameter(usage = "过期时间", name = "expire") long expire,
+            @CjOpenportParameter(usage = "可使用的次数", name = "useTimes") long useTimes
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "向凭证付款，凭证必须是收款凭证，仅用于系统内用户之间互转")
+    P2PResult payToEvidence(ISecuritySession securitySession,
+                            @CjOpenportParameter(usage = "收款凭证", name = "evidence") String evidence,
+                            @CjOpenportParameter(usage = "金额", name = "amount") long amount,
                             @CjOpenportParameter(usage = "转账类型：0.p2p(直转)|1 qrcode_pay(扫码付款人)", name = "type") int type,
                             @CjOpenportParameter(usage = "备注", name = "note") String note
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "向凭证收款，凭证必须是付款凭证，仅用于系统内用户之间互转")
+    P2PResult receiveFromEvidence(ISecuritySession securitySession,
+                                  @CjOpenportParameter(usage = "付款凭证", name = "evidence") String evidence,
+                                  @CjOpenportParameter(usage = "金额", name = "amount") long amount,
+                                  @CjOpenportParameter(usage = "转账类型：0.p2p(直转)|1 qrcode_pay(扫码付款人)", name = "type") int type,
+                                  @CjOpenportParameter(usage = "备注", name = "note") String note
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "我直接转账给对方(P2P)，仅用于系统内用户之间互转")
+    P2PResult transTo(ISecuritySession securitySession,
+                      @CjOpenportParameter(usage = "转账金额,单位为分", name = "amount") long amount,
+                      @CjOpenportParameter(usage = "收款人", name = "payee") String payee,
+                      @CjOpenportParameter(usage = "转账类型：0.p2p(直转)|1 qrcode_pay(扫码收款人)", name = "type") int type,
+                      @CjOpenportParameter(usage = "备注", name = "note") String note
     ) throws CircuitException;
 
     @CjOpenport(usage = "申购纹银")

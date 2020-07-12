@@ -27,8 +27,8 @@ public class P2PActivityController implements IP2PActivityController {
     IRabbitMQProducer toOC_receipt_p2p;
 
     @Override
-    public P2pRecord doReceipt(String payer, String payerName, String payee, String payeeName, long amount, int type,String direct, String note) throws CircuitException {
-        P2pRecord record = receiptTradeService.p2p(payer, payerName, payee, payeeName, amount, type,direct, note);
+    public P2pRecord doReceipt(String payer, String payerName, String payee, String payeeName, long amount, int type,String direct,String evidence, String note) throws CircuitException {
+        P2pRecord record = receiptTradeService.p2p(payer, payerName, payee, payeeName, amount, type,direct,evidence, note);
         //发送存入指令
         P2PBO p2PBO = new P2PBO();
         p2PBO.setSn(record.getSn());

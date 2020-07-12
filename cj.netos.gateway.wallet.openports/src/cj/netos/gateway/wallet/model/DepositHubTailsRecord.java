@@ -72,7 +72,7 @@ public class DepositHubTailsRecord {
 
     /**
      * Column: bankid
-     * Remark: 纹银银行标识
+     * Remark: 银行标识
      */
     private String bankid;
 

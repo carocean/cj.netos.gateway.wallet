@@ -10,10 +10,12 @@ import cj.netos.gateway.wallet.util.WalletUtils;
 import cj.studio.ecm.annotation.CjBridge;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
+import cj.studio.openport.util.Encript;
 import cj.studio.orm.mybatis.annotation.CjTransaction;
 import cj.ultimate.gson2.com.google.gson.Gson;
 
 import java.util.List;
+import java.util.UUID;
 
 @CjBridge(aspects = "@transaction")
 @CjService(name = "recordService")
@@ -64,6 +66,8 @@ public class RecordService implements IRecordService {
     P2pRecordMapper p2pRecordMapper;
     @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.P2pActivityMapper")
     P2pActivityMapper p2pActivityMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.P2pEvidenceMapper")
+    P2pEvidenceMapper p2pEvidenceMapper;
 
     @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.DepositHubTailsRecordMapper")
     DepositHubTailsRecordMapper depositHubTailsRecordMapper;
@@ -763,5 +767,53 @@ public class RecordService implements IRecordService {
         p2pActivity.setRecordSn(bo.getSn());
         p2pActivity.setStatus(Float.valueOf(result.getStatus()).intValue());
         p2pActivityMapper.insert(p2pActivity);
+    }
+
+    @CjTransaction
+    @Override
+    public String genEvidence(String principal, String nickName, String actor, long expire, long useTimes) {
+        if (countEvidences(principal, actor) > 0) {
+            P2pEvidenceExample example = new P2pEvidenceExample();
+            example.createCriteria().andPrincipalEqualTo(principal).andActorEqualTo(actor);
+            p2pEvidenceMapper.deleteByExample(example);
+        }
+        P2pEvidence evidence = new P2pEvidence();
+        evidence.setActor(actor);
+        evidence.setExpire(expire);
+        evidence.setUseTimes(useTimes);
+        evidence.setNickName(nickName);
+        evidence.setPrincipal(principal);
+        evidence.setPubTime(System.currentTimeMillis());
+        String sn = Encript.md5(String.format("%s%s%s%s", principal, actor, UUID.randomUUID(), System.currentTimeMillis()));
+        evidence.setSn(sn);
+        p2pEvidenceMapper.insert(evidence);
+        return sn;
+    }
+
+    @CjTransaction
+    @Override
+    public long countEvidences(String principal, String actor) {
+        P2pEvidenceExample example = new P2pEvidenceExample();
+        example.createCriteria().andPrincipalEqualTo(principal).andActorEqualTo(actor);
+        return p2pEvidenceMapper.countByExample(example);
+    }
+    @CjTransaction
+    @Override
+    public P2pEvidence getEvidence(String evidence) {
+        return p2pEvidenceMapper.selectByPrimaryKey(evidence);
+    }
+
+    @CjTransaction
+    @Override
+    public void removeEvidence(String evidence) {
+        p2pEvidenceMapper.deleteByPrimaryKey(evidence);
+    }
+
+    @CjTransaction
+    @Override
+    public long totalP2pEvidenceUsedTimesByPayer(String evidence, String payer, String payee) {
+        P2pRecordExample example = new P2pRecordExample();
+        example.createCriteria().andEvidenceEqualTo(evidence).andPayerEqualTo(payer).andPayeeEqualTo(payee);
+        return p2pRecordMapper.countByExample(example);
     }
 }

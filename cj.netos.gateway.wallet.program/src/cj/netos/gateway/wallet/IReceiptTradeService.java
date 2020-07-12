@@ -34,7 +34,7 @@ public interface IReceiptTradeService {
 
     TransShunterRecord transShunter(String principal, String personName, String wenyBankID, String shunter, long amount, String note);
 
-    P2pRecord p2p(String payer, String payerName, String payee, String payeeName, long amount, int type,String direct, String note);
+    P2pRecord p2p(String payer, String payerName, String payee, String payeeName, long amount, int type,String direct,String evidence,  String note);
 
     DepositHubTailsRecord depositHubTails(AbsorberHubTailsResult result);
 

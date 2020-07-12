@@ -163,32 +163,72 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
         }
 
         Map<String, Object> payeeObj = personService.findPerson(payee, (String) securitySession.property("accessToken"));
-        P2pRecord record = p2pActivityController.doReceipt(securitySession.principal(), (String) securitySession.property("nickName"), (String) payee, (String) payeeObj.get("nickName"), amount, type, "to", note);
+        P2pRecord record = p2pActivityController.doReceipt(securitySession.principal(), (String) securitySession.property("nickName"), (String) payee, (String) payeeObj.get("nickName"), amount, type, "to",null, note);
         return new Gson().fromJson(new Gson().toJson(record), P2PResult.class);
     }
 
+
     @Override
-    public P2PResult transFrom(ISecuritySession securitySession, String payerSignText, int type, String note) throws CircuitException {
-        if (StringUtil.isEmpty(payerSignText)) {
-            throw new CircuitException("404", String.format("payerSignText为空"));
+    public String genReceivableEvidence(ISecuritySession securitySession, long expire, long useTimes) throws CircuitException {
+        return recordService.genEvidence(securitySession.principal(), (String) securitySession.property("nickName"), "payee", expire, useTimes);
+    }
+
+    @Override
+    public String genPayableEvidence(ISecuritySession securitySession, long expire, long useTimes) throws CircuitException {
+        return recordService.genEvidence(securitySession.principal(), (String) securitySession.property("nickName"), "payer", expire, useTimes);
+    }
+
+    @Override
+    public P2PResult payToEvidence(ISecuritySession securitySession, String evidence, long amount, int type, String note) throws CircuitException {
+        if (StringUtil.isEmpty(evidence)) {
+            throw new CircuitException("404", String.format("收款凭证参数为空"));
         }
-        String key = site.getProperty("payer.key");
-        Claims claims = JwtUtil.parseJWT(key, payerSignText);
-        String amountStr = (String) claims.get("amount");
-        long amount = Long.valueOf(amountStr);
         if (amount < 0) {
             throw new CircuitException("500", "金额为负数");
         }
-        P2pRecord record = p2pActivityController.doReceipt((String) claims.get("payer"), (String) claims.get("name"), securitySession.principal(), (String) securitySession.property("nickName"), amount, type, "from", note);
+        P2pEvidence p2pEvidence = recordService.getEvidence(evidence);
+        if (p2pEvidence == null) {
+            throw new CircuitException("404", String.format("凭证不存在"));
+        }
+        if (!"payee".equals(p2pEvidence.getActor())) {
+            throw new CircuitException("500", "不是收款凭证");
+        }
+        if (p2pEvidence.getExpire() != 0 && System.currentTimeMillis() - p2pEvidence.getPubTime() >= p2pEvidence.getExpire()) {
+            throw new CircuitException("501", "收款凭证已过期");
+        }
+        long usedTimes = recordService.totalP2pEvidenceUsedTimesByPayer(p2pEvidence.getSn(), securitySession.principal(), p2pEvidence.getPrincipal());
+        if (p2pEvidence.getUseTimes() != 0 && usedTimes > p2pEvidence.getUseTimes()-1) {
+            throw new CircuitException("502", "收款凭证已超过使用次数");
+        }
+        P2pRecord record = p2pActivityController.doReceipt(securitySession.principal(), (String) securitySession.property("nickName"), p2pEvidence.getPrincipal(), p2pEvidence.getNickName(), amount, type, "to",evidence, note);
         return new Gson().fromJson(new Gson().toJson(record), P2PResult.class);
     }
 
     @Override
-    public String genPayerSignText(ISecuritySession securitySession, long amount) throws CircuitException {
-        String key = site.getProperty("payer.key");
-        String expired = site.getProperty("payer.expired");
-        String jwt = JwtUtil.createJWT(key, Long.valueOf(expired), securitySession.principal(), (String) securitySession.property("nickName"), amount);
-        return jwt;
+    public P2PResult receiveFromEvidence(ISecuritySession securitySession, String evidence, long amount, int type, String note) throws CircuitException {
+        if (StringUtil.isEmpty(evidence)) {
+            throw new CircuitException("404", String.format("付款凭证参数为空"));
+        }
+        if (amount < 0) {
+            throw new CircuitException("500", "金额为负数");
+        }
+        P2pEvidence p2pEvidence = recordService.getEvidence(evidence);
+        if (p2pEvidence == null) {
+            throw new CircuitException("404", String.format("凭证不存在"));
+        }
+        if (!"payer".equals(p2pEvidence.getActor())) {
+            throw new CircuitException("500", "不是付款凭证");
+        }
+        if (p2pEvidence.getExpire() != 0 && System.currentTimeMillis() - p2pEvidence.getPubTime() >= p2pEvidence.getExpire()) {
+            throw new CircuitException("501", "付款凭证已过期");
+        }
+        long usedTimes = recordService.totalP2pEvidenceUsedTimesByPayer(p2pEvidence.getSn(), p2pEvidence.getPrincipal(), securitySession.principal());
+        if (p2pEvidence.getUseTimes() != 0 && usedTimes > p2pEvidence.getUseTimes()-1) {
+            throw new CircuitException("502", "付款凭证已超过使用次数");
+        }
+        P2pRecord record = p2pActivityController.doReceipt(p2pEvidence.getPrincipal(), p2pEvidence.getNickName(), securitySession.principal(), (String) securitySession.property("nickName"), amount, type, "from",evidence, note);
+
+        return new Gson().fromJson(new Gson().toJson(record), P2PResult.class);
     }
 
     @Override

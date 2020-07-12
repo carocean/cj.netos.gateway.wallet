@@ -94,6 +94,12 @@ public class P2pRecord {
      */
     private String direct;
 
+    /**
+     * Column: evidence
+     * Remark: 交易凭证，指令牌，已判别该凭证是否执行过，仅对于收付款二维码有效 与收付款人一起查询保证为唯一性，如果不存在记录则执行后续，如果存在则说明已执行过则拒绝再次执行
+     */
+    private String evidence;
+
     public String getSn() {
         return sn;
     }
@@ -212,5 +218,13 @@ public class P2pRecord {
 
     public void setDirect(String direct) {
         this.direct = direct == null ? null : direct.trim();
+    }
+
+    public String getEvidence() {
+        return evidence;
+    }
+
+    public void setEvidence(String evidence) {
+        this.evidence = evidence == null ? null : evidence.trim();
     }
 }

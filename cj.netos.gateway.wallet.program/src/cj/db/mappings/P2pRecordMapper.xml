@@ -18,6 +18,7 @@
     <result column="note" jdbcType="VARCHAR" property="note" />
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="direct" jdbcType="VARCHAR" property="direct" />
+    <result column="evidence" jdbcType="VARCHAR" property="evidence" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -82,7 +83,7 @@
   <sql id="Base_Column_List">
     <!-- @mbg.generated: generated automatically, do not modify! -->
     sn, payer, payer_name, payee, payee_name, currency, amount, `state`, ctime, lutime, 
-    `status`, message, note, `type`, direct
+    `status`, message, note, `type`, direct, evidence
   </sql>
   <select id="selectByExample" parameterType="cj.netos.gateway.wallet.model.P2pRecordExample" resultMap="BaseResultMap">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -124,12 +125,14 @@
       payee, payee_name, currency, 
       amount, `state`, ctime, 
       lutime, `status`, message, 
-      note, `type`, direct)
+      note, `type`, direct, 
+      evidence)
     values (#{sn,jdbcType=VARCHAR}, #{payer,jdbcType=VARCHAR}, #{payerName,jdbcType=VARCHAR}, 
       #{payee,jdbcType=VARCHAR}, #{payeeName,jdbcType=VARCHAR}, #{currency,jdbcType=VARCHAR}, 
       #{amount,jdbcType=BIGINT}, #{state,jdbcType=INTEGER}, #{ctime,jdbcType=VARCHAR}, 
       #{lutime,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{message,jdbcType=VARCHAR}, 
-      #{note,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{direct,jdbcType=VARCHAR})
+      #{note,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{direct,jdbcType=VARCHAR}, 
+      #{evidence,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cj.netos.gateway.wallet.model.P2pRecord">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -180,6 +183,9 @@
       <if test="direct != null">
         direct,
       </if>
+      <if test="evidence != null">
+        evidence,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="sn != null">
@@ -226,6 +232,9 @@
       </if>
       <if test="direct != null">
         #{direct,jdbcType=VARCHAR},
+      </if>
+      <if test="evidence != null">
+        #{evidence,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -285,6 +294,9 @@
       <if test="record.direct != null">
         direct = #{record.direct,jdbcType=VARCHAR},
       </if>
+      <if test="record.evidence != null">
+        evidence = #{record.evidence,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -307,7 +319,8 @@
       message = #{record.message,jdbcType=VARCHAR},
       note = #{record.note,jdbcType=VARCHAR},
       `type` = #{record.type,jdbcType=INTEGER},
-      direct = #{record.direct,jdbcType=VARCHAR}
+      direct = #{record.direct,jdbcType=VARCHAR},
+      evidence = #{record.evidence,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -358,6 +371,9 @@
       <if test="direct != null">
         direct = #{direct,jdbcType=VARCHAR},
       </if>
+      <if test="evidence != null">
+        evidence = #{evidence,jdbcType=VARCHAR},
+      </if>
     </set>
     where sn = #{sn,jdbcType=VARCHAR}
   </update>
@@ -377,7 +393,8 @@
       message = #{message,jdbcType=VARCHAR},
       note = #{note,jdbcType=VARCHAR},
       `type` = #{type,jdbcType=INTEGER},
-      direct = #{direct,jdbcType=VARCHAR}
+      direct = #{direct,jdbcType=VARCHAR},
+      evidence = #{evidence,jdbcType=VARCHAR}
     where sn = #{sn,jdbcType=VARCHAR}
   </update>
   <update id="done" parameterType="cj.netos.gateway.wallet.model.P2pRecord">

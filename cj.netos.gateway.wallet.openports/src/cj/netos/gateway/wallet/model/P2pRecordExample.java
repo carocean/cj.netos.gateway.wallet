@@ -1146,6 +1146,76 @@ public class P2pRecordExample {
             addCriterion("direct not between", value1, value2, "direct");
             return (Criteria) this;
         }
+
+        public Criteria andEvidenceIsNull() {
+            addCriterion("evidence is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvidenceIsNotNull() {
+            addCriterion("evidence is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvidenceEqualTo(String value) {
+            addCriterion("evidence =", value, "evidence");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvidenceNotEqualTo(String value) {
+            addCriterion("evidence <>", value, "evidence");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvidenceGreaterThan(String value) {
+            addCriterion("evidence >", value, "evidence");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvidenceGreaterThanOrEqualTo(String value) {
+            addCriterion("evidence >=", value, "evidence");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvidenceLessThan(String value) {
+            addCriterion("evidence <", value, "evidence");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvidenceLessThanOrEqualTo(String value) {
+            addCriterion("evidence <=", value, "evidence");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvidenceLike(String value) {
+            addCriterion("evidence like", value, "evidence");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvidenceNotLike(String value) {
+            addCriterion("evidence not like", value, "evidence");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvidenceIn(List<String> values) {
+            addCriterion("evidence in", values, "evidence");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvidenceNotIn(List<String> values) {
+            addCriterion("evidence not in", values, "evidence");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvidenceBetween(String value1, String value2) {
+            addCriterion("evidence between", value1, value2, "evidence");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvidenceNotBetween(String value1, String value2) {
+            addCriterion("evidence not between", value1, value2, "evidence");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
