@@ -163,10 +163,21 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
         }
 
         Map<String, Object> payeeObj = personService.findPerson(payee, (String) securitySession.property("accessToken"));
-        P2pRecord record = p2pActivityController.doReceipt(securitySession.principal(), (String) securitySession.property("nickName"), (String) payee, (String) payeeObj.get("nickName"), amount, type, "to",null, note);
+        P2pRecord record = p2pActivityController.doReceipt(securitySession.principal(), (String) securitySession.property("nickName"), (String) payee, (String) payeeObj.get("nickName"), amount, type, "to", null, note);
         return new Gson().fromJson(new Gson().toJson(record), P2PResult.class);
     }
 
+    @Override
+    public P2pEvidence checkEvidence(ISecuritySession securitySession, String evidence) throws CircuitException {
+        if (StringUtil.isEmpty(evidence)) {
+            throw new CircuitException("404", String.format("收款凭证参数为空"));
+        }
+        P2pEvidence p2pEvidence = recordService.getEvidence(evidence);
+        if (p2pEvidence.getExpire() != 0 && System.currentTimeMillis() - p2pEvidence.getPubTime() >= p2pEvidence.getExpire()) {
+            throw new CircuitException("501", "凭证已过期");
+        }
+        return p2pEvidence;
+    }
 
     @Override
     public String genReceivableEvidence(ISecuritySession securitySession, long expire, long useTimes) throws CircuitException {
@@ -197,10 +208,10 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
             throw new CircuitException("501", "收款凭证已过期");
         }
         long usedTimes = recordService.totalP2pEvidenceUsedTimesByPayer(p2pEvidence.getSn(), securitySession.principal(), p2pEvidence.getPrincipal());
-        if (p2pEvidence.getUseTimes() != 0 && usedTimes > p2pEvidence.getUseTimes()-1) {
+        if (p2pEvidence.getUseTimes() != 0 && usedTimes > p2pEvidence.getUseTimes() - 1) {
             throw new CircuitException("502", "收款凭证已超过使用次数");
         }
-        P2pRecord record = p2pActivityController.doReceipt(securitySession.principal(), (String) securitySession.property("nickName"), p2pEvidence.getPrincipal(), p2pEvidence.getNickName(), amount, type, "to",evidence, note);
+        P2pRecord record = p2pActivityController.doReceipt(securitySession.principal(), (String) securitySession.property("nickName"), p2pEvidence.getPrincipal(), p2pEvidence.getNickName(), amount, type, "to", evidence, note);
         return new Gson().fromJson(new Gson().toJson(record), P2PResult.class);
     }
 
@@ -223,10 +234,10 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
             throw new CircuitException("501", "付款凭证已过期");
         }
         long usedTimes = recordService.totalP2pEvidenceUsedTimesByPayer(p2pEvidence.getSn(), p2pEvidence.getPrincipal(), securitySession.principal());
-        if (p2pEvidence.getUseTimes() != 0 && usedTimes > p2pEvidence.getUseTimes()-1) {
+        if (p2pEvidence.getUseTimes() != 0 && usedTimes > p2pEvidence.getUseTimes() - 1) {
             throw new CircuitException("502", "付款凭证已超过使用次数");
         }
-        P2pRecord record = p2pActivityController.doReceipt(p2pEvidence.getPrincipal(), p2pEvidence.getNickName(), securitySession.principal(), (String) securitySession.property("nickName"), amount, type, "from",evidence, note);
+        P2pRecord record = p2pActivityController.doReceipt(p2pEvidence.getPrincipal(), p2pEvidence.getNickName(), securitySession.principal(), (String) securitySession.property("nickName"), amount, type, "from", evidence, note);
 
         return new Gson().fromJson(new Gson().toJson(record), P2PResult.class);
     }

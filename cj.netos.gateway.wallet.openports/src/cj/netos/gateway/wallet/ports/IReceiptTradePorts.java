@@ -1,6 +1,7 @@
 package cj.netos.gateway.wallet.ports;
 
 import cj.netos.gateway.wallet.bo.PayDetailsBO;
+import cj.netos.gateway.wallet.model.P2pEvidence;
 import cj.netos.gateway.wallet.result.*;
 import cj.studio.ecm.net.CircuitException;
 import cj.studio.openport.AccessTokenIn;
@@ -73,6 +74,11 @@ public interface IReceiptTradePorts extends IOpenportService {
             ISecuritySession securitySession,
             @CjOpenportParameter(usage = "过期时间", name = "expire") long expire,
             @CjOpenportParameter(usage = "可使用的次数", name = "useTimes") long useTimes
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "验证交易凭证")
+    P2pEvidence checkEvidence(ISecuritySession securitySession,
+                              @CjOpenportParameter(usage = "收款或付款凭证", name = "evidence") String evidence
     ) throws CircuitException;
 
     @CjOpenport(usage = "向凭证付款，凭证必须是收款凭证，仅用于系统内用户之间互转")
