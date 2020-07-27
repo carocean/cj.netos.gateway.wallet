@@ -82,7 +82,7 @@ public interface IReceiptTradePorts extends IOpenportService {
     ) throws CircuitException;
 
     @CjOpenport(usage = "向凭证付款，凭证必须是收款凭证，仅用于系统内用户之间互转")
-    P2PResult payToEvidence(ISecuritySession securitySession,
+    P2PRecResult payToEvidence(ISecuritySession securitySession,
                             @CjOpenportParameter(usage = "收款凭证", name = "evidence") String evidence,
                             @CjOpenportParameter(usage = "金额", name = "amount") long amount,
                             @CjOpenportParameter(usage = "转账类型：0.p2p(直转)|1 qrcode_pay(扫码付款人)", name = "type") int type,
@@ -90,7 +90,7 @@ public interface IReceiptTradePorts extends IOpenportService {
     ) throws CircuitException;
 
     @CjOpenport(usage = "向凭证收款，凭证必须是付款凭证，仅用于系统内用户之间互转")
-    P2PResult receiveFromEvidence(ISecuritySession securitySession,
+    P2PRecResult receiveFromEvidence(ISecuritySession securitySession,
                                   @CjOpenportParameter(usage = "付款凭证", name = "evidence") String evidence,
                                   @CjOpenportParameter(usage = "金额", name = "amount") long amount,
                                   @CjOpenportParameter(usage = "转账类型：0.p2p(直转)|1 qrcode_pay(扫码付款人)", name = "type") int type,
@@ -98,7 +98,7 @@ public interface IReceiptTradePorts extends IOpenportService {
     ) throws CircuitException;
 
     @CjOpenport(usage = "我直接转账给对方(P2P)，仅用于系统内用户之间互转")
-    P2PResult transTo(ISecuritySession securitySession,
+    P2PRecResult transTo(ISecuritySession securitySession,
                       @CjOpenportParameter(usage = "转账金额,单位为分", name = "amount") long amount,
                       @CjOpenportParameter(usage = "收款人", name = "payee") String payee,
                       @CjOpenportParameter(usage = "转账类型：0.p2p(直转)|1 qrcode_pay(扫码收款人)", name = "type") int type,

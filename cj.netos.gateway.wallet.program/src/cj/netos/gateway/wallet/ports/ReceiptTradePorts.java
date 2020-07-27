@@ -154,7 +154,7 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
     }
 
     @Override
-    public P2PResult transTo(ISecuritySession securitySession, long amount, String payee, int type, String note) throws CircuitException {
+    public P2PRecResult transTo(ISecuritySession securitySession, long amount, String payee, int type, String note) throws CircuitException {
         if (amount < 0) {
             throw new CircuitException("500", "金额为负数");
         }
@@ -164,7 +164,7 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
 
         Map<String, Object> payeeObj = personService.findPerson(payee, (String) securitySession.property("accessToken"));
         P2pRecord record = p2pActivityController.doReceipt(securitySession.principal(), (String) securitySession.property("nickName"), (String) payee, (String) payeeObj.get("nickName"), amount, type, "to", null, note);
-        return new Gson().fromJson(new Gson().toJson(record), P2PResult.class);
+        return new Gson().fromJson(new Gson().toJson(record), P2PRecResult.class);
     }
 
     @Override
@@ -190,7 +190,7 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
     }
 
     @Override
-    public P2PResult payToEvidence(ISecuritySession securitySession, String evidence, long amount, int type, String note) throws CircuitException {
+    public P2PRecResult payToEvidence(ISecuritySession securitySession, String evidence, long amount, int type, String note) throws CircuitException {
         if (StringUtil.isEmpty(evidence)) {
             throw new CircuitException("404", String.format("收款凭证参数为空"));
         }
@@ -212,11 +212,11 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
             throw new CircuitException("502", "收款凭证已超过使用次数");
         }
         P2pRecord record = p2pActivityController.doReceipt(securitySession.principal(), (String) securitySession.property("nickName"), p2pEvidence.getPrincipal(), p2pEvidence.getNickName(), amount, type, "to", evidence, note);
-        return new Gson().fromJson(new Gson().toJson(record), P2PResult.class);
+        return new Gson().fromJson(new Gson().toJson(record), P2PRecResult.class);
     }
 
     @Override
-    public P2PResult receiveFromEvidence(ISecuritySession securitySession, String evidence, long amount, int type, String note) throws CircuitException {
+    public P2PRecResult receiveFromEvidence(ISecuritySession securitySession, String evidence, long amount, int type, String note) throws CircuitException {
         if (StringUtil.isEmpty(evidence)) {
             throw new CircuitException("404", String.format("付款凭证参数为空"));
         }
@@ -239,7 +239,7 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
         }
         P2pRecord record = p2pActivityController.doReceipt(p2pEvidence.getPrincipal(), p2pEvidence.getNickName(), securitySession.principal(), (String) securitySession.property("nickName"), amount, type, "from", evidence, note);
 
-        return new Gson().fromJson(new Gson().toJson(record), P2PResult.class);
+        return new Gson().fromJson(new Gson().toJson(record), P2PRecResult.class);
     }
 
     @Override
