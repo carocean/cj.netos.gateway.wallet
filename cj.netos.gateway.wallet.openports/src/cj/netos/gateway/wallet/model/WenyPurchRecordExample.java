@@ -1737,6 +1737,146 @@ public class WenyPurchRecordExample {
             addCriterion("exchange_state not between", value1, value2, "exchangeState");
             return (Criteria) this;
         }
+
+        public Criteria andOutTradeSnIsNull() {
+            addCriterion("out_trade_sn is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTradeSnIsNotNull() {
+            addCriterion("out_trade_sn is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTradeSnEqualTo(String value) {
+            addCriterion("out_trade_sn =", value, "outTradeSn");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTradeSnNotEqualTo(String value) {
+            addCriterion("out_trade_sn <>", value, "outTradeSn");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTradeSnGreaterThan(String value) {
+            addCriterion("out_trade_sn >", value, "outTradeSn");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTradeSnGreaterThanOrEqualTo(String value) {
+            addCriterion("out_trade_sn >=", value, "outTradeSn");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTradeSnLessThan(String value) {
+            addCriterion("out_trade_sn <", value, "outTradeSn");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTradeSnLessThanOrEqualTo(String value) {
+            addCriterion("out_trade_sn <=", value, "outTradeSn");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTradeSnLike(String value) {
+            addCriterion("out_trade_sn like", value, "outTradeSn");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTradeSnNotLike(String value) {
+            addCriterion("out_trade_sn not like", value, "outTradeSn");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTradeSnIn(List<String> values) {
+            addCriterion("out_trade_sn in", values, "outTradeSn");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTradeSnNotIn(List<String> values) {
+            addCriterion("out_trade_sn not in", values, "outTradeSn");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTradeSnBetween(String value1, String value2) {
+            addCriterion("out_trade_sn between", value1, value2, "outTradeSn");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTradeSnNotBetween(String value1, String value2) {
+            addCriterion("out_trade_sn not between", value1, value2, "outTradeSn");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTradeTypeIsNull() {
+            addCriterion("out_trade_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTradeTypeIsNotNull() {
+            addCriterion("out_trade_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTradeTypeEqualTo(String value) {
+            addCriterion("out_trade_type =", value, "outTradeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTradeTypeNotEqualTo(String value) {
+            addCriterion("out_trade_type <>", value, "outTradeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTradeTypeGreaterThan(String value) {
+            addCriterion("out_trade_type >", value, "outTradeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTradeTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("out_trade_type >=", value, "outTradeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTradeTypeLessThan(String value) {
+            addCriterion("out_trade_type <", value, "outTradeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTradeTypeLessThanOrEqualTo(String value) {
+            addCriterion("out_trade_type <=", value, "outTradeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTradeTypeLike(String value) {
+            addCriterion("out_trade_type like", value, "outTradeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTradeTypeNotLike(String value) {
+            addCriterion("out_trade_type not like", value, "outTradeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTradeTypeIn(List<String> values) {
+            addCriterion("out_trade_type in", values, "outTradeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTradeTypeNotIn(List<String> values) {
+            addCriterion("out_trade_type not in", values, "outTradeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTradeTypeBetween(String value1, String value2) {
+            addCriterion("out_trade_type between", value1, value2, "outTradeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutTradeTypeNotBetween(String value1, String value2) {
+            addCriterion("out_trade_type not between", value1, value2, "outTradeType");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

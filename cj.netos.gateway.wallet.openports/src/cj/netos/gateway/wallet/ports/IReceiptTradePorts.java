@@ -109,6 +109,12 @@ public interface IReceiptTradePorts extends IOpenportService {
     PurchasingResult purchaseWeny(ISecuritySession securitySession,
                                   @CjOpenportParameter(usage = "要申购的纹银银行id", name = "wenyBankID") String wenyBankID,
                                   @CjOpenportParameter(usage = "委托申购金额,单位为分", name = "amount") long amount,
+                                  @CjOpenportParameter(usage = "外部订单类型：\n" +
+                                          "netflow网流\n" +
+                                          "geosphere地圈", name = "outTradeType") String outTradeType,
+                                  @CjOpenportParameter(usage = "外部单号：\n" +
+                                          "网流：cj@gbera.netos/29939238283\n" +
+                                          "地圈：mobiles/9239203920392", name = "outTradeSn") String outTradeSn,
                                   @CjOpenportParameter(usage = "备注", name = "note") String note
     ) throws CircuitException;
 

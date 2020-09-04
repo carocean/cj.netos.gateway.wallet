@@ -264,7 +264,7 @@ public class ReceiptTradeService implements IReceiptTradeService {
 
     @CjTransaction
     @Override
-    public WenyPurchRecord purchaseWeny(String principal, String personName, String wenyBankID, long amount, String note) throws CircuitException {
+    public WenyPurchRecord purchaseWeny(String principal, String personName, String wenyBankID, long amount,String outTradeType, String outTradeSn, String note) throws CircuitException {
         WenyPurchRecord record = new WenyPurchRecord();
         record.setPurchAmount(amount);
         record.setCurrency("CNY");
@@ -279,6 +279,8 @@ public class ReceiptTradeService implements IReceiptTradeService {
         record.setStatus(200);
         record.setMessage("ok");
         record.setExchangeState(0);
+        record.setOutTradeSn(outTradeSn);
+        record.setOutTradeType(outTradeType);
         wenyPurchRecordMapper.insert(record);
 
         WenyPurchActivity wenyPurchActivity = new WenyPurchActivity();

@@ -12,6 +12,7 @@ public class PurchasingResult {
     long principalAmount;
     String personName;
     String outTradeSn;
+    String outTradeType;
     String bankid;
     long tailAmount;
     String currency;
@@ -19,6 +20,14 @@ public class PurchasingResult {
     int state;
     long ptime;
     BigDecimal feeRatio;
+
+    public String getOutTradeType() {
+        return outTradeType;
+    }
+
+    public void setOutTradeType(String outTradeType) {
+        this.outTradeType = outTradeType;
+    }
 
     public long getServiceFee() {
         return serviceFee;

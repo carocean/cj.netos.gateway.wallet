@@ -41,6 +41,11 @@ public class RecordPorts implements IRecordPorts {
     }
 
     @Override
+    public WenyPurchRecord getPurchaseRecordOfPerson(ISecuritySession securitySession, String person, String record_sn) throws CircuitException {
+        return recordService.getPurchaseRecordOfPerson(person, record_sn);
+    }
+
+    @Override
     public PaymentResult getPayRecord(ISecuritySession securitySession, String record_sn) throws CircuitException {
         PayRecord record = recordService.getPayment(securitySession.principal(), record_sn);
         if (record == null) {

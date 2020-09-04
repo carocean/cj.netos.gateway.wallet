@@ -30,8 +30,8 @@ public class PurchaseActivityController implements IPurchaseActivityController {
 
     @CjTransaction
     @Override
-    public WenyPurchRecord doReceipt(String principal, String personName, String wenyBankID, long amount, String note) throws CircuitException {
-        WenyPurchRecord record = receiptTradeService.purchaseWeny(principal, personName, wenyBankID, amount, note);
+    public WenyPurchRecord doReceipt(String principal, String personName, String wenyBankID, long amount,String outTradeType, String outTradeSn, String note) throws CircuitException {
+        WenyPurchRecord record = receiptTradeService.purchaseWeny(principal, personName, wenyBankID, amount,outTradeType,outTradeSn, note);
         wenyBankTradeCaller.purchase(record);
         return record;
     }

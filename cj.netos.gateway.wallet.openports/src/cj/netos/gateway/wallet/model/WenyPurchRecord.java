@@ -155,6 +155,18 @@ public class WenyPurchRecord {
      */
     private Integer exchangeState;
 
+    /**
+     * Column: out_trade_sn
+     * Remark: 外部单号： 网流：cj@gbera.netos/29939238283 地圈：mobiles/9239203920392
+     */
+    private String outTradeSn;
+
+    /**
+     * Column: out_trade_type
+     * Remark: 外部订单类型： netflow网流 geosphere地圈
+     */
+    private String outTradeType;
+
     public String getSn() {
         return sn;
     }
@@ -353,5 +365,21 @@ public class WenyPurchRecord {
 
     public void setExchangeState(Integer exchangeState) {
         this.exchangeState = exchangeState;
+    }
+
+    public String getOutTradeSn() {
+        return outTradeSn;
+    }
+
+    public void setOutTradeSn(String outTradeSn) {
+        this.outTradeSn = outTradeSn == null ? null : outTradeSn.trim();
+    }
+
+    public String getOutTradeType() {
+        return outTradeType;
+    }
+
+    public void setOutTradeType(String outTradeType) {
+        this.outTradeType = outTradeType == null ? null : outTradeType.trim();
     }
 }

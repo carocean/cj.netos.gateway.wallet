@@ -6,7 +6,7 @@ import cj.netos.gateway.wallet.result.PurchasedResult;
 import cj.studio.ecm.net.CircuitException;
 
 public interface IPurchaseActivityController {
-    WenyPurchRecord doReceipt(String principal, String personName, String wenyBankID, long amount, String note) throws CircuitException;
+    WenyPurchRecord doReceipt(String principal, String personName, String wenyBankID, long amount,String outTradeType, String outTradeSn, String note) throws CircuitException;
 
 
     void ackReceipt(PurchaseResult result);

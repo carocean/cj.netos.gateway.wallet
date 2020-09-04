@@ -243,7 +243,7 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
     }
 
     @Override
-    public PurchasingResult purchaseWeny(ISecuritySession securitySession, String wenyBankID, long amount, String note) throws CircuitException {
+    public PurchasingResult purchaseWeny(ISecuritySession securitySession, String wenyBankID, long amount, String outTradeType, String outTradeSn, String note) throws CircuitException {
         if (amount < 0) {
             throw new CircuitException("500", "金额为负数");
         }
@@ -252,7 +252,7 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
         }
         Map<String, Object> personInfo = personService.getPersonInfo((String) securitySession.property("accessToken"));
         String personName = (String) personInfo.get("nickName");
-        WenyPurchRecord record = purchaseActivityController.doReceipt(securitySession.principal(), personName, wenyBankID, amount, note);
+        WenyPurchRecord record = purchaseActivityController.doReceipt(securitySession.principal(), personName, wenyBankID, amount,outTradeType,outTradeSn, note);
         return new Gson().fromJson(new Gson().toJson(record), PurchasingResult.class);
     }
 

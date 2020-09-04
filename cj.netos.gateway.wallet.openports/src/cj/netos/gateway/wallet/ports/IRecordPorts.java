@@ -109,6 +109,12 @@ public interface IRecordPorts extends IOpenportService {
                                       @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
     ) throws CircuitException;
 
+    @CjOpenport(usage = "获取申购记录")
+    WenyPurchRecord getPurchaseRecordOfPerson(ISecuritySession securitySession,
+                                              @CjOpenportParameter(usage = "申购者", name = "person") String person,
+                                              @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
+    ) throws CircuitException;
+
     @CjOpenport(usage = "获取申购过程步骤")
     List<WenyPurchActivity> getPurchaseActivities(ISecuritySession securitySession,
                                                   @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
