@@ -8,6 +8,7 @@ import cj.netos.rabbitmq.CjConsumer;
 import cj.netos.rabbitmq.RabbitMQException;
 import cj.netos.rabbitmq.RetryCommandException;
 import cj.netos.rabbitmq.consumer.IConsumerCommand;
+import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
 import cj.studio.ecm.net.CircuitException;
@@ -36,12 +37,11 @@ public class OnDepositAbsorbsCommand implements IConsumerCommand {
     public void command(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws RabbitMQException, RetryCommandException, IOException {
         String json = new String(body);
         HashMap<String, Object> result = new Gson().fromJson(json, HashMap.class);
-        Map<String, Object> absorber = (Map<String, Object>) result.get("absorber");
         Map<String, Object> recipients = (Map<String, Object>) result.get("recipients");
         BigDecimal amount = new BigDecimal(result.get("amount") + "");
         String refsn = (String) result.get("refsn");//在洇金机器内的洇取单号
-        String sourceCode = (String) absorber.get("id");//源代码指向洇取器的标识
-        String sourceTitle = (String) absorber.get("title");//源代码指向洇取器的标题
+        String sourceTitle = (String) result.get("absorberTitle");//源代码指向洇取器的标题
+        String sourceCode = (String) recipients.get("absorber");//源代码指向洇取器的标识
         String personName = (String) recipients.get("personName");
         String person = (String) recipients.get("person");
         String note = String.format("{\"encourageCode\":\"%s\",\"encourageCause\":\"%s\",\"outTradeSn\":\"%s\"}",
