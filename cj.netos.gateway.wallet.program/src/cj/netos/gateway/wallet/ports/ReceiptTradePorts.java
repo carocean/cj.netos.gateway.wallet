@@ -36,8 +36,6 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
     @CjServiceRef
     IWithdrawActivityController withdrawActivityController;
     @CjServiceRef
-    ITransferProfitActivityController transferProfitActivityController;
-    @CjServiceRef
     ITransferShunterActivityController transferShunterActivityController;
     @CjServiceRef
     ITransferAbsorbActivityController transferAbsorbActivityController;
@@ -88,20 +86,6 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
         String personName = (String) personInfo.get("nickName");
         WithdrawRecord record = withdrawActivityController.doReceipt(securitySession.principal(), personName, amount, payChannelID, note);
         return new Gson().fromJson(new Gson().toJson(record), WithdrawResult.class);
-    }
-
-    @Override
-    public TransferProfitResult transferProfit(ISecuritySession securitySession, String wenyBankID, long amount, String note) throws CircuitException {
-        if (amount < 0) {
-            throw new CircuitException("500", "金额为负数");
-        }
-        if (StringUtil.isEmpty(wenyBankID)) {
-            throw new CircuitException("404", String.format("行号为空"));
-        }
-        Map<String, Object> personInfo = personService.getPersonInfo((String) securitySession.property("accessToken"));
-        String personName = (String) personInfo.get("nickName");
-        TransProfitRecord record = transferProfitActivityController.doReceipt(securitySession.principal(), personName, wenyBankID, amount, note);
-        return new Gson().fromJson(new Gson().toJson(record), TransferProfitResult.class);
     }
 
     @Override
@@ -252,7 +236,7 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
         }
         Map<String, Object> personInfo = personService.getPersonInfo((String) securitySession.property("accessToken"));
         String personName = (String) personInfo.get("nickName");
-        WenyPurchRecord record = purchaseActivityController.doReceipt(securitySession.principal(), personName, wenyBankID, amount,outTradeType,outTradeSn, note);
+        WenyPurchRecord record = purchaseActivityController.doReceipt(securitySession.principal(), personName, wenyBankID, amount, outTradeType, outTradeSn, note);
         return new Gson().fromJson(new Gson().toJson(record), PurchasingResult.class);
     }
 

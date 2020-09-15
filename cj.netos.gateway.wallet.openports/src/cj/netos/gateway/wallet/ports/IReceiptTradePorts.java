@@ -29,13 +29,13 @@ public interface IReceiptTradePorts extends IOpenportService {
                             @CjOpenportParameter(usage = "提现到指定的渠道号", name = "payChannelID") String payChannelID,
                             @CjOpenportParameter(usage = "备注", name = "note") String note
     ) throws CircuitException;
-
-    @CjOpenport(usage = "从我的收益账户转入零钱账户")
-    TransferProfitResult transferProfit(ISecuritySession securitySession,
-                                        @CjOpenportParameter(usage = "要申购的纹银银行id", name = "wenyBankID") String wenyBankID,
-                                        @CjOpenportParameter(usage = "转账金额,单位为分", name = "amount") long amount,
-                                        @CjOpenportParameter(usage = "备注", name = "note") String note
-    ) throws CircuitException;
+//
+//    @CjOpenport(usage = "从我的收益账户转入零钱账户")
+//    TransferProfitResult transferProfit(ISecuritySession securitySession,
+//                                        @CjOpenportParameter(usage = "要申购的纹银银行id", name = "wenyBankID") String wenyBankID,
+//                                        @CjOpenportParameter(usage = "转账金额,单位为分", name = "amount") long amount,
+//                                        @CjOpenportParameter(usage = "备注", name = "note") String note
+//    ) throws CircuitException;
 
     @CjOpenport(usage = "用于合作伙伴从其账金账户将收入转入到其零钱账户。如果没有账金提取权限则报801异常")
     TransShuntResult transferShunter(
