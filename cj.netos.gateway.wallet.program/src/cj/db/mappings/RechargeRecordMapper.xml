@@ -9,14 +9,15 @@
     <result column="currency" jdbcType="VARCHAR" property="currency" />
     <result column="demand_amount" jdbcType="BIGINT" property="demandAmount" />
     <result column="real_amount" jdbcType="BIGINT" property="realAmount" />
-    <result column="from_channel" jdbcType="VARCHAR" property="fromChannel" />
+    <result column="to_channel_account" jdbcType="VARCHAR" property="toChannelAccount" />
+    <result column="pay_channel" jdbcType="VARCHAR" property="payChannel" />
+    <result column="pay_account" jdbcType="VARCHAR" property="payAccount" />
     <result column="state" jdbcType="INTEGER" property="state" />
     <result column="ctime" jdbcType="VARCHAR" property="ctime" />
     <result column="lutime" jdbcType="VARCHAR" property="lutime" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="message" jdbcType="VARCHAR" property="message" />
     <result column="note" jdbcType="VARCHAR" property="note" />
-    <result column="channel_name" jdbcType="VARCHAR" property="channelName" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -80,8 +81,8 @@
   </sql>
   <sql id="Base_Column_List">
     <!-- @mbg.generated: generated automatically, do not modify! -->
-    sn, person, person_name, currency, demand_amount, real_amount, from_channel, `state`, 
-    ctime, lutime, `status`, message, note, channel_name
+    sn, person, person_name, currency, demand_amount, real_amount, to_channel_account, 
+    pay_channel, pay_account, `state`, ctime, lutime, `status`, message, note
   </sql>
   <select id="selectByExample" parameterType="cj.netos.gateway.wallet.model.RechargeRecordExample" resultMap="BaseResultMap">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -121,14 +122,16 @@
     <!-- @mbg.generated: generated automatically, do not modify! -->
     insert into recharge_record (sn, person, person_name, 
       currency, demand_amount, real_amount, 
-      from_channel, `state`, ctime, 
-      lutime, `status`, message, 
-      note, channel_name)
+      to_channel_account, pay_channel, pay_account, 
+      `state`, ctime, lutime, 
+      `status`, message, note
+      )
     values (#{sn,jdbcType=VARCHAR}, #{person,jdbcType=VARCHAR}, #{personName,jdbcType=VARCHAR}, 
       #{currency,jdbcType=VARCHAR}, #{demandAmount,jdbcType=BIGINT}, #{realAmount,jdbcType=BIGINT}, 
-      #{fromChannel,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, #{ctime,jdbcType=VARCHAR}, 
-      #{lutime,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{message,jdbcType=VARCHAR}, 
-      #{note,jdbcType=VARCHAR}, #{channelName,jdbcType=VARCHAR})
+      #{toChannelAccount,jdbcType=VARCHAR}, #{payChannel,jdbcType=VARCHAR}, #{payAccount,jdbcType=VARCHAR}, 
+      #{state,jdbcType=INTEGER}, #{ctime,jdbcType=VARCHAR}, #{lutime,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{message,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="cj.netos.gateway.wallet.model.RechargeRecord">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -152,8 +155,14 @@
       <if test="realAmount != null">
         real_amount,
       </if>
-      <if test="fromChannel != null">
-        from_channel,
+      <if test="toChannelAccount != null">
+        to_channel_account,
+      </if>
+      <if test="payChannel != null">
+        pay_channel,
+      </if>
+      <if test="payAccount != null">
+        pay_account,
       </if>
       <if test="state != null">
         `state`,
@@ -172,9 +181,6 @@
       </if>
       <if test="note != null">
         note,
-      </if>
-      <if test="channelName != null">
-        channel_name,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -196,8 +202,14 @@
       <if test="realAmount != null">
         #{realAmount,jdbcType=BIGINT},
       </if>
-      <if test="fromChannel != null">
-        #{fromChannel,jdbcType=VARCHAR},
+      <if test="toChannelAccount != null">
+        #{toChannelAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="payChannel != null">
+        #{payChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="payAccount != null">
+        #{payAccount,jdbcType=VARCHAR},
       </if>
       <if test="state != null">
         #{state,jdbcType=INTEGER},
@@ -216,9 +228,6 @@
       </if>
       <if test="note != null">
         #{note,jdbcType=VARCHAR},
-      </if>
-      <if test="channelName != null">
-        #{channelName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -251,8 +260,14 @@
       <if test="record.realAmount != null">
         real_amount = #{record.realAmount,jdbcType=BIGINT},
       </if>
-      <if test="record.fromChannel != null">
-        from_channel = #{record.fromChannel,jdbcType=VARCHAR},
+      <if test="record.toChannelAccount != null">
+        to_channel_account = #{record.toChannelAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payChannel != null">
+        pay_channel = #{record.payChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payAccount != null">
+        pay_account = #{record.payAccount,jdbcType=VARCHAR},
       </if>
       <if test="record.state != null">
         `state` = #{record.state,jdbcType=INTEGER},
@@ -272,9 +287,6 @@
       <if test="record.note != null">
         note = #{record.note,jdbcType=VARCHAR},
       </if>
-      <if test="record.channelName != null">
-        channel_name = #{record.channelName,jdbcType=VARCHAR},
-      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -289,14 +301,15 @@
       currency = #{record.currency,jdbcType=VARCHAR},
       demand_amount = #{record.demandAmount,jdbcType=BIGINT},
       real_amount = #{record.realAmount,jdbcType=BIGINT},
-      from_channel = #{record.fromChannel,jdbcType=VARCHAR},
+      to_channel_account = #{record.toChannelAccount,jdbcType=VARCHAR},
+      pay_channel = #{record.payChannel,jdbcType=VARCHAR},
+      pay_account = #{record.payAccount,jdbcType=VARCHAR},
       `state` = #{record.state,jdbcType=INTEGER},
       ctime = #{record.ctime,jdbcType=VARCHAR},
       lutime = #{record.lutime,jdbcType=VARCHAR},
       `status` = #{record.status,jdbcType=INTEGER},
       message = #{record.message,jdbcType=VARCHAR},
-      note = #{record.note,jdbcType=VARCHAR},
-      channel_name = #{record.channelName,jdbcType=VARCHAR}
+      note = #{record.note,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -320,8 +333,14 @@
       <if test="realAmount != null">
         real_amount = #{realAmount,jdbcType=BIGINT},
       </if>
-      <if test="fromChannel != null">
-        from_channel = #{fromChannel,jdbcType=VARCHAR},
+      <if test="toChannelAccount != null">
+        to_channel_account = #{toChannelAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="payChannel != null">
+        pay_channel = #{payChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="payAccount != null">
+        pay_account = #{payAccount,jdbcType=VARCHAR},
       </if>
       <if test="state != null">
         `state` = #{state,jdbcType=INTEGER},
@@ -341,9 +360,6 @@
       <if test="note != null">
         note = #{note,jdbcType=VARCHAR},
       </if>
-      <if test="channelName != null">
-        channel_name = #{channelName,jdbcType=VARCHAR},
-      </if>
     </set>
     where sn = #{sn,jdbcType=VARCHAR}
   </update>
@@ -355,14 +371,15 @@
       currency = #{currency,jdbcType=VARCHAR},
       demand_amount = #{demandAmount,jdbcType=BIGINT},
       real_amount = #{realAmount,jdbcType=BIGINT},
-      from_channel = #{fromChannel,jdbcType=VARCHAR},
+      to_channel_account = #{toChannelAccount,jdbcType=VARCHAR},
+      pay_channel = #{payChannel,jdbcType=VARCHAR},
+      pay_account = #{payAccount,jdbcType=VARCHAR},
       `state` = #{state,jdbcType=INTEGER},
       ctime = #{ctime,jdbcType=VARCHAR},
       lutime = #{lutime,jdbcType=VARCHAR},
       `status` = #{status,jdbcType=INTEGER},
       message = #{message,jdbcType=VARCHAR},
-      note = #{note,jdbcType=VARCHAR},
-      channel_name = #{channelName,jdbcType=VARCHAR}
+      note = #{note,jdbcType=VARCHAR}
     where sn = #{sn,jdbcType=VARCHAR}
   </update>
   <update id="settle" parameterType="cj.netos.gateway.wallet.model.RechargeRecord">

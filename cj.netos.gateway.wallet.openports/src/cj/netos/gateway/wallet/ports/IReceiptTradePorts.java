@@ -16,10 +16,10 @@ import cj.studio.openport.annotations.CjOpenports;
 @CjOpenports(usage = "收单业务开放服务")
 public interface IReceiptTradePorts extends IOpenportService {
     @CjOpenport(usage = "充值下单")
-    RechargeResult recharge(ISecuritySession securitySession,
+    String recharge(ISecuritySession securitySession,
                             @CjOpenportParameter(usage = "币种", name = "currency", defaultValue = "CNY") String currency,
                             @CjOpenportParameter(usage = "欲充值的金额,单位为分", name = "amount") long amount,
-                            @CjOpenportParameter(usage = "充值来源渠道号", name = "payChannelID") String payChannelID,
+                            @CjOpenportParameter(usage = "充值来源渠道号", name = "payChannel") String payChannel,
                             @CjOpenportParameter(usage = "备注", name = "note") String note
     ) throws CircuitException;
 

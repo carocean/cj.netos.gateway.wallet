@@ -9,7 +9,7 @@
           <option name="driverClass" value="" />
           <option name="driverLibrary" value="" />
           <option name="driverType" value="MySQL" />
-          <option name="host" value="47.104.128.137" />
+          <option name="host" value="120.27.15.205" />
           <option name="id" value="60aa1528b1d14c328701695a12b180ea" />
           <option name="name" value="netos.wallet.main" />
           <option name="port" value="3306" />
@@ -100,6 +100,26 @@
     </option>
     <option name="tableInfoMap">
       <map>
+        <entry key="netos.wallet.main#channel_account">
+          <value>
+            <TableInfo>
+              <option name="database" value="netos.wallet.main" />
+              <option name="domainName" value="ChannelAccount" />
+              <option name="tableComment" value="渠道账户，用于记录充值和提现的余额&#10;目的是采用复试记账，池内外对账平衡。&#10;由于提现充值都是从第三方渠道决清的，因此平台账户应放到网关，以核息内部后续的决清过程是否有出错" />
+              <option name="tableName" value="channel_account" />
+            </TableInfo>
+          </value>
+        </entry>
+        <entry key="netos.wallet.main#channel_bill">
+          <value>
+            <TableInfo>
+              <option name="database" value="netos.wallet.main" />
+              <option name="domainName" value="ChannelBill" />
+              <option name="tableComment" value="充值或提现的渠道账单，用于双记账根踪账变，其流水明细与钱包共享充提记录表" />
+              <option name="tableName" value="channel_bill" />
+            </TableInfo>
+          </value>
+        </entry>
         <entry key="netos.wallet.main#deposit_absorb_activity">
           <value>
             <TableInfo>
@@ -145,7 +165,7 @@
             <TableInfo>
               <option name="database" value="netos.wallet.main" />
               <option name="domainName" value="P2pEvidence" />
-              <option name="tableComment" value="p2p交易凭证发放" />
+              <option name="tableComment" value="p2p交易凭证发放&#10;程序中必须保证一个用户只有两2个凭证，一个是收款一个是付款" />
               <option name="tableName" value="p2p_ evidence" />
             </TableInfo>
           </value>
@@ -347,6 +367,16 @@
               <option name="domainName" value="WithdrawActivity" />
               <option name="tableComment" value="提现处理步骤" />
               <option name="tableName" value="withdraw_activity" />
+            </TableInfo>
+          </value>
+        </entry>
+        <entry key="netos.wallet.main#withdraw_from">
+          <value>
+            <TableInfo>
+              <option name="database" value="netos.wallet.main" />
+              <option name="domainName" value="WithdrawFrom" />
+              <option name="tableComment" value="跟踪从平台的哪些渠道账户出的款。&#10;在用户提现时，仅当一个渠道账户余额不足提时才会到下一个渠道账户出款，因此可能有多个出款账户" />
+              <option name="tableName" value="withdraw_from" />
             </TableInfo>
           </value>
         </entry>

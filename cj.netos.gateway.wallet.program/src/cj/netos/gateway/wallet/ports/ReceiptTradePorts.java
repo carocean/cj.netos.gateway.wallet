@@ -13,6 +13,12 @@ import cj.studio.ecm.net.CircuitException;
 import cj.studio.openport.ISecuritySession;
 import cj.ultimate.gson2.com.google.gson.Gson;
 import cj.ultimate.util.StringUtil;
+import com.alipay.api.AlipayApiException;
+import com.alipay.api.AlipayClient;
+import com.alipay.api.DefaultAlipayClient;
+import com.alipay.api.domain.AlipayTradeAppPayModel;
+import com.alipay.api.request.AlipayTradeAppPayRequest;
+import com.alipay.api.response.AlipayTradeAppPayResponse;
 import io.jsonwebtoken.Claims;
 
 import java.util.Map;
@@ -50,11 +56,41 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
     @CjServiceRef
     IRecordService recordService;
 
-    @CjServiceSite
-    IServiceSite site;
+    @CjServiceRef
+    IAlipay alipay;
+
+    public static void main(String[] args) {
+        String APP_ID = "2021001198622080";
+        String APP_PRIVATE_KEY = "MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCkdaIJyu4qrtPcVry6FhD1s1INANTydPUci5/pnX5+pa90WODpZwBeJvZiQWLtl3OlkBoBx3FPhyxUsXO3h9B1+sPGn0rDmWlBQR4naCK0eahzvJbvk6D/C7BlQsc7mnjhlqIEu9lWbC4vrpOKjbEfJg+8WlCi8RwtwrPfnFDonUV32jp8cVV7hUcnFQHBSOj1aT3HsyfFrtU3hOTaPy0AkflirfK2eCY02X/KMejU/6eqAUJuJFCdp9q2Xk7/N1JkDbnENSRgVctlhfeVljpJ8ee2yqyGtTA7GqO88z0JqPY44Al1FBYnu09zwtAUlHXDxhlOtI8AcVfoP0bn9jNvAgMBAAECggEAQPLb7XYhHOYycUAoBG2WgRIyg0Qi1SXvbziNDNvQCwAwDIjVOhgdgxFsGF2uThqT53zDaJR1YW0GyuPRyVdvskg4bQaXpiu977Fh0TpFCnVJW3vNOAxbdp4NKdB3kkhtGNo+XhQ5vvG2Q8p0JjHTE3Qans4kLlV+RWwxUUwQf+yKT5/QBYw106rFp8pXJMxf/46ZtUd4f4pA0stfFKVA6mmynTu2u5S8EC6uZ7DR09QsbnZKgyspfH9s6hwvr0xXT1ey2mql+95a8leC21C74WBmeWe/GoPgJYj6bGAvhblGb2M1DkQLZhfwkCklHXo5TMilwiKWvwik0PyZzTnUsQKBgQDTni1VXLL8vW9dN40X6myXjNoT4B4HQUlmOHV6wr3ePYJ/kMuJMHb7fiAjX7Xer6+5PRCckfu92u5va4cT8TdU/Ogl4hmT+qDJdK8u4IfrZ9/zOU/aDEi9GDh2e7K+zCtQ9Qht7iUiSrpTNxi+QMhyfgye6iu1XTZlAAXViTiciwKBgQDG84JyN1deBoqdc9p0cO2jpKvLrwid9xXYvbLBoJyIO3K7cpdCqJvTpMtMK9KSPXdVrofA7V9Dp8q253HUaRih39PL7LxPML8/I8DptyMWWEPtEuRGhHGG9rgAdHEjZtjmFZhhLNW71sx/NpMH2dtWEfmgRIYSantDDEr7VQLtLQKBgQCllQ9Dy9UBjfilp+Hu5K8zpjK9epAEfUFBisvh0p9eViLWTiX0osd24amkBC/6nt2QxAdLe67PT49h/3EiWYxCI+JCQjhhYaqN949bzrSLriu91Qp2Q0ZnL5x+mSuzv23lWtXNrpm/y1kf4+yocWhmrdqSPgkVUGpPfUUTYNu7IQKBgErmaEjZvuGeMtdeQ3MtBLpkB21yYxsdZ7Mmj8LH1caQIvyhAoNM+QVv+D2gDfGShHfUcjVW6FOPOwkrDza5rlVa7+DJKofhwU5jBoC2utXxuvjo8Nn/iMIX5mP9co6ybJwKq0iCWaETGAAYqrf8889uiv0kbxlFz0wJt7zxX12tAoGBAK5BpsQ6Iq9B9jguWZCRZt1XtqQpNrlqDm+3TGd3MZjQsKULlDvqkNEbfOxihhS8BMBxiFPJT4xstf70F42m9nbFWuV35+TFfU3KOz+Y+uZxVbRnHtAR3mgsxfq+QdrpnL6Xyh0Znc/cXrVja2kMvrEd+YIHIGSIVHmBdxfhyOXU";
+        String ALIPAY_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxjt9cw4aI03x4bETU2EygzIfHhiFrIMAeihmATm2o2WkJJUvIwJBVTQBnMncEdtcUtnJ0XmTPRpXNjgQjjCY4KhVy8DEfDqlvUIvShfqJk4faIeWIa65SRs8JujZhOOKDtXeTogEEG1MSzshk0UOREoxm96gQpABYKh56rD973zwLpUqPTWo0WyhhLfVAhwnd3NfksdN9H5maGPhUZSAFljzdvzhYCUry2enlp4/9jt6Hys2Ck9fe03T2U5msJ3YVObZLU7s63jJ9FI9dcRK7fQWpfHa5k6bebbJTuBShA6PaNH8rJZ2deo5uQXgx3tdRSYq9j2er0Uo1RMB+LraLwIDAQAB";
+        String CHARSET = "utf-8";
+        String outtradeno = "x-84774747747474";
+        //实例化客户端
+        AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do", APP_ID, APP_PRIVATE_KEY, "json", CHARSET, ALIPAY_PUBLIC_KEY, "RSA2");
+//实例化具体API对应的request类,类名称和接口名称对应,当前调用接口名称：alipay.trade.app.pay
+        AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
+//SDK已经封装掉了公共参数，这里只需要传入业务参数。以下方法为sdk的model入参方式(model和biz_content同时存在的情况下取biz_content)。
+        AlipayTradeAppPayModel model = new AlipayTradeAppPayModel();
+        model.setBody("我是测试数据");
+        model.setSubject("App支付测试Java");
+        model.setOutTradeNo(outtradeno);
+        model.setTimeoutExpress("30m");
+        model.setTotalAmount("0.01");
+        model.setProductCode("QUICK_MSECURITY_PAY");
+//        model.setSellerId("tb74435105");//指商户配置的收款人，一般是自己员工
+        request.setBizModel(model);
+        request.setNotifyUrl("商户外网可以访问的异步地址");
+        try {
+            //这里和普通的接口调用不同，使用的是sdkExecute
+            AlipayTradeAppPayResponse response = alipayClient.sdkExecute(request);
+            System.out.println(response.getBody());//就是orderString 可以直接给客户端请求，无需再做处理。
+        } catch (AlipayApiException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
-    public RechargeResult recharge(ISecuritySession securitySession, String currency, long amount, String payChannelID, String note) throws CircuitException {
+    public String recharge(ISecuritySession securitySession, String currency, long amount, String payChannelID, String note) throws CircuitException {
         if (StringUtil.isEmpty(currency)) {
             currency = "CNY";
         }
@@ -71,7 +107,16 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
         Map<String, Object> personInfo = personService.getPersonInfo((String) securitySession.property("accessToken"));
         String personName = (String) personInfo.get("nickName");
         RechargeRecord record = rechargeActivityController.doReceipt(securitySession.principal(), personName, currency, amount, payChannel, note);
-        return new Gson().fromJson(new Gson().toJson(record), RechargeResult.class);
+        String result = "";
+        switch (payChannelID) {
+            case "alipay":
+                result =alipay.pay(record);
+                break;
+            default:
+                throw new CircuitException("800", String.format("暂不支持支付渠道:%s", payChannel));
+        }
+
+        return result;
     }
 
     @Override

@@ -10,13 +10,13 @@
     <result column="demand_amount" jdbcType="BIGINT" property="demandAmount" />
     <result column="real_amount" jdbcType="BIGINT" property="realAmount" />
     <result column="to_channel" jdbcType="VARCHAR" property="toChannel" />
+    <result column="to_account" jdbcType="VARCHAR" property="toAccount" />
     <result column="state" jdbcType="INTEGER" property="state" />
     <result column="ctime" jdbcType="VARCHAR" property="ctime" />
     <result column="lutime" jdbcType="VARCHAR" property="lutime" />
     <result column="note" jdbcType="VARCHAR" property="note" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="message" jdbcType="VARCHAR" property="message" />
-    <result column="channel_name" jdbcType="VARCHAR" property="channelName" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -80,8 +80,8 @@
   </sql>
   <sql id="Base_Column_List">
     <!-- @mbg.generated: generated automatically, do not modify! -->
-    sn, person, person_name, currency, demand_amount, real_amount, to_channel, `state`, 
-    ctime, lutime, note, `status`, message, channel_name
+    sn, person, person_name, currency, demand_amount, real_amount, to_channel, to_account, 
+    `state`, ctime, lutime, note, `status`, message
   </sql>
   <select id="selectByExample" parameterType="cj.netos.gateway.wallet.model.WithdrawRecordExample" resultMap="BaseResultMap">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -121,14 +121,14 @@
     <!-- @mbg.generated: generated automatically, do not modify! -->
     insert into withdraw_record (sn, person, person_name, 
       currency, demand_amount, real_amount, 
-      to_channel, `state`, ctime, 
-      lutime, note, `status`, 
-      message, channel_name)
+      to_channel, to_account, `state`, 
+      ctime, lutime, note, 
+      `status`, message)
     values (#{sn,jdbcType=VARCHAR}, #{person,jdbcType=VARCHAR}, #{personName,jdbcType=VARCHAR}, 
       #{currency,jdbcType=VARCHAR}, #{demandAmount,jdbcType=BIGINT}, #{realAmount,jdbcType=BIGINT}, 
-      #{toChannel,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, #{ctime,jdbcType=VARCHAR}, 
-      #{lutime,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
-      #{message,jdbcType=VARCHAR}, #{channelName,jdbcType=VARCHAR})
+      #{toChannel,jdbcType=VARCHAR}, #{toAccount,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
+      #{ctime,jdbcType=VARCHAR}, #{lutime,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{message,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cj.netos.gateway.wallet.model.WithdrawRecord">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -155,6 +155,9 @@
       <if test="toChannel != null">
         to_channel,
       </if>
+      <if test="toAccount != null">
+        to_account,
+      </if>
       <if test="state != null">
         `state`,
       </if>
@@ -172,9 +175,6 @@
       </if>
       <if test="message != null">
         message,
-      </if>
-      <if test="channelName != null">
-        channel_name,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -199,6 +199,9 @@
       <if test="toChannel != null">
         #{toChannel,jdbcType=VARCHAR},
       </if>
+      <if test="toAccount != null">
+        #{toAccount,jdbcType=VARCHAR},
+      </if>
       <if test="state != null">
         #{state,jdbcType=INTEGER},
       </if>
@@ -216,9 +219,6 @@
       </if>
       <if test="message != null">
         #{message,jdbcType=VARCHAR},
-      </if>
-      <if test="channelName != null">
-        #{channelName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -254,6 +254,9 @@
       <if test="record.toChannel != null">
         to_channel = #{record.toChannel,jdbcType=VARCHAR},
       </if>
+      <if test="record.toAccount != null">
+        to_account = #{record.toAccount,jdbcType=VARCHAR},
+      </if>
       <if test="record.state != null">
         `state` = #{record.state,jdbcType=INTEGER},
       </if>
@@ -272,9 +275,6 @@
       <if test="record.message != null">
         message = #{record.message,jdbcType=VARCHAR},
       </if>
-      <if test="record.channelName != null">
-        channel_name = #{record.channelName,jdbcType=VARCHAR},
-      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -290,13 +290,13 @@
       demand_amount = #{record.demandAmount,jdbcType=BIGINT},
       real_amount = #{record.realAmount,jdbcType=BIGINT},
       to_channel = #{record.toChannel,jdbcType=VARCHAR},
+      to_account = #{record.toAccount,jdbcType=VARCHAR},
       `state` = #{record.state,jdbcType=INTEGER},
       ctime = #{record.ctime,jdbcType=VARCHAR},
       lutime = #{record.lutime,jdbcType=VARCHAR},
       note = #{record.note,jdbcType=VARCHAR},
       `status` = #{record.status,jdbcType=INTEGER},
-      message = #{record.message,jdbcType=VARCHAR},
-      channel_name = #{record.channelName,jdbcType=VARCHAR}
+      message = #{record.message,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -323,6 +323,9 @@
       <if test="toChannel != null">
         to_channel = #{toChannel,jdbcType=VARCHAR},
       </if>
+      <if test="toAccount != null">
+        to_account = #{toAccount,jdbcType=VARCHAR},
+      </if>
       <if test="state != null">
         `state` = #{state,jdbcType=INTEGER},
       </if>
@@ -341,9 +344,6 @@
       <if test="message != null">
         message = #{message,jdbcType=VARCHAR},
       </if>
-      <if test="channelName != null">
-        channel_name = #{channelName,jdbcType=VARCHAR},
-      </if>
     </set>
     where sn = #{sn,jdbcType=VARCHAR}
   </update>
@@ -356,13 +356,13 @@
       demand_amount = #{demandAmount,jdbcType=BIGINT},
       real_amount = #{realAmount,jdbcType=BIGINT},
       to_channel = #{toChannel,jdbcType=VARCHAR},
+      to_account = #{toAccount,jdbcType=VARCHAR},
       `state` = #{state,jdbcType=INTEGER},
       ctime = #{ctime,jdbcType=VARCHAR},
       lutime = #{lutime,jdbcType=VARCHAR},
       note = #{note,jdbcType=VARCHAR},
       `status` = #{status,jdbcType=INTEGER},
-      message = #{message,jdbcType=VARCHAR},
-      channel_name = #{channelName,jdbcType=VARCHAR}
+      message = #{message,jdbcType=VARCHAR}
     where sn = #{sn,jdbcType=VARCHAR}
   </update>
 

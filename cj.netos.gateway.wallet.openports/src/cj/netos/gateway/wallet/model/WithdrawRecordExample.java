@@ -607,6 +607,76 @@ public class WithdrawRecordExample {
             return (Criteria) this;
         }
 
+        public Criteria andToAccountIsNull() {
+            addCriterion("to_account is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andToAccountIsNotNull() {
+            addCriterion("to_account is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andToAccountEqualTo(String value) {
+            addCriterion("to_account =", value, "toAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andToAccountNotEqualTo(String value) {
+            addCriterion("to_account <>", value, "toAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andToAccountGreaterThan(String value) {
+            addCriterion("to_account >", value, "toAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andToAccountGreaterThanOrEqualTo(String value) {
+            addCriterion("to_account >=", value, "toAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andToAccountLessThan(String value) {
+            addCriterion("to_account <", value, "toAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andToAccountLessThanOrEqualTo(String value) {
+            addCriterion("to_account <=", value, "toAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andToAccountLike(String value) {
+            addCriterion("to_account like", value, "toAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andToAccountNotLike(String value) {
+            addCriterion("to_account not like", value, "toAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andToAccountIn(List<String> values) {
+            addCriterion("to_account in", values, "toAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andToAccountNotIn(List<String> values) {
+            addCriterion("to_account not in", values, "toAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andToAccountBetween(String value1, String value2) {
+            addCriterion("to_account between", value1, value2, "toAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andToAccountNotBetween(String value1, String value2) {
+            addCriterion("to_account not between", value1, value2, "toAccount");
+            return (Criteria) this;
+        }
+
         public Criteria andStateIsNull() {
             addCriterion("`state` is null");
             return (Criteria) this;
@@ -1004,76 +1074,6 @@ public class WithdrawRecordExample {
 
         public Criteria andMessageNotBetween(String value1, String value2) {
             addCriterion("message not between", value1, value2, "message");
-            return (Criteria) this;
-        }
-
-        public Criteria andChannelNameIsNull() {
-            addCriterion("channel_name is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andChannelNameIsNotNull() {
-            addCriterion("channel_name is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andChannelNameEqualTo(String value) {
-            addCriterion("channel_name =", value, "channelName");
-            return (Criteria) this;
-        }
-
-        public Criteria andChannelNameNotEqualTo(String value) {
-            addCriterion("channel_name <>", value, "channelName");
-            return (Criteria) this;
-        }
-
-        public Criteria andChannelNameGreaterThan(String value) {
-            addCriterion("channel_name >", value, "channelName");
-            return (Criteria) this;
-        }
-
-        public Criteria andChannelNameGreaterThanOrEqualTo(String value) {
-            addCriterion("channel_name >=", value, "channelName");
-            return (Criteria) this;
-        }
-
-        public Criteria andChannelNameLessThan(String value) {
-            addCriterion("channel_name <", value, "channelName");
-            return (Criteria) this;
-        }
-
-        public Criteria andChannelNameLessThanOrEqualTo(String value) {
-            addCriterion("channel_name <=", value, "channelName");
-            return (Criteria) this;
-        }
-
-        public Criteria andChannelNameLike(String value) {
-            addCriterion("channel_name like", value, "channelName");
-            return (Criteria) this;
-        }
-
-        public Criteria andChannelNameNotLike(String value) {
-            addCriterion("channel_name not like", value, "channelName");
-            return (Criteria) this;
-        }
-
-        public Criteria andChannelNameIn(List<String> values) {
-            addCriterion("channel_name in", values, "channelName");
-            return (Criteria) this;
-        }
-
-        public Criteria andChannelNameNotIn(List<String> values) {
-            addCriterion("channel_name not in", values, "channelName");
-            return (Criteria) this;
-        }
-
-        public Criteria andChannelNameBetween(String value1, String value2) {
-            addCriterion("channel_name between", value1, value2, "channelName");
-            return (Criteria) this;
-        }
-
-        public Criteria andChannelNameNotBetween(String value1, String value2) {
-            addCriterion("channel_name not between", value1, value2, "channelName");
             return (Criteria) this;
         }
     }

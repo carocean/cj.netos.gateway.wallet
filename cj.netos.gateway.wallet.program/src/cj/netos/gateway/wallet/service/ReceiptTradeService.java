@@ -1,6 +1,7 @@
 package cj.netos.gateway.wallet.service;
 
 import cj.netos.gateway.wallet.AbsorberHubTailsResult;
+import cj.netos.gateway.wallet.IChannelAccountSelector;
 import cj.netos.gateway.wallet.IReceiptTradeService;
 import cj.netos.gateway.wallet.bo.PayDetailsBO;
 import cj.netos.gateway.wallet.mapper.*;
@@ -67,15 +68,22 @@ public class ReceiptTradeService implements IReceiptTradeService {
     DepositHubTailsRecordMapper depositHubTailsRecordMapper;
     @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.DepositHubTailsActivityMapper")
     DepositHubTailsActivityMapper depositHubTailsActivityMapper;
+    @CjServiceRef
+    IChannelAccountSelector channelAccountSelector;
 
     @CjTransaction
     @Override
-    public RechargeRecord recharge(String principal, String personName, String currency, long amount, PayChannel payChannel, String note) {
+    public RechargeRecord recharge(String principal, String personName, String currency, long amount, PayChannel payChannel, String note) throws CircuitException {
+        ChannelAccount channelAccount = channelAccountSelector.selector(payChannel);
+        if (channelAccount == null) {
+            throw new CircuitException("404", String.format("没有选中渠道账户在支付渠道:%s下", payChannel.getName()));
+        }
         RechargeRecord record = new RechargeRecord();
         record.setDemandAmount(amount);
         record.setCurrency(currency);
-        record.setFromChannel(payChannel.getCode());
-        record.setChannelName(payChannel.getChannelName());
+        record.setPayChannel(payChannel.getCode());
+        record.setPayAccount(null);
+        record.setToChannelAccount(channelAccount.getId());
         record.setPerson(principal);
         record.setState(0);
         record.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
@@ -264,7 +272,7 @@ public class ReceiptTradeService implements IReceiptTradeService {
 
     @CjTransaction
     @Override
-    public WenyPurchRecord purchaseWeny(String principal, String personName, String wenyBankID, long amount,String outTradeType, String outTradeSn, String note) throws CircuitException {
+    public WenyPurchRecord purchaseWeny(String principal, String personName, String wenyBankID, long amount, String outTradeType, String outTradeSn, String note) throws CircuitException {
         WenyPurchRecord record = new WenyPurchRecord();
         record.setPurchAmount(amount);
         record.setCurrency("CNY");
@@ -363,7 +371,7 @@ public class ReceiptTradeService implements IReceiptTradeService {
 
     @CjTransaction
     @Override
-    public P2pRecord p2p(String payer, String payerName, String payee, String payeeName, long amount, int type, String direct,String evidence,  String note) {
+    public P2pRecord p2p(String payer, String payerName, String payee, String payeeName, long amount, int type, String direct, String evidence, String note) {
         P2pRecord record = new P2pRecord();
         record.setAmount(amount);
         record.setCurrency("CNY");

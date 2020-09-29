@@ -1,0 +1,84 @@
+{
+	entryPoint : {
+		plugins: [
+			{
+				name:"mybatis",
+				class:"cj.studio.orm.mybatis.MyBatisPlugin",
+				parameters:{
+					classes:"[
+					]",
+					packages:"[
+					]"
+				}
+			}
+		],
+		activators: [
+			{
+				name: '开放口服务活动器',
+				class: 'cj.studio.openport.OpenportEntryPointActivator',
+				parameters: {
+					"publicAPIPath": '/portsapi',
+					checkAppSignStrategy: 'cj.netos.gateway.wallet.program.AppSignStrategy',
+					checkAccessTokenStrategy: 'cj.netos.gateway.wallet.program.CheckAccessTokenStrategy'
+				}
+			}
+		]
+	},
+	assemblyInfo : {
+		assemblyTitle : "gateway.wallet",
+		assemblyResource:"site=/site;http.root=$(site)/web;http.jss=$(site)/jss/http;ws.jss=$(site)/jss/ws",
+		assemblyDescription : "钱包交易网关",
+		assemblyConfiguration : "",
+		assemblyCompany : "cj工作室出品，lns平台制造",
+		assemblyProduct : "cj.netos.gateway.wallet",
+		assemblyCopyright : "Copyright   2011",
+		assemblyTrademark : "",
+		assemblyCulture : "",
+		guid : "81E5C257-0BB4-46EF-955C-ED3189DB9EEF",
+		assemblyVersion : "1.0.0.0",
+		assemblyFileVersion : "1.0.0.0"
+	},
+	global:{
+		default:"zh_CN",
+		desc:"如果系统环境要求各芯片采用的语言本芯片没有，则芯片可采用默认语言"
+		},
+	serviceContainer : {
+		name : "netContainer",
+		switchFilter:"off",
+		monitor: "cj.netos.rabbitmq.DefaultRabbitMQMonitor",
+		jss:[{
+			module:"services1",
+			package:"cj.netos.gateway.wallet.jss",
+			unzip:"true",
+			searchMode:"link",
+			extName:".jss.js"
+		}],
+		scans : [{
+			package : "cj.studio.orm.mybatis",
+			extName : ".class|.json|.xml",
+			exoterical:"true"
+		},{
+			package : "cj.netos.gateway.wallet.program",
+			extName : ".class|.json|.xml",
+			exoterical:"true"
+		},{
+			package : "cj.netos.gateway.wallet.service",
+			extName : ".class|.json|.xml",
+			exoterical:"true"
+		},{
+			package : "cj.netos.gateway.wallet.activities",
+			extName : ".class|.json|.xml",
+			exoterical:"true"
+		},{
+				package : "cj.netos.gateway.wallet.ports",
+				extName : ".class|.json|.xml",
+				exoterical:"true"
+		},{
+			package : "cj.netos.gateway.wallet.cmd",
+			extName : ".class|.json|.xml",
+			exoterical:"true"
+		}
+		]
+
+	}
+}

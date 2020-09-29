@@ -7,7 +7,7 @@ import cj.netos.gateway.wallet.result.RechargeResult;
 import cj.studio.ecm.net.CircuitException;
 
 public interface IRechargeActivityController {
-    RechargeRecord doReceipt(String principal, String personName, String currency, long amount, PayChannel payChannel, String note);
+    RechargeRecord doReceipt(String principal, String personName, String currency, long amount, PayChannel payChannel, String note) throws CircuitException;
 
     void settle(String principal,String sn, long amount, String code, String message) throws CircuitException;
 

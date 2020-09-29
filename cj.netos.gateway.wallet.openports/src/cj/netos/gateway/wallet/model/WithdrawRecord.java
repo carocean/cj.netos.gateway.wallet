@@ -42,9 +42,15 @@ public class WithdrawRecord {
 
     /**
      * Column: to_channel
-     * Remark: 提现到渠道
+     * Remark: 收款渠道，即提现方式，，如提现到支付宝，银联
      */
     private String toChannel;
+
+    /**
+     * Column: to_account
+     * Remark: 收款账户 可能为空，如支付宝收款者为个人账户是记录不到的；但在网联方式下可以记录下用户收款到其哪个银行卡，因此将来接网联还需要建立用户-银行卡绑定表
+     */
+    private String toAccount;
 
     /**
      * Column: state
@@ -80,11 +86,6 @@ public class WithdrawRecord {
      * Remark: 订单完成时第三方渠道的返回信息
      */
     private String message;
-
-    /**
-     * Column: channel_name
-     */
-    private String channelName;
 
     public String getSn() {
         return sn;
@@ -142,6 +143,14 @@ public class WithdrawRecord {
         this.toChannel = toChannel == null ? null : toChannel.trim();
     }
 
+    public String getToAccount() {
+        return toAccount;
+    }
+
+    public void setToAccount(String toAccount) {
+        this.toAccount = toAccount == null ? null : toAccount.trim();
+    }
+
     public Integer getState() {
         return state;
     }
@@ -188,13 +197,5 @@ public class WithdrawRecord {
 
     public void setMessage(String message) {
         this.message = message == null ? null : message.trim();
-    }
-
-    public String getChannelName() {
-        return channelName;
-    }
-
-    public void setChannelName(String channelName) {
-        this.channelName = channelName == null ? null : channelName.trim();
     }
 }

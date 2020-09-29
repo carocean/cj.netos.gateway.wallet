@@ -4,14 +4,9 @@
   <resultMap id="BaseResultMap" type="cj.netos.gateway.wallet.model.PayChannel">
     <!-- @mbg.generated: generated automatically, do not modify! -->
     <id column="code" jdbcType="VARCHAR" property="code" />
-    <result column="url" jdbcType="VARCHAR" property="url" />
-    <result column="appid" jdbcType="VARCHAR" property="appid" />
-    <result column="appSecret" jdbcType="VARCHAR" property="appsecret" />
-    <result column="mch_id" jdbcType="VARCHAR" property="mchId" />
-    <result column="note" jdbcType="VARCHAR" property="note" />
-    <result column="limit_amount" jdbcType="BIGINT" property="limitAmount" />
-    <result column="channel_name" jdbcType="VARCHAR" property="channelName" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="ctime" jdbcType="VARCHAR" property="ctime" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -75,7 +70,7 @@
   </sql>
   <sql id="Base_Column_List">
     <!-- @mbg.generated: generated automatically, do not modify! -->
-    code, url, appid, appSecret, mch_id, note, limit_amount, channel_name, ctime
+    code, `name`, ctime, note
   </sql>
   <select id="selectByExample" parameterType="cj.netos.gateway.wallet.model.PayChannelExample" resultMap="BaseResultMap">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -113,14 +108,10 @@
   </delete>
   <insert id="insert" parameterType="cj.netos.gateway.wallet.model.PayChannel">
     <!-- @mbg.generated: generated automatically, do not modify! -->
-    insert into pay_channel (code, url, appid, 
-      appSecret, mch_id, note, 
-      limit_amount, channel_name, ctime
-      )
-    values (#{code,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{appid,jdbcType=VARCHAR}, 
-      #{appsecret,jdbcType=VARCHAR}, #{mchId,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, 
-      #{limitAmount,jdbcType=BIGINT}, #{channelName,jdbcType=VARCHAR}, #{ctime,jdbcType=VARCHAR}
-      )
+    insert into pay_channel (code, `name`, ctime, 
+      note)
+    values (#{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{ctime,jdbcType=VARCHAR}, 
+      #{note,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cj.netos.gateway.wallet.model.PayChannel">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -129,58 +120,28 @@
       <if test="code != null">
         code,
       </if>
-      <if test="url != null">
-        url,
-      </if>
-      <if test="appid != null">
-        appid,
-      </if>
-      <if test="appsecret != null">
-        appSecret,
-      </if>
-      <if test="mchId != null">
-        mch_id,
-      </if>
-      <if test="note != null">
-        note,
-      </if>
-      <if test="limitAmount != null">
-        limit_amount,
-      </if>
-      <if test="channelName != null">
-        channel_name,
+      <if test="name != null">
+        `name`,
       </if>
       <if test="ctime != null">
         ctime,
+      </if>
+      <if test="note != null">
+        note,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="code != null">
         #{code,jdbcType=VARCHAR},
       </if>
-      <if test="url != null">
-        #{url,jdbcType=VARCHAR},
-      </if>
-      <if test="appid != null">
-        #{appid,jdbcType=VARCHAR},
-      </if>
-      <if test="appsecret != null">
-        #{appsecret,jdbcType=VARCHAR},
-      </if>
-      <if test="mchId != null">
-        #{mchId,jdbcType=VARCHAR},
-      </if>
-      <if test="note != null">
-        #{note,jdbcType=VARCHAR},
-      </if>
-      <if test="limitAmount != null">
-        #{limitAmount,jdbcType=BIGINT},
-      </if>
-      <if test="channelName != null">
-        #{channelName,jdbcType=VARCHAR},
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
       </if>
       <if test="ctime != null">
         #{ctime,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -198,29 +159,14 @@
       <if test="record.code != null">
         code = #{record.code,jdbcType=VARCHAR},
       </if>
-      <if test="record.url != null">
-        url = #{record.url,jdbcType=VARCHAR},
-      </if>
-      <if test="record.appid != null">
-        appid = #{record.appid,jdbcType=VARCHAR},
-      </if>
-      <if test="record.appsecret != null">
-        appSecret = #{record.appsecret,jdbcType=VARCHAR},
-      </if>
-      <if test="record.mchId != null">
-        mch_id = #{record.mchId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.note != null">
-        note = #{record.note,jdbcType=VARCHAR},
-      </if>
-      <if test="record.limitAmount != null">
-        limit_amount = #{record.limitAmount,jdbcType=BIGINT},
-      </if>
-      <if test="record.channelName != null">
-        channel_name = #{record.channelName,jdbcType=VARCHAR},
+      <if test="record.name != null">
+        `name` = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.ctime != null">
         ctime = #{record.ctime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.note != null">
+        note = #{record.note,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -231,14 +177,9 @@
     <!-- @mbg.generated: generated automatically, do not modify! -->
     update pay_channel
     set code = #{record.code,jdbcType=VARCHAR},
-      url = #{record.url,jdbcType=VARCHAR},
-      appid = #{record.appid,jdbcType=VARCHAR},
-      appSecret = #{record.appsecret,jdbcType=VARCHAR},
-      mch_id = #{record.mchId,jdbcType=VARCHAR},
-      note = #{record.note,jdbcType=VARCHAR},
-      limit_amount = #{record.limitAmount,jdbcType=BIGINT},
-      channel_name = #{record.channelName,jdbcType=VARCHAR},
-      ctime = #{record.ctime,jdbcType=VARCHAR}
+      `name` = #{record.name,jdbcType=VARCHAR},
+      ctime = #{record.ctime,jdbcType=VARCHAR},
+      note = #{record.note,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -247,29 +188,14 @@
     <!-- @mbg.generated: generated automatically, do not modify! -->
     update pay_channel
     <set>
-      <if test="url != null">
-        url = #{url,jdbcType=VARCHAR},
-      </if>
-      <if test="appid != null">
-        appid = #{appid,jdbcType=VARCHAR},
-      </if>
-      <if test="appsecret != null">
-        appSecret = #{appsecret,jdbcType=VARCHAR},
-      </if>
-      <if test="mchId != null">
-        mch_id = #{mchId,jdbcType=VARCHAR},
-      </if>
-      <if test="note != null">
-        note = #{note,jdbcType=VARCHAR},
-      </if>
-      <if test="limitAmount != null">
-        limit_amount = #{limitAmount,jdbcType=BIGINT},
-      </if>
-      <if test="channelName != null">
-        channel_name = #{channelName,jdbcType=VARCHAR},
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
       </if>
       <if test="ctime != null">
         ctime = #{ctime,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null">
+        note = #{note,jdbcType=VARCHAR},
       </if>
     </set>
     where code = #{code,jdbcType=VARCHAR}
@@ -277,14 +203,9 @@
   <update id="updateByPrimaryKey" parameterType="cj.netos.gateway.wallet.model.PayChannel">
     <!-- @mbg.generated: generated automatically, do not modify! -->
     update pay_channel
-    set url = #{url,jdbcType=VARCHAR},
-      appid = #{appid,jdbcType=VARCHAR},
-      appSecret = #{appsecret,jdbcType=VARCHAR},
-      mch_id = #{mchId,jdbcType=VARCHAR},
-      note = #{note,jdbcType=VARCHAR},
-      limit_amount = #{limitAmount,jdbcType=BIGINT},
-      channel_name = #{channelName,jdbcType=VARCHAR},
-      ctime = #{ctime,jdbcType=VARCHAR}
+    set `name` = #{name,jdbcType=VARCHAR},
+      ctime = #{ctime,jdbcType=VARCHAR},
+      note = #{note,jdbcType=VARCHAR}
     where code = #{code,jdbcType=VARCHAR}
   </update>
     <select id="page" parameterType="cj.netos.gateway.wallet.model.PayChannel" resultMap="BaseResultMap">

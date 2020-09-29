@@ -11,51 +11,22 @@ public class PayChannel {
     private String code;
 
     /**
-     * Column: url
-     * Remark: 渠道的服务地址
+     * Column: name
+     * Remark: 渠道的名称，如支付宝、微信、网联卡等
      */
-    private String url;
+    private String name;
 
     /**
-     * Column: appid
-     * Remark: 渠道给的aped
+     * Column: ctime
+     * Remark: 注册时间
      */
-    private String appid;
-
-    /**
-     * Column: appSecret
-     * Remark: 渠道给的密钥
-     */
-    private String appsecret;
-
-    /**
-     * Column: mch_id
-     * Remark: 商户号
-     */
-    private String mchId;
+    private String ctime;
 
     /**
      * Column: note
      * Remark: 备注
      */
     private String note;
-
-    /**
-     * Column: limit_amount
-     * Remark: 渠道限额
-     */
-    private Long limitAmount;
-
-    /**
-     * Column: channel_name
-     * Remark: 支付渠道名称
-     */
-    private String channelName;
-
-    /**
-     * Column: ctime
-     */
-    private String ctime;
 
     public String getCode() {
         return code;
@@ -65,60 +36,12 @@ public class PayChannel {
         this.code = code == null ? null : code.trim();
     }
 
-    public String getUrl() {
-        return url;
+    public String getName() {
+        return name;
     }
 
-    public void setUrl(String url) {
-        this.url = url == null ? null : url.trim();
-    }
-
-    public String getAppid() {
-        return appid;
-    }
-
-    public void setAppid(String appid) {
-        this.appid = appid == null ? null : appid.trim();
-    }
-
-    public String getAppsecret() {
-        return appsecret;
-    }
-
-    public void setAppsecret(String appsecret) {
-        this.appsecret = appsecret == null ? null : appsecret.trim();
-    }
-
-    public String getMchId() {
-        return mchId;
-    }
-
-    public void setMchId(String mchId) {
-        this.mchId = mchId == null ? null : mchId.trim();
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note == null ? null : note.trim();
-    }
-
-    public Long getLimitAmount() {
-        return limitAmount;
-    }
-
-    public void setLimitAmount(Long limitAmount) {
-        this.limitAmount = limitAmount;
-    }
-
-    public String getChannelName() {
-        return channelName;
-    }
-
-    public void setChannelName(String channelName) {
-        this.channelName = channelName == null ? null : channelName.trim();
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
     }
 
     public String getCtime() {
@@ -127,5 +50,13 @@ public class PayChannel {
 
     public void setCtime(String ctime) {
         this.ctime = ctime == null ? null : ctime.trim();
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note == null ? null : note.trim();
     }
 }

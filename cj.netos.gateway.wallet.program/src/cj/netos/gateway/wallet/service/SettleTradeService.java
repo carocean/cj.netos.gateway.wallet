@@ -70,7 +70,7 @@ public class SettleTradeService implements ISettleTradeService {
                     put("command", "recharge");
                     put("person", record.getPerson());
                     put("record_sn", record.getSn());
-                    put("channelCode", record.getFromChannel());
+                    put("channelCode", record.getPayAccount());
                 }})
                 .build();
         RechargeBO rechargeBO = RechargeBO.create(record);

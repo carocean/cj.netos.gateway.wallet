@@ -26,7 +26,7 @@ public class RechargeActivityController implements IRechargeActivityController {
 
     @CjTransaction
     @Override
-    public RechargeRecord doReceipt(String principal, String personName, String currency, long amount, PayChannel payChannel, String note) {
+    public RechargeRecord doReceipt(String principal, String personName, String currency, long amount, PayChannel payChannel, String note) throws CircuitException {
         RechargeRecord record = receiptTradeService.recharge(principal, personName, currency, amount, payChannel, note);
         return record;
     }

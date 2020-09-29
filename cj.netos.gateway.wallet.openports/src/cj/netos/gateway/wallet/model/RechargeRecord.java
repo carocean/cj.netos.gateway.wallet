@@ -41,10 +41,22 @@ public class RechargeRecord {
     private Long realAmount;
 
     /**
-     * Column: from_channel
-     * Remark: 从什么渠道充值，关联渠道id
+     * Column: to_channel_account
+     * Remark: 支付到平台的哪个渠道账户，关联渠道账户id 根据pay_channel选择其下的平台收款渠道账户
      */
-    private String fromChannel;
+    private String toChannelAccount;
+
+    /**
+     * Column: pay_channel
+     * Remark: 付款渠道，即充值方式，如支付宝，银联
+     */
+    private String payChannel;
+
+    /**
+     * Column: pay_account
+     * Remark: 付款的账户，可能为空，如支付宝付款者为个人账户是记录不到的；但在网联方式下可以记录下用户从哪个银行卡付的款，因此将来接网联还需要建立用户-银行卡绑定表
+     */
+    private String payAccount;
 
     /**
      * Column: state
@@ -81,12 +93,6 @@ public class RechargeRecord {
      * Remark: 备注
      */
     private String note;
-
-    /**
-     * Column: channel_name
-     * Remark: 渠道名
-     */
-    private String channelName;
 
     public String getSn() {
         return sn;
@@ -136,12 +142,28 @@ public class RechargeRecord {
         this.realAmount = realAmount;
     }
 
-    public String getFromChannel() {
-        return fromChannel;
+    public String getToChannelAccount() {
+        return toChannelAccount;
     }
 
-    public void setFromChannel(String fromChannel) {
-        this.fromChannel = fromChannel == null ? null : fromChannel.trim();
+    public void setToChannelAccount(String toChannelAccount) {
+        this.toChannelAccount = toChannelAccount == null ? null : toChannelAccount.trim();
+    }
+
+    public String getPayChannel() {
+        return payChannel;
+    }
+
+    public void setPayChannel(String payChannel) {
+        this.payChannel = payChannel == null ? null : payChannel.trim();
+    }
+
+    public String getPayAccount() {
+        return payAccount;
+    }
+
+    public void setPayAccount(String payAccount) {
+        this.payAccount = payAccount == null ? null : payAccount.trim();
     }
 
     public Integer getState() {
@@ -190,13 +212,5 @@ public class RechargeRecord {
 
     public void setNote(String note) {
         this.note = note == null ? null : note.trim();
-    }
-
-    public String getChannelName() {
-        return channelName;
-    }
-
-    public void setChannelName(String channelName) {
-        this.channelName = channelName == null ? null : channelName.trim();
     }
 }
