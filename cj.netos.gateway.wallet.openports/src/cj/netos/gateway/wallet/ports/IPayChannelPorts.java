@@ -1,6 +1,7 @@
 package cj.netos.gateway.wallet.ports;
 
 import cj.netos.gateway.wallet.model.ChannelAccount;
+import cj.netos.gateway.wallet.model.PayChannel;
 import cj.netos.gateway.wallet.result.PayChannelResult;
 import cj.studio.ecm.net.CircuitException;
 import cj.studio.openport.IOpenportService;
@@ -24,6 +25,11 @@ public interface IPayChannelPorts extends IOpenportService {
                        @CjOpenportParameter(usage = "渠道代码，如alipay,wechat", name = "code") String code,
                        @CjOpenportParameter(usage = "渠道名", name = "name") String name,
                        @CjOpenportParameter(usage = "备注", name = "note") String note
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "移除渠道")
+    PayChannel getPayChannel(ISecuritySession securitySession,
+                             @CjOpenportParameter(usage = "渠道代码", name = "code") String code
     ) throws CircuitException;
 
     @CjOpenport(usage = "移除渠道")

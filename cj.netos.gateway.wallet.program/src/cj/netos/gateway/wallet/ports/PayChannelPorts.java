@@ -41,6 +41,11 @@ public class PayChannelPorts implements IPayChannelPorts {
     }
 
     @Override
+    public PayChannel getPayChannel(ISecuritySession securitySession, String code) throws CircuitException {
+        return payChannelService.getPayChannel(code);
+    }
+
+    @Override
     public List<PayChannelResult> pagePayChannel(ISecuritySession securitySession, int limit, long offset) throws CircuitException {
 //        _checkRights(securitySession);
         List<PayChannel> list = payChannelService.pagePayChannel(limit, offset);
