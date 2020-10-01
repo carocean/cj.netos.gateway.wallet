@@ -33,6 +33,7 @@
         <mapper resource="cj/db/mappings/PayChannelMapper.xml"/>
         <mapper resource="cj/db/mappings/ChannelAccountMapper.xml"/>
         <mapper resource="cj/db/mappings/ChannelBillMapper.xml"/>
+        <mapper resource="cj/db/mappings/PersonCardMapper.xml"/>
         <mapper resource="cj/db/mappings/WithdrawFromMapper.xml"/>
         <mapper resource="cj/db/mappings/RechargeRecordMapper.xml"/>
         <mapper resource="cj/db/mappings/WenyExchangeRecordMapper.xml"/>

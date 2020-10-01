@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cj.netos.gateway.wallet.mapper.PersonCardMapper">
+  <resultMap id="BaseResultMap" type="cj.netos.gateway.wallet.model.PersonCard">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="person" jdbcType="VARCHAR" property="person" />
+    <result column="card_sn" jdbcType="VARCHAR" property="cardSn" />
+    <result column="card_holder" jdbcType="VARCHAR" property="cardHolder" />
+    <result column="card_attr_bank" jdbcType="VARCHAR" property="cardAttrBank" />
+    <result column="card_pub_bank" jdbcType="VARCHAR" property="cardPubBank" />
+    <result column="card_type" jdbcType="INTEGER" property="cardType" />
+    <result column="card_phone" jdbcType="VARCHAR" property="cardPhone" />
+    <result column="pay_channel" jdbcType="VARCHAR" property="payChannel" />
+    <result column="pay_pwd" jdbcType="VARCHAR" property="payPwd" />
+    <result column="ctime" jdbcType="VARCHAR" property="ctime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    id, person, card_sn, card_holder, card_attr_bank, card_pub_bank, card_type, card_phone, 
+    pay_channel, pay_pwd, ctime
+  </sql>
+  <select id="selectByExample" parameterType="cj.netos.gateway.wallet.model.PersonCardExample" resultMap="BaseResultMap">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from person_card
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    select 
+    <include refid="Base_Column_List" />
+    from person_card
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    delete from person_card
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cj.netos.gateway.wallet.model.PersonCardExample">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    delete from person_card
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cj.netos.gateway.wallet.model.PersonCard">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    insert into person_card (id, person, card_sn, 
+      card_holder, card_attr_bank, card_pub_bank, 
+      card_type, card_phone, pay_channel, 
+      pay_pwd, ctime)
+    values (#{id,jdbcType=VARCHAR}, #{person,jdbcType=VARCHAR}, #{cardSn,jdbcType=VARCHAR}, 
+      #{cardHolder,jdbcType=VARCHAR}, #{cardAttrBank,jdbcType=VARCHAR}, #{cardPubBank,jdbcType=VARCHAR}, 
+      #{cardType,jdbcType=INTEGER}, #{cardPhone,jdbcType=VARCHAR}, #{payChannel,jdbcType=VARCHAR}, 
+      #{payPwd,jdbcType=VARCHAR}, #{ctime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cj.netos.gateway.wallet.model.PersonCard">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    insert into person_card
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="person != null">
+        person,
+      </if>
+      <if test="cardSn != null">
+        card_sn,
+      </if>
+      <if test="cardHolder != null">
+        card_holder,
+      </if>
+      <if test="cardAttrBank != null">
+        card_attr_bank,
+      </if>
+      <if test="cardPubBank != null">
+        card_pub_bank,
+      </if>
+      <if test="cardType != null">
+        card_type,
+      </if>
+      <if test="cardPhone != null">
+        card_phone,
+      </if>
+      <if test="payChannel != null">
+        pay_channel,
+      </if>
+      <if test="payPwd != null">
+        pay_pwd,
+      </if>
+      <if test="ctime != null">
+        ctime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="person != null">
+        #{person,jdbcType=VARCHAR},
+      </if>
+      <if test="cardSn != null">
+        #{cardSn,jdbcType=VARCHAR},
+      </if>
+      <if test="cardHolder != null">
+        #{cardHolder,jdbcType=VARCHAR},
+      </if>
+      <if test="cardAttrBank != null">
+        #{cardAttrBank,jdbcType=VARCHAR},
+      </if>
+      <if test="cardPubBank != null">
+        #{cardPubBank,jdbcType=VARCHAR},
+      </if>
+      <if test="cardType != null">
+        #{cardType,jdbcType=INTEGER},
+      </if>
+      <if test="cardPhone != null">
+        #{cardPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="payChannel != null">
+        #{payChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="payPwd != null">
+        #{payPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null">
+        #{ctime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cj.netos.gateway.wallet.model.PersonCardExample" resultType="java.lang.Long">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    select count(*) from person_card
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    update person_card
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.person != null">
+        person = #{record.person,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardSn != null">
+        card_sn = #{record.cardSn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardHolder != null">
+        card_holder = #{record.cardHolder,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardAttrBank != null">
+        card_attr_bank = #{record.cardAttrBank,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardPubBank != null">
+        card_pub_bank = #{record.cardPubBank,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardType != null">
+        card_type = #{record.cardType,jdbcType=INTEGER},
+      </if>
+      <if test="record.cardPhone != null">
+        card_phone = #{record.cardPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payChannel != null">
+        pay_channel = #{record.payChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payPwd != null">
+        pay_pwd = #{record.payPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctime != null">
+        ctime = #{record.ctime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    update person_card
+    set id = #{record.id,jdbcType=VARCHAR},
+      person = #{record.person,jdbcType=VARCHAR},
+      card_sn = #{record.cardSn,jdbcType=VARCHAR},
+      card_holder = #{record.cardHolder,jdbcType=VARCHAR},
+      card_attr_bank = #{record.cardAttrBank,jdbcType=VARCHAR},
+      card_pub_bank = #{record.cardPubBank,jdbcType=VARCHAR},
+      card_type = #{record.cardType,jdbcType=INTEGER},
+      card_phone = #{record.cardPhone,jdbcType=VARCHAR},
+      pay_channel = #{record.payChannel,jdbcType=VARCHAR},
+      pay_pwd = #{record.payPwd,jdbcType=VARCHAR},
+      ctime = #{record.ctime,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cj.netos.gateway.wallet.model.PersonCard">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    update person_card
+    <set>
+      <if test="person != null">
+        person = #{person,jdbcType=VARCHAR},
+      </if>
+      <if test="cardSn != null">
+        card_sn = #{cardSn,jdbcType=VARCHAR},
+      </if>
+      <if test="cardHolder != null">
+        card_holder = #{cardHolder,jdbcType=VARCHAR},
+      </if>
+      <if test="cardAttrBank != null">
+        card_attr_bank = #{cardAttrBank,jdbcType=VARCHAR},
+      </if>
+      <if test="cardPubBank != null">
+        card_pub_bank = #{cardPubBank,jdbcType=VARCHAR},
+      </if>
+      <if test="cardType != null">
+        card_type = #{cardType,jdbcType=INTEGER},
+      </if>
+      <if test="cardPhone != null">
+        card_phone = #{cardPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="payChannel != null">
+        pay_channel = #{payChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="payPwd != null">
+        pay_pwd = #{payPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null">
+        ctime = #{ctime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cj.netos.gateway.wallet.model.PersonCard">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    update person_card
+    set person = #{person,jdbcType=VARCHAR},
+      card_sn = #{cardSn,jdbcType=VARCHAR},
+      card_holder = #{cardHolder,jdbcType=VARCHAR},
+      card_attr_bank = #{cardAttrBank,jdbcType=VARCHAR},
+      card_pub_bank = #{cardPubBank,jdbcType=VARCHAR},
+      card_type = #{cardType,jdbcType=INTEGER},
+      card_phone = #{cardPhone,jdbcType=VARCHAR},
+      pay_channel = #{payChannel,jdbcType=VARCHAR},
+      pay_pwd = #{payPwd,jdbcType=VARCHAR},
+      ctime = #{ctime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="pagePersonCard" parameterType="cj.netos.gateway.wallet.model.PersonCard" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from person_card
+    where person = #{person,jdbcType=VARCHAR}
+    order by ctime desc
+    limit #{offset},#{limit}
+  </select>
+</mapper>

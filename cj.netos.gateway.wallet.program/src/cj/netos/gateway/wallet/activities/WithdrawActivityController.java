@@ -32,8 +32,8 @@ public class WithdrawActivityController implements IWithdrawActivityController {
 
     @CjTransaction
     @Override
-    public WithdrawRecord doReceipt(String principal, String personName, long amount, String payChannelID, String note) throws CircuitException {
-        WithdrawRecord record = receiptTradeService.withdraw(principal, personName, amount, payChannelID, note);
+    public WithdrawRecord doReceipt(String principal, String personName, long amount, String payChannelID,String personCard, String note) throws CircuitException {
+        WithdrawRecord record = receiptTradeService.withdraw(principal, personName, amount, payChannelID,personCard, note);
         AMQP.BasicProperties properties = new AMQP.BasicProperties().builder()
                 .type("/trade/receipt.mhub")
                 .headers(new HashMap<String, Object>() {{

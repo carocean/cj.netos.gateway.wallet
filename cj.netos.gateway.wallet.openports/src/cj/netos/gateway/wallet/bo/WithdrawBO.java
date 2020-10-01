@@ -41,10 +41,17 @@ public class WithdrawBO {
     private Long realAmount;
 
     /**
-     * Column: to_channel
-     * Remark: 提现到渠道
+     * Column: pay_channel
+     * Remark: 出款渠道，即提现方式，为yongyu字段，与公众账户对应，如提现到个人支付宝，个人微信，银联
      */
-    private String toChannel;
+    private String payChannel;
+
+    /**
+     * Column: person_card
+     * Remark: 出款公众卡 可能为空，如支付宝收款者为个人账户是记录不到的；但在网联方式下可以记录下用户收款到其哪个银行卡，因此将来接网联还需要建立用户-银行卡绑定表
+     */
+    private String personCard;
+
 
     /**
      * Column: state
@@ -134,12 +141,20 @@ public class WithdrawBO {
         this.realAmount = realAmount;
     }
 
-    public String getToChannel() {
-        return toChannel;
+    public String getPayChannel() {
+        return payChannel;
     }
 
-    public void setToChannel(String toChannel) {
-        this.toChannel = toChannel == null ? null : toChannel.trim();
+    public void setPayChannel(String payChannel) {
+        this.payChannel = payChannel;
+    }
+
+    public String getPersonCard() {
+        return personCard;
+    }
+
+    public void setPersonCard(String personCard) {
+        this.personCard = personCard;
     }
 
     public Integer getState() {

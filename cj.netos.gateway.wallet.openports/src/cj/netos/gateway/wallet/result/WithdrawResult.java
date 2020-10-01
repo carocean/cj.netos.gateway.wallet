@@ -6,7 +6,16 @@ public class WithdrawResult {
     String status;
     String message;
     String payChannel;
+    String personCard;
     Object record;
+
+    public String getPersonCard() {
+        return personCard;
+    }
+
+    public void setPersonCard(String personCard) {
+        this.personCard = personCard;
+    }
 
     public String getPayChannel() {
         return payChannel;

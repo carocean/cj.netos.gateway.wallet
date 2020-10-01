@@ -100,7 +100,8 @@ public class SettleTradeService implements ISettleTradeService {
                     put("command", "withdraw");
                     put("person", record.getPerson());
                     put("record_sn", record.getSn());
-                    put("channelCode", record.getToChannel());
+                    put("channelCode", record.getPayChannel());
+                    put("personCard", record.getPersonCard());
                 }})
                 .build();
         WithdrawBO withdrawBO = WithdrawBO.create(record);

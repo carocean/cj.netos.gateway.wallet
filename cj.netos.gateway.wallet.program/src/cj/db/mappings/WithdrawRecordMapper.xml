@@ -9,8 +9,8 @@
     <result column="currency" jdbcType="VARCHAR" property="currency" />
     <result column="demand_amount" jdbcType="BIGINT" property="demandAmount" />
     <result column="real_amount" jdbcType="BIGINT" property="realAmount" />
-    <result column="to_channel" jdbcType="VARCHAR" property="toChannel" />
-    <result column="to_account" jdbcType="VARCHAR" property="toAccount" />
+    <result column="pay_channel" jdbcType="VARCHAR" property="payChannel" />
+    <result column="person_card" jdbcType="VARCHAR" property="personCard" />
     <result column="state" jdbcType="INTEGER" property="state" />
     <result column="ctime" jdbcType="VARCHAR" property="ctime" />
     <result column="lutime" jdbcType="VARCHAR" property="lutime" />
@@ -80,7 +80,7 @@
   </sql>
   <sql id="Base_Column_List">
     <!-- @mbg.generated: generated automatically, do not modify! -->
-    sn, person, person_name, currency, demand_amount, real_amount, to_channel, to_account, 
+    sn, person, person_name, currency, demand_amount, real_amount, pay_channel, person_card, 
     `state`, ctime, lutime, note, `status`, message
   </sql>
   <select id="selectByExample" parameterType="cj.netos.gateway.wallet.model.WithdrawRecordExample" resultMap="BaseResultMap">
@@ -121,12 +121,12 @@
     <!-- @mbg.generated: generated automatically, do not modify! -->
     insert into withdraw_record (sn, person, person_name, 
       currency, demand_amount, real_amount, 
-      to_channel, to_account, `state`, 
+      pay_channel, person_card, `state`, 
       ctime, lutime, note, 
       `status`, message)
     values (#{sn,jdbcType=VARCHAR}, #{person,jdbcType=VARCHAR}, #{personName,jdbcType=VARCHAR}, 
       #{currency,jdbcType=VARCHAR}, #{demandAmount,jdbcType=BIGINT}, #{realAmount,jdbcType=BIGINT}, 
-      #{toChannel,jdbcType=VARCHAR}, #{toAccount,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
+      #{payChannel,jdbcType=VARCHAR}, #{personCard,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
       #{ctime,jdbcType=VARCHAR}, #{lutime,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, 
       #{status,jdbcType=INTEGER}, #{message,jdbcType=VARCHAR})
   </insert>
@@ -152,11 +152,11 @@
       <if test="realAmount != null">
         real_amount,
       </if>
-      <if test="toChannel != null">
-        to_channel,
+      <if test="payChannel != null">
+        pay_channel,
       </if>
-      <if test="toAccount != null">
-        to_account,
+      <if test="personCard != null">
+        person_card,
       </if>
       <if test="state != null">
         `state`,
@@ -196,11 +196,11 @@
       <if test="realAmount != null">
         #{realAmount,jdbcType=BIGINT},
       </if>
-      <if test="toChannel != null">
-        #{toChannel,jdbcType=VARCHAR},
+      <if test="payChannel != null">
+        #{payChannel,jdbcType=VARCHAR},
       </if>
-      <if test="toAccount != null">
-        #{toAccount,jdbcType=VARCHAR},
+      <if test="personCard != null">
+        #{personCard,jdbcType=VARCHAR},
       </if>
       <if test="state != null">
         #{state,jdbcType=INTEGER},
@@ -251,11 +251,11 @@
       <if test="record.realAmount != null">
         real_amount = #{record.realAmount,jdbcType=BIGINT},
       </if>
-      <if test="record.toChannel != null">
-        to_channel = #{record.toChannel,jdbcType=VARCHAR},
+      <if test="record.payChannel != null">
+        pay_channel = #{record.payChannel,jdbcType=VARCHAR},
       </if>
-      <if test="record.toAccount != null">
-        to_account = #{record.toAccount,jdbcType=VARCHAR},
+      <if test="record.personCard != null">
+        person_card = #{record.personCard,jdbcType=VARCHAR},
       </if>
       <if test="record.state != null">
         `state` = #{record.state,jdbcType=INTEGER},
@@ -289,8 +289,8 @@
       currency = #{record.currency,jdbcType=VARCHAR},
       demand_amount = #{record.demandAmount,jdbcType=BIGINT},
       real_amount = #{record.realAmount,jdbcType=BIGINT},
-      to_channel = #{record.toChannel,jdbcType=VARCHAR},
-      to_account = #{record.toAccount,jdbcType=VARCHAR},
+      pay_channel = #{record.payChannel,jdbcType=VARCHAR},
+      person_card = #{record.personCard,jdbcType=VARCHAR},
       `state` = #{record.state,jdbcType=INTEGER},
       ctime = #{record.ctime,jdbcType=VARCHAR},
       lutime = #{record.lutime,jdbcType=VARCHAR},
@@ -320,11 +320,11 @@
       <if test="realAmount != null">
         real_amount = #{realAmount,jdbcType=BIGINT},
       </if>
-      <if test="toChannel != null">
-        to_channel = #{toChannel,jdbcType=VARCHAR},
+      <if test="payChannel != null">
+        pay_channel = #{payChannel,jdbcType=VARCHAR},
       </if>
-      <if test="toAccount != null">
-        to_account = #{toAccount,jdbcType=VARCHAR},
+      <if test="personCard != null">
+        person_card = #{personCard,jdbcType=VARCHAR},
       </if>
       <if test="state != null">
         `state` = #{state,jdbcType=INTEGER},
@@ -355,8 +355,8 @@
       currency = #{currency,jdbcType=VARCHAR},
       demand_amount = #{demandAmount,jdbcType=BIGINT},
       real_amount = #{realAmount,jdbcType=BIGINT},
-      to_channel = #{toChannel,jdbcType=VARCHAR},
-      to_account = #{toAccount,jdbcType=VARCHAR},
+      pay_channel = #{payChannel,jdbcType=VARCHAR},
+      person_card = #{personCard,jdbcType=VARCHAR},
       `state` = #{state,jdbcType=INTEGER},
       ctime = #{ctime,jdbcType=VARCHAR},
       lutime = #{lutime,jdbcType=VARCHAR},

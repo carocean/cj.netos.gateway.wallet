@@ -120,7 +120,7 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
     }
 
     @Override
-    public WithdrawResult withdraw(ISecuritySession securitySession, long amount, String payChannelID, String note) throws CircuitException {
+    public WithdrawResult withdraw(ISecuritySession securitySession, long amount, String payChannelID,String personCard, String note) throws CircuitException {
         if (amount < 0) {
             throw new CircuitException("500", "金额为负数");
         }
@@ -129,7 +129,7 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
         }
         Map<String, Object> personInfo = personService.getPersonInfo((String) securitySession.property("accessToken"));
         String personName = (String) personInfo.get("nickName");
-        WithdrawRecord record = withdrawActivityController.doReceipt(securitySession.principal(), personName, amount, payChannelID, note);
+        WithdrawRecord record = withdrawActivityController.doReceipt(securitySession.principal(), personName, amount, payChannelID,personCard, note);
         return new Gson().fromJson(new Gson().toJson(record), WithdrawResult.class);
     }
 

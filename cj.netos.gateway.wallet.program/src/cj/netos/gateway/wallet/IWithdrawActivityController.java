@@ -6,7 +6,7 @@ import cj.studio.ecm.net.CircuitException;
 import cj.studio.orm.mybatis.annotation.CjTransaction;
 
 public interface IWithdrawActivityController {
-    WithdrawRecord doReceipt(String principal, String personName, long amount, String payChannelID, String note) throws CircuitException;
+    WithdrawRecord doReceipt(String principal, String personName, long amount, String payChannelID,String personCard, String note) throws CircuitException;
 
     void settle(String principal, String sn, long amount, String code, String message) throws CircuitException;
 

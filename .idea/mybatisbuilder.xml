@@ -105,7 +105,7 @@
             <TableInfo>
               <option name="database" value="netos.wallet.main" />
               <option name="domainName" value="ChannelAccount" />
-              <option name="tableComment" value="渠道账户，用于记录充值和提现的余额&#10;目的是采用复试记账，池内外对账平衡。&#10;由于提现充值都是从第三方渠道决清的，因此平台账户应放到网关，以核息内部后续的决清过程是否有出错" />
+              <option name="tableComment" value="平台收款渠道账户，用于记录充值和提现的余额&#10;目的是采用复试记账，池内外对账平衡。&#10;由于提现充值都是从第三方渠道决清的，因此平台账户应放到网关，以核息内部后续的决清过程是否有出错&#10;&#10;采用最小金额命中策略&#10;" />
               <option name="tableName" value="channel_account" />
             </TableInfo>
           </value>
@@ -205,7 +205,7 @@
             <TableInfo>
               <option name="database" value="netos.wallet.main" />
               <option name="domainName" value="PayChannel" />
-              <option name="tableComment" value="支付渠道&#10;用户配置的支付渠道" />
+              <option name="tableComment" value="支付渠道&#10;用于平台收付款。即向平台账户收支的渠道。对应其渠道账户是收支的配置信息&#10;如：微信、支付宝、银联在线(chinapay)" />
               <option name="tableName" value="pay_channel" />
             </TableInfo>
           </value>
@@ -227,6 +227,26 @@
               <option name="domainName" value="PayRecord" />
               <option name="tableComment" value="支付记录单" />
               <option name="tableName" value="pay_record" />
+            </TableInfo>
+          </value>
+        </entry>
+        <entry key="netos.wallet.main#person_account">
+          <value>
+            <TableInfo>
+              <option name="database" value="netos.wallet.main" />
+              <option name="domainName" value="PersonAccount" />
+              <option name="tableComment" value="表示公众个人真实账户&#10;如：个人支付宝账户、个人微信账户、银行卡等&#10;银行卡信息有：持卡人、卡号、卡类型、手机号&#10;&#10;说明：系统假设支付宝和微信用户的个人账户就是一张卡，跟银联的卡一样" />
+              <option name="tableName" value="person_account" />
+            </TableInfo>
+          </value>
+        </entry>
+        <entry key="netos.wallet.main#person_card">
+          <value>
+            <TableInfo>
+              <option name="database" value="netos.wallet.main" />
+              <option name="domainName" value="PersonCard" />
+              <option name="tableComment" value="公众卡片，在我系统中虚拟为卡&#10;如：个人支付宝账户、个人微信账户、银行卡等&#10;银行卡信息有：持卡人、卡号、卡类型、手机号&#10;&#10;说明：系统假设支付宝和微信用户的个人账户就是一张卡，跟银联的卡一样" />
+              <option name="tableName" value="person_card" />
             </TableInfo>
           </value>
         </entry>

@@ -537,143 +537,143 @@ public class WithdrawRecordExample {
             return (Criteria) this;
         }
 
-        public Criteria andToChannelIsNull() {
-            addCriterion("to_channel is null");
+        public Criteria andPayChannelIsNull() {
+            addCriterion("pay_channel is null");
             return (Criteria) this;
         }
 
-        public Criteria andToChannelIsNotNull() {
-            addCriterion("to_channel is not null");
+        public Criteria andPayChannelIsNotNull() {
+            addCriterion("pay_channel is not null");
             return (Criteria) this;
         }
 
-        public Criteria andToChannelEqualTo(String value) {
-            addCriterion("to_channel =", value, "toChannel");
+        public Criteria andPayChannelEqualTo(String value) {
+            addCriterion("pay_channel =", value, "payChannel");
             return (Criteria) this;
         }
 
-        public Criteria andToChannelNotEqualTo(String value) {
-            addCriterion("to_channel <>", value, "toChannel");
+        public Criteria andPayChannelNotEqualTo(String value) {
+            addCriterion("pay_channel <>", value, "payChannel");
             return (Criteria) this;
         }
 
-        public Criteria andToChannelGreaterThan(String value) {
-            addCriterion("to_channel >", value, "toChannel");
+        public Criteria andPayChannelGreaterThan(String value) {
+            addCriterion("pay_channel >", value, "payChannel");
             return (Criteria) this;
         }
 
-        public Criteria andToChannelGreaterThanOrEqualTo(String value) {
-            addCriterion("to_channel >=", value, "toChannel");
+        public Criteria andPayChannelGreaterThanOrEqualTo(String value) {
+            addCriterion("pay_channel >=", value, "payChannel");
             return (Criteria) this;
         }
 
-        public Criteria andToChannelLessThan(String value) {
-            addCriterion("to_channel <", value, "toChannel");
+        public Criteria andPayChannelLessThan(String value) {
+            addCriterion("pay_channel <", value, "payChannel");
             return (Criteria) this;
         }
 
-        public Criteria andToChannelLessThanOrEqualTo(String value) {
-            addCriterion("to_channel <=", value, "toChannel");
+        public Criteria andPayChannelLessThanOrEqualTo(String value) {
+            addCriterion("pay_channel <=", value, "payChannel");
             return (Criteria) this;
         }
 
-        public Criteria andToChannelLike(String value) {
-            addCriterion("to_channel like", value, "toChannel");
+        public Criteria andPayChannelLike(String value) {
+            addCriterion("pay_channel like", value, "payChannel");
             return (Criteria) this;
         }
 
-        public Criteria andToChannelNotLike(String value) {
-            addCriterion("to_channel not like", value, "toChannel");
+        public Criteria andPayChannelNotLike(String value) {
+            addCriterion("pay_channel not like", value, "payChannel");
             return (Criteria) this;
         }
 
-        public Criteria andToChannelIn(List<String> values) {
-            addCriterion("to_channel in", values, "toChannel");
+        public Criteria andPayChannelIn(List<String> values) {
+            addCriterion("pay_channel in", values, "payChannel");
             return (Criteria) this;
         }
 
-        public Criteria andToChannelNotIn(List<String> values) {
-            addCriterion("to_channel not in", values, "toChannel");
+        public Criteria andPayChannelNotIn(List<String> values) {
+            addCriterion("pay_channel not in", values, "payChannel");
             return (Criteria) this;
         }
 
-        public Criteria andToChannelBetween(String value1, String value2) {
-            addCriterion("to_channel between", value1, value2, "toChannel");
+        public Criteria andPayChannelBetween(String value1, String value2) {
+            addCriterion("pay_channel between", value1, value2, "payChannel");
             return (Criteria) this;
         }
 
-        public Criteria andToChannelNotBetween(String value1, String value2) {
-            addCriterion("to_channel not between", value1, value2, "toChannel");
+        public Criteria andPayChannelNotBetween(String value1, String value2) {
+            addCriterion("pay_channel not between", value1, value2, "payChannel");
             return (Criteria) this;
         }
 
-        public Criteria andToAccountIsNull() {
-            addCriterion("to_account is null");
+        public Criteria andPersonCardIsNull() {
+            addCriterion("person_card is null");
             return (Criteria) this;
         }
 
-        public Criteria andToAccountIsNotNull() {
-            addCriterion("to_account is not null");
+        public Criteria andPersonCardIsNotNull() {
+            addCriterion("person_card is not null");
             return (Criteria) this;
         }
 
-        public Criteria andToAccountEqualTo(String value) {
-            addCriterion("to_account =", value, "toAccount");
+        public Criteria andPersonCardEqualTo(String value) {
+            addCriterion("person_card =", value, "personCard");
             return (Criteria) this;
         }
 
-        public Criteria andToAccountNotEqualTo(String value) {
-            addCriterion("to_account <>", value, "toAccount");
+        public Criteria andPersonCardNotEqualTo(String value) {
+            addCriterion("person_card <>", value, "personCard");
             return (Criteria) this;
         }
 
-        public Criteria andToAccountGreaterThan(String value) {
-            addCriterion("to_account >", value, "toAccount");
+        public Criteria andPersonCardGreaterThan(String value) {
+            addCriterion("person_card >", value, "personCard");
             return (Criteria) this;
         }
 
-        public Criteria andToAccountGreaterThanOrEqualTo(String value) {
-            addCriterion("to_account >=", value, "toAccount");
+        public Criteria andPersonCardGreaterThanOrEqualTo(String value) {
+            addCriterion("person_card >=", value, "personCard");
             return (Criteria) this;
         }
 
-        public Criteria andToAccountLessThan(String value) {
-            addCriterion("to_account <", value, "toAccount");
+        public Criteria andPersonCardLessThan(String value) {
+            addCriterion("person_card <", value, "personCard");
             return (Criteria) this;
         }
 
-        public Criteria andToAccountLessThanOrEqualTo(String value) {
-            addCriterion("to_account <=", value, "toAccount");
+        public Criteria andPersonCardLessThanOrEqualTo(String value) {
+            addCriterion("person_card <=", value, "personCard");
             return (Criteria) this;
         }
 
-        public Criteria andToAccountLike(String value) {
-            addCriterion("to_account like", value, "toAccount");
+        public Criteria andPersonCardLike(String value) {
+            addCriterion("person_card like", value, "personCard");
             return (Criteria) this;
         }
 
-        public Criteria andToAccountNotLike(String value) {
-            addCriterion("to_account not like", value, "toAccount");
+        public Criteria andPersonCardNotLike(String value) {
+            addCriterion("person_card not like", value, "personCard");
             return (Criteria) this;
         }
 
-        public Criteria andToAccountIn(List<String> values) {
-            addCriterion("to_account in", values, "toAccount");
+        public Criteria andPersonCardIn(List<String> values) {
+            addCriterion("person_card in", values, "personCard");
             return (Criteria) this;
         }
 
-        public Criteria andToAccountNotIn(List<String> values) {
-            addCriterion("to_account not in", values, "toAccount");
+        public Criteria andPersonCardNotIn(List<String> values) {
+            addCriterion("person_card not in", values, "personCard");
             return (Criteria) this;
         }
 
-        public Criteria andToAccountBetween(String value1, String value2) {
-            addCriterion("to_account between", value1, value2, "toAccount");
+        public Criteria andPersonCardBetween(String value1, String value2) {
+            addCriterion("person_card between", value1, value2, "personCard");
             return (Criteria) this;
         }
 
-        public Criteria andToAccountNotBetween(String value1, String value2) {
-            addCriterion("to_account not between", value1, value2, "toAccount");
+        public Criteria andPersonCardNotBetween(String value1, String value2) {
+            addCriterion("person_card not between", value1, value2, "personCard");
             return (Criteria) this;
         }
 

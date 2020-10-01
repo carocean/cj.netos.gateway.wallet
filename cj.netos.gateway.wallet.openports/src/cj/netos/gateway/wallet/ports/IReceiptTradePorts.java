@@ -27,6 +27,7 @@ public interface IReceiptTradePorts extends IOpenportService {
     WithdrawResult withdraw(ISecuritySession securitySession,
                             @CjOpenportParameter(usage = "提现金额,单位为分", name = "amount") long amount,
                             @CjOpenportParameter(usage = "提现到指定的渠道号", name = "payChannelID") String payChannelID,
+                            @CjOpenportParameter(usage = "提现的目标公众卡号", name = "personCard") String personCard,
                             @CjOpenportParameter(usage = "备注", name = "note") String note
     ) throws CircuitException;
 //

@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 public interface IReceiptTradeService {
     RechargeRecord recharge(String principal, String personName, String currency, long amount, PayChannel payChannel, String note) throws CircuitException;
 
-    WithdrawRecord withdraw(String principal, String personName, long amount, String payChannelID, String note) throws CircuitException;
+    WithdrawRecord withdraw(String principal, String personName, long amount, String payChannelID,String personCard, String note) throws CircuitException;
 
     WenyPurchRecord purchaseWeny(String principal, String personName, String wenyBankID, long amount,String outTradeType, String outTradeSn, String note) throws CircuitException;
 

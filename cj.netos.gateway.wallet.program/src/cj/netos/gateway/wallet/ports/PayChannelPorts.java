@@ -2,10 +2,13 @@ package cj.netos.gateway.wallet.ports;
 
 import cj.netos.gateway.wallet.IChannelAccountService;
 import cj.netos.gateway.wallet.IPayChannelService;
+import cj.netos.gateway.wallet.IPersonCardService;
 import cj.netos.gateway.wallet.bo.PayChannelBO;
 import cj.netos.gateway.wallet.model.ChannelAccount;
 import cj.netos.gateway.wallet.model.PayChannel;
+import cj.netos.gateway.wallet.model.PersonCard;
 import cj.netos.gateway.wallet.result.PayChannelResult;
+import cj.netos.gateway.wallet.util.IdWorker;
 import cj.netos.gateway.wallet.util.WalletUtils;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
@@ -27,6 +30,8 @@ public class PayChannelPorts implements IPayChannelPorts {
     IPayChannelService payChannelService;
     @CjServiceRef
     IChannelAccountService channelAccountService;
+    @CjServiceRef
+    IPersonCardService personCardService;
 
     private void _checkRights(ISecuritySession securitySession) throws CircuitException {
         if (!securitySession.roleIn("platform:administrators") && !securitySession.roleIn("tenant:administrators")) {
@@ -77,6 +82,52 @@ public class PayChannelPorts implements IPayChannelPorts {
         channel.setName(name);
         channel.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         payChannelService.addPayChannel(channel);
+    }
+
+    @Override
+    public void addPersonCard(ISecuritySession securitySession, String cardSn, String cardHolder, String cardArriBank, String cardPubBank, int cardType, String cardPhone, String payChannel, String payPwd) throws CircuitException {
+        if (StringUtil.isEmpty(cardSn)) {
+            throw new CircuitException("404", "cardSn 参数为空");
+        }
+        if (StringUtil.isEmpty(cardHolder)) {
+            throw new CircuitException("404", "cardHolder 参数为空");
+        }
+        if (personCardService.existsCardBySn(securitySession.principal(), cardSn)) {
+            throw new CircuitException("500", "用户名下已存在该卡:" + cardSn);
+        }
+        PersonCard card = new PersonCard();
+        card.setCardAttrBank(cardArriBank);
+        card.setCardHolder(cardHolder);
+        card.setCardPhone(cardPhone);
+        card.setCardPubBank(cardPubBank);
+        card.setCardType(cardType);
+        card.setCardSn(cardSn);
+        card.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        card.setId(new IdWorker().nextId());
+        card.setPayChannel(payChannel);
+        card.setPayPwd(payPwd);
+        card.setPerson(securitySession.principal());
+        personCardService.addPersonCard(card);
+    }
+
+    @Override
+    public PersonCard getPersonCard(ISecuritySession securitySession, String id) throws CircuitException {
+        return personCardService.getPersonCard(securitySession.principal(), id);
+    }
+
+    @Override
+    public long totalPersonCard(ISecuritySession securitySession) throws CircuitException {
+        return personCardService.totalPersonCard(securitySession.principal());
+    }
+
+    @Override
+    public List<PersonCard> pagePersonCard(ISecuritySession securitySession, int limit, long offset) throws CircuitException {
+        return personCardService.pagePersonCard(securitySession.principal(), limit, offset);
+    }
+
+    @Override
+    public void removePersonCard(ISecuritySession securitySession, String id) throws CircuitException {
+        personCardService.removePersonCard(securitySession.principal(), id);
     }
 
     @Override

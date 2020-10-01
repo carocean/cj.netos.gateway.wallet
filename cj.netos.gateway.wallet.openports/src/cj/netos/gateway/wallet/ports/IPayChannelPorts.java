@@ -2,6 +2,7 @@ package cj.netos.gateway.wallet.ports;
 
 import cj.netos.gateway.wallet.model.ChannelAccount;
 import cj.netos.gateway.wallet.model.PayChannel;
+import cj.netos.gateway.wallet.model.PersonCard;
 import cj.netos.gateway.wallet.result.PayChannelResult;
 import cj.studio.ecm.net.CircuitException;
 import cj.studio.openport.IOpenportService;
@@ -43,6 +44,43 @@ public interface IPayChannelPorts extends IOpenportService {
                                           @CjOpenportParameter(usage = "偏移位置", name = "offset") long offset
     ) throws CircuitException;
 
+    @CjOpenport(usage = "添加公众卡")
+    void addPersonCard(ISecuritySession securitySession,
+                       @CjOpenportParameter(usage = "卡号", name = "cardSn") String cardSn,
+                       @CjOpenportParameter(usage = "持卡人", name = "cardHolder") String cardHolder,
+                       @CjOpenportParameter(usage = "卡归属行", name = "cardArriBank") String cardArriBank,
+                       @CjOpenportParameter(usage = "开户行", name = "cardPubBank") String cardPubBank,
+                       @CjOpenportParameter(usage = "卡类型：0- 储蓄卡\n" +
+                               "1- 信用卡\n" +
+                               "2- 积分卡", name = "cardType") int cardType,
+                       @CjOpenportParameter(usage = "开户手机号", name = "cardPhone") String cardPhone,
+                       @CjOpenportParameter(usage = "公众账户的支付渠道\n" +
+                               "0 chinapay银联（表示为银行卡账户）\n" +
+                               "1 alipay支付宝（个人的支付宝账户）\n" +
+                               "2 wechatpay 微信（个人的微信账户）", name = "cardPhone") String payChannel,
+                       @CjOpenportParameter(usage = "支付密码，如果有", name = "payPwd") String payPwd
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "获取公众卡")
+    PersonCard getPersonCard(ISecuritySession securitySession,
+                             @CjOpenportParameter(usage = "公众卡标识", name = "id") String id
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "获取公众卡")
+    long totalPersonCard(ISecuritySession securitySession
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "分页查询访问者的所有公众卡")
+    List<PersonCard> pagePersonCard(ISecuritySession securitySession,
+                                    @CjOpenportParameter(usage = "页大小", name = "limit") int limit,
+                                    @CjOpenportParameter(usage = "偏移位置", name = "offset") long offset
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "获取公众卡")
+    void removePersonCard(ISecuritySession securitySession,
+                          @CjOpenportParameter(usage = "公众卡标识", name = "id") String id
+    ) throws CircuitException;
+
     @CjOpenport(usage = "添加渠道账户")
     void addAccount(ISecuritySession securitySession,
                     @CjOpenportParameter(usage = "渠道代码", name = "channel") String channel,
@@ -65,7 +103,7 @@ public interface IPayChannelPorts extends IOpenportService {
 
     @CjOpenport(usage = "获取渠道账户")
     ChannelAccount getAccount(ISecuritySession securitySession,
-                       @CjOpenportParameter(usage = "渠道账户标识", name = "accountid") String accountid
+                              @CjOpenportParameter(usage = "渠道账户标识", name = "accountid") String accountid
     ) throws CircuitException;
 
     @CjOpenport(usage = "分页指定渠道下的账户")

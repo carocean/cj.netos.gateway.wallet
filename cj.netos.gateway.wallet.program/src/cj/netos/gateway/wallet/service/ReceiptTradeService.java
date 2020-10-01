@@ -109,11 +109,12 @@ public class ReceiptTradeService implements IReceiptTradeService {
 
     @CjTransaction
     @Override
-    public WithdrawRecord withdraw(String principal, String personName, long amount, String payChannelID, String note) throws CircuitException {
+    public WithdrawRecord withdraw(String principal, String personName, long amount, String payChannelID, String personCard, String note) throws CircuitException {
         WithdrawRecord record = new WithdrawRecord();
         record.setDemandAmount(amount);
         record.setCurrency("CNY");
-        record.setToChannel(payChannelID);
+        record.setPayChannel(payChannelID);
+        record.setPersonCard(personCard);
         record.setPerson(principal);
         record.setState(0);
         record.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
