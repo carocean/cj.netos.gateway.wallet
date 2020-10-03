@@ -365,4 +365,15 @@
     order by key_pubtime desc
     limit #{offset},#{limit}
   </select>
+  <select id="totalBalanceByChannel" parameterType="cj.netos.gateway.wallet.model.ChannelAccount" resultType="java.lang.Long">
+    select
+    coalesce(sum(balance_amount),0)
+    from channel_account
+    where channel = #{channel,jdbcType=VARCHAR}
+  </select>
+  <select id="totalAllChannelBalance" parameterType="cj.netos.gateway.wallet.model.ChannelAccount" resultType="java.lang.Long">
+    select
+      coalesce(sum(balance_amount),0)
+    from channel_account
+  </select>
 </mapper>

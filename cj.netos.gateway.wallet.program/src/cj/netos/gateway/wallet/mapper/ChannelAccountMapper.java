@@ -65,4 +65,8 @@ public interface ChannelAccountMapper {
     List<ChannelAccount> pageAccountOfChannel(@Param("channel") String channel, @Param("limit") int limit, @Param("offset") long offset);
 
     List<ChannelAccount> pageAccount(@Param("limit") int limit, @Param("offset") long offset);
+
+    long totalBalanceByChannel(@Param("channel") String channel);
+
+    long totalAllChannelBalance();
 }

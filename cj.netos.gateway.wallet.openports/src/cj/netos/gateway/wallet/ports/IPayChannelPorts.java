@@ -118,4 +118,9 @@ public interface IPayChannelPorts extends IOpenportService {
                                      @CjOpenportParameter(usage = "页大小", name = "limit") int limit,
                                      @CjOpenportParameter(usage = "偏移位置", name = "offset") long offset
     ) throws CircuitException;
+
+    @CjOpenport(usage = "统计总账")
+    long totalAccountBalance(ISecuritySession securitySession,
+                             @CjOpenportParameter(usage = "渠道代码，如果为空表示统计所有渠道", name = "channel") String channel
+    ) throws CircuitException;
 }

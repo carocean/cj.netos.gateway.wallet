@@ -300,7 +300,7 @@ public class RecordService implements IRecordService {
     @Override
     public RechargeRecord getRechargeRecord(String principal, String record_sn) {
         RechargeRecordExample example = new RechargeRecordExample();
-        example.createCriteria().andSnEqualTo(record_sn).andPersonEqualTo(principal);
+        example.createCriteria().andSnEqualTo(record_sn);
         List<RechargeRecord> list = rechargeRecordMapper.selectByExample(example);
         if (list.isEmpty()) {
             return null;
@@ -318,7 +318,7 @@ public class RecordService implements IRecordService {
     @Override
     public WithdrawRecord getWithdrawRecord(String principal, String record_sn) {
         WithdrawRecordExample example = new WithdrawRecordExample();
-        example.createCriteria().andSnEqualTo(record_sn).andPersonEqualTo(principal);
+        example.createCriteria().andSnEqualTo(record_sn);
         List<WithdrawRecord> list = withdrawRecordMapper.selectByExample(example);
         if (list.isEmpty()) {
             return null;

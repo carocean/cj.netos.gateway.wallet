@@ -7,6 +7,7 @@ import cj.studio.ecm.annotation.CjBridge;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
 import cj.studio.orm.mybatis.annotation.CjTransaction;
+import cj.ultimate.util.StringUtil;
 
 import java.util.List;
 
@@ -44,5 +45,14 @@ public class ChannelAccountService implements IChannelAccountService {
     @Override
     public List<ChannelAccount> pageAccount(int limit, long offset) {
         return channelAccountMapper.pageAccount(limit, offset);
+    }
+
+    @CjTransaction
+    @Override
+    public long totalAccountBalance(String channel) {
+        if (!StringUtil.isEmpty(channel)) {
+            return channelAccountMapper.totalBalanceByChannel(channel);
+        }
+        return channelAccountMapper.totalAllChannelBalance();
     }
 }

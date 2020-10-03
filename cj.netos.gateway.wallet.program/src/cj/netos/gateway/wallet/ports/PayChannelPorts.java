@@ -183,6 +183,12 @@ public class PayChannelPorts implements IPayChannelPorts {
     }
 
     @Override
+    public long totalAccountBalance(ISecuritySession securitySession, String channel) throws CircuitException {
+        _checkRights(securitySession);
+        return channelAccountService.totalAccountBalance(channel);
+    }
+
+    @Override
     public void config(ISecuritySession securitySession, String data) throws CircuitException {
         _checkRights(securitySession);
         if (StringUtil.isEmpty(data)) {

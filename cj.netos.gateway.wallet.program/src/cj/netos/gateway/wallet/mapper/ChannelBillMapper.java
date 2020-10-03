@@ -2,7 +2,9 @@ package cj.netos.gateway.wallet.mapper;
 
 import cj.netos.gateway.wallet.model.ChannelBill;
 import cj.netos.gateway.wallet.model.ChannelBillExample;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface ChannelBillMapper {
@@ -61,4 +63,16 @@ public interface ChannelBillMapper {
      * @mbg.generated generated automatically, do not modify!
      */
     int updateByPrimaryKey(ChannelBill record);
+
+    List<ChannelBill> pageBill(@Param(value = "limit") int limit, @Param(value = "offset") long offset);
+
+    List<ChannelBill> monthBill(@Param(value = "year") int year, @Param(value = "month") int month, @Param(value = "limit") int limit, @Param(value = "offset") long offset);
+
+    long totalMonthBill(@Param(value = "order") int order, @Param(value = "year") int year, @Param(value = "month") int month);
+
+    List<ChannelBill> pageBillByAccount(@Param(value = "channelAccount") String channelAccount, @Param(value = "limit") int limit, @Param(value = "offset") long offset);
+
+    List<ChannelBill> monthBillByAccount(@Param(value = "channelAccount") String channelAccount, @Param(value = "year") int year, @Param(value = "month") int month, @Param(value = "limit") int limit, @Param(value = "offset") long offset);
+
+    long totalMonthBillByAccount(@Param(value = "channelAccount") String channelAccount, @Param(value = "order") int order, @Param(value = "year") int year, @Param(value = "month") int month);
 }
