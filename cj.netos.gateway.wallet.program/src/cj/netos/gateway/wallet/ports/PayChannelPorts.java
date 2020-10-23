@@ -131,7 +131,7 @@ public class PayChannelPorts implements IPayChannelPorts {
     }
 
     @Override
-    public void addAccount(ISecuritySession securitySession, String channel, String appid, String serviceUrl, String notifyUrl, String publicKey, String privateKey, String keyPubtime, long keyExpire, int weight, long limitAmount, String note) throws CircuitException {
+    public void addAccount(ISecuritySession securitySession, String channel, String appid, String serviceUrl, String notifyUrl, int useCert, String publicKey, String privateKey, String certPath1, String certPath2, String certPath3, String certPath4, String keyPubtime, long keyExpire, int weight, long limitAmount, String note) throws CircuitException {
         _checkRights(securitySession);
         if (StringUtil.isEmpty(channel)) {
             throw new CircuitException("404", "channel 参数为空");
@@ -155,6 +155,11 @@ public class PayChannelPorts implements IPayChannelPorts {
         account.setNote(note);
         account.setServiceUrl(serviceUrl);
         account.setNotifyUrl(notifyUrl);
+        account.setUseCert(useCert);
+        account.setCertPath1(certPath1);
+        account.setCertPath2(certPath2);
+        account.setCertPath3(certPath3);
+        account.setCertPath4(certPath4);
         channelAccountService.addAccount(account);
     }
 
