@@ -108,7 +108,11 @@ public class RecordService implements IRecordService {
         if (msg.length() > 250) {
             msg = msg.substring(0, 250);
         }
-        withdrawRecordMapper.update(result.getSn(), Integer.valueOf(result.getStatus()), msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        if ("200".equals(result.getStatus())) {
+            withdrawRecordMapper.update(result.getSn(), Integer.valueOf(result.getStatus()), msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        }else{
+            withdrawRecordMapper.done(result.getSn(), Integer.valueOf(result.getStatus()), msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        }
         WithdrawActivity withdrawActivity = new WithdrawActivity();
         withdrawActivity.setActivityName("系统预扣款完成");
         withdrawActivity.setActivityNo(1);
@@ -162,11 +166,9 @@ public class RecordService implements IRecordService {
     @CjTransaction
     @Override
     public void ackCancelPreDeductFromPayChannel(WithdrawResult result) {
-        String msg = result.getMessage();
-        if (msg.length() > 250) {
-            msg = msg.substring(0, 250);
-        }
-        withdrawRecordMapper.update(result.getSn(), Integer.valueOf(result.getStatus()), msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        String msg = "渠道预扣款异常撤销完成";
+        int status=500;
+        withdrawRecordMapper.done(result.getSn(), status, msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         WithdrawActivity withdrawActivity = new WithdrawActivity();
         withdrawActivity.setActivityName("渠道预扣款异常撤销完成");
         withdrawActivity.setActivityNo(4);
@@ -174,7 +176,7 @@ public class RecordService implements IRecordService {
         withdrawActivity.setId(new IdWorker().nextId());
         withdrawActivity.setMessage(msg);
         withdrawActivity.setRecordSn(result.getSn());
-        withdrawActivity.setStatus(Integer.valueOf(result.getStatus()));
+        withdrawActivity.setStatus(status);
         withdrawActivityMapper.insert(withdrawActivity);
     }
 
