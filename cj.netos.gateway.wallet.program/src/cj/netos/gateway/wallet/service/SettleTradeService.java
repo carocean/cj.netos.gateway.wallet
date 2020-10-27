@@ -86,7 +86,7 @@ public class SettleTradeService implements ISettleTradeService {
         withdrawRecordMapper.settle(record.getSn(), amount, Integer.valueOf(code), message, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         WithdrawActivity withdrawActivity = new WithdrawActivity();
         withdrawActivity.setActivityName("决清中");
-        withdrawActivity.setActivityNo(1);
+        withdrawActivity.setActivityNo(3);
         withdrawActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         withdrawActivity.setId(new IdWorker().nextId());
         withdrawActivity.setMessage(message);

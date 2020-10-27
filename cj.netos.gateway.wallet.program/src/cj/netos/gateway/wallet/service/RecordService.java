@@ -1,6 +1,7 @@
 package cj.netos.gateway.wallet.service;
 
 import cj.netos.gateway.wallet.IRecordService;
+import cj.netos.gateway.wallet.PayChannelTransferResult;
 import cj.netos.gateway.wallet.bo.*;
 import cj.netos.gateway.wallet.mapper.*;
 import cj.netos.gateway.wallet.model.*;
@@ -109,8 +110,8 @@ public class RecordService implements IRecordService {
         }
         withdrawRecordMapper.update(result.getSn(), Integer.valueOf(result.getStatus()), msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         WithdrawActivity withdrawActivity = new WithdrawActivity();
-        withdrawActivity.setActivityName("预扣款完成");
-        withdrawActivity.setActivityNo(2);
+        withdrawActivity.setActivityName("系统预扣款完成");
+        withdrawActivity.setActivityNo(1);
         withdrawActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         withdrawActivity.setId(new IdWorker().nextId());
         withdrawActivity.setMessage(msg);
@@ -118,6 +119,63 @@ public class RecordService implements IRecordService {
         withdrawActivity.setStatus(Integer.valueOf(result.getStatus()));
         withdrawActivityMapper.insert(withdrawActivity);
 
+    }
+
+    @CjTransaction
+    @Override
+    public void successPreDeductFromPayChannel(PayChannelTransferResult result) {
+        String msg = result.getMessage();
+        if (msg.length() > 250) {
+            msg = msg.substring(0, 250);
+        }
+        withdrawRecordMapper.update(result.getRecordSn(), Integer.valueOf(result.getStatus()), msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        WithdrawActivity withdrawActivity = new WithdrawActivity();
+        withdrawActivity.setActivityName("渠道预扣款完成");
+        withdrawActivity.setActivityNo(2);
+        withdrawActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        withdrawActivity.setId(new IdWorker().nextId());
+        withdrawActivity.setMessage(msg);
+        withdrawActivity.setRecordSn(result.getRecordSn());
+        withdrawActivity.setStatus(Integer.valueOf(result.getStatus()));
+        withdrawActivityMapper.insert(withdrawActivity);
+    }
+
+    @CjTransaction
+    @Override
+    public void cancelPreDeductFromPayChannel(PayChannelTransferResult result) {
+        String msg = result.getMessage();
+        if (msg.length() > 250) {
+            msg = msg.substring(0, 250);
+        }
+        withdrawRecordMapper.update(result.getRecordSn(), Integer.valueOf(result.getStatus()), msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        WithdrawActivity withdrawActivity = new WithdrawActivity();
+        withdrawActivity.setActivityName("渠道预扣款异常撤销准备");
+        withdrawActivity.setActivityNo(3);
+        withdrawActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        withdrawActivity.setId(new IdWorker().nextId());
+        withdrawActivity.setMessage(msg);
+        withdrawActivity.setRecordSn(result.getRecordSn());
+        withdrawActivity.setStatus(Integer.valueOf(result.getStatus()));
+        withdrawActivityMapper.insert(withdrawActivity);
+    }
+
+    @CjTransaction
+    @Override
+    public void ackCancelPreDeductFromPayChannel(WithdrawResult result) {
+        String msg = result.getMessage();
+        if (msg.length() > 250) {
+            msg = msg.substring(0, 250);
+        }
+        withdrawRecordMapper.update(result.getSn(), Integer.valueOf(result.getStatus()), msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        WithdrawActivity withdrawActivity = new WithdrawActivity();
+        withdrawActivity.setActivityName("渠道预扣款异常撤销完成");
+        withdrawActivity.setActivityNo(4);
+        withdrawActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        withdrawActivity.setId(new IdWorker().nextId());
+        withdrawActivity.setMessage(msg);
+        withdrawActivity.setRecordSn(result.getSn());
+        withdrawActivity.setStatus(Integer.valueOf(result.getStatus()));
+        withdrawActivityMapper.insert(withdrawActivity);
     }
 
     @CjTransaction
@@ -130,7 +188,7 @@ public class RecordService implements IRecordService {
         withdrawRecordMapper.done(result.getSn(), Integer.valueOf(result.getStatus()), msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         WithdrawActivity withdrawActivity = new WithdrawActivity();
         withdrawActivity.setActivityName("已决清");
-        withdrawActivity.setActivityNo(3);
+        withdrawActivity.setActivityNo(4);
         withdrawActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         withdrawActivity.setId(new IdWorker().nextId());
         withdrawActivity.setMessage(msg);
@@ -319,6 +377,18 @@ public class RecordService implements IRecordService {
     public WithdrawRecord getWithdrawRecord(String principal, String record_sn) {
         WithdrawRecordExample example = new WithdrawRecordExample();
         example.createCriteria().andSnEqualTo(record_sn);
+        List<WithdrawRecord> list = withdrawRecordMapper.selectByExample(example);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
+
+    @CjTransaction
+    @Override
+    public WithdrawRecord getWithdrawRecordBySn(String sn) {
+        WithdrawRecordExample example = new WithdrawRecordExample();
+        example.createCriteria().andSnEqualTo(sn);
         List<WithdrawRecord> list = withdrawRecordMapper.selectByExample(example);
         if (list.isEmpty()) {
             return null;
@@ -797,6 +867,7 @@ public class RecordService implements IRecordService {
         example.createCriteria().andPrincipalEqualTo(principal).andActorEqualTo(actor);
         return p2pEvidenceMapper.countByExample(example);
     }
+
     @CjTransaction
     @Override
     public P2pEvidence getEvidence(String evidence) {

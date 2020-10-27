@@ -9,11 +9,14 @@ public interface IPersonCardService {
 
     void addPersonCard(PersonCard card);
 
-    PersonCard getPersonCard(String principal, String id);
+    PersonCard getPersonCardById(String principal, String id);
 
     List<PersonCard> pagePersonCard(String principal, int limit, long offset);
 
     void removePersonCard(String principal, String id);
 
     long totalPersonCard(String principal);
+
+    PersonCard getPersonCard(String principal, String payChannel);
+
 }

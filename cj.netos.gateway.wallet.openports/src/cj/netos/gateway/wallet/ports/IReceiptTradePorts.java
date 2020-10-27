@@ -2,6 +2,7 @@ package cj.netos.gateway.wallet.ports;
 
 import cj.netos.gateway.wallet.bo.PayDetailsBO;
 import cj.netos.gateway.wallet.model.P2pEvidence;
+import cj.netos.gateway.wallet.model.WithdrawRecord;
 import cj.netos.gateway.wallet.result.*;
 import cj.studio.ecm.net.CircuitException;
 import cj.studio.openport.AccessTokenIn;
@@ -24,9 +25,8 @@ public interface IReceiptTradePorts extends IOpenportService {
     ) throws CircuitException;
 
     @CjOpenport(usage = "提现下单")
-    WithdrawResult withdraw(ISecuritySession securitySession,
+    WithdrawRecord withdraw(ISecuritySession securitySession,
                             @CjOpenportParameter(usage = "提现金额,单位为分", name = "amount") long amount,
-                            @CjOpenportParameter(usage = "提现到指定的渠道号", name = "payChannelID") String payChannelID,
                             @CjOpenportParameter(usage = "提现的目标公众卡号", name = "personCard") String personCard,
                             @CjOpenportParameter(usage = "备注", name = "note") String note
     ) throws CircuitException;

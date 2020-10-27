@@ -4,11 +4,9 @@ import cj.netos.gateway.wallet.*;
 import cj.netos.gateway.wallet.bo.PayDetailsBO;
 import cj.netos.gateway.wallet.model.*;
 import cj.netos.gateway.wallet.result.*;
-import cj.netos.gateway.wallet.util.JwtUtil;
-import cj.studio.ecm.IServiceSite;
+import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
-import cj.studio.ecm.annotation.CjServiceSite;
 import cj.studio.ecm.net.CircuitException;
 import cj.studio.openport.ISecuritySession;
 import cj.ultimate.gson2.com.google.gson.Gson;
@@ -19,7 +17,6 @@ import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.domain.AlipayTradeAppPayModel;
 import com.alipay.api.request.AlipayTradeAppPayRequest;
 import com.alipay.api.response.AlipayTradeAppPayResponse;
-import io.jsonwebtoken.Claims;
 
 import java.util.Map;
 
@@ -57,7 +54,12 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
     IRecordService recordService;
 
     @CjServiceRef
-    IAlipay alipay;
+    IPersonCardService personCardService;
+
+    @CjServiceRef
+    IPayChannelFactory payChannelFactory;
+    @CjServiceRef
+    IChannelAccountSelector channelAccountSelector;
 
     public static void main(String[] args) {
         String APP_ID = "2021001198622080";
@@ -107,30 +109,34 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
         Map<String, Object> personInfo = personService.getPersonInfo((String) securitySession.property("accessToken"));
         String personName = (String) personInfo.get("nickName");
         RechargeRecord record = rechargeActivityController.doReceipt(securitySession.principal(), personName, currency, amount, payChannel, note);
-        String result = "";
-        switch (payChannelID) {
-            case "alipay":
-                result =alipay.pay(record);
-                break;
-            default:
-                throw new CircuitException("800", String.format("暂不支持支付渠道:%s", payChannel));
-        }
-
+        String result = payChannelFactory.pay(record);
         return result;
     }
 
     @Override
-    public WithdrawResult withdraw(ISecuritySession securitySession, long amount, String payChannelID,String personCard, String note) throws CircuitException {
+    public WithdrawRecord withdraw(ISecuritySession securitySession, long amount, String personCard, String note) throws CircuitException {
         if (amount < 0) {
             throw new CircuitException("500", "金额为负数");
         }
-        if (StringUtil.isEmpty(payChannelID)) {
-            throw new CircuitException("404", String.format("支付渠道为空"));
+        if (StringUtil.isEmpty(personCard)) {
+            throw new CircuitException("404", String.format("公众卡号为空"));
+        }
+        PersonCard card = personCardService.getPersonCardById(securitySession.principal(), personCard);
+        if (card == null) {
+            throw new CircuitException("404", String.format("不存在公众卡:%s", personCard));
         }
         Map<String, Object> personInfo = personService.getPersonInfo((String) securitySession.property("accessToken"));
         String personName = (String) personInfo.get("nickName");
-        WithdrawRecord record = withdrawActivityController.doReceipt(securitySession.principal(), personName, amount, payChannelID,personCard, note);
-        return new Gson().fromJson(new Gson().toJson(record), WithdrawResult.class);
+
+        ChannelAccount account = channelAccountSelector.selectEnoughAccount(amount, card.getPayChannel());
+        if (account == null) {
+            //为空表示渠道中没有足额资金即任何渠道的资金均没有符合本次提现金额的整金供提现，但为了避免用户的担忧，提示为系统错误
+            //注：暂不支付余额补提方案，余额补提指如果一个渠道账户不够本次提现金额，则将不够部分到另一个渠道账户中扣除，如仍不足则一直循环，直到所有账户用完，如仍不足则提现为余额不足失败。由于比较复杂，故而暂不按此实现
+            CJSystem.logging().error(getClass(), String.format("提现错误！所有渠道均没足额可提。要提的金额是：%s,提现人:%s,公众卡:%s", amount, securitySession.principal(), personCard));
+            throw new CircuitException("9001", String.format("系统错误，请稍后再提"));
+        }
+        WithdrawRecord record = withdrawActivityController.doReceipt(securitySession.principal(), personName, amount, account, card, note);
+        return record;
     }
 
     @Override

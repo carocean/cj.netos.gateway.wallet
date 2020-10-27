@@ -45,11 +45,18 @@ class PayChannel {
          */
         private String serviceUrl;
     
-        /**
-         * Column: notify_url
-         * Remark: 通知地址
-         */
-        private String notifyUrl;
+         /**
+             * Column: pay_notify_url
+             * Remark: 支付状态通知地址
+             */
+            private String payNotifyUrl;
+        
+            /**
+             * Column: trans_notify_url
+             * Remark: 转账状态通知地址
+             */
+            private String transNotifyUrl;
+
     
         /**
          * Column: key_pubtime
@@ -125,7 +132,8 @@ class PayChannel {
     {
       "appId": "",
       "serviceUrl": "",
-      "notifyUrl": "",
+      "payNotifyUrl": "",
+      "transNotifyUrl": "",
       "useCert": 0,
       "publicKey": "",
       "privateKey": "",

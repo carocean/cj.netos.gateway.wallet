@@ -47,8 +47,14 @@ public class WithdrawRecord {
     private String payChannel;
 
     /**
+     * Column: pay_account
+     * Remark: 付款的账户，可能为空，如支付宝付款者为个人账户是记录不到的；但在网联方式下可以记录下用户从哪个银行卡付的款，因此将来接网联还需要建立用户-银行卡绑定表
+     */
+    private String payAccount;
+
+    /**
      * Column: person_card
-     * Remark: 出款公众卡 可能为空，如支付宝收款者为个人账户是记录不到的；但在网联方式下可以记录下用户收款到其哪个银行卡，因此将来接网联还需要建立用户-银行卡绑定表
+     * Remark: 收款公众卡 
      */
     private String personCard;
 
@@ -141,6 +147,14 @@ public class WithdrawRecord {
 
     public void setPayChannel(String payChannel) {
         this.payChannel = payChannel == null ? null : payChannel.trim();
+    }
+
+    public String getPayAccount() {
+        return payAccount;
+    }
+
+    public void setPayAccount(String payAccount) {
+        this.payAccount = payAccount == null ? null : payAccount.trim();
     }
 
     public String getPersonCard() {

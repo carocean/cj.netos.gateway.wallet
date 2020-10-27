@@ -7,6 +7,8 @@
     <result column="person" jdbcType="VARCHAR" property="person" />
     <result column="card_sn" jdbcType="VARCHAR" property="cardSn" />
     <result column="card_holder" jdbcType="VARCHAR" property="cardHolder" />
+    <result column="card_name" jdbcType="VARCHAR" property="cardName" />
+    <result column="card_avatar" jdbcType="VARCHAR" property="cardAvatar" />
     <result column="card_attr_bank" jdbcType="VARCHAR" property="cardAttrBank" />
     <result column="card_pub_bank" jdbcType="VARCHAR" property="cardPubBank" />
     <result column="card_type" jdbcType="INTEGER" property="cardType" />
@@ -77,8 +79,8 @@
   </sql>
   <sql id="Base_Column_List">
     <!-- @mbg.generated: generated automatically, do not modify! -->
-    id, person, card_sn, card_holder, card_attr_bank, card_pub_bank, card_type, card_phone, 
-    pay_channel, pay_pwd, ctime
+    id, person, card_sn, card_holder, card_name, card_avatar, card_attr_bank, card_pub_bank, 
+    card_type, card_phone, pay_channel, pay_pwd, ctime
   </sql>
   <select id="selectByExample" parameterType="cj.netos.gateway.wallet.model.PersonCardExample" resultMap="BaseResultMap">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -117,13 +119,15 @@
   <insert id="insert" parameterType="cj.netos.gateway.wallet.model.PersonCard">
     <!-- @mbg.generated: generated automatically, do not modify! -->
     insert into person_card (id, person, card_sn, 
-      card_holder, card_attr_bank, card_pub_bank, 
-      card_type, card_phone, pay_channel, 
-      pay_pwd, ctime)
+      card_holder, card_name, card_avatar, 
+      card_attr_bank, card_pub_bank, card_type, 
+      card_phone, pay_channel, pay_pwd, 
+      ctime)
     values (#{id,jdbcType=VARCHAR}, #{person,jdbcType=VARCHAR}, #{cardSn,jdbcType=VARCHAR}, 
-      #{cardHolder,jdbcType=VARCHAR}, #{cardAttrBank,jdbcType=VARCHAR}, #{cardPubBank,jdbcType=VARCHAR}, 
-      #{cardType,jdbcType=INTEGER}, #{cardPhone,jdbcType=VARCHAR}, #{payChannel,jdbcType=VARCHAR}, 
-      #{payPwd,jdbcType=VARCHAR}, #{ctime,jdbcType=VARCHAR})
+      #{cardHolder,jdbcType=VARCHAR}, #{cardName,jdbcType=VARCHAR}, #{cardAvatar,jdbcType=VARCHAR}, 
+      #{cardAttrBank,jdbcType=VARCHAR}, #{cardPubBank,jdbcType=VARCHAR}, #{cardType,jdbcType=INTEGER}, 
+      #{cardPhone,jdbcType=VARCHAR}, #{payChannel,jdbcType=VARCHAR}, #{payPwd,jdbcType=VARCHAR}, 
+      #{ctime,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cj.netos.gateway.wallet.model.PersonCard">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -140,6 +144,12 @@
       </if>
       <if test="cardHolder != null">
         card_holder,
+      </if>
+      <if test="cardName != null">
+        card_name,
+      </if>
+      <if test="cardAvatar != null">
+        card_avatar,
       </if>
       <if test="cardAttrBank != null">
         card_attr_bank,
@@ -175,6 +185,12 @@
       </if>
       <if test="cardHolder != null">
         #{cardHolder,jdbcType=VARCHAR},
+      </if>
+      <if test="cardName != null">
+        #{cardName,jdbcType=VARCHAR},
+      </if>
+      <if test="cardAvatar != null">
+        #{cardAvatar,jdbcType=VARCHAR},
       </if>
       <if test="cardAttrBank != null">
         #{cardAttrBank,jdbcType=VARCHAR},
@@ -222,6 +238,12 @@
       <if test="record.cardHolder != null">
         card_holder = #{record.cardHolder,jdbcType=VARCHAR},
       </if>
+      <if test="record.cardName != null">
+        card_name = #{record.cardName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardAvatar != null">
+        card_avatar = #{record.cardAvatar,jdbcType=VARCHAR},
+      </if>
       <if test="record.cardAttrBank != null">
         card_attr_bank = #{record.cardAttrBank,jdbcType=VARCHAR},
       </if>
@@ -255,6 +277,8 @@
       person = #{record.person,jdbcType=VARCHAR},
       card_sn = #{record.cardSn,jdbcType=VARCHAR},
       card_holder = #{record.cardHolder,jdbcType=VARCHAR},
+      card_name = #{record.cardName,jdbcType=VARCHAR},
+      card_avatar = #{record.cardAvatar,jdbcType=VARCHAR},
       card_attr_bank = #{record.cardAttrBank,jdbcType=VARCHAR},
       card_pub_bank = #{record.cardPubBank,jdbcType=VARCHAR},
       card_type = #{record.cardType,jdbcType=INTEGER},
@@ -278,6 +302,12 @@
       </if>
       <if test="cardHolder != null">
         card_holder = #{cardHolder,jdbcType=VARCHAR},
+      </if>
+      <if test="cardName != null">
+        card_name = #{cardName,jdbcType=VARCHAR},
+      </if>
+      <if test="cardAvatar != null">
+        card_avatar = #{cardAvatar,jdbcType=VARCHAR},
       </if>
       <if test="cardAttrBank != null">
         card_attr_bank = #{cardAttrBank,jdbcType=VARCHAR},
@@ -309,6 +339,8 @@
     set person = #{person,jdbcType=VARCHAR},
       card_sn = #{cardSn,jdbcType=VARCHAR},
       card_holder = #{cardHolder,jdbcType=VARCHAR},
+      card_name = #{cardName,jdbcType=VARCHAR},
+      card_avatar = #{cardAvatar,jdbcType=VARCHAR},
       card_attr_bank = #{cardAttrBank,jdbcType=VARCHAR},
       card_pub_bank = #{cardPubBank,jdbcType=VARCHAR},
       card_type = #{cardType,jdbcType=INTEGER},

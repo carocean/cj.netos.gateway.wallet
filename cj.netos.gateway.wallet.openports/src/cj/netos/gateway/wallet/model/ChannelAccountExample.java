@@ -607,73 +607,143 @@ public class ChannelAccountExample {
             return (Criteria) this;
         }
 
-        public Criteria andNotifyUrlIsNull() {
-            addCriterion("notify_url is null");
+        public Criteria andPayNotifyUrlIsNull() {
+            addCriterion("pay_notify_url is null");
             return (Criteria) this;
         }
 
-        public Criteria andNotifyUrlIsNotNull() {
-            addCriterion("notify_url is not null");
+        public Criteria andPayNotifyUrlIsNotNull() {
+            addCriterion("pay_notify_url is not null");
             return (Criteria) this;
         }
 
-        public Criteria andNotifyUrlEqualTo(String value) {
-            addCriterion("notify_url =", value, "notifyUrl");
+        public Criteria andPayNotifyUrlEqualTo(String value) {
+            addCriterion("pay_notify_url =", value, "payNotifyUrl");
             return (Criteria) this;
         }
 
-        public Criteria andNotifyUrlNotEqualTo(String value) {
-            addCriterion("notify_url <>", value, "notifyUrl");
+        public Criteria andPayNotifyUrlNotEqualTo(String value) {
+            addCriterion("pay_notify_url <>", value, "payNotifyUrl");
             return (Criteria) this;
         }
 
-        public Criteria andNotifyUrlGreaterThan(String value) {
-            addCriterion("notify_url >", value, "notifyUrl");
+        public Criteria andPayNotifyUrlGreaterThan(String value) {
+            addCriterion("pay_notify_url >", value, "payNotifyUrl");
             return (Criteria) this;
         }
 
-        public Criteria andNotifyUrlGreaterThanOrEqualTo(String value) {
-            addCriterion("notify_url >=", value, "notifyUrl");
+        public Criteria andPayNotifyUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("pay_notify_url >=", value, "payNotifyUrl");
             return (Criteria) this;
         }
 
-        public Criteria andNotifyUrlLessThan(String value) {
-            addCriterion("notify_url <", value, "notifyUrl");
+        public Criteria andPayNotifyUrlLessThan(String value) {
+            addCriterion("pay_notify_url <", value, "payNotifyUrl");
             return (Criteria) this;
         }
 
-        public Criteria andNotifyUrlLessThanOrEqualTo(String value) {
-            addCriterion("notify_url <=", value, "notifyUrl");
+        public Criteria andPayNotifyUrlLessThanOrEqualTo(String value) {
+            addCriterion("pay_notify_url <=", value, "payNotifyUrl");
             return (Criteria) this;
         }
 
-        public Criteria andNotifyUrlLike(String value) {
-            addCriterion("notify_url like", value, "notifyUrl");
+        public Criteria andPayNotifyUrlLike(String value) {
+            addCriterion("pay_notify_url like", value, "payNotifyUrl");
             return (Criteria) this;
         }
 
-        public Criteria andNotifyUrlNotLike(String value) {
-            addCriterion("notify_url not like", value, "notifyUrl");
+        public Criteria andPayNotifyUrlNotLike(String value) {
+            addCriterion("pay_notify_url not like", value, "payNotifyUrl");
             return (Criteria) this;
         }
 
-        public Criteria andNotifyUrlIn(List<String> values) {
-            addCriterion("notify_url in", values, "notifyUrl");
+        public Criteria andPayNotifyUrlIn(List<String> values) {
+            addCriterion("pay_notify_url in", values, "payNotifyUrl");
             return (Criteria) this;
         }
 
-        public Criteria andNotifyUrlNotIn(List<String> values) {
-            addCriterion("notify_url not in", values, "notifyUrl");
+        public Criteria andPayNotifyUrlNotIn(List<String> values) {
+            addCriterion("pay_notify_url not in", values, "payNotifyUrl");
             return (Criteria) this;
         }
 
-        public Criteria andNotifyUrlBetween(String value1, String value2) {
-            addCriterion("notify_url between", value1, value2, "notifyUrl");
+        public Criteria andPayNotifyUrlBetween(String value1, String value2) {
+            addCriterion("pay_notify_url between", value1, value2, "payNotifyUrl");
             return (Criteria) this;
         }
 
-        public Criteria andNotifyUrlNotBetween(String value1, String value2) {
-            addCriterion("notify_url not between", value1, value2, "notifyUrl");
+        public Criteria andPayNotifyUrlNotBetween(String value1, String value2) {
+            addCriterion("pay_notify_url not between", value1, value2, "payNotifyUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransNotifyUrlIsNull() {
+            addCriterion("trans_notify_url is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransNotifyUrlIsNotNull() {
+            addCriterion("trans_notify_url is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransNotifyUrlEqualTo(String value) {
+            addCriterion("trans_notify_url =", value, "transNotifyUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransNotifyUrlNotEqualTo(String value) {
+            addCriterion("trans_notify_url <>", value, "transNotifyUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransNotifyUrlGreaterThan(String value) {
+            addCriterion("trans_notify_url >", value, "transNotifyUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransNotifyUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("trans_notify_url >=", value, "transNotifyUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransNotifyUrlLessThan(String value) {
+            addCriterion("trans_notify_url <", value, "transNotifyUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransNotifyUrlLessThanOrEqualTo(String value) {
+            addCriterion("trans_notify_url <=", value, "transNotifyUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransNotifyUrlLike(String value) {
+            addCriterion("trans_notify_url like", value, "transNotifyUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransNotifyUrlNotLike(String value) {
+            addCriterion("trans_notify_url not like", value, "transNotifyUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransNotifyUrlIn(List<String> values) {
+            addCriterion("trans_notify_url in", values, "transNotifyUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransNotifyUrlNotIn(List<String> values) {
+            addCriterion("trans_notify_url not in", values, "transNotifyUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransNotifyUrlBetween(String value1, String value2) {
+            addCriterion("trans_notify_url between", value1, value2, "transNotifyUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andTransNotifyUrlNotBetween(String value1, String value2) {
+            addCriterion("trans_notify_url not between", value1, value2, "transNotifyUrl");
             return (Criteria) this;
         }
 

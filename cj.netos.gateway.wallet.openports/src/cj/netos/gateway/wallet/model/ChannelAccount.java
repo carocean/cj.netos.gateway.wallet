@@ -46,10 +46,16 @@ public class ChannelAccount {
     private String serviceUrl;
 
     /**
-     * Column: notify_url
-     * Remark: 通知地址
+     * Column: pay_notify_url
+     * Remark: 支付状态通知地址
      */
-    private String notifyUrl;
+    private String payNotifyUrl;
+
+    /**
+     * Column: trans_notify_url
+     * Remark: 转账状态通知地址
+     */
+    private String transNotifyUrl;
 
     /**
      * Column: key_pubtime
@@ -167,12 +173,20 @@ public class ChannelAccount {
         this.serviceUrl = serviceUrl == null ? null : serviceUrl.trim();
     }
 
-    public String getNotifyUrl() {
-        return notifyUrl;
+    public String getPayNotifyUrl() {
+        return payNotifyUrl;
     }
 
-    public void setNotifyUrl(String notifyUrl) {
-        this.notifyUrl = notifyUrl == null ? null : notifyUrl.trim();
+    public void setPayNotifyUrl(String payNotifyUrl) {
+        this.payNotifyUrl = payNotifyUrl == null ? null : payNotifyUrl.trim();
+    }
+
+    public String getTransNotifyUrl() {
+        return transNotifyUrl;
+    }
+
+    public void setTransNotifyUrl(String transNotifyUrl) {
+        this.transNotifyUrl = transNotifyUrl == null ? null : transNotifyUrl.trim();
     }
 
     public String getKeyPubtime() {

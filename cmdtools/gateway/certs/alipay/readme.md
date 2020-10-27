@@ -1,0 +1,34 @@
+初始化支付宝渠道
+
+注：证书路径必须是在docker内的路径，一般为/gateway/certs/alipay/
+私钥在苹果账号中的-文稿-支付宝助手中
+
+注意：支付宝的支付能力的状态通知不需要配置应用网关也可通知，而其单笔转账能力必须在支付宝控制台配置应用网关，否则不会发送异步通知，如果还无效则需要在控制台看"消息"是否有转账订阅
+
+[
+    {
+        "code":"alipay",
+        "name":"支付宝",
+        "note":"",
+        "accounts":[
+            {
+                "appId":"2021001198622080",
+                "serviceUrl":"https://openapi.alipay.com/gateway.do",
+                "payNotifyUrl":"http://nodespower.com/payNotify/alipay/pay_notify.html",
+                "transNotifyUrl":"http://nodespower.com/payNotify/alipay/trans_notify.html",
+                "useCert":1,
+                "publicKey":"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhghIFitshhrmApxUEy7STrT5aoUL0FRiHkveaOAToX6+YhBBko35hv09onedxFhZOwikKVkvyLOb2D6ENqPlrBptY+oJNQiCrmNcz4TC+IiPrBeB5eP3HHgAs0mnLSpRcfSh7xj6wUaioAj4JYX5FBC+MtSTweQBDtWaPMJ+KdyL0E+3bkYhtS07RZtAqJmfL2dstwEWBd8Dx3gMZ/imR7bb8a8SEozrYrOdHwN72oGLZQ+fP1dbuJSGF8c6l3uihvFGUdHHn0kclJlr5HD9zWT1ISQJu5598Fh0J0qEXrQz0X2izJE/ahWPzldKBSBrAde5+NbA1XqoFd2CqymHoQIDAQAB",
+                "privateKey":"MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCGCEgWK2yGGuYCnFQTLtJOtPlqhQvQVGIeS95o4BOhfr5iEEGSjfmG/T2id53EWFk7CKQpWS/Is5vYPoQ2o+WsGm1j6gk1CIKuY1zPhML4iI+sF4Hl4/cceACzSactKlFx9KHvGPrBRqKgCPglhfkUEL4y1JPB5AEO1Zo8wn4p3IvQT7duRiG1LTtFm0ComZ8vZ2y3ARYF3wPHeAxn+KZHttvxrxISjOtis50fA3vagYtlD58/V1u4lIYXxzqXe6KG8UZR0cefSRyUmWvkcP3NZPUhJAm7nn3wWHQnSoRetDPRfaLMkT9qFY/OV0oFIGsB17n41sDVeqgV3YKrKYehAgMBAAECggEABAl/0lsge7GXuABpb+J7Jy/AS3sSbgX8ppj2bAZD0Rt2NJH0x6tLFsvN7XTY5a8bkPGjsDMlg1AVo5/Ob67kHhj1rorAGD7XYNVRWFbRYJcMbMyQdxI0wUDEFKJlTLD3nw0VS5RfCS9NerCKeObeJ8KRWAqbIL3zYjUA3k+laTFWKUlMq8T7yfOVa3nnlV4OXQZYerLjf3e/SyfXgooavwY+LyTgrUPa+1JtpLta/UrVlyMobADaOZ18D+apKPnfxqhfOdYlpm90UXO57CzSJ9SJPZS1uAeWnzT+WuQS55lnKSGAyRLvJWOXLicrwWli4rDRL7oMWDV4xT5m2f1QAQKBgQDUZoc6l9EhKkvEUKjSaKzjK5FYQSHDYoUtG9I8ZHaHukH5pTkNGIFFeWJ594iX8pGO+nN4w9dMNxIU/XoRSfMaTWLz3uFkuNG4jmIbzouP23XOnoPTv8z++h4iJvT94vb3bpEUKO3PWRx4l7jaVT7eE8ZUCuCCyDxDvg2MM1BBQQKBgQChi5JI0yFIRGm3ZyiAgAlM3RkP6mmK4CRPKUu5Zh6c+siBHR4dmTsUxRTWfTPbyA68nVmMhjqE8NFVK5XoP2SkKwMN8qGalvSR0MeazCNgX48LQtOoRU93Vj7JU8vTTMDEvyyiBGuk762KJfk6cLSkAQppOxg1+lVZW0qiHx9OYQKBgQC9zFy81BsRutz3sWgalWUgnrcDmTgVg30kIP9N7iwo/xyje6wucp5Zua1w9ew+c4j0rgLvgHlsZq2myhcBSgaNk2eAKsNYoPrvI3SyCnCV/XMZTnbYikUh99ljhVJZaS5tToUf8a8IIUYa0OFjYNeL1TndsdaLp2iK1FMA3H2zwQKBgBdNuQaEXnK8W7u3R+JxleXepzTijeMYvmQlAuV108i1bKMjfiqq5hjy7TSbzxVPYMDYughJfLucubXdmbxtGKmOAtzKOYHBcPpv8btk412Nq2bmdv35MaN3b4s/aVHL6qr3IQsmNBkQ8inRnIhPpd9avxO7EJ0IxbMkNjn4311BAoGARkeejNJCXn1dX6s7mtjQmTvx/3Nw5eV97IGGKlRMlaSoVxULZuRHs4W902eRamoQwOcQ2b/qIhO66NWOaak16PXGpfQnZTDjslzk0oaqKs90Vpghk25wc33GpWa4Q4OhznxWdfmc0Cu42NdzitUYcvVIE/XEApZrfpTeJfob25k=",
+                "certPath1":"/gateway/certs/alipay/appCertPublicKey_2021001198622080.crt",
+                "certPath2":"/gateway/certs/alipay/alipayCertPublicKey_RSA2.crt",
+                "certPath3":"/gateway/certs/alipay/alipayRootCert.crt",
+                "certPath4":"",
+                "keyPubtime":"20201023195432536",
+                "keyExpire":0,
+                "limitAmount":0,
+                "weight":1,
+                "note":""
+            }
+        ]
+    }
+]

@@ -2,12 +2,11 @@ package cj.netos.gateway.wallet.mapper;
 
 import cj.netos.gateway.wallet.model.PersonCard;
 import cj.netos.gateway.wallet.model.PersonCardExample;
-
 import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
 
 public interface PersonCardMapper {
+
     /**
      * @mbg.generated generated automatically, do not modify!
      */
@@ -64,5 +63,4 @@ public interface PersonCardMapper {
     int updateByPrimaryKey(PersonCard record);
 
     List<PersonCard> pagePersonCard(@Param(value = "person") String person, @Param(value = "limit") int limit, @Param(value = "offset") long offset);
-
 }

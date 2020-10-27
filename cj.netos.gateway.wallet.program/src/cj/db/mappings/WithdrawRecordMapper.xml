@@ -10,6 +10,7 @@
     <result column="demand_amount" jdbcType="BIGINT" property="demandAmount" />
     <result column="real_amount" jdbcType="BIGINT" property="realAmount" />
     <result column="pay_channel" jdbcType="VARCHAR" property="payChannel" />
+    <result column="pay_account" jdbcType="VARCHAR" property="payAccount" />
     <result column="person_card" jdbcType="VARCHAR" property="personCard" />
     <result column="state" jdbcType="INTEGER" property="state" />
     <result column="ctime" jdbcType="VARCHAR" property="ctime" />
@@ -80,8 +81,8 @@
   </sql>
   <sql id="Base_Column_List">
     <!-- @mbg.generated: generated automatically, do not modify! -->
-    sn, person, person_name, currency, demand_amount, real_amount, pay_channel, person_card, 
-    `state`, ctime, lutime, note, `status`, message
+    sn, person, person_name, currency, demand_amount, real_amount, pay_channel, pay_account, 
+    person_card, `state`, ctime, lutime, note, `status`, message
   </sql>
   <select id="selectByExample" parameterType="cj.netos.gateway.wallet.model.WithdrawRecordExample" resultMap="BaseResultMap">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -121,14 +122,16 @@
     <!-- @mbg.generated: generated automatically, do not modify! -->
     insert into withdraw_record (sn, person, person_name, 
       currency, demand_amount, real_amount, 
-      pay_channel, person_card, `state`, 
-      ctime, lutime, note, 
-      `status`, message)
+      pay_channel, pay_account, person_card, 
+      `state`, ctime, lutime, 
+      note, `status`, message
+      )
     values (#{sn,jdbcType=VARCHAR}, #{person,jdbcType=VARCHAR}, #{personName,jdbcType=VARCHAR}, 
       #{currency,jdbcType=VARCHAR}, #{demandAmount,jdbcType=BIGINT}, #{realAmount,jdbcType=BIGINT}, 
-      #{payChannel,jdbcType=VARCHAR}, #{personCard,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
-      #{ctime,jdbcType=VARCHAR}, #{lutime,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, 
-      #{status,jdbcType=INTEGER}, #{message,jdbcType=VARCHAR})
+      #{payChannel,jdbcType=VARCHAR}, #{payAccount,jdbcType=VARCHAR}, #{personCard,jdbcType=VARCHAR}, 
+      #{state,jdbcType=INTEGER}, #{ctime,jdbcType=VARCHAR}, #{lutime,jdbcType=VARCHAR}, 
+      #{note,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{message,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="cj.netos.gateway.wallet.model.WithdrawRecord">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -154,6 +157,9 @@
       </if>
       <if test="payChannel != null">
         pay_channel,
+      </if>
+      <if test="payAccount != null">
+        pay_account,
       </if>
       <if test="personCard != null">
         person_card,
@@ -198,6 +204,9 @@
       </if>
       <if test="payChannel != null">
         #{payChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="payAccount != null">
+        #{payAccount,jdbcType=VARCHAR},
       </if>
       <if test="personCard != null">
         #{personCard,jdbcType=VARCHAR},
@@ -254,6 +263,9 @@
       <if test="record.payChannel != null">
         pay_channel = #{record.payChannel,jdbcType=VARCHAR},
       </if>
+      <if test="record.payAccount != null">
+        pay_account = #{record.payAccount,jdbcType=VARCHAR},
+      </if>
       <if test="record.personCard != null">
         person_card = #{record.personCard,jdbcType=VARCHAR},
       </if>
@@ -290,6 +302,7 @@
       demand_amount = #{record.demandAmount,jdbcType=BIGINT},
       real_amount = #{record.realAmount,jdbcType=BIGINT},
       pay_channel = #{record.payChannel,jdbcType=VARCHAR},
+      pay_account = #{record.payAccount,jdbcType=VARCHAR},
       person_card = #{record.personCard,jdbcType=VARCHAR},
       `state` = #{record.state,jdbcType=INTEGER},
       ctime = #{record.ctime,jdbcType=VARCHAR},
@@ -322,6 +335,9 @@
       </if>
       <if test="payChannel != null">
         pay_channel = #{payChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="payAccount != null">
+        pay_account = #{payAccount,jdbcType=VARCHAR},
       </if>
       <if test="personCard != null">
         person_card = #{personCard,jdbcType=VARCHAR},
@@ -356,6 +372,7 @@
       demand_amount = #{demandAmount,jdbcType=BIGINT},
       real_amount = #{realAmount,jdbcType=BIGINT},
       pay_channel = #{payChannel,jdbcType=VARCHAR},
+      pay_account = #{payAccount,jdbcType=VARCHAR},
       person_card = #{personCard,jdbcType=VARCHAR},
       `state` = #{state,jdbcType=INTEGER},
       ctime = #{ctime,jdbcType=VARCHAR},

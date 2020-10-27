@@ -121,4 +121,13 @@ public interface IRecordService {
     void removeEvidence(String evidence);
 
     long totalP2pEvidenceUsedTimesByPayer(String sn, String payer, String payee);
+
+    WithdrawRecord getWithdrawRecordBySn(String sn);
+
+    void successPreDeductFromPayChannel(PayChannelTransferResult transferResult);
+
+    void cancelPreDeductFromPayChannel(PayChannelTransferResult transferResult);
+
+    void ackCancelPreDeductFromPayChannel(WithdrawResult result);
+
 }

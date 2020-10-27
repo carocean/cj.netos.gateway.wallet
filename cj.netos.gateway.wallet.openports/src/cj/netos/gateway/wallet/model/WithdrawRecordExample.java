@@ -607,6 +607,76 @@ public class WithdrawRecordExample {
             return (Criteria) this;
         }
 
+        public Criteria andPayAccountIsNull() {
+            addCriterion("pay_account is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAccountIsNotNull() {
+            addCriterion("pay_account is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAccountEqualTo(String value) {
+            addCriterion("pay_account =", value, "payAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAccountNotEqualTo(String value) {
+            addCriterion("pay_account <>", value, "payAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAccountGreaterThan(String value) {
+            addCriterion("pay_account >", value, "payAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAccountGreaterThanOrEqualTo(String value) {
+            addCriterion("pay_account >=", value, "payAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAccountLessThan(String value) {
+            addCriterion("pay_account <", value, "payAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAccountLessThanOrEqualTo(String value) {
+            addCriterion("pay_account <=", value, "payAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAccountLike(String value) {
+            addCriterion("pay_account like", value, "payAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAccountNotLike(String value) {
+            addCriterion("pay_account not like", value, "payAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAccountIn(List<String> values) {
+            addCriterion("pay_account in", values, "payAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAccountNotIn(List<String> values) {
+            addCriterion("pay_account not in", values, "payAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAccountBetween(String value1, String value2) {
+            addCriterion("pay_account between", value1, value2, "payAccount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayAccountNotBetween(String value1, String value2) {
+            addCriterion("pay_account not between", value1, value2, "payAccount");
+            return (Criteria) this;
+        }
+
         public Criteria andPersonCardIsNull() {
             addCriterion("person_card is null");
             return (Criteria) this;

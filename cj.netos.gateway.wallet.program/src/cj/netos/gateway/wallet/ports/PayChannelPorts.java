@@ -1,5 +1,6 @@
 package cj.netos.gateway.wallet.ports;
 
+import cj.netos.gateway.wallet.IAlipay;
 import cj.netos.gateway.wallet.IChannelAccountService;
 import cj.netos.gateway.wallet.IPayChannelService;
 import cj.netos.gateway.wallet.IPersonCardService;
@@ -18,6 +19,8 @@ import cj.studio.openport.util.Encript;
 import cj.ultimate.gson2.com.google.gson.Gson;
 import cj.ultimate.gson2.com.google.gson.reflect.TypeToken;
 import cj.ultimate.util.StringUtil;
+import com.alipay.api.AlipayApiException;
+import com.alipay.api.response.AlipayUserInfoShareResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +35,8 @@ public class PayChannelPorts implements IPayChannelPorts {
     IChannelAccountService channelAccountService;
     @CjServiceRef
     IPersonCardService personCardService;
+    @CjServiceRef
+    IAlipay alipay;
 
     private void _checkRights(ISecuritySession securitySession) throws CircuitException {
         if (!securitySession.roleIn("platform:administrators") && !securitySession.roleIn("tenant:administrators")) {
@@ -111,8 +116,51 @@ public class PayChannelPorts implements IPayChannelPorts {
     }
 
     @Override
-    public PersonCard getPersonCard(ISecuritySession securitySession, String id) throws CircuitException {
-        return personCardService.getPersonCard(securitySession.principal(), id);
+    public PersonCard getPersonCardById(ISecuritySession securitySession, String id) throws CircuitException {
+        return personCardService.getPersonCardById(securitySession.principal(), id);
+    }
+
+    @Override
+    public PersonCard createPersonCardByAuthCode(ISecuritySession securitySession, String payChannel, String authCode) throws CircuitException {
+        if (StringUtil.isEmpty(payChannel)) {
+            throw new CircuitException("404", "payChannel 参数为空");
+        }
+        switch (payChannel) {
+            case "alipay":
+                AlipayUserInfoShareResponse response = null;
+                try {
+                    response = alipay.getUserInfo(payChannel,authCode);
+                } catch (AlipayApiException e) {
+                    throw new CircuitException("500", e);
+                }
+                if (!response.isSuccess()) {
+                    throw new CircuitException(response.getCode(), response.getMsg());
+                }
+                PersonCard card = new PersonCard();
+                card.setPerson(securitySession.principal());
+                card.setCardSn(String.format("%s/%s", payChannel, response.getUserId()));
+                card.setCardAvatar(response.getAvatar());
+                card.setCardHolder(response.getUserId());
+                card.setCardName(response.getUserName());
+                card.setCardAttrBank("蚂蚁金服");
+                card.setCardPhone(response.getPhone());
+                card.setCardPubBank("蚂蚁金服-支付中心");
+                card.setCardType(0);
+                card.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+                card.setId(new IdWorker().nextId());
+                card.setPayChannel(payChannel);
+                card.setPayPwd(null);
+                personCardService.addPersonCard(card);
+                break;
+            default:
+                throw new CircuitException("500", "不支持的支付渠道:" + payChannel);
+        }
+        return null;
+    }
+
+    @Override
+    public PersonCard getPersonCard(ISecuritySession securitySession,  String payChannel) throws CircuitException {
+        return personCardService.getPersonCard(securitySession.principal(), payChannel);
     }
 
     @Override
@@ -154,7 +202,7 @@ public class PayChannelPorts implements IPayChannelPorts {
         account.setLimitAmount(limitAmount);
         account.setNote(note);
         account.setServiceUrl(serviceUrl);
-        account.setNotifyUrl(notifyUrl);
+        account.setPayNotifyUrl(notifyUrl);
         account.setUseCert(useCert);
         account.setCertPath1(certPath1);
         account.setCertPath2(certPath2);

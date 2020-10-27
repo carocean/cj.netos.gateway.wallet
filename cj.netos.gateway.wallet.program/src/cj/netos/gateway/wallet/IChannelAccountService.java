@@ -16,4 +16,7 @@ public interface IChannelAccountService {
     ChannelAccount getAccount(String accountid);
 
     long totalAccountBalance(String channel);
+
+    ChannelAccount selectAccount(String payChannel, int factory);
+
 }

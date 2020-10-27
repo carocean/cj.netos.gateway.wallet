@@ -61,9 +61,24 @@ public interface IPayChannelPorts extends IOpenportService {
                        @CjOpenportParameter(usage = "支付密码，如果有", name = "payPwd") String payPwd
     ) throws CircuitException;
 
+    @CjOpenport(usage = "创建公众卡")
+    PersonCard createPersonCardByAuthCode(
+            ISecuritySession securitySession,
+            @CjOpenportParameter(usage = "卡号", name = "payChannel") String payChannel,
+            @CjOpenportParameter(usage = "卡号", name = "authCode") String authCode
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "获取公众卡")
+    PersonCard getPersonCardById(ISecuritySession securitySession,
+                                 @CjOpenportParameter(usage = "公众卡标识", name = "id") String id
+    ) throws CircuitException;
+
     @CjOpenport(usage = "获取公众卡")
     PersonCard getPersonCard(ISecuritySession securitySession,
-                             @CjOpenportParameter(usage = "公众卡标识", name = "id") String id
+                             @CjOpenportParameter(usage = "公众账户的支付渠道\n" +
+                                     "0 chinapay银联（表示为银行卡账户）\n" +
+                                     "1 alipay支付宝（个人的支付宝账户）\n" +
+                                     "2 wechatpay 微信（个人的微信账户）", name = "payChannel") String payChannel
     ) throws CircuitException;
 
     @CjOpenport(usage = "获取公众卡")

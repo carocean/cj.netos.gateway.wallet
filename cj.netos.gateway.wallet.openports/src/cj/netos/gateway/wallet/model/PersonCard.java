@@ -29,6 +29,18 @@ public class PersonCard {
     private String cardHolder;
 
     /**
+     * Column: card_name
+     * Remark: 卡显示名
+     */
+    private String cardName;
+
+    /**
+     * Column: card_avatar
+     * Remark: 卡的头像，即logo
+     */
+    private String cardAvatar;
+
+    /**
      * Column: card_attr_bank
      * Remark: 卡归属行行名
      */
@@ -54,7 +66,7 @@ public class PersonCard {
 
     /**
      * Column: pay_channel
-     * Remark: 公众账户的类型 0 chinapay银联（表示为银行卡账户） 1 alipay支付宝（个人的支付宝账户） 2 wechatpay 微信（个人的微信账户）
+     * Remark: 公众账户的支付渠道 0 chinapay银联（表示为银行卡账户） 1 alipay支付宝（个人的支付宝账户） 2 wechatpay 微信（个人的微信账户）
      */
     private String payChannel;
 
@@ -100,6 +112,22 @@ public class PersonCard {
 
     public void setCardHolder(String cardHolder) {
         this.cardHolder = cardHolder == null ? null : cardHolder.trim();
+    }
+
+    public String getCardName() {
+        return cardName;
+    }
+
+    public void setCardName(String cardName) {
+        this.cardName = cardName == null ? null : cardName.trim();
+    }
+
+    public String getCardAvatar() {
+        return cardAvatar;
+    }
+
+    public void setCardAvatar(String cardAvatar) {
+        this.cardAvatar = cardAvatar == null ? null : cardAvatar.trim();
     }
 
     public String getCardAttrBank() {

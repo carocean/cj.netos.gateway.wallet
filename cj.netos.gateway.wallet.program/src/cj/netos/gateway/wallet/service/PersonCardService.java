@@ -33,9 +33,21 @@ public class PersonCardService implements IPersonCardService {
 
     @CjTransaction
     @Override
-    public PersonCard getPersonCard(String principal, String id) {
+    public PersonCard getPersonCardById(String principal, String id) {
         PersonCardExample example = new PersonCardExample();
         example.createCriteria().andPersonEqualTo(principal).andIdEqualTo(id);
+        List<PersonCard> list = personCardMapper.selectByExample(example);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
+
+    @CjTransaction
+    @Override
+    public PersonCard getPersonCard(String principal, String payChannel) {
+        PersonCardExample example = new PersonCardExample();
+        example.createCriteria().andPersonEqualTo(principal).andPayChannelEqualTo(payChannel);
         List<PersonCard> list = personCardMapper.selectByExample(example);
         if (list.isEmpty()) {
             return null;

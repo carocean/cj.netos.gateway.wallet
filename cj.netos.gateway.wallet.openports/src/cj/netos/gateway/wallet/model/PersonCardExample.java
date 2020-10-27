@@ -417,6 +417,146 @@ public class PersonCardExample {
             return (Criteria) this;
         }
 
+        public Criteria andCardNameIsNull() {
+            addCriterion("card_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardNameIsNotNull() {
+            addCriterion("card_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardNameEqualTo(String value) {
+            addCriterion("card_name =", value, "cardName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardNameNotEqualTo(String value) {
+            addCriterion("card_name <>", value, "cardName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardNameGreaterThan(String value) {
+            addCriterion("card_name >", value, "cardName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardNameGreaterThanOrEqualTo(String value) {
+            addCriterion("card_name >=", value, "cardName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardNameLessThan(String value) {
+            addCriterion("card_name <", value, "cardName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardNameLessThanOrEqualTo(String value) {
+            addCriterion("card_name <=", value, "cardName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardNameLike(String value) {
+            addCriterion("card_name like", value, "cardName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardNameNotLike(String value) {
+            addCriterion("card_name not like", value, "cardName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardNameIn(List<String> values) {
+            addCriterion("card_name in", values, "cardName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardNameNotIn(List<String> values) {
+            addCriterion("card_name not in", values, "cardName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardNameBetween(String value1, String value2) {
+            addCriterion("card_name between", value1, value2, "cardName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardNameNotBetween(String value1, String value2) {
+            addCriterion("card_name not between", value1, value2, "cardName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardAvatarIsNull() {
+            addCriterion("card_avatar is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardAvatarIsNotNull() {
+            addCriterion("card_avatar is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardAvatarEqualTo(String value) {
+            addCriterion("card_avatar =", value, "cardAvatar");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardAvatarNotEqualTo(String value) {
+            addCriterion("card_avatar <>", value, "cardAvatar");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardAvatarGreaterThan(String value) {
+            addCriterion("card_avatar >", value, "cardAvatar");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardAvatarGreaterThanOrEqualTo(String value) {
+            addCriterion("card_avatar >=", value, "cardAvatar");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardAvatarLessThan(String value) {
+            addCriterion("card_avatar <", value, "cardAvatar");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardAvatarLessThanOrEqualTo(String value) {
+            addCriterion("card_avatar <=", value, "cardAvatar");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardAvatarLike(String value) {
+            addCriterion("card_avatar like", value, "cardAvatar");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardAvatarNotLike(String value) {
+            addCriterion("card_avatar not like", value, "cardAvatar");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardAvatarIn(List<String> values) {
+            addCriterion("card_avatar in", values, "cardAvatar");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardAvatarNotIn(List<String> values) {
+            addCriterion("card_avatar not in", values, "cardAvatar");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardAvatarBetween(String value1, String value2) {
+            addCriterion("card_avatar between", value1, value2, "cardAvatar");
+            return (Criteria) this;
+        }
+
+        public Criteria andCardAvatarNotBetween(String value1, String value2) {
+            addCriterion("card_avatar not between", value1, value2, "cardAvatar");
+            return (Criteria) this;
+        }
+
         public Criteria andCardAttrBankIsNull() {
             addCriterion("card_attr_bank is null");
             return (Criteria) this;
