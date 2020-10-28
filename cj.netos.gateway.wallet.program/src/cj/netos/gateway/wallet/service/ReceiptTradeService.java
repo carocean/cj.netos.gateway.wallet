@@ -1,8 +1,6 @@
 package cj.netos.gateway.wallet.service;
 
-import cj.netos.gateway.wallet.AbsorberHubTailsResult;
-import cj.netos.gateway.wallet.IChannelAccountSelector;
-import cj.netos.gateway.wallet.IReceiptTradeService;
+import cj.netos.gateway.wallet.*;
 import cj.netos.gateway.wallet.bo.PayDetailsBO;
 import cj.netos.gateway.wallet.mapper.*;
 import cj.netos.gateway.wallet.model.*;
@@ -15,6 +13,7 @@ import cj.studio.ecm.net.CircuitException;
 import cj.studio.orm.mybatis.annotation.CjTransaction;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @CjBridge(aspects = "@transaction")
 @CjService(name = "receiptTradeService")
@@ -70,6 +69,10 @@ public class ReceiptTradeService implements IReceiptTradeService {
     DepositHubTailsActivityMapper depositHubTailsActivityMapper;
     @CjServiceRef
     IChannelAccountSelector channelAccountSelector;
+    @CjServiceRef
+    IChannelRatioService channelRatioService;
+    @CjServiceRef
+    IPayChannelService payChannelService;
 
     @CjTransaction
     @Override
@@ -78,6 +81,7 @@ public class ReceiptTradeService implements IReceiptTradeService {
         if (channelAccount == null) {
             throw new CircuitException("404", String.format("没有选中渠道账户在支付渠道:%s下", payChannel.getName()));
         }
+
         RechargeRecord record = new RechargeRecord();
         record.setDemandAmount(amount);
         record.setCurrency(currency);
@@ -93,6 +97,7 @@ public class ReceiptTradeService implements IReceiptTradeService {
         record.setSn(new IdWorker().nextId());
         record.setStatus(200);
         record.setMessage("ok");
+
         rechargeRecordMapper.insert(record);
 
         RechargeActivity rechargeActivity = new RechargeActivity();
@@ -125,6 +130,21 @@ public class ReceiptTradeService implements IReceiptTradeService {
         record.setSn(new IdWorker().nextId());
         record.setStatus(200);
         record.setMessage("ok");
+        PayChannel payChannel = payChannelService.getPayChannel(channelAccount.getChannel());
+        if (payChannel.getSwitchFeeRatio() == 1) {
+            ChannelRatio feeRatio = channelRatioService.getFeeRatio(channelAccount.getChannel(), amount);
+            if (feeRatio != null) {
+                record.setFeeRatio(feeRatio.getFeeRatio());
+                record.setFeeAmount(feeRatio.getFeeRatio().multiply(new BigDecimal(amount + "")).longValue());
+            } else {
+                record.setFeeRatio(BigDecimal.ZERO);
+                record.setFeeAmount(0L);
+            }
+        } else {
+            record.setFeeRatio(BigDecimal.ZERO);
+            record.setFeeAmount(0L);
+        }
+
         withdrawRecordMapper.insert(record);
         WithdrawActivity withdrawActivity = new WithdrawActivity();
         withdrawActivity.setActivityName("已收单");

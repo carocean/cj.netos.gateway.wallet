@@ -1,5 +1,7 @@
 package cj.netos.gateway.wallet.model;
 
+import java.math.BigDecimal;
+
 /**
  * Table: withdraw_record
  */
@@ -39,6 +41,17 @@ public class WithdrawRecord {
      * Remark: 实际渠道接收的金额
      */
     private Long realAmount;
+
+    /**
+     * Column: fee_ratio
+     * Remark: 费率，从渠道的费率表中取得
+     */
+    private BigDecimal feeRatio;
+
+    /**
+     * Column: fee_amount
+     */
+    private Long feeAmount;
 
     /**
      * Column: pay_channel
@@ -139,6 +152,22 @@ public class WithdrawRecord {
 
     public void setRealAmount(Long realAmount) {
         this.realAmount = realAmount;
+    }
+
+    public BigDecimal getFeeRatio() {
+        return feeRatio;
+    }
+
+    public void setFeeRatio(BigDecimal feeRatio) {
+        this.feeRatio = feeRatio;
+    }
+
+    public Long getFeeAmount() {
+        return feeAmount;
+    }
+
+    public void setFeeAmount(Long feeAmount) {
+        this.feeAmount = feeAmount;
     }
 
     public String getPayChannel() {

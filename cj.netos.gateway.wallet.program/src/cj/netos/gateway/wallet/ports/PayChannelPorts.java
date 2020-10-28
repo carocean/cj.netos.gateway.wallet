@@ -1,11 +1,9 @@
 package cj.netos.gateway.wallet.ports;
 
-import cj.netos.gateway.wallet.IAlipay;
-import cj.netos.gateway.wallet.IChannelAccountService;
-import cj.netos.gateway.wallet.IPayChannelService;
-import cj.netos.gateway.wallet.IPersonCardService;
+import cj.netos.gateway.wallet.*;
 import cj.netos.gateway.wallet.bo.PayChannelBO;
 import cj.netos.gateway.wallet.model.ChannelAccount;
+import cj.netos.gateway.wallet.model.ChannelRatio;
 import cj.netos.gateway.wallet.model.PayChannel;
 import cj.netos.gateway.wallet.model.PersonCard;
 import cj.netos.gateway.wallet.result.PayChannelResult;
@@ -33,6 +31,8 @@ public class PayChannelPorts implements IPayChannelPorts {
     IPayChannelService payChannelService;
     @CjServiceRef
     IChannelAccountService channelAccountService;
+    @CjServiceRef
+    IChannelRatioService channelRatioService;
     @CjServiceRef
     IPersonCardService personCardService;
     @CjServiceRef
@@ -125,18 +125,19 @@ public class PayChannelPorts implements IPayChannelPorts {
         if (StringUtil.isEmpty(payChannel)) {
             throw new CircuitException("404", "payChannel 参数为空");
         }
+        PersonCard card = null;
         switch (payChannel) {
             case "alipay":
                 AlipayUserInfoShareResponse response = null;
                 try {
-                    response = alipay.getUserInfo(payChannel,authCode);
+                    response = alipay.getUserInfo(payChannel, authCode);
                 } catch (AlipayApiException e) {
                     throw new CircuitException("500", e);
                 }
                 if (!response.isSuccess()) {
                     throw new CircuitException(response.getCode(), response.getMsg());
                 }
-                PersonCard card = new PersonCard();
+                card = new PersonCard();
                 card.setPerson(securitySession.principal());
                 card.setCardSn(String.format("%s/%s", payChannel, response.getUserId()));
                 card.setCardAvatar(response.getAvatar());
@@ -155,11 +156,11 @@ public class PayChannelPorts implements IPayChannelPorts {
             default:
                 throw new CircuitException("500", "不支持的支付渠道:" + payChannel);
         }
-        return null;
+        return card;
     }
 
     @Override
-    public PersonCard getPersonCard(ISecuritySession securitySession,  String payChannel) throws CircuitException {
+    public PersonCard getPersonCard(ISecuritySession securitySession, String payChannel) throws CircuitException {
         return personCardService.getPersonCard(securitySession.principal(), payChannel);
     }
 
@@ -227,6 +228,12 @@ public class PayChannelPorts implements IPayChannelPorts {
     public List<ChannelAccount> pageAccountOfChannel(ISecuritySession securitySession, String channel, int limit, long offset) throws CircuitException {
         _checkRights(securitySession);
         return channelAccountService.pageAccountOfChannel(channel, limit, offset);
+    }
+
+    @Override
+    public List<ChannelRatio> listFeeRatioOfChannel(ISecuritySession securitySession, String channel) throws CircuitException {
+        _checkRights(securitySession);
+        return channelRatioService.listFeeRatioOfChannel(channel);
     }
 
     @Override

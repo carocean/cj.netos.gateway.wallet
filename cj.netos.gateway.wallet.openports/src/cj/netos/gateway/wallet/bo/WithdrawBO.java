@@ -3,6 +3,8 @@ package cj.netos.gateway.wallet.bo;
 import cj.netos.gateway.wallet.model.WithdrawRecord;
 import cj.ultimate.gson2.com.google.gson.Gson;
 
+import java.math.BigDecimal;
+
 public class WithdrawBO {
     /**
      * Column: sn
@@ -41,10 +43,28 @@ public class WithdrawBO {
     private Long realAmount;
 
     /**
+     * Column: fee_ratio
+     * Remark: 费率，从渠道的费率表中取得
+     */
+    private BigDecimal feeRatio;
+
+    /**
+     * Column: fee_amount
+     */
+    private Long feeAmount;
+
+
+    /**
      * Column: pay_channel
      * Remark: 出款渠道，即提现方式，为yongyu字段，与公众账户对应，如提现到个人支付宝，个人微信，银联
      */
     private String payChannel;
+
+    /**
+     * Column: pay_account
+     * Remark: 付款的账户，可能为空，如支付宝付款者为个人账户是记录不到的；但在网联方式下可以记录下用户从哪个银行卡付的款，因此将来接网联还需要建立用户-银行卡绑定表
+     */
+    private String payAccount;
 
     /**
      * Column: person_card
@@ -203,5 +223,29 @@ public class WithdrawBO {
 
     public void setSettleMsg(String settleMsg) {
         this.settleMsg = settleMsg == null ? null : settleMsg.trim();
+    }
+
+    public BigDecimal getFeeRatio() {
+        return feeRatio;
+    }
+
+    public void setFeeRatio(BigDecimal feeRatio) {
+        this.feeRatio = feeRatio;
+    }
+
+    public Long getFeeAmount() {
+        return feeAmount;
+    }
+
+    public void setFeeAmount(Long feeAmount) {
+        this.feeAmount = feeAmount;
+    }
+
+    public String getPayAccount() {
+        return payAccount;
+    }
+
+    public void setPayAccount(String payAccount) {
+        this.payAccount = payAccount;
     }
 }

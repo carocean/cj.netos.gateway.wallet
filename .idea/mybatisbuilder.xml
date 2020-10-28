@@ -120,6 +120,16 @@
             </TableInfo>
           </value>
         </entry>
+        <entry key="netos.wallet.main#channel_ratio">
+          <value>
+            <TableInfo>
+              <option name="database" value="netos.wallet.main" />
+              <option name="domainName" value="ChannelRatio" />
+              <option name="tableComment" value="支付渠道的费率表&#10;有充值收手续费的也有提现收手续费的，也有二者都收的第三方&#10;" />
+              <option name="tableName" value="channel_ratio" />
+            </TableInfo>
+          </value>
+        </entry>
         <entry key="netos.wallet.main#deposit_absorb_activity">
           <value>
             <TableInfo>

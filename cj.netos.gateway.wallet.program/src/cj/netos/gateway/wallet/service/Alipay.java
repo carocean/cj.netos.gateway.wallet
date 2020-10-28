@@ -79,7 +79,7 @@ public class Alipay implements IAlipay {
         request.setNotifyUrl(account.getTransNotifyUrl());//账单状态变更通知，参与阿里云api
         request.setBizContent("{" +
                 "\"out_biz_no\":\"" + record.getSn() + "\"," +
-                "\"trans_amount\":" + (record.getDemandAmount() / 100.00) + "," +
+                "\"trans_amount\":" + ((record.getDemandAmount() - record.getFeeAmount()) / 100.00) + "," +
                 "\"product_code\":\"TRANS_ACCOUNT_NO_PWD\"," +
                 "\"biz_scene\":\"DIRECT_TRANSFER\"," +
                 "\"order_title\":\"地微出款\"," +

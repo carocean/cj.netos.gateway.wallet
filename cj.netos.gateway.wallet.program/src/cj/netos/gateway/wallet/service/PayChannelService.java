@@ -3,11 +3,9 @@ package cj.netos.gateway.wallet.service;
 import cj.netos.gateway.wallet.IPayChannelService;
 import cj.netos.gateway.wallet.bo.PayChannelBO;
 import cj.netos.gateway.wallet.mapper.ChannelAccountMapper;
+import cj.netos.gateway.wallet.mapper.ChannelRatioMapper;
 import cj.netos.gateway.wallet.mapper.PayChannelMapper;
-import cj.netos.gateway.wallet.model.ChannelAccount;
-import cj.netos.gateway.wallet.model.ChannelAccountExample;
-import cj.netos.gateway.wallet.model.PayChannel;
-import cj.netos.gateway.wallet.model.PayChannelExample;
+import cj.netos.gateway.wallet.model.*;
 import cj.netos.gateway.wallet.util.WalletUtils;
 import cj.studio.ecm.annotation.CjBridge;
 import cj.studio.ecm.annotation.CjService;
@@ -17,6 +15,7 @@ import cj.studio.openport.util.Encript;
 import cj.studio.orm.mybatis.annotation.CjTransaction;
 import cj.ultimate.util.StringUtil;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,6 +26,8 @@ public class PayChannelService implements IPayChannelService {
     PayChannelMapper payChannelMapper;
     @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.ChannelAccountMapper")
     ChannelAccountMapper channelAccountMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.ChannelRatioMapper")
+    ChannelRatioMapper channelRatioMapper;
 
     @CjTransaction
     @Override
@@ -47,6 +48,9 @@ public class PayChannelService implements IPayChannelService {
         ChannelAccountExample example = new ChannelAccountExample();
         example.createCriteria().andChannelEqualTo(code);
         channelAccountMapper.deleteByExample(example);
+        ChannelRatioExample ratioExample = new ChannelRatioExample();
+        ratioExample.createCriteria().andChannelEqualTo(code);
+        channelRatioMapper.deleteByExample(ratioExample);
     }
 
     @CjTransaction
@@ -78,6 +82,21 @@ public class PayChannelService implements IPayChannelService {
                 }
                 account.setId(Encript.md5(UUID.randomUUID().toString()));
                 channelAccountMapper.insert(account);
+            }
+            for (ChannelRatio ratio : bo.getFeeRatios()) {
+                ratio.setChannel(bo.getCode());
+                if (ratio.getMaxBound() == null) {
+                    ratio.setMaxBound(0L);
+                }
+                if (ratio.getMinBound() == null) {
+                    ratio.setMinBound(0L);
+                }
+                if (ratio.getFeeRatio() == null) {
+                    ratio.setFeeRatio(BigDecimal.ZERO);
+                }
+
+                ratio.setId(Encript.md5(UUID.randomUUID().toString()));
+                channelRatioMapper.insert(ratio);
             }
         }
     }

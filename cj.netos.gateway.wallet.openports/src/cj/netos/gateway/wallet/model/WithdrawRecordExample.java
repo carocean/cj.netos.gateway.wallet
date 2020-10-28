@@ -1,5 +1,6 @@
 package cj.netos.gateway.wallet.model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -534,6 +535,126 @@ public class WithdrawRecordExample {
 
         public Criteria andRealAmountNotBetween(Long value1, Long value2) {
             addCriterion("real_amount not between", value1, value2, "realAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFeeRatioIsNull() {
+            addCriterion("fee_ratio is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFeeRatioIsNotNull() {
+            addCriterion("fee_ratio is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFeeRatioEqualTo(BigDecimal value) {
+            addCriterion("fee_ratio =", value, "feeRatio");
+            return (Criteria) this;
+        }
+
+        public Criteria andFeeRatioNotEqualTo(BigDecimal value) {
+            addCriterion("fee_ratio <>", value, "feeRatio");
+            return (Criteria) this;
+        }
+
+        public Criteria andFeeRatioGreaterThan(BigDecimal value) {
+            addCriterion("fee_ratio >", value, "feeRatio");
+            return (Criteria) this;
+        }
+
+        public Criteria andFeeRatioGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("fee_ratio >=", value, "feeRatio");
+            return (Criteria) this;
+        }
+
+        public Criteria andFeeRatioLessThan(BigDecimal value) {
+            addCriterion("fee_ratio <", value, "feeRatio");
+            return (Criteria) this;
+        }
+
+        public Criteria andFeeRatioLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("fee_ratio <=", value, "feeRatio");
+            return (Criteria) this;
+        }
+
+        public Criteria andFeeRatioIn(List<BigDecimal> values) {
+            addCriterion("fee_ratio in", values, "feeRatio");
+            return (Criteria) this;
+        }
+
+        public Criteria andFeeRatioNotIn(List<BigDecimal> values) {
+            addCriterion("fee_ratio not in", values, "feeRatio");
+            return (Criteria) this;
+        }
+
+        public Criteria andFeeRatioBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("fee_ratio between", value1, value2, "feeRatio");
+            return (Criteria) this;
+        }
+
+        public Criteria andFeeRatioNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("fee_ratio not between", value1, value2, "feeRatio");
+            return (Criteria) this;
+        }
+
+        public Criteria andFeeAmountIsNull() {
+            addCriterion("fee_amount is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFeeAmountIsNotNull() {
+            addCriterion("fee_amount is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFeeAmountEqualTo(Long value) {
+            addCriterion("fee_amount =", value, "feeAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFeeAmountNotEqualTo(Long value) {
+            addCriterion("fee_amount <>", value, "feeAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFeeAmountGreaterThan(Long value) {
+            addCriterion("fee_amount >", value, "feeAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFeeAmountGreaterThanOrEqualTo(Long value) {
+            addCriterion("fee_amount >=", value, "feeAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFeeAmountLessThan(Long value) {
+            addCriterion("fee_amount <", value, "feeAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFeeAmountLessThanOrEqualTo(Long value) {
+            addCriterion("fee_amount <=", value, "feeAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFeeAmountIn(List<Long> values) {
+            addCriterion("fee_amount in", values, "feeAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFeeAmountNotIn(List<Long> values) {
+            addCriterion("fee_amount not in", values, "feeAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFeeAmountBetween(Long value1, Long value2) {
+            addCriterion("fee_amount between", value1, value2, "feeAmount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFeeAmountNotBetween(Long value1, Long value2) {
+            addCriterion("fee_amount not between", value1, value2, "feeAmount");
             return (Criteria) this;
         }
 

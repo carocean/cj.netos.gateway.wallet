@@ -1,6 +1,7 @@
 package cj.netos.gateway.wallet.ports;
 
 import cj.netos.gateway.wallet.model.ChannelAccount;
+import cj.netos.gateway.wallet.model.ChannelRatio;
 import cj.netos.gateway.wallet.model.PayChannel;
 import cj.netos.gateway.wallet.model.PersonCard;
 import cj.netos.gateway.wallet.result.PayChannelResult;
@@ -131,6 +132,11 @@ public interface IPayChannelPorts extends IOpenportService {
                                               @CjOpenportParameter(usage = "渠道代码", name = "channel") String channel,
                                               @CjOpenportParameter(usage = "页大小", name = "limit") int limit,
                                               @CjOpenportParameter(usage = "偏移位置", name = "offset") long offset
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "列出渠道下的费率（仅提现有）")
+    List<ChannelRatio> listFeeRatioOfChannel(ISecuritySession securitySession,
+                                             @CjOpenportParameter(usage = "渠道代码", name = "channel") String channel
     ) throws CircuitException;
 
     @CjOpenport(usage = "分页查询渠道")

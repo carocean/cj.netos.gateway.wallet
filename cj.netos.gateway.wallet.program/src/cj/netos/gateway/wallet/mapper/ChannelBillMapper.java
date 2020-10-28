@@ -2,9 +2,7 @@ package cj.netos.gateway.wallet.mapper;
 
 import cj.netos.gateway.wallet.model.ChannelBill;
 import cj.netos.gateway.wallet.model.ChannelBillExample;
-
 import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
 
 public interface ChannelBillMapper {
