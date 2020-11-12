@@ -40,12 +40,13 @@ public class OnDepositAbsorbsCommand implements IConsumerCommand {
         Map<String, Object> recipients = (Map<String, Object>) result.get("recipients");
         BigDecimal amount = new BigDecimal(result.get("amount") + "");
         String refsn = (String) result.get("refsn");//在洇金机器内的洇取单号
+        String refType = (String) result.get("refType");////引用的sn类型，0是RecipientsRecord；1是recipientsBalanceBill
         String sourceTitle = (String) result.get("absorberTitle");//源代码指向洇取器的标题
         String sourceCode = (String) recipients.get("absorber");//源代码指向洇取器的标识
         String personName = (String) recipients.get("personName");
         String person = (String) recipients.get("person");
-        String note = String.format("{\"encourageCode\":\"%s\",\"encourageCause\":\"%s\",\"outTradeSn\":\"%s\"}",
-                recipients.get("encourageCode"), recipients.get("encourageCause"), refsn);
+        String note = String.format("{\"encourageCode\":\"%s\",\"encourageCause\":\"%s\",\"outTradeType\":\"%s\",\"outTradeSn\":\"%s\"}",
+                recipients.get("encourageCode"), recipients.get("encourageCause"), refType, refsn);
         try {
             depositAbsorbActivityController.doReceipt(person, personName, amount, sourceCode, sourceTitle, note);
         } catch (CircuitException e) {
