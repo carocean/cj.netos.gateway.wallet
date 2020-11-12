@@ -77,6 +77,9 @@ public interface IRecordService {
 
     DepositAbsorbRecord getDepositAbsorbRecord(String principal, String record_sn);
 
+    @CjTransaction
+    DepositAbsorbRecord getDepositAbsorbRecordBySn(String record_sn);
+
     List<DepositAbsorbActivity> getDepositAbsorbActivities(String principal, String record_sn);
 
     void ackDepositAbsorb(DepositAbsorbResult result);

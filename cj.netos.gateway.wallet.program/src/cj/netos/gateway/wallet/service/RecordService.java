@@ -611,7 +611,17 @@ public class RecordService implements IRecordService {
         }
         return list.get(0);
     }
-
+    @CjTransaction
+    @Override
+    public DepositAbsorbRecord getDepositAbsorbRecordBySn(String record_sn) {
+        DepositAbsorbRecordExample example = new DepositAbsorbRecordExample();
+        example.createCriteria().andSnEqualTo(record_sn);
+        List<DepositAbsorbRecord> list = depositAbsorbRecordMapper.selectByExample(example);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
     @CjTransaction
     @Override
     public List<DepositAbsorbActivity> getDepositAbsorbActivities(String principal, String record_sn) {

@@ -45,7 +45,7 @@
 	serviceContainer : {
 		name : "netContainer",
 		switchFilter:"off",
-		monitor: "cj.netos.rabbitmq.DefaultRabbitMQMonitor",
+		monitor: "cj.netos.rabbitmq.DefaultRabbitMQMonitor,cj.netos.jpush.pusher.DefaultJPusherMonitor",
 		jss:[{
 			module:"services1",
 			package:"cj.netos.gateway.wallet.jss",

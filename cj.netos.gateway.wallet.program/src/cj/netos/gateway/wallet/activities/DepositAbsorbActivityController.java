@@ -1,9 +1,6 @@
 package cj.netos.gateway.wallet.activities;
 
-import cj.netos.gateway.wallet.IDepositAbsorbActivityController;
-import cj.netos.gateway.wallet.IReceiptTradeService;
-import cj.netos.gateway.wallet.IRecordService;
-import cj.netos.gateway.wallet.ISettleTradeService;
+import cj.netos.gateway.wallet.*;
 import cj.netos.gateway.wallet.bo.DepositAbsorbBO;
 import cj.netos.gateway.wallet.bo.PurchaseBO;
 import cj.netos.gateway.wallet.model.DepositAbsorbRecord;
@@ -30,6 +27,8 @@ public class DepositAbsorbActivityController implements IDepositAbsorbActivityCo
     ISettleTradeService settleTradeService;
     @CjServiceRef
     IRecordService recordService;
+    @CjServiceRef
+    IPushToAbsorbChatroom pushToAbsorbChatroom;
     @CjServiceRef(refByName = "@.rabbitmq.producer.toOC_receipt_depositAbsorb")
     IRabbitMQProducer toOC_receipt_depositAbsorb;
 
@@ -65,6 +64,13 @@ public class DepositAbsorbActivityController implements IDepositAbsorbActivityCo
     @Override
     public void ackReceipt(DepositAbsorbResult result) {
         recordService.ackDepositAbsorb(result);
-        CJSystem.logging().info(getClass(),String.format("洇金已存入：%s %s %s",result.getSn(),result.getStatus(),result.getMessage()));
+        CJSystem.logging().info(getClass(), String.format("洇金已存入：%s %s %s", result.getSn(), result.getStatus(), result.getMessage()));
+        try {
+            DepositAbsorbRecord record = recordService.getDepositAbsorbRecordBySn(result.getSn());
+            pushToAbsorbChatroom.push(record);
+        } catch (Exception e) {
+            CJSystem.logging().error(getClass(), String.format("推送洇金通知失败:%s", e));
+        }
     }
+
 }
