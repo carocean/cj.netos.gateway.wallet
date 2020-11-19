@@ -65,6 +65,12 @@ public class RecordPorts implements IRecordPorts {
     }
 
     @Override
+    public P2pRecord getP2PRecordByEvidence(ISecuritySession securitySession, String evidence) throws CircuitException {
+        P2pRecord record = recordService.getP2PRecordByEvidence(securitySession.principal(), evidence);
+        return record;
+    }
+
+    @Override
     public List<P2pActivity> getP2PActivities(ISecuritySession securitySession, String record_sn) throws CircuitException {
         return recordService.getP2PActivities(record_sn);
     }
@@ -137,41 +143,41 @@ public class RecordPorts implements IRecordPorts {
 
     @Override
     public TransProfitRecord getTransProfitRecord(ISecuritySession securitySession, String record_sn) throws CircuitException {
-        return recordService.getTransProfitRecord(securitySession.principal(),record_sn);
+        return recordService.getTransProfitRecord(securitySession.principal(), record_sn);
     }
 
     @Override
     public List<TransProfitActivity> getTransProfitActivities(ISecuritySession securitySession, String record_sn) throws CircuitException {
-        return recordService.getTransProfitActivities(securitySession.principal(),record_sn);
+        return recordService.getTransProfitActivities(securitySession.principal(), record_sn);
     }
 
     @Override
     public TransAbsorbRecord getTransAbsorbRecord(ISecuritySession securitySession, String record_sn) throws CircuitException {
-        return recordService.getTransAbsorbRecord(securitySession.principal(),record_sn);
+        return recordService.getTransAbsorbRecord(securitySession.principal(), record_sn);
     }
 
     @Override
     public List<TransAbsorbActivity> getTransAbsorbActivities(ISecuritySession securitySession, String record_sn) throws CircuitException {
-        return recordService.getTransAbsorbActivities(securitySession.principal(),record_sn);
+        return recordService.getTransAbsorbActivities(securitySession.principal(), record_sn);
     }
 
     @Override
     public DepositAbsorbRecord getDepositAbsorbRecord(ISecuritySession securitySession, String record_sn) throws CircuitException {
-        return recordService.getDepositAbsorbRecord(securitySession.principal(),record_sn);
+        return recordService.getDepositAbsorbRecord(securitySession.principal(), record_sn);
     }
 
     @Override
     public List<DepositAbsorbActivity> getDepositAbsorbActivities(ISecuritySession securitySession, String record_sn) throws CircuitException {
-        return recordService.getDepositAbsorbActivities(securitySession.principal(),record_sn);
+        return recordService.getDepositAbsorbActivities(securitySession.principal(), record_sn);
     }
 
     @Override
     public TransShunterRecord getTransShunterRecord(ISecuritySession securitySession, String record_sn) throws CircuitException {
-        return recordService.getTransShunterRecord(securitySession.principal(),record_sn);
+        return recordService.getTransShunterRecord(securitySession.principal(), record_sn);
     }
 
     @Override
     public List<TransShunterActivity> getTransShunterActivities(ISecuritySession securitySession, String record_sn) throws CircuitException {
-        return recordService.getTransShunterActivities(securitySession.principal(),record_sn);
+        return recordService.getTransShunterActivities(securitySession.principal(), record_sn);
     }
 }

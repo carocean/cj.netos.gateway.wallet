@@ -133,4 +133,6 @@ public interface IRecordService {
 
     void ackCancelPreDeductFromPayChannel(WithdrawResult result);
 
+    P2pRecord getP2PRecordByEvidence(String principal, String evidence);
+
 }

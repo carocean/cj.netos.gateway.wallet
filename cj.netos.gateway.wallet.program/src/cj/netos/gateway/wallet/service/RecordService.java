@@ -110,7 +110,7 @@ public class RecordService implements IRecordService {
         }
         if ("200".equals(result.getStatus())) {
             withdrawRecordMapper.update(result.getSn(), Integer.valueOf(result.getStatus()), msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
-        }else{
+        } else {
             withdrawRecordMapper.done(result.getSn(), Integer.valueOf(result.getStatus()), msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         }
         WithdrawActivity withdrawActivity = new WithdrawActivity();
@@ -167,7 +167,7 @@ public class RecordService implements IRecordService {
     @Override
     public void ackCancelPreDeductFromPayChannel(WithdrawResult result) {
         String msg = "渠道预扣款异常撤销完成";
-        int status=500;
+        int status = 500;
         withdrawRecordMapper.done(result.getSn(), status, msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         WithdrawActivity withdrawActivity = new WithdrawActivity();
         withdrawActivity.setActivityName("渠道预扣款异常撤销完成");
@@ -526,6 +526,18 @@ public class RecordService implements IRecordService {
 
     @CjTransaction
     @Override
+    public P2pRecord getP2PRecordByEvidence(String principal, String evidence) {
+        P2pRecordExample example = new P2pRecordExample();
+        example.createCriteria().andEvidenceEqualTo(evidence);
+        List<P2pRecord> list = p2pRecordMapper.selectByExample(example);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
+
+    @CjTransaction
+    @Override
     public List<P2pActivity> getP2PActivities(String record_sn) {
         P2pActivityExample example = new P2pActivityExample();
         example.createCriteria().andRecordSnEqualTo(record_sn);
@@ -611,6 +623,7 @@ public class RecordService implements IRecordService {
         }
         return list.get(0);
     }
+
     @CjTransaction
     @Override
     public DepositAbsorbRecord getDepositAbsorbRecordBySn(String record_sn) {
@@ -622,6 +635,7 @@ public class RecordService implements IRecordService {
         }
         return list.get(0);
     }
+
     @CjTransaction
     @Override
     public List<DepositAbsorbActivity> getDepositAbsorbActivities(String principal, String record_sn) {

@@ -48,6 +48,10 @@ public interface IRecordPorts extends IOpenportService {
                            @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
     ) throws CircuitException;
 
+    @CjOpenport(usage = "根据凭证号获取系统内转账记录")
+    P2pRecord getP2PRecordByEvidence(ISecuritySession securitySession,
+                           @CjOpenportParameter(usage = "交易凭证", name = "evidence") String evidence
+    ) throws CircuitException;
     @CjOpenport(usage = "获取系统转账步骤")
     List<P2pActivity> getP2PActivities(ISecuritySession securitySession,
                                        @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
