@@ -9,4 +9,6 @@ public interface IBalanceBillService {
 
     List<Object> monthBill(String principal, int year, int month, int limit, long offset) throws CircuitException;
 
+    List<Object> pageBillByOrder(String principal, int order, int limit, long offset) throws CircuitException;
+
 }
