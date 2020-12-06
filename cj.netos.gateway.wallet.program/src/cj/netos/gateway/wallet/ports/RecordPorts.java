@@ -156,6 +156,7 @@ public class RecordPorts implements IRecordPorts {
         return recordService.getTransAbsorbRecord(securitySession.principal(), record_sn);
     }
 
+
     @Override
     public List<TransAbsorbActivity> getTransAbsorbActivities(ISecuritySession securitySession, String record_sn) throws CircuitException {
         return recordService.getTransAbsorbActivities(securitySession.principal(), record_sn);
@@ -169,6 +170,16 @@ public class RecordPorts implements IRecordPorts {
     @Override
     public List<DepositAbsorbActivity> getDepositAbsorbActivities(ISecuritySession securitySession, String record_sn) throws CircuitException {
         return recordService.getDepositAbsorbActivities(securitySession.principal(), record_sn);
+    }
+
+    @Override
+    public DepositTrialRecord getDepositTrialRecord(ISecuritySession securitySession, String record_sn) throws CircuitException {
+        return recordService.getDepositTrialRecord(securitySession.principal(), record_sn);
+    }
+
+    @Override
+    public List<DepositTrialActivity> getDepositTrialActivities(ISecuritySession securitySession, String record_sn) throws CircuitException {
+        return recordService.getDepositTrialActivities(securitySession.principal(), record_sn);
     }
 
     @Override

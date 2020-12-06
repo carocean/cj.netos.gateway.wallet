@@ -1,6 +1,7 @@
 package cj.netos.gateway.wallet.service;
 
 import cj.netos.gateway.wallet.*;
+import cj.netos.gateway.wallet.bo.PayBO;
 import cj.netos.gateway.wallet.bo.PayDetailsBO;
 import cj.netos.gateway.wallet.mapper.*;
 import cj.netos.gateway.wallet.model.*;
@@ -11,9 +12,12 @@ import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
 import cj.studio.ecm.net.CircuitException;
 import cj.studio.orm.mybatis.annotation.CjTransaction;
+import cj.ultimate.gson2.com.google.gson.Gson;
+import cj.ultimate.util.StringUtil;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @CjBridge(aspects = "@transaction")
 @CjService(name = "receiptTradeService")
@@ -62,7 +66,10 @@ public class ReceiptTradeService implements IReceiptTradeService {
     P2pRecordMapper p2pRecordMapper;
     @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.P2pActivityMapper")
     P2pActivityMapper p2pActivityMapper;
-
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.DepositTrialRecordMapper")
+    DepositTrialRecordMapper depositTrialRecordMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.DepositTrialActivityMapper")
+    DepositTrialActivityMapper depositTrialActivityMapper;
     @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.DepositHubTailsRecordMapper")
     DepositHubTailsRecordMapper depositHubTailsRecordMapper;
     @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.DepositHubTailsActivityMapper")
@@ -424,6 +431,49 @@ public class ReceiptTradeService implements IReceiptTradeService {
         p2pActivity.setStatus(record.getStatus());
         p2pActivity.setRecordSn(record.getSn());
         p2pActivityMapper.insert(p2pActivity);
+
+        return record;
+    }
+
+    @CjTransaction
+    @Override
+    public DepositTrialRecord depositTrialFunds(PayBO bo) {
+        DepositTrialRecord record = new DepositTrialRecord();
+        record.setAmount(bo.getAmount());
+        record.setCurrency("CNY");
+        record.setPayer(bo.getPerson());
+        record.setPayerName(bo.getPersonName());
+        PayDetailsBO detailsBO = bo.getDetails();
+        record.setPayee(detailsBO.getPayeeCode());
+        record.setPayeeName(detailsBO.getPayeeName());
+        record.setQrsliceId(detailsBO.getOrderno());
+        String consumerJson = detailsBO.getNote();
+        if (!StringUtil.isEmpty(consumerJson)) {
+            Map<String, String> map = new Gson().fromJson(consumerJson, HashMap.class);
+            record.setQrsliceConsumer(map.get("consumer") + "");
+            record.setQrsliceCname(map.get("nickName") + "");
+        }
+
+        record.setState(0);
+        record.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        record.setLutime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        record.setNote(null);
+        record.setSn(new IdWorker().nextId());
+        record.setStatus(200);
+        record.setMessage("ok");
+
+        depositTrialRecordMapper.insert(record);
+
+
+        DepositTrialActivity p2pActivity = new DepositTrialActivity();
+        p2pActivity.setActivityName("已收单");
+        p2pActivity.setActivityNo(0);
+        p2pActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        p2pActivity.setId(new IdWorker().nextId());
+        p2pActivity.setMessage(record.getMessage());
+        p2pActivity.setStatus(record.getStatus());
+        p2pActivity.setRecordSn(record.getSn());
+        depositTrialActivityMapper.insert(p2pActivity);
 
         return record;
     }

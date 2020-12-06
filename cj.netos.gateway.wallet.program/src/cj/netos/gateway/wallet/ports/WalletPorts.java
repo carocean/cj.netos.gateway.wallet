@@ -1,6 +1,8 @@
 package cj.netos.gateway.wallet.ports;
 
 import cj.netos.gateway.wallet.IPersonService;
+import cj.netos.gateway.wallet.ITrialFundsConfig;
+import cj.netos.gateway.wallet.model.TrialFundsConfig;
 import cj.studio.ecm.IServiceSite;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
@@ -22,6 +24,8 @@ public class WalletPorts implements IWalletPorts {
     IServiceSite site;
     @CjServiceRef
     IPersonService personService;
+    @CjServiceRef
+    ITrialFundsConfig trialFundsConfig;
 
     @Override
     public boolean hasWallet(ISecuritySession securitySession) throws CircuitException {
@@ -132,5 +136,44 @@ public class WalletPorts implements IWalletPorts {
         return map;
     }
 
+    private void _checkRights(ISecuritySession securitySession) throws CircuitException {
+        if (!securitySession.roleIn("platform:administrators") && !securitySession.roleIn("tenant:administrators")) {
+            throw new CircuitException("801", "拒绝访问");
+        }
+    }
 
+    @Override
+    public void configTrial(ISecuritySession securitySession, String remitAccount, String remitName, long trialAmount) throws CircuitException {
+        _checkRights(securitySession);
+        trialFundsConfig.configTrial(remitAccount, remitName, trialAmount);
+    }
+
+    @Override
+    public TrialFundsConfig getTrialConfig(ISecuritySession securitySession) throws CircuitException {
+        return trialFundsConfig.getConfig();
+    }
+
+    @Override
+    public void stopTrial(ISecuritySession securitySession) throws CircuitException {
+        _checkRights(securitySession);
+        trialFundsConfig.updateState(0);
+    }
+
+    @Override
+    public void restartTrial(ISecuritySession securitySession) throws CircuitException {
+        _checkRights(securitySession);
+        trialFundsConfig.updateState(1);
+    }
+
+    @Override
+    public void updateRemitAccount(ISecuritySession securitySession, String remitAccount, String remitName) throws CircuitException {
+        _checkRights(securitySession);
+        trialFundsConfig.updateRemitAccount(remitAccount, remitName);
+    }
+
+    @Override
+    public void updateTrialAmount(ISecuritySession securitySession, long trialAmount) throws CircuitException {
+        _checkRights(securitySession);
+        trialFundsConfig.updateTrialAmount(trialAmount);
+    }
 }

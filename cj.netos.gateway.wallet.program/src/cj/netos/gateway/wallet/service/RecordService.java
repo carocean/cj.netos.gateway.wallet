@@ -57,7 +57,10 @@ public class RecordService implements IRecordService {
     DepositAbsorbRecordMapper depositAbsorbRecordMapper;
     @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.DepositAbsorbActivityMapper")
     DepositAbsorbActivityMapper depositAbsorbActivityMapper;
-
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.DepositTrialRecordMapper")
+    DepositTrialRecordMapper depositTrialRecordMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.DepositTrialActivityMapper")
+    DepositTrialActivityMapper depositTrialActivityMapper;
     @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.TransShunterRecordMapper")
     TransShunterRecordMapper transShunterRecordMapper;
     @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.TransShunterActivityMapper")
@@ -626,6 +629,24 @@ public class RecordService implements IRecordService {
 
     @CjTransaction
     @Override
+    public DepositTrialRecord getDepositTrialRecord(String principal, String record_sn) {
+        DepositTrialRecordExample example = new DepositTrialRecordExample();
+        example.createCriteria().andSnEqualTo(record_sn);
+        List<DepositTrialRecord> list = depositTrialRecordMapper.selectByExample(example);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
+
+    @CjTransaction
+    @Override
+    public List<DepositTrialActivity> getDepositTrialActivities(String principal, String record_sn) {
+        return depositTrialActivityMapper.getAllActivities(record_sn);
+    }
+
+    @CjTransaction
+    @Override
     public DepositAbsorbRecord getDepositAbsorbRecordBySn(String record_sn) {
         DepositAbsorbRecordExample example = new DepositAbsorbRecordExample();
         example.createCriteria().andSnEqualTo(record_sn);
@@ -662,6 +683,28 @@ public class RecordService implements IRecordService {
         depositAbsorbActivity.setStatus(Float.valueOf(result.getStatus()).intValue());
         depositAbsorbActivity.setRecordSn(result.getSn());
         depositAbsorbActivityMapper.insert(depositAbsorbActivity);
+    }
+
+    @CjTransaction
+    @Override
+    public void ackDepositTrialFunds(DepositTrialFundsResult result) {
+        int _status = Float.valueOf(result.getStatus()).intValue();
+        DepositTrialBO bo = new Gson().fromJson((String) result.getRecord(), DepositTrialBO.class);
+        String msg = result.getMessage();
+        if (msg.length() > 250) {
+            msg = msg.substring(0, 250);
+        }
+        depositTrialRecordMapper.done(result.getSn(), bo.getAmount(), _status, msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+
+        DepositTrialActivity depositAbsorbActivity = new DepositTrialActivity();
+        depositAbsorbActivity.setActivityName("已完成");
+        depositAbsorbActivity.setActivityNo(1);
+        depositAbsorbActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        depositAbsorbActivity.setId(new IdWorker().nextId());
+        depositAbsorbActivity.setMessage(msg);
+        depositAbsorbActivity.setStatus(Float.valueOf(result.getStatus()).intValue());
+        depositAbsorbActivity.setRecordSn(result.getSn());
+        depositTrialActivityMapper.insert(depositAbsorbActivity);
     }
 
     @CjTransaction
@@ -827,7 +870,7 @@ public class RecordService implements IRecordService {
 
     @CjTransaction
     @Override
-    public void ackPayTrade(PayResult result) {
+    public PayBO ackPayTrade(PayResult result) {
         String msg = result.getMessage();
         if (msg.length() > 250) {
             msg = msg.substring(0, 250);
@@ -843,6 +886,7 @@ public class RecordService implements IRecordService {
         payActivity.setRecordSn(bo.getSn());
         payActivity.setStatus(Float.valueOf(result.getStatus()).intValue());
         payActivityMapper.insert(payActivity);
+        return bo;
     }
 
     @CjTransaction

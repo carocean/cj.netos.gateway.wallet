@@ -29,6 +29,10 @@ public interface IBalancePorts extends IOpenportService {
     Map<String, Object> getAbsorbAccount(ISecuritySession securitySession
     ) throws CircuitException;
 
+    @CjOpenport(usage = "获取体验金账户余额")
+    Map<String, Object> getTrialAccount(ISecuritySession securitySession
+    ) throws CircuitException;
+
     @CjOpenport(usage = "获取冻结账户余额")
     Map<String, Object> getFreezenAccount(ISecuritySession securitySession,
                                           @CjOpenportParameter(usage = "纹银银行行号", name = "wenyBankID") String wenyBankID

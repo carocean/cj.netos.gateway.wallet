@@ -1,5 +1,6 @@
 package cj.netos.gateway.wallet;
 
+import cj.netos.gateway.wallet.bo.PayBO;
 import cj.netos.gateway.wallet.bo.PayDetailsBO;
 import cj.netos.gateway.wallet.model.*;
 import cj.studio.ecm.net.CircuitException;
@@ -37,5 +38,7 @@ public interface IReceiptTradeService {
     P2pRecord p2p(String payer, String payerName, String payee, String payeeName, long amount, int type,String direct,String evidence,  String note);
 
     DepositHubTailsRecord depositHubTails(AbsorberHubTailsResult result);
+
+    DepositTrialRecord depositTrialFunds(PayBO bo);
 
 }

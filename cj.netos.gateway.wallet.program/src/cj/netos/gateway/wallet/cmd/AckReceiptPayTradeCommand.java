@@ -1,8 +1,8 @@
 package cj.netos.gateway.wallet.cmd;
 
-import cj.netos.gateway.wallet.IDepositAbsorbActivityController;
 import cj.netos.gateway.wallet.IPayActivityController;
-import cj.netos.gateway.wallet.result.DepositAbsorbResult;
+import cj.netos.gateway.wallet.IDepositTrialFundsActivityController;
+import cj.netos.gateway.wallet.bo.PayBO;
 import cj.netos.gateway.wallet.result.PayResult;
 import cj.netos.rabbitmq.CjConsumer;
 import cj.netos.rabbitmq.RabbitMQException;
@@ -23,10 +23,30 @@ import java.io.IOException;
 public class AckReceiptPayTradeCommand implements IConsumerCommand {
     @CjServiceRef
     IPayActivityController payActivityController;
+    @CjServiceRef
+    IDepositTrialFundsActivityController depositTrialFundsActivityController;
+
     @Override
     public void command(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws RabbitMQException, RetryCommandException, IOException {
-        PayResult result = new Gson().fromJson(new String(body), PayResult.class);
-        payActivityController.ackReceipt(result);
+        String json=new String(body);
+        CJSystem.logging().info(getClass(),String.format("body is :\r\n %s",json));
+
+        PayResult result = new Gson().fromJson(json, PayResult.class);
+        PayBO bo = payActivityController.ackReceipt(result);
+
+        if ("200".equals(result.getStatus())
+                && (bo.getDetails() != null
+                && "trialFunds".equals(bo.getDetails().getPayeeType())
+        )
+        ) {//体验金入账流程
+            try {
+                depositTrialFundsActivityController.doReceipt(bo);
+            } catch (CircuitException e) {
+                CJSystem.logging().error(e);
+            }
+            return;
+        }
+
         try {
             payActivityController.sendPayInfo(result);
         } catch (CircuitException e) {

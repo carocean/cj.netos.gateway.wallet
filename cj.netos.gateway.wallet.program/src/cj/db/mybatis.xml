@@ -61,5 +61,8 @@
         <mapper resource="cj/db/mappings/DepositHubTailsActivityMapper.xml"/>
         <mapper resource="cj/db/mappings/DepositHubTailsRecordMapper.xml"/>
         <mapper resource="cj/db/mappings/P2pEvidenceMapper.xml"/>
+        <mapper resource="cj/db/mappings/DepositTrialActivityMapper.xml"/>
+        <mapper resource="cj/db/mappings/TrialFundsConfigMapper.xml"/>
+        <mapper resource="cj/db/mappings/DepositTrialRecordMapper.xml"/>
     </mappers>
 </configuration>

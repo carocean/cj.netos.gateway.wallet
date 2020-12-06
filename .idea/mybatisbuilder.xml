@@ -170,6 +170,26 @@
             </TableInfo>
           </value>
         </entry>
+        <entry key="netos.wallet.main#deposit_trial_activity">
+          <value>
+            <TableInfo>
+              <option name="database" value="netos.wallet.main" />
+              <option name="domainName" value="DepositTrialActivity" />
+              <option name="tableComment" value="转账处理步骤。" />
+              <option name="tableName" value="deposit_trial_activity" />
+            </TableInfo>
+          </value>
+        </entry>
+        <entry key="netos.wallet.main#deposit_trial_record">
+          <value>
+            <TableInfo>
+              <option name="database" value="netos.wallet.main" />
+              <option name="domainName" value="DepositTrialRecord" />
+              <option name="tableComment" value="体验金记录单&#10;从付款人（由配置表中指定的）零钱中扣除，并转账到收款人（为发码人）的体验金账户" />
+              <option name="tableName" value="deposit_trial_record" />
+            </TableInfo>
+          </value>
+        </entry>
         <entry key="netos.wallet.main#p2p_ evidence">
           <value>
             <TableInfo>
@@ -347,6 +367,36 @@
               <option name="domainName" value="TransShunterRecord" />
               <option name="tableComment" value="账金转入余额" />
               <option name="tableName" value="trans_shunter_record" />
+            </TableInfo>
+          </value>
+        </entry>
+        <entry key="netos.wallet.main#trial_activity">
+          <value>
+            <TableInfo>
+              <option name="database" value="netos.wallet.main" />
+              <option name="domainName" value="TrialActivity" />
+              <option name="tableComment" value="转账处理步骤。" />
+              <option name="tableName" value="trial_activity" />
+            </TableInfo>
+          </value>
+        </entry>
+        <entry key="netos.wallet.main#trial_funds_config">
+          <value>
+            <TableInfo>
+              <option name="database" value="netos.wallet.main" />
+              <option name="domainName" value="TrialFundsConfig" />
+              <option name="tableComment" value="体验金配置" />
+              <option name="tableName" value="trial_funds_config" />
+            </TableInfo>
+          </value>
+        </entry>
+        <entry key="netos.wallet.main#trial_record">
+          <value>
+            <TableInfo>
+              <option name="database" value="netos.wallet.main" />
+              <option name="domainName" value="TrialRecord" />
+              <option name="tableComment" value="体验金记录单&#10;从付款人（由配置表中指定的）零钱中扣除，并转账到收款人（为发码人）的体验金账户" />
+              <option name="tableName" value="trial_record" />
             </TableInfo>
           </value>
         </entry>

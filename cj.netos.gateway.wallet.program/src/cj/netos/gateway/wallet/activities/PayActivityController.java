@@ -3,7 +3,6 @@ package cj.netos.gateway.wallet.activities;
 import cj.netos.gateway.wallet.IPayActivityController;
 import cj.netos.gateway.wallet.IReceiptTradeService;
 import cj.netos.gateway.wallet.IRecordService;
-import cj.netos.gateway.wallet.ISettleTradeService;
 import cj.netos.gateway.wallet.bo.PayBO;
 import cj.netos.gateway.wallet.bo.PayDetailsBO;
 import cj.netos.gateway.wallet.model.PayDetails;
@@ -11,11 +10,9 @@ import cj.netos.gateway.wallet.model.PayRecord;
 import cj.netos.gateway.wallet.result.PayResult;
 import cj.netos.gateway.wallet.result.PaymentResult;
 import cj.netos.rabbitmq.IRabbitMQProducer;
-import cj.studio.ecm.annotation.CjBridge;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
 import cj.studio.ecm.net.CircuitException;
-import cj.studio.orm.mybatis.annotation.CjTransaction;
 import cj.ultimate.gson2.com.google.gson.Gson;
 import com.rabbitmq.client.AMQP;
 
@@ -64,8 +61,8 @@ public class PayActivityController implements IPayActivityController {
 
 
     @Override
-    public void ackReceipt(PayResult result) {
-        recordService.ackPayTrade(result);
+    public PayBO ackReceipt(PayResult result) {
+       return recordService.ackPayTrade(result);
     }
 
     @Override

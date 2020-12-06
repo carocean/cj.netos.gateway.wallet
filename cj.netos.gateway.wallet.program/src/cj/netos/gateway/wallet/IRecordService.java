@@ -1,5 +1,6 @@
 package cj.netos.gateway.wallet;
 
+import cj.netos.gateway.wallet.bo.PayBO;
 import cj.netos.gateway.wallet.bo.PurchasedBO;
 import cj.netos.gateway.wallet.bo.WithdrawShunterBO;
 import cj.netos.gateway.wallet.model.*;
@@ -95,7 +96,7 @@ public interface IRecordService {
 
     void ackTransShunterDone(WithdrawShunterBO record, String status, String message);
 
-    void ackPayTrade(PayResult result);
+    PayBO ackPayTrade(PayResult result);
 
     void ackP2P(P2PResult result);
 
@@ -134,5 +135,11 @@ public interface IRecordService {
     void ackCancelPreDeductFromPayChannel(WithdrawResult result);
 
     P2pRecord getP2PRecordByEvidence(String principal, String evidence);
+
+    void ackDepositTrialFunds(DepositTrialFundsResult result);
+
+    DepositTrialRecord getDepositTrialRecord(String principal, String record_sn);
+
+    List<DepositTrialActivity> getDepositTrialActivities(String principal, String record_sn);
 
 }

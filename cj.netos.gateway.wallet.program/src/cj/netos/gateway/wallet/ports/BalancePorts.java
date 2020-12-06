@@ -34,6 +34,11 @@ public class BalancePorts implements IBalancePorts {
     }
 
     @Override
+    public Map<String, Object> getTrialAccount(ISecuritySession securitySession) throws CircuitException {
+        return balanceService.getTrialAccount(securitySession.principal());
+    }
+
+    @Override
     public Map<String, Object> getFreezenAccount(ISecuritySession securitySession,String wenyBankID) throws CircuitException {
         return balanceService.getFreezenAccount(securitySession.principal(),wenyBankID);
     }

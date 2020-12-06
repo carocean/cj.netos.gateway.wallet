@@ -23,4 +23,6 @@ public interface IBalanceService {
     Map<String, Object> getStockAccount(String principal, String wenyBankID) throws CircuitException;
 
 
+    Map<String, Object> getTrialAccount(String principal) throws CircuitException;
+
 }
