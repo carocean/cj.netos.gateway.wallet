@@ -14,4 +14,6 @@ public interface IWenyBankTradeCaller {
 
     void transShunter(TransShunterRecord record) throws CircuitException;
 
+    void purchase2(WenyPurchRecord record) throws CircuitException;
+
 }

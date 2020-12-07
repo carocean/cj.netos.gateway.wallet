@@ -262,6 +262,27 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
     }
 
     @Override
+    public PurchasingResult purchaseWeny2(ISecuritySession securitySession, String wenyBankID, int payMethod, long amount, String outTradeType, String outTradeSn, String note) throws CircuitException {
+        if (payMethod == 0) {
+            return purchaseWeny(securitySession, wenyBankID, amount, outTradeType, outTradeSn, note);
+        }
+        if (payMethod == 1) {
+            if (amount < 0) {
+                throw new CircuitException("500", "金额为负数");
+            }
+            if (StringUtil.isEmpty(wenyBankID)) {
+                throw new CircuitException("404", String.format("纹银银行行号为空"));
+            }
+            Map<String, Object> personInfo = personService.getPersonInfo((String) securitySession.property("accessToken"));
+            String personName = (String) personInfo.get("nickName");
+            WenyPurchRecord record = purchaseActivityController.doReceipt2(securitySession.principal(), personName, wenyBankID, amount, outTradeType, outTradeSn, note);
+            return new Gson().fromJson(new Gson().toJson(record), PurchasingResult.class);
+        }
+        throw new CircuitException("500", String.format("不支付的付款方式:%s", payMethod));
+
+    }
+
+    @Override
     public ExchangedResult exchangeWeny(ISecuritySession securitySession, String purchase_sn, String note) throws CircuitException {
         if (StringUtil.isEmpty(purchase_sn)) {
             throw new CircuitException("404", String.format("申购单号为空"));

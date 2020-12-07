@@ -26,6 +26,7 @@ public class WenyBankTradeCaller implements IWenyBankTradeCaller {
 
     @CjServiceRef(refByName = "@.rabbitmq.producer.toOC_receipt_transShunter")
     IRabbitMQProducer toOC_receipt_transShunter;
+
     @Override
     public void exchange(WenyExchangeRecord record) throws CircuitException {
         //向纹银银行提交承兑交易(交由oc处理）
@@ -50,7 +51,7 @@ public class WenyBankTradeCaller implements IWenyBankTradeCaller {
         toOC_receipt_exchange.publish("oc", properties, new Gson().toJson(exchangeBO).getBytes());
         //网关通过mq等待command确认
     }
-
+    //从零钱账号中扣款
     @Override
     public void purchase(WenyPurchRecord record) throws CircuitException {
         PurchaseBO purchaseBO = new PurchaseBO();
@@ -66,6 +67,30 @@ public class WenyBankTradeCaller implements IWenyBankTradeCaller {
                 .type("/trade/receipt.mhub")
                 .headers(new HashMap<String, Object>() {{
                     put("command", "purchase");
+                    put("person", record.getPerson());
+                    put("record_sn", record.getSn());
+                }})
+                .build();
+        toOC_receipt_purchase.publish("oc", properties, new Gson().toJson(purchaseBO).getBytes());
+        //网关通过mq等待command确认
+    }
+
+    //从体验金账号中扣款
+    @Override
+    public void purchase2(WenyPurchRecord record) throws CircuitException {
+        PurchaseBO purchaseBO = new PurchaseBO();
+        purchaseBO.setSn(record.getSn());
+        purchaseBO.setWenyBankID(record.getBankid());
+        purchaseBO.setPurchaser(record.getPerson());
+        purchaseBO.setPurchaserName(record.getPersonName());
+        purchaseBO.setAmount(record.getPurchAmount());
+        purchaseBO.setCtime(record.getCtime());
+        purchaseBO.setCurrency(record.getCurrency());
+        purchaseBO.setNote(record.getNote());
+        AMQP.BasicProperties properties = new AMQP.BasicProperties().builder()
+                .type("/trade/receipt.mhub")
+                .headers(new HashMap<String, Object>() {{
+                    put("command", "purchase2");
                     put("person", record.getPerson());
                     put("record_sn", record.getSn());
                 }})

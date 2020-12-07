@@ -12,7 +12,7 @@ public interface IReceiptTradeService {
 
     WithdrawRecord withdraw(String principal, String personName, long amount, ChannelAccount channelAccount, PersonCard personCard, String note) throws CircuitException;
 
-    WenyPurchRecord purchaseWeny(String principal, String personName, String wenyBankID, long amount,String outTradeType, String outTradeSn, String note) throws CircuitException;
+    WenyPurchRecord purchaseWeny(String principal, String personName, String wenyBankID, long amount,String outTradeType, String outTradeSn, int payMethod,String note) throws CircuitException;
 
     WenyExchangeRecord exchangeWeny(String principal, String personName, WenyPurchRecord purchRecord, String note) throws CircuitException;
 

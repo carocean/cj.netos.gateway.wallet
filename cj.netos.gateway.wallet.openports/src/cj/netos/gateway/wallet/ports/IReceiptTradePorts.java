@@ -18,10 +18,10 @@ import cj.studio.openport.annotations.CjOpenports;
 public interface IReceiptTradePorts extends IOpenportService {
     @CjOpenport(usage = "充值下单")
     String recharge(ISecuritySession securitySession,
-                            @CjOpenportParameter(usage = "币种", name = "currency", defaultValue = "CNY") String currency,
-                            @CjOpenportParameter(usage = "欲充值的金额,单位为分", name = "amount") long amount,
-                            @CjOpenportParameter(usage = "充值来源渠道号", name = "payChannel") String payChannel,
-                            @CjOpenportParameter(usage = "备注", name = "note") String note
+                    @CjOpenportParameter(usage = "币种", name = "currency", defaultValue = "CNY") String currency,
+                    @CjOpenportParameter(usage = "欲充值的金额,单位为分", name = "amount") long amount,
+                    @CjOpenportParameter(usage = "充值来源渠道号", name = "payChannel") String payChannel,
+                    @CjOpenportParameter(usage = "备注", name = "note") String note
     ) throws CircuitException;
 
     @CjOpenport(usage = "提现下单")
@@ -84,26 +84,26 @@ public interface IReceiptTradePorts extends IOpenportService {
 
     @CjOpenport(usage = "向凭证付款，凭证必须是收款凭证，仅用于系统内用户之间互转")
     P2PRecResult payToEvidence(ISecuritySession securitySession,
-                            @CjOpenportParameter(usage = "收款凭证", name = "evidence") String evidence,
-                            @CjOpenportParameter(usage = "金额", name = "amount") long amount,
-                            @CjOpenportParameter(usage = "转账类型：0.p2p(直转)|1 qrcode_pay(扫码付款人)", name = "type") int type,
-                            @CjOpenportParameter(usage = "备注", name = "note") String note
+                               @CjOpenportParameter(usage = "收款凭证", name = "evidence") String evidence,
+                               @CjOpenportParameter(usage = "金额", name = "amount") long amount,
+                               @CjOpenportParameter(usage = "转账类型：0.p2p(直转)|1 qrcode_pay(扫码付款人)", name = "type") int type,
+                               @CjOpenportParameter(usage = "备注", name = "note") String note
     ) throws CircuitException;
 
     @CjOpenport(usage = "向凭证收款，凭证必须是付款凭证，仅用于系统内用户之间互转")
     P2PRecResult receiveFromEvidence(ISecuritySession securitySession,
-                                  @CjOpenportParameter(usage = "付款凭证", name = "evidence") String evidence,
-                                  @CjOpenportParameter(usage = "金额", name = "amount") long amount,
-                                  @CjOpenportParameter(usage = "转账类型：0.p2p(直转)|1 qrcode_pay(扫码付款人)", name = "type") int type,
-                                  @CjOpenportParameter(usage = "备注", name = "note") String note
+                                     @CjOpenportParameter(usage = "付款凭证", name = "evidence") String evidence,
+                                     @CjOpenportParameter(usage = "金额", name = "amount") long amount,
+                                     @CjOpenportParameter(usage = "转账类型：0.p2p(直转)|1 qrcode_pay(扫码付款人)", name = "type") int type,
+                                     @CjOpenportParameter(usage = "备注", name = "note") String note
     ) throws CircuitException;
 
     @CjOpenport(usage = "我直接转账给对方(P2P)，仅用于系统内用户之间互转")
     P2PRecResult transTo(ISecuritySession securitySession,
-                      @CjOpenportParameter(usage = "转账金额,单位为分", name = "amount") long amount,
-                      @CjOpenportParameter(usage = "收款人", name = "payee") String payee,
-                      @CjOpenportParameter(usage = "转账类型：0.p2p(直转)|1 qrcode_pay(扫码收款人)", name = "type") int type,
-                      @CjOpenportParameter(usage = "备注", name = "note") String note
+                         @CjOpenportParameter(usage = "转账金额,单位为分", name = "amount") long amount,
+                         @CjOpenportParameter(usage = "收款人", name = "payee") String payee,
+                         @CjOpenportParameter(usage = "转账类型：0.p2p(直转)|1 qrcode_pay(扫码收款人)", name = "type") int type,
+                         @CjOpenportParameter(usage = "备注", name = "note") String note
     ) throws CircuitException;
 
     @CjOpenport(usage = "申购纹银")
@@ -119,6 +119,19 @@ public interface IReceiptTradePorts extends IOpenportService {
                                   @CjOpenportParameter(usage = "备注", name = "note") String note
     ) throws CircuitException;
 
+    @CjOpenport(usage = "指定付款方式申购纹银")
+    PurchasingResult purchaseWeny2(ISecuritySession securitySession,
+                                   @CjOpenportParameter(usage = "要申购的纹银银行id", name = "wenyBankID") String wenyBankID,
+                                   @CjOpenportParameter(usage = "付款方式：0零钱；1体验金", name = "payMethod") int payMethod,
+                                   @CjOpenportParameter(usage = "委托申购金额,单位为分", name = "amount") long amount,
+                                   @CjOpenportParameter(usage = "外部订单类型：\n" +
+                                           "netflow网流\n" +
+                                           "geosphere地圈", name = "outTradeType") String outTradeType,
+                                   @CjOpenportParameter(usage = "外部单号：\n" +
+                                           "网流：cj@gbera.netos/29939238283\n" +
+                                           "地圈：mobiles/9239203920392", name = "outTradeSn") String outTradeSn,
+                                   @CjOpenportParameter(usage = "备注", name = "note") String note
+    ) throws CircuitException;
 
     @CjOpenport(usage = "承兑纹银")
     ExchangedResult exchangeWeny(ISecuritySession securitySession,

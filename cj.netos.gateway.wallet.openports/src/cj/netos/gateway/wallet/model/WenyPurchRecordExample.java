@@ -1877,6 +1877,66 @@ public class WenyPurchRecordExample {
             addCriterion("out_trade_type not between", value1, value2, "outTradeType");
             return (Criteria) this;
         }
+
+        public Criteria andPayMethodIsNull() {
+            addCriterion("pay_method is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayMethodIsNotNull() {
+            addCriterion("pay_method is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayMethodEqualTo(Integer value) {
+            addCriterion("pay_method =", value, "payMethod");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayMethodNotEqualTo(Integer value) {
+            addCriterion("pay_method <>", value, "payMethod");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayMethodGreaterThan(Integer value) {
+            addCriterion("pay_method >", value, "payMethod");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayMethodGreaterThanOrEqualTo(Integer value) {
+            addCriterion("pay_method >=", value, "payMethod");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayMethodLessThan(Integer value) {
+            addCriterion("pay_method <", value, "payMethod");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayMethodLessThanOrEqualTo(Integer value) {
+            addCriterion("pay_method <=", value, "payMethod");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayMethodIn(List<Integer> values) {
+            addCriterion("pay_method in", values, "payMethod");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayMethodNotIn(List<Integer> values) {
+            addCriterion("pay_method not in", values, "payMethod");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayMethodBetween(Integer value1, Integer value2) {
+            addCriterion("pay_method between", value1, value2, "payMethod");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayMethodNotBetween(Integer value1, Integer value2) {
+            addCriterion("pay_method not between", value1, value2, "payMethod");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

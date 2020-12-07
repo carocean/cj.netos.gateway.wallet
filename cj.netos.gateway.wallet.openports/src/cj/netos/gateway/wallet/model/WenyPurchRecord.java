@@ -167,6 +167,12 @@ public class WenyPurchRecord {
      */
     private String outTradeType;
 
+    /**
+     * Column: pay_method
+     * Remark: 付款方式： 0 钱包零钱 1 体验金
+     */
+    private Integer payMethod;
+
     public String getSn() {
         return sn;
     }
@@ -381,5 +387,13 @@ public class WenyPurchRecord {
 
     public void setOutTradeType(String outTradeType) {
         this.outTradeType = outTradeType == null ? null : outTradeType.trim();
+    }
+
+    public Integer getPayMethod() {
+        return payMethod;
+    }
+
+    public void setPayMethod(Integer payMethod) {
+        this.payMethod = payMethod;
     }
 }

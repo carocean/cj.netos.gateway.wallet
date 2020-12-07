@@ -30,6 +30,7 @@
     <result column="exchange_state" jdbcType="INTEGER" property="exchangeState" />
     <result column="out_trade_sn" jdbcType="VARCHAR" property="outTradeSn" />
     <result column="out_trade_type" jdbcType="VARCHAR" property="outTradeType" />
+    <result column="pay_method" jdbcType="INTEGER" property="payMethod" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -96,7 +97,7 @@
     sn, person, person_name, currency, purch_amount, stock, price, service_fee, fee_ratio, 
     ttm, `state`, ctime, lutime, note, bankid, `status`, message, principal_ratio, principal_amount, 
     bank_purch_sn, free_ratio, reserve_ratio, free_amount, reserve_amount, exchange_state, 
-    out_trade_sn, out_trade_type
+    out_trade_sn, out_trade_type, pay_method
   </sql>
   <select id="selectByExample" parameterType="cj.netos.gateway.wallet.model.WenyPurchRecordExample" resultMap="BaseResultMap">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -142,8 +143,8 @@
       `status`, message, principal_ratio, 
       principal_amount, bank_purch_sn, free_ratio, 
       reserve_ratio, free_amount, reserve_amount, 
-      exchange_state, out_trade_sn, out_trade_type
-      )
+      exchange_state, out_trade_sn, out_trade_type, 
+      pay_method)
     values (#{sn,jdbcType=VARCHAR}, #{person,jdbcType=VARCHAR}, #{personName,jdbcType=VARCHAR}, 
       #{currency,jdbcType=VARCHAR}, #{purchAmount,jdbcType=BIGINT}, #{stock,jdbcType=DECIMAL}, 
       #{price,jdbcType=DECIMAL}, #{serviceFee,jdbcType=BIGINT}, #{feeRatio,jdbcType=DECIMAL}, 
@@ -152,8 +153,8 @@
       #{status,jdbcType=INTEGER}, #{message,jdbcType=VARCHAR}, #{principalRatio,jdbcType=DECIMAL}, 
       #{principalAmount,jdbcType=BIGINT}, #{bankPurchSn,jdbcType=VARCHAR}, #{freeRatio,jdbcType=DECIMAL}, 
       #{reserveRatio,jdbcType=DECIMAL}, #{freeAmount,jdbcType=BIGINT}, #{reserveAmount,jdbcType=BIGINT}, 
-      #{exchangeState,jdbcType=INTEGER}, #{outTradeSn,jdbcType=VARCHAR}, #{outTradeType,jdbcType=VARCHAR}
-      )
+      #{exchangeState,jdbcType=INTEGER}, #{outTradeSn,jdbcType=VARCHAR}, #{outTradeType,jdbcType=VARCHAR}, 
+      #{payMethod,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="cj.netos.gateway.wallet.model.WenyPurchRecord">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -240,6 +241,9 @@
       <if test="outTradeType != null">
         out_trade_type,
       </if>
+      <if test="payMethod != null">
+        pay_method,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="sn != null">
@@ -322,6 +326,9 @@
       </if>
       <if test="outTradeType != null">
         #{outTradeType,jdbcType=VARCHAR},
+      </if>
+      <if test="payMethod != null">
+        #{payMethod,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -417,6 +424,9 @@
       <if test="record.outTradeType != null">
         out_trade_type = #{record.outTradeType,jdbcType=VARCHAR},
       </if>
+      <if test="record.payMethod != null">
+        pay_method = #{record.payMethod,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -451,7 +461,8 @@
       reserve_amount = #{record.reserveAmount,jdbcType=BIGINT},
       exchange_state = #{record.exchangeState,jdbcType=INTEGER},
       out_trade_sn = #{record.outTradeSn,jdbcType=VARCHAR},
-      out_trade_type = #{record.outTradeType,jdbcType=VARCHAR}
+      out_trade_type = #{record.outTradeType,jdbcType=VARCHAR},
+      pay_method = #{record.payMethod,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -538,6 +549,9 @@
       <if test="outTradeType != null">
         out_trade_type = #{outTradeType,jdbcType=VARCHAR},
       </if>
+      <if test="payMethod != null">
+        pay_method = #{payMethod,jdbcType=INTEGER},
+      </if>
     </set>
     where sn = #{sn,jdbcType=VARCHAR}
   </update>
@@ -569,7 +583,8 @@
       reserve_amount = #{reserveAmount,jdbcType=BIGINT},
       exchange_state = #{exchangeState,jdbcType=INTEGER},
       out_trade_sn = #{outTradeSn,jdbcType=VARCHAR},
-      out_trade_type = #{outTradeType,jdbcType=VARCHAR}
+      out_trade_type = #{outTradeType,jdbcType=VARCHAR},
+      pay_method = #{payMethod,jdbcType=INTEGER}
     where sn = #{sn,jdbcType=VARCHAR}
   </update>
   <update id="ackPurchasing" parameterType="cj.netos.gateway.wallet.model.WenyPurchRecord">

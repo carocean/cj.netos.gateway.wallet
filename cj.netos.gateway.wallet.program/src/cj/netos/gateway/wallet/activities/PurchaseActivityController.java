@@ -28,11 +28,20 @@ public class PurchaseActivityController implements IPurchaseActivityController {
     @CjServiceRef
     IWenyBankTradeCaller wenyBankTradeCaller;
 
+    //从零钱扣
     @CjTransaction
     @Override
     public WenyPurchRecord doReceipt(String principal, String personName, String wenyBankID, long amount,String outTradeType, String outTradeSn, String note) throws CircuitException {
-        WenyPurchRecord record = receiptTradeService.purchaseWeny(principal, personName, wenyBankID, amount,outTradeType,outTradeSn, note);
+        WenyPurchRecord record = receiptTradeService.purchaseWeny(principal, personName, wenyBankID, amount,outTradeType,outTradeSn,0, note);
         wenyBankTradeCaller.purchase(record);
+        return record;
+    }
+    //从体验金扣
+    @Override
+    @CjTransaction
+    public WenyPurchRecord doReceipt2(String principal, String personName, String wenyBankID, long amount, String outTradeType, String outTradeSn, String note) throws CircuitException {
+        WenyPurchRecord record = receiptTradeService.purchaseWeny(principal, personName, wenyBankID, amount,outTradeType,outTradeSn,1, note);
+        wenyBankTradeCaller.purchase2(record);
         return record;
     }
 
