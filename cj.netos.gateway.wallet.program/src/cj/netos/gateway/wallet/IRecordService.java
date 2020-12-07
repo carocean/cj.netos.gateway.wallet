@@ -138,7 +138,7 @@ public interface IRecordService {
 
     void ackDepositTrialFunds(DepositTrialFundsResult result);
 
-    DepositTrialRecord getDepositTrialRecord(String principal, String record_sn);
+    DepositTrialRecord getDepositTrialRecord( String record_sn);
 
     List<DepositTrialActivity> getDepositTrialActivities(String principal, String record_sn);
 

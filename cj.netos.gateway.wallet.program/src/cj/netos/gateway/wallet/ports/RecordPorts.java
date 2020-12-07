@@ -174,7 +174,7 @@ public class RecordPorts implements IRecordPorts {
 
     @Override
     public DepositTrialRecord getDepositTrialRecord(ISecuritySession securitySession, String record_sn) throws CircuitException {
-        return recordService.getDepositTrialRecord(securitySession.principal(), record_sn);
+        return recordService.getDepositTrialRecord(record_sn);
     }
 
     @Override

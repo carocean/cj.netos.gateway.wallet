@@ -29,7 +29,7 @@ public class AckReceiptPayTradeCommand implements IConsumerCommand {
     @Override
     public void command(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws RabbitMQException, RetryCommandException, IOException {
         String json=new String(body);
-        CJSystem.logging().info(getClass(),String.format("body is :\r\n %s",json));
+//        CJSystem.logging().info(getClass(),String.format("body is :\r\n %s",json));
 
         PayResult result = new Gson().fromJson(json, PayResult.class);
         PayBO bo = payActivityController.ackReceipt(result);

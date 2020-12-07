@@ -629,7 +629,7 @@ public class RecordService implements IRecordService {
 
     @CjTransaction
     @Override
-    public DepositTrialRecord getDepositTrialRecord(String principal, String record_sn) {
+    public DepositTrialRecord getDepositTrialRecord(String record_sn) {
         DepositTrialRecordExample example = new DepositTrialRecordExample();
         example.createCriteria().andSnEqualTo(record_sn);
         List<DepositTrialRecord> list = depositTrialRecordMapper.selectByExample(example);

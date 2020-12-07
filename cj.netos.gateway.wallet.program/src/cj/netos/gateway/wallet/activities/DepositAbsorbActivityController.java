@@ -2,7 +2,6 @@ package cj.netos.gateway.wallet.activities;
 
 import cj.netos.gateway.wallet.*;
 import cj.netos.gateway.wallet.bo.DepositAbsorbBO;
-import cj.netos.gateway.wallet.bo.PurchaseBO;
 import cj.netos.gateway.wallet.model.DepositAbsorbRecord;
 import cj.netos.gateway.wallet.result.DepositAbsorbResult;
 import cj.netos.rabbitmq.IRabbitMQProducer;
@@ -67,7 +66,7 @@ public class DepositAbsorbActivityController implements IDepositAbsorbActivityCo
         CJSystem.logging().info(getClass(), String.format("洇金已存入：%s %s %s", result.getSn(), result.getStatus(), result.getMessage()));
         try {
             DepositAbsorbRecord record = recordService.getDepositAbsorbRecordBySn(result.getSn());
-            pushToAbsorbChatroom.push(record);
+            pushToAbsorbChatroom.pushAbsorb(record);
         } catch (Exception e) {
             CJSystem.logging().error(getClass(), String.format("推送洇金通知失败:%s", e));
         }

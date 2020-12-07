@@ -1,9 +1,6 @@
 package cj.netos.gateway.wallet.activities;
 
-import cj.netos.gateway.wallet.IReceiptTradeService;
-import cj.netos.gateway.wallet.IDepositTrialFundsActivityController;
-import cj.netos.gateway.wallet.IRecordService;
-import cj.netos.gateway.wallet.ITrialFundsConfig;
+import cj.netos.gateway.wallet.*;
 import cj.netos.gateway.wallet.bo.PayBO;
 import cj.netos.gateway.wallet.bo.DepositTrialBO;
 import cj.netos.gateway.wallet.model.DepositAbsorbRecord;
@@ -34,6 +31,9 @@ public class DepositTrialFundsActivityController implements IDepositTrialFundsAc
     IRabbitMQProducer toOC_receipt_depositTrialFunds;
     @CjServiceRef
     IRecordService recordService;
+    @CjServiceRef
+    IPushToAbsorbChatroom pushToAbsorbChatroom;
+
     @CjTransaction
     @Override
     public TrialFundsConfig getConfig() {
@@ -82,5 +82,11 @@ public class DepositTrialFundsActivityController implements IDepositTrialFundsAc
     public void ackReceipt(DepositTrialFundsResult result) {
         recordService.ackDepositTrialFunds(result);
         CJSystem.logging().info(getClass(), String.format("体验金已存入：%s %s %s", result.getSn(), result.getStatus(), result.getMessage()));
+        try {
+            DepositTrialRecord record = recordService.getDepositTrialRecord(result.getSn());
+            pushToAbsorbChatroom.pushTrial(record);
+        } catch (Exception e) {
+            CJSystem.logging().error(getClass(), String.format("推送体验金通知失败:%s", e));
+        }
     }
 }
