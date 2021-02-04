@@ -84,6 +84,6 @@ public class PayActivityController implements IPayActivityController {
                 }})
                 .build();
 
-        notifyFinishedPay.publish("onPayment", properties, new Gson().toJson(paymentResult).getBytes());
+        notifyFinishedPay.publish(details.getPayeeType(), properties, new Gson().toJson(paymentResult).getBytes());
     }
 }

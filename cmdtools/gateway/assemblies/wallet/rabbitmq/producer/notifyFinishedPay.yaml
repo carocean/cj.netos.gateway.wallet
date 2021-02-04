@@ -43,12 +43,22 @@ routing:
   # unicast 单播。为默认
   # multicast 多播。该功能等效于type=fanout，建议多播使用type=fanout
   routingNodes:
-    onPayment:
-      title: 支付交易完成事件
+    #匹配payTrade明细的类型，在payDetail表中的payee_type字段
+    absorber:
+      title: robot项目喂猫
       castmode: unicast
       routingKeys:
-        - node.1
-        - node.2
-        - node.3
-        - node.4
-        - node.5
+        - absorber.1
+        - absorber.2
+        - absorber.3
+        - absorber.4
+        - absorber.5
+    fission-mf:
+      title: 向裂变·交个朋友项目付款
+      castmode: unicast
+      routingKeys:
+        - mf.1
+        - mf.2
+        - mf.3
+        - mf.4
+        - mf.5
