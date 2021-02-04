@@ -45,7 +45,7 @@ routing:
   routingNodes:
     onPayment:
       title: 支付交易完成事件
-      castmode: multicast
+      castmode: unicast
       routingKeys:
         - node.1
         - node.2
