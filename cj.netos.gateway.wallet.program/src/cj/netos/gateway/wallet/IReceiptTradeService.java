@@ -41,4 +41,8 @@ public interface IReceiptTradeService {
 
     DepositTrialRecord depositTrialFunds(PayBO bo);
 
+    ModuleTransinRecord moduleTransin(String moduleId, String moduleTitle, String person, String nickName, String payer, String payerName, long amount, String note);
+
+    ModuleTransinRecord getModuleTransinRecord(String sn);
+
 }

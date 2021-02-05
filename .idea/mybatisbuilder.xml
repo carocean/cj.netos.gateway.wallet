@@ -190,6 +190,26 @@
             </TableInfo>
           </value>
         </entry>
+        <entry key="netos.wallet.main#module_transin_activity">
+          <value>
+            <TableInfo>
+              <option name="database" value="netos.wallet.main" />
+              <option name="domainName" value="ModuleTransinActivity" />
+              <option name="tableComment" value="充值处理步骤" />
+              <option name="tableName" value="module_transin_activity" />
+            </TableInfo>
+          </value>
+        </entry>
+        <entry key="netos.wallet.main#module_transin_record">
+          <value>
+            <TableInfo>
+              <option name="database" value="netos.wallet.main" />
+              <option name="domainName" value="ModuleTransinRecord" />
+              <option name="tableComment" value="模块账户转入资金&#10;例如：&#10;裂变游戏·交个朋友&#10;或其他模块账户" />
+              <option name="tableName" value="module_transin_record" />
+            </TableInfo>
+          </value>
+        </entry>
         <entry key="netos.wallet.main#p2p_ evidence">
           <value>
             <TableInfo>

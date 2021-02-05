@@ -2,6 +2,7 @@ package cj.netos.gateway.wallet;
 
 import cj.netos.gateway.wallet.bo.PurchasedBO;
 import cj.netos.gateway.wallet.bo.WithdrawShunterBO;
+import cj.netos.gateway.wallet.model.ModuleTransinRecord;
 import cj.netos.gateway.wallet.model.RechargeRecord;
 import cj.netos.gateway.wallet.model.WithdrawRecord;
 import cj.netos.gateway.wallet.result.ExchangedResult;

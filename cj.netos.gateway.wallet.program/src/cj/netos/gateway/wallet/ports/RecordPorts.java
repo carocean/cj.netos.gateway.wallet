@@ -26,6 +26,16 @@ public class RecordPorts implements IRecordPorts {
     }
 
     @Override
+    public ModuleTransinRecord getModuleTransin(ISecuritySession securitySession, String record_sn) throws CircuitException {
+        return recordService.getModuleTransin(securitySession.principal(), record_sn);
+    }
+
+    @Override
+    public List<ModuleTransinActivity> getModuleTransinActivies(ISecuritySession securitySession, String record_sn) throws CircuitException {
+        return recordService.getModuleTransinActivies(securitySession.principal(), record_sn);
+    }
+
+    @Override
     public WithdrawRecord getWithdrawRecord(ISecuritySession securitySession, String record_sn) throws CircuitException {
         return recordService.getWithdrawRecord(securitySession.principal(), record_sn);
     }

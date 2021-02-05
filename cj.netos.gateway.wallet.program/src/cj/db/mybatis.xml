@@ -64,5 +64,7 @@
         <mapper resource="cj/db/mappings/DepositTrialActivityMapper.xml"/>
         <mapper resource="cj/db/mappings/TrialFundsConfigMapper.xml"/>
         <mapper resource="cj/db/mappings/DepositTrialRecordMapper.xml"/>
+        <mapper resource="cj/db/mappings/ModuleTransinActivityMapper.xml"/>
+        <mapper resource="cj/db/mappings/ModuleTransinRecordMapper.xml"/>
     </mappers>
 </configuration>

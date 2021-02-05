@@ -142,4 +142,10 @@ public interface IRecordService {
 
     List<DepositTrialActivity> getDepositTrialActivities(String principal, String record_sn);
 
+    void ackModuleTransinRecord(ModuleTransinResult result);
+
+    ModuleTransinRecord getModuleTransin(String principal, String record_sn);
+
+    List<ModuleTransinActivity> getModuleTransinActivies(String principal, String record_sn);
+
 }

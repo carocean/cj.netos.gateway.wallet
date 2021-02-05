@@ -74,6 +74,10 @@ public class ReceiptTradeService implements IReceiptTradeService {
     DepositHubTailsRecordMapper depositHubTailsRecordMapper;
     @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.DepositHubTailsActivityMapper")
     DepositHubTailsActivityMapper depositHubTailsActivityMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.ModuleTransinRecordMapper")
+    ModuleTransinRecordMapper moduleTransinRecordMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.ModuleTransinActivityMapper")
+    ModuleTransinActivityMapper moduleTransinActivityMapper;
     @CjServiceRef
     IChannelAccountSelector channelAccountSelector;
     @CjServiceRef
@@ -118,6 +122,42 @@ public class ReceiptTradeService implements IReceiptTradeService {
         rechargeActivityMapper.insert(rechargeActivity);
         return record;
     }
+
+    @CjTransaction
+    @Override
+    public ModuleTransinRecord moduleTransin(String moduleId, String moduleTitle, String person, String nickName, String payer, String payerName, long amount, String note) {
+        ModuleTransinRecord record = new ModuleTransinRecord();
+        record.setCurrency("CNY");
+        record.setModuleId(moduleId);
+        record.setModuleTitle(moduleTitle);
+        record.setPerson(person);
+        record.setPersonName(nickName);
+        record.setPayer(payer);
+        record.setPayerName(payerName);
+        record.setState(0);
+        record.setAmount(amount);
+        record.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        record.setLutime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        record.setNote(note);
+        record.setSn(new IdWorker().nextId());
+        record.setStatus(200);
+        record.setMessage("ok");
+
+        moduleTransinRecordMapper.insert(record);
+
+        ModuleTransinActivity rechargeActivity = new ModuleTransinActivity();
+        rechargeActivity.setActivityName("已收单");
+        rechargeActivity.setActivityNo(0);
+        rechargeActivity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        rechargeActivity.setId(new IdWorker().nextId());
+        rechargeActivity.setMessage(record.getMessage());
+        rechargeActivity.setRecordSn(record.getSn());
+        rechargeActivity.setStatus(record.getStatus());
+        moduleTransinActivityMapper.insert(rechargeActivity);
+
+        return record;
+    }
+
 
     @CjTransaction
     @Override
@@ -301,7 +341,7 @@ public class ReceiptTradeService implements IReceiptTradeService {
 
     @CjTransaction
     @Override
-    public WenyPurchRecord purchaseWeny(String principal, String personName, String wenyBankID, long amount, String outTradeType, String outTradeSn,int payMethod, String note) throws CircuitException {
+    public WenyPurchRecord purchaseWeny(String principal, String personName, String wenyBankID, long amount, String outTradeType, String outTradeSn, int payMethod, String note) throws CircuitException {
         WenyPurchRecord record = new WenyPurchRecord();
         record.setPurchAmount(amount);
         record.setCurrency("CNY");
@@ -518,10 +558,17 @@ public class ReceiptTradeService implements IReceiptTradeService {
         return wenyPurchRecordMapper.selectByPrimaryKey(purchase_sn);
     }
 
+
     @CjTransaction
     @Override
     public RechargeRecord getRechargeRecord(String sn) {
         return rechargeRecordMapper.selectByPrimaryKey(sn);
+    }
+
+    @CjTransaction
+    @Override
+    public ModuleTransinRecord getModuleTransinRecord(String sn) {
+        return moduleTransinRecordMapper.selectByPrimaryKey(sn);
     }
 
     @CjTransaction

@@ -27,6 +27,12 @@ public class SettleTradeService implements ISettleTradeService {
     @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.RechargeActivityMapper")
     RechargeActivityMapper rechargeActivityMapper;
 
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.ModuleTransinRecordMapper")
+    ModuleTransinRecordMapper moduleTransinRecordMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.ModuleTransinActivityMapper")
+    ModuleTransinActivityMapper moduleTransinActivityMapper;
+
+
     @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.WithdrawRecordMapper")
     WithdrawRecordMapper withdrawRecordMapper;
     @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.WithdrawActivityMapper")
@@ -44,6 +50,8 @@ public class SettleTradeService implements ISettleTradeService {
 
     @CjServiceRef(refByName = "@.rabbitmq.producer.toOC_settle_recharge")
     IRabbitMQProducer toOC_settle_recharge;
+
+
 
     @CjServiceRef(refByName = "@.rabbitmq.producer.toOC_settle_withdraw")
     IRabbitMQProducer toOC_settle_withdraw;

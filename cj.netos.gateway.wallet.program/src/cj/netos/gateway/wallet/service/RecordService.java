@@ -78,6 +78,11 @@ public class RecordService implements IRecordService {
     @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.DepositHubTailsActivityMapper")
     DepositHubTailsActivityMapper depositHubTailsActivityMapper;
 
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.ModuleTransinRecordMapper")
+    ModuleTransinRecordMapper moduleTransinRecordMapper;
+    @CjServiceRef(refByName = "mybatis.cj.netos.gateway.wallet.mapper.ModuleTransinActivityMapper")
+    ModuleTransinActivityMapper moduleTransinActivityMapper;
+
     @CjTransaction
     @Override
     public WenyPurchRecord getPurchaseRecord(String sn) {
@@ -102,6 +107,24 @@ public class RecordService implements IRecordService {
         rechargeActivity.setStatus(Integer.valueOf(result.getStatus()));
         rechargeActivityMapper.insert(rechargeActivity);
 
+    }
+    @CjTransaction
+    @Override
+    public void ackModuleTransinRecord(ModuleTransinResult result) {
+        String msg = result.getMessage();
+        if (msg.length() > 250) {
+            msg = msg.substring(0, 250);
+        }
+        moduleTransinRecordMapper.done(result.getSn(), Integer.valueOf(result.getStatus()), msg, WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        ModuleTransinActivity activity = new ModuleTransinActivity();
+        activity.setActivityName("已决清");
+        activity.setActivityNo(1);
+        activity.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
+        activity.setId(new IdWorker().nextId());
+        activity.setMessage(msg);
+        activity.setRecordSn(result.getSn());
+        activity.setStatus(Integer.valueOf(result.getStatus()));
+        moduleTransinActivityMapper.insert(activity);
     }
 
     @CjTransaction
@@ -375,6 +398,22 @@ public class RecordService implements IRecordService {
     @Override
     public List<RechargeActivity> getRechargeActivities(String principal, String record_sn) {
         return rechargeActivityMapper.getAllActivities(record_sn);
+    }
+    @CjTransaction
+    @Override
+    public ModuleTransinRecord getModuleTransin(String principal, String record_sn) {
+        ModuleTransinRecordExample example = new ModuleTransinRecordExample();
+        example.createCriteria().andSnEqualTo(record_sn);
+        List<ModuleTransinRecord> list = moduleTransinRecordMapper.selectByExample(example);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
+    @CjTransaction
+    @Override
+    public List<ModuleTransinActivity> getModuleTransinActivies(String principal, String record_sn) {
+        return moduleTransinActivityMapper.getAllActivities(record_sn);
     }
 
     @CjTransaction

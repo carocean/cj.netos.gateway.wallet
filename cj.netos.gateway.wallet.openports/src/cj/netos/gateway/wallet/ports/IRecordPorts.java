@@ -23,6 +23,16 @@ public interface IRecordPorts extends IOpenportService {
                                                  @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
     ) throws CircuitException;
 
+    @CjOpenport(usage = "获取模块转入账款记录")
+    ModuleTransinRecord getModuleTransin(ISecuritySession securitySession,
+                                         @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "获取模块转入账款步骤")
+    List<ModuleTransinActivity> getModuleTransinActivies(ISecuritySession securitySession,
+                                                         @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
+    ) throws CircuitException;
+
     @CjOpenport(usage = "获取提现记录")
     WithdrawRecord getWithdrawRecord(ISecuritySession securitySession,
                                      @CjOpenportParameter(usage = "记录标识", name = "record_sn") String record_sn
