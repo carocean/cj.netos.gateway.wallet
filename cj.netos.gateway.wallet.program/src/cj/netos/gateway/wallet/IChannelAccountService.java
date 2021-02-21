@@ -19,4 +19,8 @@ public interface IChannelAccountService {
 
     ChannelAccount selectAccount(String payChannel, int factory);
 
+    List<ChannelAccount> pageAccountBy(String channel, String applyTerminal, int limit, long offset);
+
+    List<ChannelAccount> pageAccountByTerminal(String applyTerminal, int limit, long offset);
+
 }

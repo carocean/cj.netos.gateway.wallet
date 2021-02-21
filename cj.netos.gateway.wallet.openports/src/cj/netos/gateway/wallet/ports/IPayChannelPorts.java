@@ -29,7 +29,7 @@ public interface IPayChannelPorts extends IOpenportService {
                        @CjOpenportParameter(usage = "备注", name = "note") String note
     ) throws CircuitException;
 
-    @CjOpenport(usage = "移除渠道")
+    @CjOpenport(usage = "获取渠道")
     PayChannel getPayChannel(ISecuritySession securitySession,
                              @CjOpenportParameter(usage = "渠道代码", name = "code") String code
     ) throws CircuitException;
@@ -101,11 +101,15 @@ public interface IPayChannelPorts extends IOpenportService {
     void addAccount(ISecuritySession securitySession,
                     @CjOpenportParameter(usage = "渠道代码", name = "channel") String channel,
                     @CjOpenportParameter(usage = "渠道颁发的应用标识", name = "appid") String appid,
+                    @CjOpenportParameter(usage = "渠道中的商户号", name = "mchid") String mchid,
                     @CjOpenportParameter(usage = "渠道的服务地址", name = "serviceUrl") String serviceUrl,
-                    @CjOpenportParameter(usage = "渠道的通知回调地址", name = "notifyUrl") String notifyUrl,
+                    @CjOpenportParameter(usage = "渠道的支付通知回调地址", name = "payNotifyUrl") String payNotifyUrl,
+                    @CjOpenportParameter(usage = "渠道的商户（我方）转到渠道个人户通知回调地址", name = "transNotifyUrl") String transNotifyUrl,
                     @CjOpenportParameter(usage = "是否采用证书加签", name = "useCert") int useCert,
                     @CjOpenportParameter(usage = "渠道颁发的应用公钥", name = "publicKey") String publicKey,
                     @CjOpenportParameter(usage = "渠道颁发的应用私钥", name = "privateKey") String privateKey,
+                    @CjOpenportParameter(usage = "专门用于微信。商户的apiv3密钥，即在设置商户api密钥时商户自定义的32位串", name = "apiV3Key") String apiV3Key,
+                    @CjOpenportParameter(usage = "专用于微信。商户证书序列号，在商户后台账号中心的api安全中点查看证书可见", name = "mchSerialNo") String mchSerialNo,
                     @CjOpenportParameter(usage = "如果第三方渠道采用证书，则不同渠道有不同的类型的证书，比如支付宝要求有：应用证书、支付证书、根证书，可分别用cert_path1,cert_path2，cert_path3来存储", name = "certPath1") String certPath1,
                     @CjOpenportParameter(usage = "如果第三方渠道采用证书，则不同渠道有不同的类型的证书，比如支付宝要求有：应用证书、支付证书、根证书，可分别用cert_path1,cert_path2，cert_path3来存储", name = "certPath2") String certPath2,
                     @CjOpenportParameter(usage = "如果第三方渠道采用证书，则不同渠道有不同的类型的证书，比如支付宝要求有：应用证书、支付证书、根证书，可分别用cert_path1,cert_path2，cert_path3来存储", name = "certPath3") String certPath3,
@@ -134,15 +138,30 @@ public interface IPayChannelPorts extends IOpenportService {
                                               @CjOpenportParameter(usage = "偏移位置", name = "offset") long offset
     ) throws CircuitException;
 
+    @CjOpenport(usage = "分页指定条件下的账户")
+    List<ChannelAccount> pageAccountBy(ISecuritySession securitySession,
+                                       @CjOpenportParameter(usage = "渠道代码", name = "channel") String channel,
+                                       @CjOpenportParameter(usage = "应用于终端。值有:app|jsapi等等", name = "applyTerminal") String applyTerminal,
+                                       @CjOpenportParameter(usage = "页大小", name = "limit") int limit,
+                                       @CjOpenportParameter(usage = "偏移位置", name = "offset") long offset
+    ) throws CircuitException;
+
     @CjOpenport(usage = "列出渠道下的费率（仅提现有）")
     List<ChannelRatio> listFeeRatioOfChannel(ISecuritySession securitySession,
                                              @CjOpenportParameter(usage = "渠道代码", name = "channel") String channel
     ) throws CircuitException;
 
-    @CjOpenport(usage = "分页查询渠道")
+    @CjOpenport(usage = "分页查询渠道账号，仅列出应用于app的渠道账号")
     List<ChannelAccount> pageAccount(ISecuritySession securitySession,
                                      @CjOpenportParameter(usage = "页大小", name = "limit") int limit,
                                      @CjOpenportParameter(usage = "偏移位置", name = "offset") long offset
+    ) throws CircuitException;
+
+    @CjOpenport(usage = "分页查询渠道账号，指定应用终端下的渠道账号")
+    List<ChannelAccount> pageAccountByTerminal(ISecuritySession securitySession,
+                                               @CjOpenportParameter(usage = "应用于终端。值有:app|jsapi等等", name = "applyTerminal") String applyTerminal,
+                                               @CjOpenportParameter(usage = "页大小", name = "limit") int limit,
+                                               @CjOpenportParameter(usage = "偏移位置", name = "offset") long offset
     ) throws CircuitException;
 
     @CjOpenport(usage = "统计总账")

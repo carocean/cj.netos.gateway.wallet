@@ -80,7 +80,9 @@ public class PayChannelService implements IPayChannelService {
                 if (account.getKeyExpire() == null) {
                     account.setKeyExpire(0L);
                 }
-                account.setId(Encript.md5(UUID.randomUUID().toString()));
+                if (StringUtil.isEmpty(account.getId())) {
+                    account.setId(Encript.md5(UUID.randomUUID().toString()));
+                }
                 channelAccountMapper.insert(account);
             }
             for (ChannelRatio ratio : bo.getFeeRatios()) {

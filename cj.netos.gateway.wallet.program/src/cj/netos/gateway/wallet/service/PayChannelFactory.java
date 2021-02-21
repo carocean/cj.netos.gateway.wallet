@@ -2,6 +2,7 @@ package cj.netos.gateway.wallet.service;
 
 import cj.netos.gateway.wallet.IAlipay;
 import cj.netos.gateway.wallet.IPayChannelFactory;
+import cj.netos.gateway.wallet.IWechatpay;
 import cj.netos.gateway.wallet.PayChannelTransferResult;
 import cj.netos.gateway.wallet.model.ChannelAccount;
 import cj.netos.gateway.wallet.model.PersonCard;
@@ -20,6 +21,8 @@ public class PayChannelFactory implements IPayChannelFactory {
     @CjServiceRef
     IAlipay alipay;
 
+    @CjServiceRef
+    IWechatpay wechatpay;
     @Override
     public PayChannelTransferResult transfer(WithdrawRecord record, ChannelAccount account, PersonCard card) throws CircuitException {
         //将提现记录单提现到公众卡
@@ -49,6 +52,9 @@ public class PayChannelFactory implements IPayChannelFactory {
         switch (payChannelID) {
             case "alipay":
                 result = alipay.pay(record);
+                break;
+            case "wechatpay":
+                result=wechatpay.pay(record);
                 break;
             default:
                 throw new CircuitException("800", String.format("暂不支持支付渠道:%s", payChannelID));

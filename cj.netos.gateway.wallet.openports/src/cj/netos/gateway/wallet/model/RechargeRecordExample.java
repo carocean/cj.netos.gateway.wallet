@@ -747,6 +747,146 @@ public class RechargeRecordExample {
             return (Criteria) this;
         }
 
+        public Criteria andPayTerminalIsNull() {
+            addCriterion("pay_terminal is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTerminalIsNotNull() {
+            addCriterion("pay_terminal is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTerminalEqualTo(String value) {
+            addCriterion("pay_terminal =", value, "payTerminal");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTerminalNotEqualTo(String value) {
+            addCriterion("pay_terminal <>", value, "payTerminal");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTerminalGreaterThan(String value) {
+            addCriterion("pay_terminal >", value, "payTerminal");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTerminalGreaterThanOrEqualTo(String value) {
+            addCriterion("pay_terminal >=", value, "payTerminal");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTerminalLessThan(String value) {
+            addCriterion("pay_terminal <", value, "payTerminal");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTerminalLessThanOrEqualTo(String value) {
+            addCriterion("pay_terminal <=", value, "payTerminal");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTerminalLike(String value) {
+            addCriterion("pay_terminal like", value, "payTerminal");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTerminalNotLike(String value) {
+            addCriterion("pay_terminal not like", value, "payTerminal");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTerminalIn(List<String> values) {
+            addCriterion("pay_terminal in", values, "payTerminal");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTerminalNotIn(List<String> values) {
+            addCriterion("pay_terminal not in", values, "payTerminal");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTerminalBetween(String value1, String value2) {
+            addCriterion("pay_terminal between", value1, value2, "payTerminal");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTerminalNotBetween(String value1, String value2) {
+            addCriterion("pay_terminal not between", value1, value2, "payTerminal");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayOpenidIsNull() {
+            addCriterion("pay_openid is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayOpenidIsNotNull() {
+            addCriterion("pay_openid is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayOpenidEqualTo(String value) {
+            addCriterion("pay_openid =", value, "payOpenid");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayOpenidNotEqualTo(String value) {
+            addCriterion("pay_openid <>", value, "payOpenid");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayOpenidGreaterThan(String value) {
+            addCriterion("pay_openid >", value, "payOpenid");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayOpenidGreaterThanOrEqualTo(String value) {
+            addCriterion("pay_openid >=", value, "payOpenid");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayOpenidLessThan(String value) {
+            addCriterion("pay_openid <", value, "payOpenid");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayOpenidLessThanOrEqualTo(String value) {
+            addCriterion("pay_openid <=", value, "payOpenid");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayOpenidLike(String value) {
+            addCriterion("pay_openid like", value, "payOpenid");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayOpenidNotLike(String value) {
+            addCriterion("pay_openid not like", value, "payOpenid");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayOpenidIn(List<String> values) {
+            addCriterion("pay_openid in", values, "payOpenid");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayOpenidNotIn(List<String> values) {
+            addCriterion("pay_openid not in", values, "payOpenid");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayOpenidBetween(String value1, String value2) {
+            addCriterion("pay_openid between", value1, value2, "payOpenid");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayOpenidNotBetween(String value1, String value2) {
+            addCriterion("pay_openid not between", value1, value2, "payOpenid");
+            return (Criteria) this;
+        }
+
         public Criteria andStateIsNull() {
             addCriterion("`state` is null");
             return (Criteria) this;

@@ -26,6 +26,7 @@
         "accounts":[
             {
                 "appId":"2021001198622080",
+                "applyTerminal":"app",
                 "serviceUrl":"https://openapi.alipay.com/gateway.do",
                 "payNotifyUrl":"http://nodespower.com/payNotify/alipay/pay_notify.html",
                 "transNotifyUrl":"http://nodespower.com/payNotify/alipay/trans_notify.html",

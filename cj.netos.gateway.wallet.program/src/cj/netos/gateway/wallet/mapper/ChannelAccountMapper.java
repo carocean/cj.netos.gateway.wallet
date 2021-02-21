@@ -69,4 +69,9 @@ public interface ChannelAccountMapper {
     long totalBalanceByChannel(@Param("channel") String channel);
 
     long totalAllChannelBalance();
+
+    List<ChannelAccount> pageAccountBy(@Param("channel") String channel,@Param(value = "applyTerminal") String applyTerminal,@Param("limit") int limit, @Param("offset") long offset);
+
+    List<ChannelAccount> pageAccountByTerminal(@Param(value = "applyTerminal") String applyTerminal, @Param("limit") int limit, @Param("offset") long offset);
+
 }

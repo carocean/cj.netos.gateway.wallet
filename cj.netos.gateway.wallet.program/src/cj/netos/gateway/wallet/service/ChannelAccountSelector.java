@@ -15,8 +15,8 @@ public class ChannelAccountSelector implements IChannelAccountSelector {
     IChannelAccountService channelAccountService;
 
     @Override
-    public ChannelAccount selectSmallestAccount(PayChannel payChannel) {
-        List<ChannelAccount> accountList = channelAccountService.pageAccountOfChannel(payChannel.getCode(), Integer.MAX_VALUE, 0);
+    public ChannelAccount selectSmallestAccount(PayChannel payChannel,String applyTerminal) {
+        List<ChannelAccount> accountList = channelAccountService.pageAccountBy(payChannel.getCode(),applyTerminal, Integer.MAX_VALUE, 0);
         if (accountList.isEmpty()) {
             return null;
         }

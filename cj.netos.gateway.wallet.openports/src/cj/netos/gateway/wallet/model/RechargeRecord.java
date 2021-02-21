@@ -59,6 +59,18 @@ public class RechargeRecord {
     private String payAccount;
 
     /**
+     * Column: pay_terminal
+     * Remark: 支付终端，如:app,  jsapi等
+     */
+    private String payTerminal;
+
+    /**
+     * Column: pay_openid
+     * Remark: 支付用的第三方openid，与pay_terminal对应 主要用于兼容微信jsapi支付需要用到openid的问题
+     */
+    private String payOpenid;
+
+    /**
      * Column: state
      * Remark: 0为创建；1为完成 是否出错看status，status记录当前步骤的状态
      */
@@ -164,6 +176,22 @@ public class RechargeRecord {
 
     public void setPayAccount(String payAccount) {
         this.payAccount = payAccount == null ? null : payAccount.trim();
+    }
+
+    public String getPayTerminal() {
+        return payTerminal;
+    }
+
+    public void setPayTerminal(String payTerminal) {
+        this.payTerminal = payTerminal == null ? null : payTerminal.trim();
+    }
+
+    public String getPayOpenid() {
+        return payOpenid;
+    }
+
+    public void setPayOpenid(String payOpenid) {
+        this.payOpenid = payOpenid == null ? null : payOpenid.trim();
     }
 
     public Integer getState() {

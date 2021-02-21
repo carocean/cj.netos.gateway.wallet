@@ -87,8 +87,8 @@ public class ReceiptTradeService implements IReceiptTradeService {
 
     @CjTransaction
     @Override
-    public RechargeRecord recharge(String principal, String personName, String currency, long amount, PayChannel payChannel, String note) throws CircuitException {
-        ChannelAccount channelAccount = channelAccountSelector.selectSmallestAccount(payChannel);
+    public RechargeRecord recharge(String principal, String personName, String currency, long amount, PayChannel payChannel, String applyTerminal, String openid, String note) throws CircuitException {
+        ChannelAccount channelAccount = channelAccountSelector.selectSmallestAccount(payChannel, applyTerminal);
         if (channelAccount == null) {
             throw new CircuitException("404", String.format("没有选中渠道账户在支付渠道:%s下", payChannel.getName()));
         }
@@ -99,6 +99,8 @@ public class ReceiptTradeService implements IReceiptTradeService {
         record.setPayChannel(payChannel.getCode());
         record.setPayAccount(null);
         record.setToChannelAccount(channelAccount.getId());
+        record.setPayTerminal(applyTerminal);
+        record.setPayOpenid(openid);
         record.setPerson(principal);
         record.setState(0);
         record.setCtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));

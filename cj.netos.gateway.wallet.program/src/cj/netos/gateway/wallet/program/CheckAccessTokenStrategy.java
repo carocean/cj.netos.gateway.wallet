@@ -37,6 +37,7 @@ public class CheckAccessTokenStrategy implements ICheckAccessTokenStrategy {
     public ISecuritySession checkAccessToken(ISecuritySession securitySession, String portsurl, String methodName, String accessToken) throws CheckAccessTokenException {
         Map<String, Object> tokeninfo = _checkAccessToken(accessToken);
         List<String> roles = (List<String>) tokeninfo.get("roles");
+
         ISecuritySession _securitySession = new DefaultSecuritySession(tokeninfo.get("person") + "", roles, null);
         int pos=_securitySession.principal().lastIndexOf("@");
         String appid = _securitySession.principal().substring(pos + 1);
@@ -44,6 +45,12 @@ public class CheckAccessTokenStrategy implements ICheckAccessTokenStrategy {
         _securitySession.property("device",tokeninfo.get("device"));
         _securitySession.property("accessToken", accessToken);
         _securitySession.property("nickName", tokeninfo.get("nickName"));
+
+        Map<String,String> source= (Map<String, String>) tokeninfo.get("source");
+        if (source == null) {
+            source = new HashMap<>();
+        }
+        _securitySession.property("source", source);
         return _securitySession;
     }
 

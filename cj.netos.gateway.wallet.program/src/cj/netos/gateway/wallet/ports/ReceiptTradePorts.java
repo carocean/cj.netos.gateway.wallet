@@ -63,6 +63,20 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
 
     @Override
     public String recharge(ISecuritySession securitySession, String currency, long amount, String payChannelID, String note) throws CircuitException {
+        try {
+            return rechargeImpl(securitySession, currency, amount, payChannelID, "app", note);
+        }catch (Exception e){
+            CJSystem.logging().error(getClass(),e);
+            throw new CircuitException("500",e);
+        }
+    }
+
+    @Override
+    public String rechargeTo(ISecuritySession securitySession, String currency, long amount, String payChannelID, String applyTerminal, String note) throws CircuitException {
+        return rechargeImpl(securitySession, currency, amount, payChannelID, applyTerminal, note);
+    }
+
+    private String rechargeImpl(ISecuritySession securitySession, String currency, long amount, String payChannelID, String applyTerminal, String note) throws CircuitException {
         if (StringUtil.isEmpty(currency)) {
             currency = "CNY";
         }
@@ -78,7 +92,9 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
         }
         Map<String, Object> personInfo = personService.getPersonInfo((String) securitySession.property("accessToken"));
         String personName = (String) personInfo.get("nickName");
-        RechargeRecord record = rechargeActivityController.doReceipt(securitySession.principal(), personName, currency, amount, payChannel, note);
+        Map<String,String> source= (Map<String, String>) securitySession.property("source");
+        String openid=source.get(applyTerminal);
+        RechargeRecord record = rechargeActivityController.doReceipt(securitySession.principal(), personName, currency, amount, payChannel, applyTerminal,openid, note);
         String result = payChannelFactory.pay(record);
         return result;
     }

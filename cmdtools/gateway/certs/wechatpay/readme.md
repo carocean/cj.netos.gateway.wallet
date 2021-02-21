@@ -1,0 +1,63 @@
+初始化微信渠道
+
+在微信商户中心设置api 安全密钥：6EA4774EE78DCDF0768CA18ECF3AD1DB
+微信支付渠道下有两类应用终端账号：一个是app支付，一个是jsapi支付(公众号支付)
+
+[
+    {
+        "code":"wechatpay",
+        "name":"微信",
+        "switchFeeRatio":1,
+        "note":"",
+        "feeRatios":[
+            {
+                "minBound":0,
+                "maxBound":500,
+                "feeRatio":0.01
+            },
+            {
+                "minBound":500,
+                "maxBound":9223372036854775807,
+                "feeRatio":0.006
+            }
+        ],
+        "accounts":[
+            {
+                "appId":"wxf7be7c1a7c5fd8ed",
+                "mchId":"1606337815",
+                "applyTerminal":"app",
+                "serviceUrl":"https://api.mch.weixin.qq.com/v3/pay/transactions/app",
+                "payNotifyUrl":"http://nodespower.com/payNotify/wechat/app_pay_notify.html",
+                "transNotifyUrl":"http://nodespower.com/payNotify/wechat/app_trans_notify.html",
+                "useCert":0,
+                "publicKey":"",
+                "privateKey":"MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCzb3/uj/5XyW4BZ3Gn2z9Xdp8k0l1m0OGoTl3XucYIaBWpo7ns1fFFqgoVfCVQ4Q35ASv08bPo0V3q/zCVqzAvhC3Jpzn/znWcIbLhZkyw8mXLbsfOE4FYQA7021B6pC/0hhhNletCptzYOvjy9oIcYZ+6o6yl+nfX91xH0rHmpyKBVpYhNlBLOGkx0ruw4/hvRfWakiU2mOdZgJCA3qvVnovqSX+SPHjiyhL7YP77Zpe3oH9H141GmQyHvwukUfdjo1jMXb1Y4hnaQxW6Hbmi4K477E8CMirXdZTClGXGTBP6sZEax+m4arL8knmDyeJxxv7ZAKMYK7x9WZ7k5b/VAgMBAAECggEAa6v2mpKxTsBCUHlgTBdWFQfLS28oOPAS2MndqfuCB71dcmQaxzFCDEmSr33Fbpj9p3O6issW6BfqQX9MCiOlUH4Cc8TzGrsq+7uE+ZhHYM6zorUhFFnD/c7Cqs+HpXAsjpCAuN3DREWYs+//PtwJCzrRfE+G5Do9+8wlBbw6oGqcFphAbioQngDOPecNL2uUZ9Zx7Xt1svcsLl6vGJRV3J5WxtE0d0ixQrMJonl1NVf9Wp7Y8WgUZvi1/9ppSsAhMdPQpcErQIdNBwB6NCBEu13/4qFERZKCfe8NRv3AyNucxNxbZuoeBdseDOENtjB1IFIO78eL2GmUCj0ect5gAQKBgQDqmcYraHqm22m5j0L7+Vd5h5SQH47hzl5fazU9NHFpNW5DePlaVzoHvADQpZ0iCShPMzlZ8gurytSE1A9DexN0XJthzOnMMvLwjRTcxgFAxuD9G1XJjHVIAd2tBgOADUC/Mir09nyIxS1TqnqcFXczCx20ddeNIopDygPFf+qEAQKBgQDDzYyYdLrI03YgbiZtlnLV7ivLCDmSjJYJZgPJkkQ1EPy3mDO6kpVWCT5GbSC00Lk/KlIOqrBpQXWtrP30rghWq7Tl61N9u76dbq7BQzNrcFLj/WpGjs7di6wdzkdW3sjr+Wf/6fvZqn44891kHw9XIznqJjAHDXW/3ZoKS5nr1QKBgEkLCdV4GUAcbqWUwmFbt+2h1hKtkLojm+SPp6rfyjPcq/EcGF8Va37+/S35cpwnR8KpC0FDCHk7lMGqmPoEtwDy2Hox59VpQ5S8CHPYvokhoumLekFflyCNXCzEA5D6D1+4SgGtQQcAhWVYXgZ89HkTC/OlATDzQSNsIZJ7ilQBAoGBAKrgdbSPGnss4EhJGMxGog1E/37+vI/ClSW6m8+MEG5nVsU61NocFquxAWIg1ow2I5SWcGpQWAhjkjlxYWfpgWlyDDsi9ggikqV99JDA/tzid9R0Ug0lkC8UN68DWIrdfmdBj5ttLde1zNYTLMC1woN/QImxrfRZsMsyr74QYFHJAoGAHvuEyk3A/XdmCNU0ZatVLTTZ6vgS6Sr7rbobw0A3EAtghVXkTousj4TS4o4ZHzwQmKvGkCAR/RKm9gBfhWc3Y7FCVaT7En592uluywK1Y7irfH2vrxEdn/7syjJkfh+2L62GhyWhJJmBZTBYjkNNGQr8ACZ96T0n6sa/khZm6y8=",
+                "apiV3Key":"6EA4774EE78DCDF0768CA18ECF3AD1DB",
+                "mchSerialNo":"7479E333AC2DC19EAE3097AD369B8866BFC48655",
+                "keyPubtime":"20201023195432536",
+                "keyExpire":0,
+                "limitAmount":0,
+                "weight":1,
+                "note":""
+            },
+            {
+                "appId":"wx900c306e2b59c066",
+                "mchId":"1606337815",
+                "applyTerminal":"jsapi",
+                "serviceUrl":"https://api.mch.weixin.qq.com/v3/pay/transactions/jsapi",
+                "payNotifyUrl":"http://nodespower.com/payNotify/wechat/jsapi_pay_notify.html",
+                "transNotifyUrl":"http://nodespower.com/payNotify/wechat/jsapi_trans_notify.html",
+                "useCert":0,
+                "publicKey":"",
+                "privateKey":"MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCzb3/uj/5XyW4BZ3Gn2z9Xdp8k0l1m0OGoTl3XucYIaBWpo7ns1fFFqgoVfCVQ4Q35ASv08bPo0V3q/zCVqzAvhC3Jpzn/znWcIbLhZkyw8mXLbsfOE4FYQA7021B6pC/0hhhNletCptzYOvjy9oIcYZ+6o6yl+nfX91xH0rHmpyKBVpYhNlBLOGkx0ruw4/hvRfWakiU2mOdZgJCA3qvVnovqSX+SPHjiyhL7YP77Zpe3oH9H141GmQyHvwukUfdjo1jMXb1Y4hnaQxW6Hbmi4K477E8CMirXdZTClGXGTBP6sZEax+m4arL8knmDyeJxxv7ZAKMYK7x9WZ7k5b/VAgMBAAECggEAa6v2mpKxTsBCUHlgTBdWFQfLS28oOPAS2MndqfuCB71dcmQaxzFCDEmSr33Fbpj9p3O6issW6BfqQX9MCiOlUH4Cc8TzGrsq+7uE+ZhHYM6zorUhFFnD/c7Cqs+HpXAsjpCAuN3DREWYs+//PtwJCzrRfE+G5Do9+8wlBbw6oGqcFphAbioQngDOPecNL2uUZ9Zx7Xt1svcsLl6vGJRV3J5WxtE0d0ixQrMJonl1NVf9Wp7Y8WgUZvi1/9ppSsAhMdPQpcErQIdNBwB6NCBEu13/4qFERZKCfe8NRv3AyNucxNxbZuoeBdseDOENtjB1IFIO78eL2GmUCj0ect5gAQKBgQDqmcYraHqm22m5j0L7+Vd5h5SQH47hzl5fazU9NHFpNW5DePlaVzoHvADQpZ0iCShPMzlZ8gurytSE1A9DexN0XJthzOnMMvLwjRTcxgFAxuD9G1XJjHVIAd2tBgOADUC/Mir09nyIxS1TqnqcFXczCx20ddeNIopDygPFf+qEAQKBgQDDzYyYdLrI03YgbiZtlnLV7ivLCDmSjJYJZgPJkkQ1EPy3mDO6kpVWCT5GbSC00Lk/KlIOqrBpQXWtrP30rghWq7Tl61N9u76dbq7BQzNrcFLj/WpGjs7di6wdzkdW3sjr+Wf/6fvZqn44891kHw9XIznqJjAHDXW/3ZoKS5nr1QKBgEkLCdV4GUAcbqWUwmFbt+2h1hKtkLojm+SPp6rfyjPcq/EcGF8Va37+/S35cpwnR8KpC0FDCHk7lMGqmPoEtwDy2Hox59VpQ5S8CHPYvokhoumLekFflyCNXCzEA5D6D1+4SgGtQQcAhWVYXgZ89HkTC/OlATDzQSNsIZJ7ilQBAoGBAKrgdbSPGnss4EhJGMxGog1E/37+vI/ClSW6m8+MEG5nVsU61NocFquxAWIg1ow2I5SWcGpQWAhjkjlxYWfpgWlyDDsi9ggikqV99JDA/tzid9R0Ug0lkC8UN68DWIrdfmdBj5ttLde1zNYTLMC1woN/QImxrfRZsMsyr74QYFHJAoGAHvuEyk3A/XdmCNU0ZatVLTTZ6vgS6Sr7rbobw0A3EAtghVXkTousj4TS4o4ZHzwQmKvGkCAR/RKm9gBfhWc3Y7FCVaT7En592uluywK1Y7irfH2vrxEdn/7syjJkfh+2L62GhyWhJJmBZTBYjkNNGQr8ACZ96T0n6sa/khZm6y8=",
+                "apiV3Key":"6EA4774EE78DCDF0768CA18ECF3AD1DB",
+                "mchSerialNo":"7479E333AC2DC19EAE3097AD369B8866BFC48655",
+                "keyPubtime":"20201023195432536",
+                "keyExpire":0,
+                "limitAmount":0,
+                "weight":1,
+                "note":""
+            }
+        ]
+    }
+]

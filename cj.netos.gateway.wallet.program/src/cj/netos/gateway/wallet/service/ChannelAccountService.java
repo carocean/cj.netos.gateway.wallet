@@ -63,6 +63,18 @@ public class ChannelAccountService implements IChannelAccountService {
 
     @CjTransaction
     @Override
+    public List<ChannelAccount> pageAccountBy(String channel, String applyTerminal, int limit, long offset) {
+        return channelAccountMapper.pageAccountBy(channel, applyTerminal, limit, offset);
+    }
+
+    @CjTransaction
+    @Override
+    public List<ChannelAccount> pageAccountByTerminal(String applyTerminal, int limit, long offset) {
+        return channelAccountMapper.pageAccountByTerminal(applyTerminal, limit, offset);
+    }
+
+    @CjTransaction
+    @Override
     public long totalAccountBalance(String channel) {
         if (!StringUtil.isEmpty(channel)) {
             return channelAccountMapper.totalBalanceByChannel(channel);

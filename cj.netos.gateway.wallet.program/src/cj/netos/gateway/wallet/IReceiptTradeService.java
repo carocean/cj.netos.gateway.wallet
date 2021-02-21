@@ -8,7 +8,7 @@ import cj.studio.ecm.net.CircuitException;
 import java.math.BigDecimal;
 
 public interface IReceiptTradeService {
-    RechargeRecord recharge(String principal, String personName, String currency, long amount, PayChannel payChannel, String note) throws CircuitException;
+    RechargeRecord recharge(String principal, String personName, String currency, long amount, PayChannel payChannel,String applyTerminal,String openid, String note) throws CircuitException;
 
     WithdrawRecord withdraw(String principal, String personName, long amount, ChannelAccount channelAccount, PersonCard personCard, String note) throws CircuitException;
 

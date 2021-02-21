@@ -180,7 +180,7 @@ public class PayChannelPorts implements IPayChannelPorts {
     }
 
     @Override
-    public void addAccount(ISecuritySession securitySession, String channel, String appid, String serviceUrl, String notifyUrl, int useCert, String publicKey, String privateKey, String certPath1, String certPath2, String certPath3, String certPath4, String keyPubtime, long keyExpire, int weight, long limitAmount, String note) throws CircuitException {
+    public void addAccount(ISecuritySession securitySession, String channel, String appid, String mchid, String serviceUrl, String payNotifyUrl, String transNotifyUrl, int useCert, String publicKey, String privateKey, String apiV3Key, String mchSerialNo, String certPath1, String certPath2, String certPath3, String certPath4, String keyPubtime, long keyExpire, int weight, long limitAmount, String note) throws CircuitException {
         _checkRights(securitySession);
         if (StringUtil.isEmpty(channel)) {
             throw new CircuitException("404", "channel 参数为空");
@@ -193,6 +193,7 @@ public class PayChannelPorts implements IPayChannelPorts {
         }
         ChannelAccount account = new ChannelAccount();
         account.setAppId(appid);
+        account.setMchId(mchid);
         account.setBalanceAmount(0L);
         account.setBalanceUtime(WalletUtils.dateTimeToMicroSecond(System.currentTimeMillis()));
         account.setChannel(channel);
@@ -200,10 +201,13 @@ public class PayChannelPorts implements IPayChannelPorts {
         account.setKeyExpire(keyExpire);
         account.setPublicKey(publicKey);
         account.setPrivateKey(privateKey);
+        account.setApiV3Key(apiV3Key);
+        account.setMchSerialNo(mchSerialNo);
         account.setLimitAmount(limitAmount);
         account.setNote(note);
         account.setServiceUrl(serviceUrl);
-        account.setPayNotifyUrl(notifyUrl);
+        account.setPayNotifyUrl(payNotifyUrl);
+        account.setTransNotifyUrl(transNotifyUrl);
         account.setUseCert(useCert);
         account.setCertPath1(certPath1);
         account.setCertPath2(certPath2);
@@ -231,6 +235,12 @@ public class PayChannelPorts implements IPayChannelPorts {
     }
 
     @Override
+    public List<ChannelAccount> pageAccountBy(ISecuritySession securitySession, String channel, String applyTerminal, int limit, long offset) throws CircuitException {
+        _checkRights(securitySession);
+        return channelAccountService.pageAccountBy(channel,applyTerminal, limit, offset);
+    }
+
+    @Override
     public List<ChannelRatio> listFeeRatioOfChannel(ISecuritySession securitySession, String channel) throws CircuitException {
         _checkRights(securitySession);
         return channelRatioService.listFeeRatioOfChannel(channel);
@@ -240,6 +250,12 @@ public class PayChannelPorts implements IPayChannelPorts {
     public List<ChannelAccount> pageAccount(ISecuritySession securitySession, int limit, long offset) throws CircuitException {
         _checkRights(securitySession);
         return channelAccountService.pageAccount(limit, offset);
+    }
+
+    @Override
+    public List<ChannelAccount> pageAccountByTerminal(ISecuritySession securitySession, String applyTerminal, int limit, long offset) throws CircuitException {
+        _checkRights(securitySession);
+        return channelAccountService.pageAccountByTerminal(applyTerminal,limit, offset);
     }
 
     @Override

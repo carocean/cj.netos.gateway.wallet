@@ -125,9 +125,22 @@ class PayChannel {
 ```json
 [
 {
-  "code": "alipay",
-  "name": "支付宝",
-  "note": "",
+  "code":"alipay",
+  "name":"支付宝",
+  "switchFeeRatio":1,
+  "note":"",
+  "feeRatios":[
+    {
+        "minBound":0,
+        "maxBound":500,
+        "feeRatio":0.01
+    },
+    {
+        "minBound":500,
+        "maxBound":9223372036854775807,
+        "feeRatio":0.006
+    }
+  ],
   "accounts": [
     {
       "appId": "",
