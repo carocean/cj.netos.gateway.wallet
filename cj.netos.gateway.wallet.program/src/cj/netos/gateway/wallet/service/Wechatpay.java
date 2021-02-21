@@ -87,6 +87,7 @@ public class Wechatpay implements IWechatpay {
         CloseableHttpClient httpClient = getClient(account);
         try {
             Map<String, Object> params = createJsapiOrder(httpClient, account, record);
+            params.put("record_sn",record.getSn());
             return new Gson().toJson(params);
         } catch (Exception e) {
             throw new CircuitException("500", e);
@@ -104,6 +105,7 @@ public class Wechatpay implements IWechatpay {
         CloseableHttpClient httpClient = getClient(account);
         try {
             Map<String, Object> params = createAppOrder(httpClient, account, record);
+            params.put("record_sn",record.getSn());
             return new Gson().toJson(params);
         } catch (Exception e) {
             throw new CircuitException("500", e);

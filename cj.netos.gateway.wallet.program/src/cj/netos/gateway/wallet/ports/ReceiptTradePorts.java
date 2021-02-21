@@ -63,12 +63,7 @@ public class ReceiptTradePorts implements IReceiptTradePorts {
 
     @Override
     public String recharge(ISecuritySession securitySession, String currency, long amount, String payChannelID, String note) throws CircuitException {
-        try {
-            return rechargeImpl(securitySession, currency, amount, payChannelID, "app", note);
-        }catch (Exception e){
-            CJSystem.logging().error(getClass(),e);
-            throw new CircuitException("500",e);
-        }
+        return rechargeImpl(securitySession, currency, amount, payChannelID, "app", note);
     }
 
     @Override

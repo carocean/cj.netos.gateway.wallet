@@ -31,6 +31,8 @@ dependencies {
     compile group: 'org.yaml', name: 'snakeyaml', version: '1.25'
     // https://mvnrepository.com/artifact/com.alipay.sdk/alipay-sdk-java
     compile group: 'com.alipay.sdk', name: 'alipay-sdk-java', version: '4.10.145.ALL'
+    // https://mvnrepository.com/artifact/com.github.wechatpay-apiv3/wechatpay-apache-httpclient
+    implementation group: 'com.github.wechatpay-apiv3', name: 'wechatpay-apache-httpclient', version: '0.2.1'
     compile group: 'cj.netos.jpush', name: 'cj.netos.jpush.corelib', version: ref_cj_studio_jpush
     compile group: 'cj.netos.jpush', name: 'cj.netos.jpush.pusher', version: ref_cj_studio_jpush
     // https://mvnrepository.com/artifact/commons-logging/commons-logging
@@ -48,6 +50,7 @@ task copyReferences(type: Copy) {
                 'amqp-client-*.jar','cj.netos.rabbitmq-*.jar', 'mybatis-*.jar','mysql-connector-java-8.0.17.jar',
                 'snakeyaml-*.jar','jjwt-*.jar','jackson-*.jar',
                 'alipay-sdk-java-*.jar','bcprov-jdk15on-*.jar','commons-logging-*.jar',
+                'wechatpay-apache-httpclient-*.jar','httpcore-*.jar','httpclient-*.jar',
                 'cj.netos.jpush.*.jar'
     }
     into 'src/cj/references'
