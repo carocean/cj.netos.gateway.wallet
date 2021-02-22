@@ -151,7 +151,7 @@ public class Wechatpay implements IWechatpay {
                 + "\"currency\":\"CNY\""
                 + "},"
                 + "\"payer\": {"
-                + "\"openid\":" + openid
+                + "\"openid\":\"" + openid+"\""
                 + "},"
                 + "\"mchid\":\"" + mchid + "\","
                 + "\"description\":\""+String.format("自-%s",record.getPersonName())+"\","
@@ -214,7 +214,7 @@ public class Wechatpay implements IWechatpay {
 //                CJSystem.logging().error(getClass(), "success");
                 throw new IOException("处理成功，无返回Body");
             } else {
-//                CJSystem.logging().error("failed,resp code = " + statusCode + ",return body = " + EntityUtils.toString(response.getEntity()));
+                CJSystem.logging().error("failed,resp code = " + statusCode + ",return body = " + EntityUtils.toString(response.getEntity()));
                 throw new IOException("request failed");
             }
         } catch (Exception e) {
