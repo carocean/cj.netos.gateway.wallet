@@ -140,10 +140,10 @@ public class Wechatpay implements IWechatpay {
         //由于jsapi是在微信中调用，因此record.getPerson()是微信的统一id,unionid，record需要保存openid供在此调用,
         //因此需要扩展uc中心的账号信息，可以关联第三方的用户号。然后在本项目的验证令牌方法中获取并设置openid，充值时就可得到并可存入RechargeRecord
         String openid = record.getPayOpenid();
-        Map<String, String> attach = new HashMap<>();
-        attach.put("channelAccount",record.getToChannelAccount());
-        attach.put("person",record.getPerson());
-        attach.put("nickName",record.getPersonName());
+        Map<String, String> attach = new HashMap<>();//attach最大128字节
+        attach.put("recharge-sn",record.getSn());
+//        attach.put("person",record.getPerson());
+//        attach.put("nickName",record.getPersonName());
         String reqdata = "{"
 //                + "\"time_expire\":\"2018-06-08T10:34:56+08:00\","
                 + "\"amount\": {"
@@ -231,10 +231,10 @@ public class Wechatpay implements IWechatpay {
         String appId = account.getAppId();
         String mchid = account.getMchId();
         String payNotifyUrl = account.getPayNotifyUrl();
-        Map<String, String> attach = new HashMap<>();
-        attach.put("channelAccount",record.getToChannelAccount());
-        attach.put("person",record.getPerson());
-        attach.put("nickName",record.getPersonName());
+        Map<String, String> attach = new HashMap<>();//attach最大128字节
+        attach.put("recharge-sn",record.getSn());
+//        attach.put("person",record.getPerson());
+//        attach.put("nickName",record.getPersonName());
         String reqdata = "{"
 //                + "\"time_expire\":\"2018-06-08T10:34:56+08:00\","
                 + "\"amount\": {"
