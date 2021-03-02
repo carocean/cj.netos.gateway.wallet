@@ -464,6 +464,7 @@
         select
         <include refid="Base_Column_List" />
         from channel_bill
+        order by ctime desc
         limit #{offset},#{limit}
     </select>
     <select id="monthBill" parameterType="cj.netos.gateway.wallet.model.ChannelBill" resultMap="BaseResultMap">
@@ -472,6 +473,7 @@
         from channel_bill
         where `year` = #{year,jdbcType=INTEGER}
         and `month` = #{month,jdbcType=INTEGER}
+        order by ctime desc
         limit #{offset},#{limit}
     </select>
     <select id="pageBillByAccount" parameterType="cj.netos.gateway.wallet.model.ChannelBill" resultMap="BaseResultMap">
@@ -479,6 +481,7 @@
         <include refid="Base_Column_List" />
         from channel_bill
         where channel_account = #{channelAccount,jdbcType=VARCHAR}
+        order by ctime desc
         limit #{offset},#{limit}
     </select>
     <select id="monthBillByAccount" parameterType="cj.netos.gateway.wallet.model.ChannelBill" resultMap="BaseResultMap">
@@ -488,6 +491,7 @@
         where channel_account = #{channelAccount,jdbcType=VARCHAR}
         and `year` = #{year,jdbcType=INTEGER}
         and `month` = #{month,jdbcType=INTEGER}
+        order by ctime desc
         limit #{offset},#{limit}
     </select>
     <select id="totalMonthBill" parameterType="cj.netos.gateway.wallet.model.ChannelBill" resultType="java.lang.Long">
