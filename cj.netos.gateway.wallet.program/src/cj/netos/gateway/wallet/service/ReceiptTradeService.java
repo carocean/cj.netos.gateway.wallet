@@ -324,6 +324,7 @@ public class ReceiptTradeService implements IReceiptTradeService {
         payDetails.setOrderNo(details.getOrderno());
         payDetails.setOrderTitle(details.getOrderTitle());
         payDetails.setPaySn(record.getSn());
+        payDetails.setSalesman(details.getSalesman());
         payDetails.setServiceId(details.getServiceid());
         payDetails.setServiceName(details.getServiceName());
         payDetailsMapper.insert(payDetails);

@@ -8,6 +8,7 @@
     String orderTitle;
     String serviceid;//使用什么服务导致的交易，如发红包服务、转账服务等等
     String serviceName;
+    String salesman;//业务员或经手人
     String note;
 ```
 ## json示例：
@@ -20,6 +21,7 @@
 "orderTitle":"牛肉面1碗",
 "serviceid":"geo",
 "serviceName":"地圈",
+"salesman": "",
 "note":"欢迎惠顾"
 }
 ```

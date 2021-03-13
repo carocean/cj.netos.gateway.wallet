@@ -11,8 +11,9 @@
     <result column="order_title" jdbcType="VARCHAR" property="orderTitle" />
     <result column="service_id" jdbcType="VARCHAR" property="serviceId" />
     <result column="service_name" jdbcType="VARCHAR" property="serviceName" />
-    <result column="note" jdbcType="VARCHAR" property="note" />
     <result column="pay_sn" jdbcType="VARCHAR" property="paySn" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+    <result column="salesman" jdbcType="VARCHAR" property="salesman" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -77,7 +78,7 @@
   <sql id="Base_Column_List">
     <!-- @mbg.generated: generated automatically, do not modify! -->
     id, payee_code, payee_name, payee_type, order_no, order_title, service_id, service_name, 
-    note, pay_sn
+    pay_sn, note, salesman
   </sql>
   <select id="selectByExample" parameterType="cj.netos.gateway.wallet.model.PayDetailsExample" resultMap="BaseResultMap">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -117,12 +118,12 @@
     <!-- @mbg.generated: generated automatically, do not modify! -->
     insert into pay_details (id, payee_code, payee_name, 
       payee_type, order_no, order_title, 
-      service_id, service_name, note, 
-      pay_sn)
+      service_id, service_name, pay_sn, 
+      note, salesman)
     values (#{id,jdbcType=VARCHAR}, #{payeeCode,jdbcType=VARCHAR}, #{payeeName,jdbcType=VARCHAR}, 
       #{payeeType,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{orderTitle,jdbcType=VARCHAR}, 
-      #{serviceId,jdbcType=VARCHAR}, #{serviceName,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, 
-      #{paySn,jdbcType=VARCHAR})
+      #{serviceId,jdbcType=VARCHAR}, #{serviceName,jdbcType=VARCHAR}, #{paySn,jdbcType=VARCHAR}, 
+      #{note,jdbcType=VARCHAR}, #{salesman,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cj.netos.gateway.wallet.model.PayDetails">
     <!-- @mbg.generated: generated automatically, do not modify! -->
@@ -152,11 +153,14 @@
       <if test="serviceName != null">
         service_name,
       </if>
+      <if test="paySn != null">
+        pay_sn,
+      </if>
       <if test="note != null">
         note,
       </if>
-      <if test="paySn != null">
-        pay_sn,
+      <if test="salesman != null">
+        salesman,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -184,11 +188,14 @@
       <if test="serviceName != null">
         #{serviceName,jdbcType=VARCHAR},
       </if>
+      <if test="paySn != null">
+        #{paySn,jdbcType=VARCHAR},
+      </if>
       <if test="note != null">
         #{note,jdbcType=VARCHAR},
       </if>
-      <if test="paySn != null">
-        #{paySn,jdbcType=VARCHAR},
+      <if test="salesman != null">
+        #{salesman,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -227,11 +234,14 @@
       <if test="record.serviceName != null">
         service_name = #{record.serviceName,jdbcType=VARCHAR},
       </if>
+      <if test="record.paySn != null">
+        pay_sn = #{record.paySn,jdbcType=VARCHAR},
+      </if>
       <if test="record.note != null">
         note = #{record.note,jdbcType=VARCHAR},
       </if>
-      <if test="record.paySn != null">
-        pay_sn = #{record.paySn,jdbcType=VARCHAR},
+      <if test="record.salesman != null">
+        salesman = #{record.salesman,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -249,8 +259,9 @@
       order_title = #{record.orderTitle,jdbcType=VARCHAR},
       service_id = #{record.serviceId,jdbcType=VARCHAR},
       service_name = #{record.serviceName,jdbcType=VARCHAR},
+      pay_sn = #{record.paySn,jdbcType=VARCHAR},
       note = #{record.note,jdbcType=VARCHAR},
-      pay_sn = #{record.paySn,jdbcType=VARCHAR}
+      salesman = #{record.salesman,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -280,11 +291,14 @@
       <if test="serviceName != null">
         service_name = #{serviceName,jdbcType=VARCHAR},
       </if>
+      <if test="paySn != null">
+        pay_sn = #{paySn,jdbcType=VARCHAR},
+      </if>
       <if test="note != null">
         note = #{note,jdbcType=VARCHAR},
       </if>
-      <if test="paySn != null">
-        pay_sn = #{paySn,jdbcType=VARCHAR},
+      <if test="salesman != null">
+        salesman = #{salesman,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -299,8 +313,9 @@
       order_title = #{orderTitle,jdbcType=VARCHAR},
       service_id = #{serviceId,jdbcType=VARCHAR},
       service_name = #{serviceName,jdbcType=VARCHAR},
+      pay_sn = #{paySn,jdbcType=VARCHAR},
       note = #{note,jdbcType=VARCHAR},
-      pay_sn = #{paySn,jdbcType=VARCHAR}
+      salesman = #{salesman,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

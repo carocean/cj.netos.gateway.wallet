@@ -52,15 +52,21 @@ public class PayDetails {
     private String serviceName;
 
     /**
+     * Column: pay_sn
+     * Remark: 关联的支付单号，一个支付单有且只有一条支付明细记录
+     */
+    private String paySn;
+
+    /**
      * Column: note
      */
     private String note;
 
     /**
-     * Column: pay_sn
-     * Remark: 关联的支付单号，一个支付单有且只有一条支付明细记录
+     * Column: salesman
+     * Remark: 业务员或经手人。 注意：收款人不一定是业务员，比如用户在系统内付费到某个服务账户，是由业务员促成的
      */
-    private String paySn;
+    private String salesman;
 
     public String getId() {
         return id;
@@ -126,6 +132,14 @@ public class PayDetails {
         this.serviceName = serviceName == null ? null : serviceName.trim();
     }
 
+    public String getPaySn() {
+        return paySn;
+    }
+
+    public void setPaySn(String paySn) {
+        this.paySn = paySn == null ? null : paySn.trim();
+    }
+
     public String getNote() {
         return note;
     }
@@ -134,11 +148,11 @@ public class PayDetails {
         this.note = note == null ? null : note.trim();
     }
 
-    public String getPaySn() {
-        return paySn;
+    public String getSalesman() {
+        return salesman;
     }
 
-    public void setPaySn(String paySn) {
-        this.paySn = paySn == null ? null : paySn.trim();
+    public void setSalesman(String salesman) {
+        this.salesman = salesman == null ? null : salesman.trim();
     }
 }

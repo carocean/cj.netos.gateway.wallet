@@ -8,6 +8,7 @@ public class PayDetailsBO {
     String orderTitle;
     String serviceid;//使用什么服务导致的交易，如发红包服务、转账服务等等
     String serviceName;
+    String salesman;
     String note;
 
     public String getPayeeCode() {
@@ -64,6 +65,14 @@ public class PayDetailsBO {
 
     public void setServiceName(String serviceName) {
         this.serviceName = serviceName;
+    }
+
+    public String getSalesman() {
+        return salesman;
+    }
+
+    public void setSalesman(String salesman) {
+        this.salesman = salesman;
     }
 
     public String getNote() {
