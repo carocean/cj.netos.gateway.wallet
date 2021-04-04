@@ -417,6 +417,76 @@ public class PersonCardExample {
             return (Criteria) this;
         }
 
+        public Criteria andHolderAliasIsNull() {
+            addCriterion("holder_alias is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHolderAliasIsNotNull() {
+            addCriterion("holder_alias is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHolderAliasEqualTo(String value) {
+            addCriterion("holder_alias =", value, "holderAlias");
+            return (Criteria) this;
+        }
+
+        public Criteria andHolderAliasNotEqualTo(String value) {
+            addCriterion("holder_alias <>", value, "holderAlias");
+            return (Criteria) this;
+        }
+
+        public Criteria andHolderAliasGreaterThan(String value) {
+            addCriterion("holder_alias >", value, "holderAlias");
+            return (Criteria) this;
+        }
+
+        public Criteria andHolderAliasGreaterThanOrEqualTo(String value) {
+            addCriterion("holder_alias >=", value, "holderAlias");
+            return (Criteria) this;
+        }
+
+        public Criteria andHolderAliasLessThan(String value) {
+            addCriterion("holder_alias <", value, "holderAlias");
+            return (Criteria) this;
+        }
+
+        public Criteria andHolderAliasLessThanOrEqualTo(String value) {
+            addCriterion("holder_alias <=", value, "holderAlias");
+            return (Criteria) this;
+        }
+
+        public Criteria andHolderAliasLike(String value) {
+            addCriterion("holder_alias like", value, "holderAlias");
+            return (Criteria) this;
+        }
+
+        public Criteria andHolderAliasNotLike(String value) {
+            addCriterion("holder_alias not like", value, "holderAlias");
+            return (Criteria) this;
+        }
+
+        public Criteria andHolderAliasIn(List<String> values) {
+            addCriterion("holder_alias in", values, "holderAlias");
+            return (Criteria) this;
+        }
+
+        public Criteria andHolderAliasNotIn(List<String> values) {
+            addCriterion("holder_alias not in", values, "holderAlias");
+            return (Criteria) this;
+        }
+
+        public Criteria andHolderAliasBetween(String value1, String value2) {
+            addCriterion("holder_alias between", value1, value2, "holderAlias");
+            return (Criteria) this;
+        }
+
+        public Criteria andHolderAliasNotBetween(String value1, String value2) {
+            addCriterion("holder_alias not between", value1, value2, "holderAlias");
+            return (Criteria) this;
+        }
+
         public Criteria andCardNameIsNull() {
             addCriterion("card_name is null");
             return (Criteria) this;

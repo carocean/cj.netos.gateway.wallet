@@ -29,6 +29,12 @@ public class PersonCard {
     private String cardHolder;
 
     /**
+     * Column: holder_alias
+     * Remark: 卡片别名，如果是taobao则指taobao_id
+     */
+    private String holderAlias;
+
+    /**
      * Column: card_name
      * Remark: 卡显示名
      */
@@ -112,6 +118,14 @@ public class PersonCard {
 
     public void setCardHolder(String cardHolder) {
         this.cardHolder = cardHolder == null ? null : cardHolder.trim();
+    }
+
+    public String getHolderAlias() {
+        return holderAlias;
+    }
+
+    public void setHolderAlias(String holderAlias) {
+        this.holderAlias = holderAlias == null ? null : holderAlias.trim();
     }
 
     public String getCardName() {
