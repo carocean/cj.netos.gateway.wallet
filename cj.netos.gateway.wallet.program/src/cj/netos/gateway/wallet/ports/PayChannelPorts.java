@@ -143,7 +143,7 @@ public class PayChannelPorts implements IPayChannelPorts {
                 card.setCardAvatar(response.getAvatar());
                 card.setCardHolder(response.getUserId());
                 card.setHolderAlias(response.getTaobaoId());
-                card.setCardName(response.getUserName());
+                card.setCardName(response.getNickName());
                 card.setCardAttrBank("蚂蚁金服");
                 card.setCardPhone(response.getPhone());
                 card.setCardPubBank("蚂蚁金服-支付中心");
